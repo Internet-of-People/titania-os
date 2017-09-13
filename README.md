@@ -14,6 +14,12 @@ source openembedded-core/oe-init-build-env
 
 # Add the layers
 bitbake-layers add-layer ../meta-raspberrypi
+bitbake-layers add-layer ../meta-oe/meta-oe
+bitbake-layers add-layer ../meta-oe/meta-python
+bitbake-layers add-layer ../meta-oe/meta-networking
+bitbake-layers add-layer ../meta-go
+bitbake-layers add-layer ../meta-virtualization
+
 # bitbake-layers add-layer ../meta-titania # not there yet
 
 # Compile the thing

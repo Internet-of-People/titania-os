@@ -16,11 +16,16 @@ source openembedded-core/oe-init-build-env
 bitbake-layers add-layer ../meta-raspberrypi
 bitbake-layers add-layer ../meta-oe/meta-oe
 bitbake-layers add-layer ../meta-oe/meta-python
+bitbake-layers add-layer ../meta-oe/meta-filesystems
 bitbake-layers add-layer ../meta-oe/meta-networking
 bitbake-layers add-layer ../meta-go
 bitbake-layers add-layer ../meta-virtualization
 
-# bitbake-layers add-layer ../meta-titania # not there yet
+# TODO: not there yet
+# bitbake-layers add-layer ../meta-titania
+
+# TODO: will be pulled by Titania in future
+echo 'IMAGE_INSTALL_append = " docker"' >> conf/local.conf
 
 # Compile the thing
 bitbake rpi-hwup-image

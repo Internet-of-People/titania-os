@@ -13,8 +13,8 @@ export BITBAKEDIR=`pwd`/bitbake
 source openembedded-core/oe-init-build-env
 
 # Add the layers
-bitbake-layers add-layer meta-raspberrypi
-# bitbake-layers add-layer meta-titania # not there yet
+bitbake-layers add-layer ../meta-raspberrypi
+# bitbake-layers add-layer ../meta-titania # not there yet
 
 # Compile the thing
 bitbake rpi-hwup-image

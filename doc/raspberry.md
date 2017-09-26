@@ -37,7 +37,7 @@ Make sure you have a driver for PL2303 (most common USB to serial converter). **
 
 ### Connecting UART to a Pi
 
-The position of the pins on the converter side may vary, check the schematics beforehead.
+The position of the pins on the converter side may vary, check the labelling beforehead.
 
 ![UART connection schematic](https://eclipsesource.com/wp-content/uploads/2012/10/FTDI-to-RasPi.png "UART connection schematic")
 

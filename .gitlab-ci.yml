@@ -1,0 +1,44 @@
+image: gmacario/build-yocto
+
+stages:
+  - build
+#  - test
+  - deploy
+
+bitbake:
+  stage: build
+  script:
+    # Environment setup
+    - export BITBAKEDIR=`pwd`/bitbake
+    - source openembedded-core/oe-init-build-env
+    # # Add the layers
+    - bitbake-layers add-layer ../meta-raspberrypi
+    - bitbake-layers add-layer ../meta-oe/meta-oe
+    - bitbake-layers add-layer ../meta-oe/meta-python
+    - bitbake-layers add-layer ../meta-oe/meta-filesystems
+    - bitbake-layers add-layer ../meta-oe/meta-networking
+    - bitbake-layers add-layer ../meta-go
+    - bitbake-layers add-layer ../meta-virtualization
+    - bitbake-layers add-layer ../meta-titania
+
+    # Making sure config locations point where we want them to
+    - echo 'SSTATE_DIR = "${TOPDIR}/sstate-cache"' >> ./conf/local.conf
+    - echo 'DL_DIR = "${TOPDIR}/downloads"' >> ./conf/local.conf
+    - echo 'TMPDIR = "${TOPDIR}/tmp"' >> ./conf/local.conf
+    - echo 'DISTRO = "titania"' >> ./conf/local.conf
+
+    # Run the actual build
+    - bitbake rpi-hwup-image
+
+  cache:
+    paths:
+      - build/sstate-cache
+      - build/downloads
+# TODO: play around, currently seems to slow things down
+#      - build/tmp
+
+# TODO: dummy stage that just lists all the things built
+images:
+  stage: deploy
+  script:
+    - ls ./build/tmp/deploy/images

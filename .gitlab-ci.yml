@@ -1,6 +1,9 @@
 image: gmacario/build-yocto
-variables:
-  GIT_SUBMODULE_STRATEGY: recursive
+
+# TODO: proper way of handling submodules
+# uncomment after the SSL issue is solved
+#variables:
+#  GIT_SUBMODULE_STRATEGY: recursive
 
 stages:
   - build
@@ -10,6 +13,9 @@ stages:
 bitbake:
   stage: build
   script:
+    # TODO: temporary countermeasure for SSL config
+    - git submodule init
+    - GIT_SSL_NO_VERIFY=true git submodule update
     # Environment setup
     - export BITBAKEDIR=`pwd`/bitbake
     - source openembedded-core/oe-init-build-env

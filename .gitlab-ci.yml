@@ -50,7 +50,7 @@ bitbake:
   cache:
     key: "$CI_JOB_NAME"
     paths:
-      - build
+      - build/tmp/deploy/images
 
 # TODO: dummy stage that just lists all the things built
 images:

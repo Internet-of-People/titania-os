@@ -2,11 +2,14 @@
   <div id="app">
     <img src="./assets/titania-logo.png">
     <router-view/>
+    <footer-parent/>
   </div>
 </template>
 
 <script>
+import footerParent from '@/components/footerParent'
 export default {
+  components: { footerParent },
   name: 'app'
 }
 </script>

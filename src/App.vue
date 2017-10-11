@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <img src="./assets/images/titania-logo.png">
     <router-view/>
     <footer-parent/>
   </div>

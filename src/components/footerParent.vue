@@ -14,11 +14,7 @@
 
 <script>
 export default {
-  name: 'footerParent',
-  data () {
-    return {
-    }
-  }
+  name: 'footerParent'
 }
 </script>
 

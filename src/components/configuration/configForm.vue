@@ -1,7 +1,7 @@
 <template>
     <div class="float-left hide center-aligned-slider outline-none">
       <div class="padding-20">
-            <input id="boxname" name="boxname" v-model="boxname" placeholder="Box name" class="sans-serif-bold box-name-field header-fontsize" type="text" maxLength="64" />
+            <input id="boxname" name="boxname" v-model="configdetails.boxname" placeholder="Box name" class="sans-serif-bold box-name-field header-fontsize" type="text" maxLength="64" />
       </div>
       <div class ="configure-add-options-menu">
            <span id="config" @click="tabSwitch('Config')"  v-bind:class="{ activeTab: getActiveTab('Config')}" class="sans-serif-bold small-fontsize ">CONFIG</span>
@@ -40,10 +40,9 @@ export default {
   name: 'configForm',
   data () {
     return {
-      boxname: '',
       currenttab: 'Config',
-      val: true,
       configdetails: {
+        boxname: '',
         username: '',
         password: '',
         confirmPassword: ''
@@ -58,9 +57,7 @@ export default {
       return this.currenttab === tabname
     },
     saveConfig () {
-      // insert save credentials call here
-      // if success >>
-      this.closeConfigForm()
+      this.$store.commit('saveConfigForm', this.configdetails);
     }
   }
 }

@@ -17,6 +17,56 @@
 .col-80-percent {width: 80%;}
 .width-inherit {width: inherit;}
 
+/*Variables*/
+/* Color Palette */
+//Brand Colors
+$aqua:                  #17E6E6;
+$azurite:               #04285A;
+
+$sapphire:              #34428B;
+$ruby:                  #DC3246;
+$gold:                  #FFD300;
+$citrine:               #FF8C00;
+$lime:                  #96CC29;
+$topaz:                 #0067C5;
+$zircon:                #00B8F6;
+
+//Shades of Grey
+$black:                 #000000;
+$onyx:                  #212121;
+$charcoal:              #727272;
+$alumina:               #B8B8B8;
+$ash:                   #DADADA;
+$silver:                #F0F0F0;
+$chrome:                #FAFAFA;
+$white:                 #FFFFFF;
+
+//Product
+$brand-primary:         $aqua;
+$brand-secondary:       #002452;
+
+$brand-info:            $sapphire;
+$brand-stable:          #00882B;
+$brand-alert:           $citrine;
+$brand-warning:         #F0BB2B;
+$brand-critical:        #C82506;
+
+//Text & Icons
+$brand-text:            $onyx;
+$brand-action:          $charcoal;
+
+$brand-active:          $zircon;
+$brand-inactive:        $alumina;
+
+$brand-inverse:         $white;
+$brand-link:            $topaz;
+$brand-label:           #646A73;
+
+//Others
+$brand-bg:              $chrome;
+$brand-highlight:       $silver;
+$brand-divider:         $ash;
+$button-save:           #0365C0;
 
 body{
   font-size: 13px;
@@ -42,6 +92,14 @@ body{
   line-height: 16px;
 }
 
+.sans-serif-bold {
+  font-weight: bold;
+}
+
+.sans-serif-header {
+  font-weight: 400;
+}
+
 .float-left{
   float: left;
 }
@@ -64,7 +122,7 @@ a{
 .button-primary {
   min-width: 90px;
   padding: 8px 16px;
-  background-color: #00B8F6;
+  background-color: $brand-active;
   margin: 16px 0 16px 18px;
   color:  white;
   border: 1px solid #00B8F6;
@@ -73,8 +131,8 @@ a{
     color: white;
   }
   &:hover {
-    background-color: #0067C5;
-    border-color: #0067C5;
+    background-color: $brand-active;
+    border-color: $brand-active;
   }
 }
 
@@ -86,7 +144,6 @@ a{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin-top: 60px;
 }
 
@@ -99,6 +156,10 @@ a{
   padding: 16px 0px;
 }
 
+.padding-left-16{
+  padding-left: 16px;
+}
+
 .input_c{
   width: 400px;
   height: 32px;
@@ -106,4 +167,92 @@ a{
   color: #212121;
   border: solid 1px #f2f2f2;
   padding: 0 8px;
+}
+
+.center-aligned-slider{
+  position: fixed;
+  background-color: $brand-inverse;
+  right: 25%;
+  left: 25%;
+  top: 16px;
+  bottom: 16px;
+  z-index: 98;
+  box-shadow: 0 0 30px 2px #B5B5B5;
+  min-height: 500px;
+  max-height: 780px;
+  width: 660px;
+  overflow-y: auto;
+  margin: 0 auto;
+}
+
+.padding-20{
+  padding: 20px;
+}
+
+.box-name-field{
+  height: 48px;
+  width: 580px;
+  padding: 0px 12px;
+}
+
+.header-fontsize {
+  font-size: 16px !important;
+}
+
+.form-error{
+    font-size: 16px;
+    color: $brand-critical;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.configure-add-options-menu{
+  padding: 0 20px;
+  width: fit-content;
+  span:not(.form-error){
+    @extend .cursor-pointer;
+    margin-right: 30px;
+    display: inline-block;
+    text-align: center;
+  }
+}
+
+.center-aligned-slider-body{
+  background-color: #f4f5f7;
+  margin: 0 20px;
+  border: 1px solid #f4f5f7;
+  padding: 10px 0;
+  overflow-y: auto;
+  min-height: 500px;
+  max-height: 607px;
+}
+
+.form-label{
+  margin: 0px 20px;
+  color: $brand-label;
+}
+
+.one-part-field{
+  width: 178px;
+  margin-left: 20px;
+}
+
+.form-field-block{
+  @extend .float-left;
+  margin-top: 10px;
+}
+
+.activeTab{
+  color: $brand-link;
+}
+
+.save-config{
+  width: 80px;
+  height: 29px;
+  background-color: $button-save;
+  margin: 16px 0 0 20px;
+  color: #FFFFFF;
+  border: 1px solid $button-save;
 }

@@ -67,6 +67,8 @@
   width: inherit;
 }
 
+/*Variables*/
+/* Color Palette */
 body {
   font-size: 13px;
   font-family: "Segoe UI", "SF UI text", sans-serif !important;
@@ -92,7 +94,15 @@ body {
   line-height: 16px;
 }
 
-.float-left {
+.sans-serif-bold {
+  font-weight: bold;
+}
+
+.sans-serif-header {
+  font-weight: 400;
+}
+
+.float-left, .form-field-block {
   float: left;
 }
 
@@ -124,8 +134,8 @@ a {
   color: white;
 }
 .button-primary:hover {
-  background-color: #0067C5;
-  border-color: #0067C5;
+  background-color: #00B8F6;
+  border-color: #00B8F6;
 }
 
 .padding-right-20 {
@@ -136,7 +146,6 @@ a {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin-top: 60px;
 }
 
@@ -149,6 +158,10 @@ a {
   padding: 16px 0px;
 }
 
+.padding-left-16 {
+  padding-left: 16px;
+}
+
 .input_c {
   width: 400px;
   height: 32px;
@@ -156,4 +169,90 @@ a {
   color: #212121;
   border: solid 1px #f2f2f2;
   padding: 0 8px;
+}
+
+.center-aligned-slider {
+  position: fixed;
+  background-color: #FFFFFF;
+  right: 25%;
+  left: 25%;
+  top: 16px;
+  bottom: 16px;
+  z-index: 98;
+  box-shadow: 0 0 30px 2px #B5B5B5;
+  min-height: 500px;
+  max-height: 780px;
+  width: 660px;
+  overflow-y: auto;
+  margin: 0 auto;
+}
+
+.padding-20 {
+  padding: 20px;
+}
+
+.box-name-field {
+  height: 48px;
+  width: 580px;
+  padding: 0px 12px;
+}
+
+.header-fontsize {
+  font-size: 16px !important;
+}
+
+.form-error {
+  font-size: 16px;
+  color: #C82506;
+}
+
+.cursor-pointer, .configure-add-options-menu span:not(.form-error) {
+  cursor: pointer;
+}
+
+.configure-add-options-menu {
+  padding: 0 20px;
+  width: fit-content;
+}
+.configure-add-options-menu span:not(.form-error) {
+  margin-right: 30px;
+  display: inline-block;
+  text-align: center;
+}
+
+.center-aligned-slider-body {
+  background-color: #f4f5f7;
+  margin: 0 20px;
+  border: 1px solid #f4f5f7;
+  padding: 10px 0;
+  overflow-y: auto;
+  min-height: 500px;
+  max-height: 607px;
+}
+
+.form-label {
+  margin: 0px 20px;
+  color: #646A73;
+}
+
+.one-part-field {
+  width: 178px;
+  margin-left: 20px;
+}
+
+.form-field-block {
+  margin-top: 10px;
+}
+
+.activeTab {
+  color: #0067C5;
+}
+
+.save-config {
+  width: 80px;
+  height: 29px;
+  background-color: #0365C0;
+  margin: 16px 0 0 20px;
+  color: #FFFFFF;
+  border: 1px solid #0365C0;
 }

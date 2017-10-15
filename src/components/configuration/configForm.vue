@@ -57,7 +57,7 @@ export default {
       return this.currenttab === tabname
     },
     saveConfig () {
-      this.$store.commit('saveConfigForm', this.configdetails);
+      this.$store.commit('saveConfigForm', this.configdetails)
     }
   }
 }

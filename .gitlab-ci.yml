@@ -1,28 +1,24 @@
 image: gmacario/build-yocto
 
-# TODO: proper way of handling submodules
-# uncomment after the SSL issue is solved
-#variables:
-#  GIT_SUBMODULE_STRATEGY: recursive
+# TODO: remove the SSL variable afterwards
+variables:
+  GIT_SUBMODULE_STRATEGY: 'recursive'
+  GIT_SSL_NO_VERIFY: 'true'
+  BITBAKEDIR: '$CI_PROJECT_DIR/bitbake'
 
 # TODO:
 # add stages:
-# - setup
 # - build 2 versions in parallel (ARM and x86-64)
 # - run a VM and security scan
 # - deploy the image somewhere
 stages:
+  - setup
   - build
   - inspect
 
 bitbake:
-  stage: build
+  stage: setup
   script:
-    # TODO: temporary countermeasure for SSL config
-    - git submodule init
-    - GIT_SSL_NO_VERIFY=true git submodule update
-    # Environment setup
-    - export BITBAKEDIR=`pwd`/bitbake
     - source openembedded-core/oe-init-build-env
     # # Add the layers
     - bitbake-layers add-layer ../meta-raspberrypi
@@ -39,30 +35,37 @@ bitbake:
     - echo 'DL_DIR = "${TOPDIR}/downloads"' >> ./conf/local.conf
     - echo 'TMPDIR = "${TOPDIR}/tmp"' >> ./conf/local.conf
     - echo 'DISTRO = "titania"' >> ./conf/local.conf
-    - echo 'MACHINE = "raspberrypi3"' >> ./conf/local.conf
+  artifacts:
+    paths:
+      - build
+    expire_in: 1 day
 
-    # Run the actual build
-    - bitbake rpi-hwup-image
+# TODO: use Titania image classes here
+# TODO: make new branches start out with fresh cache
+raspberry:
+  stage: build
+  script:
+    - source openembedded-core/oe-init-build-env
+    - MACHINE="raspberrypi3" bitbake rpi-hwup-image
     - tree tmp-glibc/deploy/images
-
-  # Stuff to store between builds
   cache:
-    # TODO: uncomment when we have enough space
-    # so that each branch has its fresh cache
-    # key: ${CI_COMMIT_REF_NAME}
     paths:
       - build/sstate-cache
       - build/downloads
-# TODO: play around, currently seems to slow things down
-#      - build/tmp
-  
-  # Preserve the build output for test/deploy
-  artifacts:
-    paths:
-      - build/tmp-glibc/deploy/images
 
-# TODO: dummy stage that just lists all the things built
+desktop:
+  stage: build
+  script:
+    - source openembedded-core/oe-init-build-env
+    - bitbake core-image-minimal
+    - tree tmp-glibc/deploy/images
+  cache:
+    paths:
+      - build/sstate-cache
+      - build/downloads
+
+# TODO: remove me
 images:
   stage: inspect
   script:
-    - ls ./build/tmp-glibc/deploy/images
+    - uname -a

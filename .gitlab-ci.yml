@@ -5,10 +5,15 @@ image: gmacario/build-yocto
 #variables:
 #  GIT_SUBMODULE_STRATEGY: recursive
 
+# TODO:
+# add stages:
+# - setup
+# - build 2 versions in parallel (ARM and x86-64)
+# - run a VM and security scan
+# - deploy the image somewhere
 stages:
   - build
-#  - test
-  - deploy
+  - inspect
 
 bitbake:
   stage: build
@@ -34,9 +39,11 @@ bitbake:
     - echo 'DL_DIR = "${TOPDIR}/downloads"' >> ./conf/local.conf
     - echo 'TMPDIR = "${TOPDIR}/tmp"' >> ./conf/local.conf
     - echo 'DISTRO = "titania"' >> ./conf/local.conf
+    - echo 'MACHINE = "raspberrypi3"' >> ./conf/local.conf
 
     # Run the actual build
     - bitbake rpi-hwup-image
+    - tree tmp-glibc/deploy/images
 
   # Stuff to store between builds
   cache:
@@ -52,10 +59,10 @@ bitbake:
   # Preserve the build output for test/deploy
   artifacts:
     paths:
-      - build/tmp/deploy/images
+      - build/tmp-glibc/deploy/images
 
 # TODO: dummy stage that just lists all the things built
 images:
-  stage: deploy
+  stage: inspect
   script:
-    - ls ./build/tmp/deploy/images
+    - ls ./build/tmp-glibc/deploy/images

@@ -47,11 +47,14 @@ raspberry:
   script:
     - source openembedded-core/oe-init-build-env
     - MACHINE="raspberrypi3" bitbake rpi-hwup-image
-    - tree tmp-glibc/deploy/images
   cache:
     paths:
       - build/sstate-cache
       - build/downloads
+  artifacts:
+    paths:
+      - build/tmp-glibc/deploy/images/raspberrypi3/rpi-hwup-image-raspberrypi3-*.rpi-sdimg
+    expire_in: 3 days
 
 #desktop:
   #stage: build
@@ -68,4 +71,4 @@ raspberry:
 images:
   stage: inspect
   script:
-    - uname -a
+    - tree build/tmp-glibc/deploy

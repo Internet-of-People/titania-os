@@ -53,16 +53,16 @@ raspberry:
       - build/sstate-cache
       - build/downloads
 
-desktop:
-  stage: build
-  script:
-    - source openembedded-core/oe-init-build-env
-    - bitbake core-image-minimal
-    - tree tmp-glibc/deploy/images
-  cache:
-    paths:
-      - build/sstate-cache
-      - build/downloads
+#desktop:
+  #stage: build
+  #script:
+    #- source openembedded-core/oe-init-build-env
+    #- bitbake core-image-minimal
+    #- tree tmp-glibc/deploy/images
+  #cache:
+    #paths:
+      #- build/sstate-cache
+      #- build/downloads
 
 # TODO: remove me
 images:

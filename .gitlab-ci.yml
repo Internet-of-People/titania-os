@@ -47,28 +47,35 @@ raspberry:
   script:
     - source openembedded-core/oe-init-build-env
     - MACHINE="raspberrypi3" bitbake rpi-hwup-image
+    - cp tmp-glibc/deploy/images/raspberrypi3/rpi-hwup-image-raspberrypi3-*.rpi-sdimg ../
   cache:
     paths:
       - build/sstate-cache
       - build/downloads
   artifacts:
     paths:
-      - build/tmp-glibc/deploy/images/raspberrypi3/rpi-hwup-image-raspberrypi3-*.rpi-sdimg
+      - rpi-hwup-image-raspberrypi3-*.rpi-sdimg
     expire_in: 3 days
 
-#desktop:
-  #stage: build
-  #script:
-    #- source openembedded-core/oe-init-build-env
-    #- bitbake core-image-minimal
-    #- tree tmp-glibc/deploy/images
-  #cache:
-    #paths:
-      #- build/sstate-cache
-      #- build/downloads
+desktop:
+  stage: build
+  script:
+    - source openembedded-core/oe-init-build-env
+    # TODO: maybe other machine?
+    - MACHINE="qemux86-64" bitbake core-image-minimal
+    - cp tmp-glibc/deploy/images/qemux86-64/core-image-minimal-qemux86-64-*{.conf,ext4} ../
+  cache:
+    paths:
+      - build/sstate-cache
+      - build/downloads
+  artifacts:
+    paths:
+      - core-image-minimal-qemux86-64*
+    expire_in: 3 days
 
 # TODO: remove me
 images:
   stage: inspect
   script:
-    - tree build/tmp-glibc/deploy
+    - md5sum rpi-hwup-image-raspberrypi3-*.rpi-sdimg
+    - md5sum core-image-minimal-qemux86-64*

@@ -21,6 +21,7 @@ from configtitania import views
 
 router = routers.SimpleRouter()
 router.register(r'configinfo', views.ConfigViewSet)
+router.register(r'schema', views.SchemaViewSet)
 
 urlpatterns = [
     url(r'^$', views.index, name='home'),

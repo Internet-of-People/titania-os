@@ -1,7 +1,7 @@
 <template>
   <div class='footer-wrapper col-12'>
     <div class='float-left'>
-      <span class='titania_version'>Titania 1.0</span>
+      <span class='titania_version'>Titania {{this.$store.state.schema}}</span>
       <span class='copyright'>&copy;&nbsp; {{new Date().getFullYear()}} Libertaria</span>
       <span id='registeredto' class='registeredto'>Registered to user</span>
     </div>

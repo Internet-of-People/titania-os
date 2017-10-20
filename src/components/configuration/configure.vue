@@ -7,6 +7,7 @@
     <button type="button" @click="configure()" class="outline-none small-fontsize button-primary" id="login_submit">CONFIGURE</button>
     <div v-if="enableConfigure">
       <config-form :closeConfigForm="closeForm" />
+      <div class="fadeout" @click="closeForm()"></div>
     </div>
   </div>
 </template>
@@ -23,10 +24,10 @@ export default {
   },
   methods: {
     configure () {
-      this.$store.commit('openConfigForm')
+      this.$store.dispatch('toggleConfigForm')
     },
     closeForm () {
-      this.$store.commit('closeConfigForm')
+      this.$store.dispatch('toggleConfigForm')
     }
   }
 }

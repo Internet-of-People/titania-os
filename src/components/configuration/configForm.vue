@@ -1,5 +1,5 @@
 <template>
-    <div class="float-left hide center-aligned-slider outline-none">
+    <div class="float-left center-aligned-slider outline-none">
       <div class="padding-20">
             <input id="boxname" name="boxname" v-model="configdetails.boxname" placeholder="Box name" class="sans-serif-bold box-name-field header-fontsize" type="text" maxLength="64" />
       </div>
@@ -57,7 +57,7 @@ export default {
       return this.currenttab === tabname
     },
     saveConfig () {
-      this.$store.commit('saveConfigForm', this.configdetails)
+      this.$store.dispatch('saveConfigForm', this.configdetails)
     }
   }
 }

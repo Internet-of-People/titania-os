@@ -117,6 +117,10 @@ a {
   outline: none;
 }
 
+.hide {
+  display: none;
+}
+
 .outline-none {
   outline: none;
 }
@@ -255,4 +259,15 @@ a {
   margin: 16px 0 0 20px;
   color: #FFFFFF;
   border: 1px solid #0365C0;
+}
+
+.fadeout {
+  opacity: 0.8;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 96;
+  top: 0;
+  left: 0;
+  background-color: #FFFFFF;
 }

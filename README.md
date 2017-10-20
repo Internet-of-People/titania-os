@@ -24,3 +24,21 @@ cd ux-titania/src/assets/css/sass
 compass watch --poll
 
 ```
+## Backend
+
+``` bash
+source .venv/bin/activate
+cd vuedj
+python manage.py runserver
+
+```
+
+``` bash
+python manage.py makemigrations configtitania
+
+# to see the sql query
+python manage.py sqlmigrate configtitania 0001
+
+
+python manage.py migrate
+```

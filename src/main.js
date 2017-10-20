@@ -16,4 +16,6 @@ const v = new Vue({
   components: { App }
 })
 
+v.$store.dispatch('initApp')
 v.$store.dispatch('getCreds')
+// v.$store.dispatch('clearTodos')

@@ -1,13 +1,13 @@
 from django.db import models
 
-class Config(models.Model):
+class User(models.Model):
 
-    username = models.CharField(max_length=200)
-
-    def __str__(self):
-        return "Config: " + self.username
+    userid = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=64)
+    password = models.CharField(max_length=64)
+    boxname = models.CharField(max_length=64)
 
 class Schema(models.Model):
-    version = models.CharField(max_length=4)
-    major_version = models.CharField(max_length=2)
-    minor_version = models.CharField(max_length=3)
+    version = models.CharField(max_length=3)
+    major_version = models.CharField(max_length=1)
+    minor_version = models.CharField(max_length=2)

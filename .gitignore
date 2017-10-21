@@ -44,4 +44,5 @@ vuedj/node_modules/
 vuedj/tests/coverage_html/
 vuedj/tests/.coverage
 vuedj/build/
+vuedj/__pycache__/*
 vuedj/tests/report/

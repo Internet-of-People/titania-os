@@ -1,10 +1,10 @@
-from .models import Config, Schema
+from .models import User, Schema
 from rest_framework import serializers
 
-class ConfigSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Config
-        fields = ('username',)
+        model = User
+        fields = ('userid','username','password','boxname')
 
 class SchemaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

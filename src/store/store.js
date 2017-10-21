@@ -28,6 +28,8 @@ const store = new Vuex.Store({
       if (response.body.length === 0) {
         console.log('login has not been set')
         router.push('/configure')
+      } else {
+        router.push('/login')
       }
     },
     'TOGGLE_CONFIGURATION': function (state) {
@@ -52,7 +54,7 @@ const store = new Vuex.Store({
         .catch((error) => store.commit('API_FAIL', error))
     },
     getCreds (store) {
-      return api.get(apiRoot + '/configinfo/')
+      return api.get(apiRoot + '/user/')
         .then((response) => store.commit('GET_CREDS', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
@@ -68,8 +70,11 @@ const store = new Vuex.Store({
       store.commit('TOGGLE_CONFIGURATION')
     },
     saveConfigForm (state, configdetails) {
-      console.log(configdetails)
-      store.commit('SAVE_CONFIGURATION', configdetails)
+      return api.post(apiRoot + '/snippets/')
+        .then((response) => store.commit('SAVE_CONFIGURATION', configdetails))
+        .catch((error) => store.commit('API_FAIL', error))
+      // console.log(configdetails)
+      // store.commit('SAVE_CONFIGURATION', configdetails)
     }
   }
 })

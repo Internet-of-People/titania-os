@@ -14,7 +14,10 @@ Platform specific builds are processed *in parallel*, the output of the job is a
 ### Test [NYI]
 We run each of the images in a virtual machine and run a security scanner against it, as well as execute tests when we have any.
 
-### Sign [NYI]
+### Compress
+The images are compressed with the selected compression program, configurable as an environment variable. The artifacts are compressed images.
+
+### Sign [partly NYI]
 Images that comply with the testing are signed with a GPG key that's passed as a secret GitLab variable. The checksums are collected as well. The artifacts of the job are the collection of checksum and digital signatures for the Build artifacts.
 
 ### Publish [NYI]

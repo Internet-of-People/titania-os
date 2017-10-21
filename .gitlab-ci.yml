@@ -91,10 +91,10 @@ compress:
 
 # TODO: add GPG signature step
 images:
-  stage: authorise
+  stage: sign
   script:
     - for image in titania*.img.*; do md5sum $image > $image.md5sum ; done
   artifacts:
     paths:
-      - titania*.img.*
+      - titania*.img.*.md5sum
     expire_in: 3 days

@@ -5,6 +5,8 @@ variables:
   GIT_SUBMODULE_STRATEGY: 'recursive'
   GIT_SSL_NO_VERIFY: 'true'
   BITBAKEDIR: '$CI_PROJECT_DIR/bitbake'
+  IMAGE_DIR: '$CI_PROJECT_DIR/build/tmp-glibc/deploy/images'
+  VERSION: 'git describe --long'
 
 # TODO:
 # add stages:
@@ -47,14 +49,14 @@ raspberry:
   script:
     - source openembedded-core/oe-init-build-env
     - MACHINE="raspberrypi3" bitbake rpi-hwup-image
-    - cp tmp-glibc/deploy/images/raspberrypi3/rpi-hwup-image-raspberrypi3-*.rpi-sdimg ../
+    - cp -H $IMAGE_DIR/raspberrypi3/rpi-hwup-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
   cache:
     paths:
       - build/sstate-cache
       - build/downloads
   artifacts:
     paths:
-      - rpi-hwup-image-raspberrypi3-*.rpi-sdimg
+      - titania-arm-rpi-*.img
     expire_in: 3 days
 
 desktop:
@@ -63,19 +65,18 @@ desktop:
     - source openembedded-core/oe-init-build-env
     # TODO: maybe other machine?
     - MACHINE="qemux86-64" bitbake core-image-minimal
-    - cp tmp-glibc/deploy/images/qemux86-64/core-image-minimal-qemux86-64-*{.conf,ext4} ../
+    - cp -H $IMAGE_DIR/qemux86-64/core-image-minimal-qemux86-64.rootfs.ext4 $CI_PROJECT_DIR/titania-amd64-hdd-$(eval $VERSION).img
   cache:
     paths:
       - build/sstate-cache
       - build/downloads
   artifacts:
     paths:
-      - core-image-minimal-qemux86-64*
+      - titania-amd64-hdd-*.img
     expire_in: 3 days
 
 # TODO: remove me
 images:
   stage: inspect
   script:
-    - md5sum rpi-hwup-image-raspberrypi3-*.rpi-sdimg
-    - md5sum core-image-minimal-qemux86-64*
+    - md5sum titania*.img

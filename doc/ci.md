@@ -9,7 +9,7 @@ GitLab builds Titania in several stages, that come *sequentially*. The workspace
 This consists of a stage that common for all the platforms where the build directory is initialised and the correct openembedded layers are synced and added. The artifact it produces is not supposed to be public, it's just a working directory skeleton for the further stages. So no point in downloading it.
 
 ### Build
-Platform specific builds are processed *in parallel*, the output of the job is a hard drive/SD card image for the platform in question and optionally a qemu config so that it's easier to run in a virtual environemnt.
+Platform specific builds are processed *in parallel*, the output of the job is a hard drive/SD card image for the platform in question.
 
 ### Test [NYI]
 We run each of the images in a virtual machine and run a security scanner against it, as well as execute tests when we have any.

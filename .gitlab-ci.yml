@@ -7,6 +7,7 @@ variables:
   BITBAKEDIR: '$CI_PROJECT_DIR/bitbake'
   IMAGE_DIR: '$CI_PROJECT_DIR/build/tmp-glibc/deploy/images'
   VERSION: 'git describe --long'
+  COMPRESSION: 'xz'
 
 # TODO:
 # add stages:
@@ -17,6 +18,7 @@ stages:
   - setup
   - build
   - inspect
+  - archive
 
 bitbake:
   stage: setup
@@ -64,15 +66,16 @@ desktop:
   script:
     - source openembedded-core/oe-init-build-env
     # TODO: maybe other machine?
+    # TODO: hard drive image, not partition image (stub because we use core-image-minimal for now)
     - MACHINE="qemux86-64" bitbake core-image-minimal
-    - cp -H $IMAGE_DIR/qemux86-64/core-image-minimal-qemux86-64.rootfs.ext4 $CI_PROJECT_DIR/titania-amd64-hdd-$(eval $VERSION).img
+    - cp -H $IMAGE_DIR/qemux86-64/core-image-minimal-qemux86-64.ext4 $CI_PROJECT_DIR/titania-amd64-ext4-$(eval $VERSION).img
   cache:
     paths:
       - build/sstate-cache
       - build/downloads
   artifacts:
     paths:
-      - titania-amd64-hdd-*.img
+      - titania-amd64-ext4-*.img
     expire_in: 3 days
 
 # TODO: remove me
@@ -80,3 +83,12 @@ images:
   stage: inspect
   script:
     - md5sum titania*.img
+
+compress:
+  stage: archive
+  script:
+    - for image in titania*.img; do $COMPRESSION $image ; done
+  artifacts:
+    paths:
+      - titania*.img.*
+    expire_in: 3 days

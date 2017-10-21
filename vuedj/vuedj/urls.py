@@ -26,5 +26,4 @@ router.register(r'schema', views.SchemaViewSet)
 urlpatterns = [
     url(r'^$', views.index, name='home'),
     url(r'^', include(router.urls)),
-    url(r'^snippets/$', views.snippet_list),
 ]

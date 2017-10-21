@@ -35,12 +35,8 @@ const store = new Vuex.Store({
     'TOGGLE_CONFIGURATION': function (state) {
       state.configuration.enableConfigure = !state.configuration.enableConfigure
     },
-    // 'CLEAR_TODOS': function (state) {
-    //   // const todos = state.todos
-    //   // todos.splice(0, todos.length)
-    // },
     'SAVE_CONFIGURATION': function (state, response) {
-      console.log(response.boxname)
+      router.push('/login')
     },
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {
@@ -48,12 +44,12 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    initApp (store) {
+    initApp (state) {
       return api.get(apiRoot + '/schema/')
         .then((response) => store.commit('SET_SCHEMA', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
-    getCreds (store) {
+    getCreds (state) {
       return api.get(apiRoot + '/user/')
         .then((response) => store.commit('GET_CREDS', response))
         .catch((error) => store.commit('API_FAIL', error))
@@ -70,11 +66,9 @@ const store = new Vuex.Store({
       store.commit('TOGGLE_CONFIGURATION')
     },
     saveConfigForm (state, configdetails) {
-      return api.post(apiRoot + '/snippets/')
+      return api.post(apiRoot + '/user/', configdetails)
         .then((response) => store.commit('SAVE_CONFIGURATION', configdetails))
         .catch((error) => store.commit('API_FAIL', error))
-      // console.log(configdetails)
-      // store.commit('SAVE_CONFIGURATION', configdetails)
     }
   }
 })

@@ -10,7 +10,7 @@ export default {
       .catch((error) => Promise.reject(error))
   },
   post (url, request) {
-    return Vue.http.post(url, request)
+    return Vue.http.post(url, request, {emulateJSON: true})
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },

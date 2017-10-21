@@ -17,8 +17,9 @@ variables:
 stages:
   - setup
   - build
-  - inspect
   - archive
+  - sign
+  # - publish 
 
 bitbake:
   stage: setup
@@ -78,16 +79,21 @@ desktop:
       - titania-amd64-ext4-*.img
     expire_in: 3 days
 
-# TODO: remove me
-images:
-  stage: inspect
-  script:
-    - md5sum titania*.img
-
 compress:
   stage: archive
   script:
     - for image in titania*.img; do $COMPRESSION $image ; done
+  artifacts:
+    paths:
+      - titania*.img.*
+    expire_in: 3 days
+
+
+# TODO: add GPG signature step
+images:
+  stage: authorise
+  script:
+    - for image in titania*.img.*; do md5sum $image > $image.md5sum ; done
   artifacts:
     paths:
       - titania*.img.*

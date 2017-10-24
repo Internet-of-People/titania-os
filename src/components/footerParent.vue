@@ -1,5 +1,5 @@
 <template>
-  <div class='footer-wrapper col-12'>
+  <div v-bind:class="{ marginLeft40: getFooterClass()}" class="footer-wrapper col-12">
     <div class='float-left'>
       <span class='titania_version'>Titania {{this.$store.state.schema}}</span>
       <span class='copyright'>&copy;&nbsp; {{new Date().getFullYear()}} Libertaria</span>
@@ -14,7 +14,12 @@
 
 <script>
 export default {
-  name: 'footerParent'
+  name: 'footerParent',
+  methods: {
+    getFooterClass () {
+      return this.$store.state.currentPage === 'dashboard'
+    }
+  }
 }
 </script>
 

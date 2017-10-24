@@ -15,7 +15,8 @@ const store = new Vuex.Store({
     },
     configuration: {
       enableConfigure: false
-    }
+    },
+    currentPage: 'dashboard'
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -25,12 +26,12 @@ const store = new Vuex.Store({
       state.schema = response.body[0].version
     },
     'GET_CREDS': function (state, response) {
-      if (response.body.length === 0) {
-        console.log('login has not been set')
-        router.push('/configure')
-      } else {
-        router.push('/login')
-      }
+      // if (response.body.length === 0) {
+      //   console.log('login has not been set')
+      //   router.push('/configure')
+      // } else {
+      //   router.push('/login')
+      // }
     },
     'TOGGLE_CONFIGURATION': function (state) {
       state.configuration.enableConfigure = !state.configuration.enableConfigure
@@ -41,6 +42,9 @@ const store = new Vuex.Store({
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {
       console.error(error)
+    },
+    'SET_CURRENT_PAGE': function (state, pageName) {
+      state.currentPage = pageName
     }
   },
   actions: {

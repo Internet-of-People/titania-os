@@ -128,8 +128,8 @@ a {
 .button-primary {
   min-width: 90px;
   padding: 8px 16px;
-  background-color: #00B8F6;
-  margin: 16px 0 16px 18px;
+  background-color: #0067C5;
+  margin: 16px 0 16px 0px;
   color: white;
   border: 1px solid #00B8F6;
   outline: none;
@@ -138,8 +138,8 @@ a {
   color: white;
 }
 .button-primary:hover {
-  background-color: #00B8F6;
-  border-color: #00B8F6;
+  background-color: #0067C5;
+  border-color: #0067C5;
 }
 
 .padding-right-20 {
@@ -270,4 +270,10 @@ a {
   top: 0;
   left: 0;
   background-color: #FFFFFF;
+}
+
+.logo-icon {
+  margin: auto;
+  height: 220px;
+  width: 225px;
 }

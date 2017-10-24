@@ -3,7 +3,7 @@
     <div class='float-left'>
       <span class='titania_version'>Titania {{this.$store.state.schema}}</span>
       <span class='copyright'>&copy;&nbsp; {{new Date().getFullYear()}} Libertaria</span>
-      <span id='registeredto' class='registeredto'>Registered to user</span>
+      <span id='registeredto' class='registeredto'>Registered to pooja</span>
     </div>
     <div class='float-right footer-links padding-right-20'>
       <span class="padding-right-20"><a href="titania-link-to-documentation" target="_blank">Documentation</a></span>

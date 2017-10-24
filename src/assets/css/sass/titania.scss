@@ -126,8 +126,8 @@ a{
 .button-primary {
   min-width: 90px;
   padding: 8px 16px;
-  background-color: $brand-active;
-  margin: 16px 0 16px 18px;
+  background-color: $brand-link;
+  margin: 16px 0 16px 0px;
   color:  white;
   border: 1px solid #00B8F6;
   outline: none;
@@ -135,8 +135,8 @@ a{
     color: white;
   }
   &:hover {
-    background-color: $brand-active;
-    border-color: $brand-active;
+    background-color: $brand-link;
+    border-color: $brand-link;
   }
 }
 
@@ -270,4 +270,10 @@ a{
   top: 0;
   left: 0;
   background-color: #FFFFFF;
+}
+
+.logo-icon{
+  margin: auto;
+  height: 220px;
+  width: 225px;
 }

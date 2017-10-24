@@ -1,6 +1,6 @@
 <template>
     <div id="container" class="position-absolute">
-        <div class="titania-logo temp-logo-text">Titania</div>
+        <img class="logo-icon" src="../assets/images/titania-logo.png">
         <div class='padding-top-bottom-16'>
             <input type="text" @keyup.enter="submit()" class="input_c small-fontsize outline-none" id="username" v-model="username" placeholder="Username"/>
         </div>
@@ -41,17 +41,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.titania-logo{
-  width: 330px;
-  height: 100px;
-  margin: 40px auto 0 auto;
-  //border: 1px solid #d8d8d8;
-  vertical-align: middle;
-}
-
-.temp-logo-text{
-  font-size: 74px;
-}
-</style>

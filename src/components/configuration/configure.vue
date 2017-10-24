@@ -1,7 +1,7 @@
 <template>
   <div @keyup.enter="configure()">
     <div>
-      <img src="../../assets/images/titania-logo.png">
+      <img class="logo-icon" src="../../assets/images/titania-logo.png">
       <h1>Welcome aboard, Titania</h1>
     </div>
     <button type="button" @click="configure()" class="outline-none small-fontsize button-primary" id="login_submit">CONFIGURE</button>

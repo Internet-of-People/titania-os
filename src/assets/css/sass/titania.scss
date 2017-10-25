@@ -117,6 +117,16 @@ a{
   outline: none;
 }
 
+input:not(.box-name-field){
+  margin-left: 20px;
+  margin-bottom: 16px;
+  background-color: white;
+  border: solid 1px #d8d8d8;
+  display: inline-block;
+  height: 32px;
+  padding-left: 8px;
+}
+
 .hide{
   display: none;
 }
@@ -183,11 +193,10 @@ a{
   bottom: 16px;
   z-index: 98;
   box-shadow: 0 0 30px 2px #B5B5B5;
-  min-height: 500px;
-  max-height: 780px;
-  width: 660px;
+  height: 550px;
+  width: 400px;
   overflow-y: auto;
-  margin: 0 auto;
+  margin: auto;
 }
 
 .padding-20{
@@ -196,7 +205,8 @@ a{
 
 .box-name-field{
   height: 48px;
-  width: 580px;
+  // width: 580px;
+  width: 334px;
   padding: 0px 12px;
 }
 
@@ -215,6 +225,7 @@ a{
 
 .configure-add-options-menu{
   padding: 0 20px;
+  margin: auto;
   width: fit-content;
   span:not(.form-error){
     @extend .cursor-pointer;
@@ -230,8 +241,9 @@ a{
   border: 1px solid #f4f5f7;
   padding: 10px 0;
   overflow-y: auto;
-  min-height: 500px;
-  max-height: 607px;
+  height: 350px;
+  // min-height: 500px;
+  // max-height: 607px;
 }
 
 .form-label{
@@ -251,6 +263,7 @@ a{
 
 .activeTab{
   color: $brand-link;
+  border-bottom: 2px solid $brand-link;
 }
 
 .save-config{
@@ -282,7 +295,15 @@ a{
 .logo-icon-small{
   height: 30px;
   width: 32px;
-  margin: 5px;
+  background-color: #f2f2f2;
+  padding: 5px;
+}
+
+.tab-label{
+  height: 30px;
+  width: 32px;
+  background-color: none;
+  padding: 5px;
 }
 
 .sidebar-container {
@@ -294,7 +315,7 @@ a{
   white-space: nowrap;
   position: relative;
   z-index: 95;
-  background-color: #d8d8d8;
+  background-color: #966f96;
  -webkit-transition: width 0.1s ease-in-out;
  -moz-transition: width 0.1s ease-in-out;
  -o-transition: width 0.1s ease-in-out;
@@ -314,8 +335,8 @@ a{
 }
 
 .page-title {
-  color: white;
-  background-color: #5F4660;
+  background-color: #f2f2f2;
+  color: #5F4660;
   height: 22px;
   padding: 12px 0px 6px 0px;
   font-weight: 400;
@@ -373,13 +394,13 @@ a{
 }
 
 .overview-servers-total{
-  background-image: url("../images/servers-total.svg");
+//  background-image: url("../images/servers-total.svg");
 }
 
 .overview-event-image {
-    float: right;
-    width: 56px;
-    height: 56px;
+  float: right;
+  width: 72px;
+  height: 65px;
 }
 
 .margin-20{
@@ -398,5 +419,75 @@ a{
 
 .overview-events-link-div{
   display: block;
+  margin-top: 9px;
+  float: left;
+}
+
+.test-conn{
+  width: 80px;
+  height: 30px;
+  margin: 22px 0 0 20px;
+  background-color: #0365C0;
+  color: #FFFFFF;
+  border: 1px solid #0365C0;
+}
+
+.chart{
+  margin-top: 40px;
+  height: 360px;
+  width: 1200px;
+  margin-left: -8px;
+}
+
+.dashboard-wrapper{
+  display: flow-root;
+}
+
+.chart-caption{
+  margin: 32px 24px 0;
+}
+
+.time-picker{
+  border: 1px solid #D8D8D8;
+  padding: 4px 12px;
+}
+
+.display-inline-block{
+  display: inline-block;
+}
+
+.padding-right-4{
+  padding-right: 4px;
+}
+
+.legend-series{
+  margin: 60px 16px;
+  width: 120px;
+  div{
+    float: left;
+    display: block;
+  }
+  span{
+    font-size: 25px;
+  }
+}
+
+.legend-1{
+  color: #3366cc;
+}
+
+.legend-2{
+  color: #dc3912;
+}
+
+.legend-3{
+  color: #ff9900;
+}
+
+.legend-4{
+  color: #109618;
+}
+
+.margin-top-20{
   margin-top: 20px;
 }

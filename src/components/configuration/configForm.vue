@@ -23,7 +23,19 @@
           </div>
         </div>
         <div v-else>
-           wifi setup
+          <div class="form-field-block col-12">
+             <div class="sans-serif-normal micro-fontsize form-label">WIFI NETWORK</div>
+             <input v-model="configdetails.username" class="form-input-field one-part-field col-11 outline-none sans-serif-normal regular-fontsize" type="text" />
+          </div>
+          <div class="form-field-block col-12">
+             <div class="sans-serif-normal micro-fontsize form-label">USERNAME (Optional)</div>
+             <input v-model="configdetails.password" class="form-input-field one-part-field outline-none sans-serif-normal regular-fontsize" type="password" />
+          </div>
+          <div class="form-field-block col-12">
+             <div class="sans-serif-normal micro-fontsize form-label">PASSWORD</div>
+             <input v-model="configdetails.confirmPassword" class="form-input-field one-part-field outline-none sans-serif-normal regular-fontsize" type="password" />
+          </div>
+          <button id="" class="test-conn outline-none cursor-pointer outline-none sans-serif-normal small-fontsize">TEST</button>
         </div>
       </div>
       <div class="col-12">

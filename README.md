@@ -29,5 +29,5 @@ bitbake-layers add-layer ../meta-titania
 echo 'DISTRO = "titania"' >> conf/local.conf
 
 # Compile the thing
-bitbake rpi-hwup-image
+bitbake rpi-basic-image
 ```

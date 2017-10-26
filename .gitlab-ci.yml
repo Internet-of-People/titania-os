@@ -51,8 +51,8 @@ raspberry:
   stage: build
   script:
     - source openembedded-core/oe-init-build-env
-    - MACHINE="raspberrypi3" bitbake rpi-basic-image
-    - cp -H $IMAGE_DIR/raspberrypi3/rpi-basic-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
+    - MACHINE="raspberrypi3" bitbake rpi-titania-image
+    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
   cache:
     paths:
       - build/sstate-cache

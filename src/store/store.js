@@ -49,12 +49,15 @@ const store = new Vuex.Store({
   },
   actions: {
     initApp (state) {
-      return api.get(apiRoot + '/schema/')
+      var getSchema = {
+        _action: 'getSchema'
+      }
+      return api.post(apiRoot + '/index.html/', getSchema)
         .then((response) => store.commit('SET_SCHEMA', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
     getCreds (state) {
-      return api.get(apiRoot + '/user/')
+      return api.post(apiRoot + '/index.html')
         .then((response) => store.commit('GET_CREDS', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
@@ -70,6 +73,7 @@ const store = new Vuex.Store({
       store.commit('TOGGLE_CONFIGURATION')
     },
     saveConfigForm (state, configdetails) {
+      configdetails._action = 'getUserDetails'
       return api.post(apiRoot + '/user/', configdetails)
         .then((response) => store.commit('SAVE_CONFIGURATION', configdetails))
         .catch((error) => store.commit('API_FAIL', error))

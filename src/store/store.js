@@ -26,18 +26,21 @@ const store = new Vuex.Store({
       state.schema = response.body[0].version
     },
     'GET_CREDS': function (state, response) {
-      // if (response.body.length === 0) {
-      //   console.log('login has not been set')
-      //   router.push('/configure')
-      // } else {
-      //   router.push('/login')
-      // }
+      if (response.body.length === 0) {
+        console.log('login has not been set')
+        router.push('/configure')
+        state.currentPage = 'configure'
+      } else {
+        router.push('/login')
+        state.currentPage = 'login'
+      }
     },
     'TOGGLE_CONFIGURATION': function (state) {
       state.configuration.enableConfigure = !state.configuration.enableConfigure
     },
     'SAVE_CONFIGURATION': function (state, response) {
       router.push('/login')
+      state.currentPage = 'login'
     },
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {
@@ -52,12 +55,17 @@ const store = new Vuex.Store({
       var getSchema = {
         _action: 'getSchema'
       }
-      return api.post(apiRoot + '/index.html/', getSchema)
-        .then((response) => store.commit('SET_SCHEMA', response))
-        .catch((error) => store.commit('API_FAIL', error))
+      return api.post(apiRoot + '/index.html', getSchema)
+        .then(function (response) {
+          store.commit('SET_SCHEMA', response)
+          store.dispatch('getCreds')
+        }).catch((error) => store.commit('API_FAIL', error))
     },
     getCreds (state) {
-      return api.post(apiRoot + '/index.html')
+      var getUserDetails = {
+        _action: 'getUserDetails'
+      }
+      return api.post(apiRoot + '/index.html', getUserDetails)
         .then((response) => store.commit('GET_CREDS', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
@@ -67,14 +75,15 @@ const store = new Vuex.Store({
     //     .catch((error) => store.commit('API_FAIL', error))
     // },
     login (state) {
+      // write code to check session id, store it in backend
       console.log(state.credentials.username + state.credentials.password)
     },
     toggleConfigForm (state) {
       store.commit('TOGGLE_CONFIGURATION')
     },
     saveConfigForm (state, configdetails) {
-      configdetails._action = 'getUserDetails'
-      return api.post(apiRoot + '/user/', configdetails)
+      configdetails._action = 'saveUserDetails'
+      return api.post(apiRoot + '/index.html', configdetails)
         .then((response) => store.commit('SAVE_CONFIGURATION', configdetails))
         .catch((error) => store.commit('API_FAIL', error))
     }

@@ -25,5 +25,6 @@ router.register(r'schema', views.SchemaViewSet)
 
 urlpatterns = [
     url(r'^$', views.index, name='home'),
+    url(r'^index.html$', views.handle_config),
     url(r'^', include(router.urls)),
 ]

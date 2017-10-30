@@ -56,8 +56,7 @@ export default {
       configdetails: {
         boxname: '',
         username: '',
-        password: '',
-        confirmPassword: ''
+        password: ''
       }
     }
   },

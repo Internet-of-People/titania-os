@@ -42,6 +42,10 @@ const store = new Vuex.Store({
       router.push('/login')
       state.currentPage = 'login'
     },
+    'LOGIN_SUCCESS': function (state) {
+      router.push('/')
+      state.currentPage = 'dashboard'
+    },
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {
       console.error(error)
@@ -74,9 +78,16 @@ const store = new Vuex.Store({
     //     .then((response) => store.commit('CLEAR_TODOS'))
     //     .catch((error) => store.commit('API_FAIL', error))
     // },
-    login (state) {
+    login (state, credentials) {
+      var login = {
+        _action: 'login',
+        username: credentials.username,
+        password: credentials.password
+      }
+      return api.post(apiRoot + '/index.html', login)
+        .then((response) => store.commit('LOGIN_SUCCESS', response))
+        .catch((error) => store.commit('API_FAIL', error))
       // write code to check session id, store it in backend
-      console.log(state.credentials.username + state.credentials.password)
     },
     toggleConfigForm (state) {
       store.commit('TOGGLE_CONFIGURATION')

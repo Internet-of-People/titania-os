@@ -43,6 +43,12 @@ def handle_config(request):
             setUser = User(boxname=boxname, username=username, password=password)
             setUser.save()
             return JsonResponse(["Saved successfully"], safe=False)
+        elif action == 'login':
+            print(action)
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            print(username+' '+password)
+            return JsonResponse(["Saved successfully"], safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

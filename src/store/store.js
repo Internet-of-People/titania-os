@@ -42,9 +42,31 @@ const store = new Vuex.Store({
       router.push('/login')
       state.currentPage = 'login'
     },
-    'LOGIN_SUCCESS': function (state) {
-      router.push('/')
-      state.currentPage = 'dashboard'
+    'LOGIN_SUCCESS': function (state, response) {
+      if (response.body.STATUS === 'SUCCESS') {
+        Vue.toast('Login successful', {
+          id: 'my-toast',
+          className: ['toast-success'],
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          duration: 2000,
+          mode: 'queue',
+          transition: 'my-transition'
+        })
+        router.push('/')
+        state.currentPage = 'dashboard'
+        state.credentials.username = response.body.username
+      } else {
+        Vue.toast('Login attempt failed', {
+          id: 'my-toast',
+          className: ['toast-warning'],
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          duration: 4000,
+          mode: 'queue',
+          transition: 'my-transition'
+        })
+      }
     },
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {

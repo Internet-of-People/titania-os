@@ -3,7 +3,7 @@
     <div class='float-left'>
       <span class='titania_version'>Titania {{this.$store.state.schema}}</span>
       <span class='copyright'>&copy;&nbsp; {{new Date().getFullYear()}} Libertaria</span>
-      <span id='registeredto' class='registeredto'>Registered to pooja</span>
+      <span id='registeredto' class='registeredto hide' v-bind:class="{show : getFooterClass()}">Registered to {{username}}</span>
     </div>
     <div class='float-right footer-links padding-right-20'>
       <span class="padding-right-20"><a href="titania-link-to-documentation" target="_blank">Documentation</a></span>
@@ -15,6 +15,13 @@
 <script>
 export default {
   name: 'footerParent',
+  computed: {
+    username: {
+      get: function () {
+        return this.$store.state.credentials.username
+      }
+    }
+  },
   methods: {
     getFooterClass () {
       return this.$store.state.currentPage === 'dashboard'

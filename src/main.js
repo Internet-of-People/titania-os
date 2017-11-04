@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import store from './store/store.js'
 import VueHighcharts from 'vue-highcharts'
+import Toast from 'vue-easy-toast'
 
+Vue.use(Toast)
 Vue.use(VueHighcharts)
 
 Vue.config.productionTip = false

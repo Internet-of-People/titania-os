@@ -131,6 +131,10 @@ input:not(.box-name-field){
   display: none;
 }
 
+.show{
+  display: initial !important;
+}
+
 .outline-none{
   outline: none;
 }
@@ -490,4 +494,17 @@ input:not(.box-name-field){
 
 .margin-top-20{
   margin-top: 20px;
+}
+
+.toast-warning{
+  background-color: $brand-critical;
+}
+
+.toast-success{
+  background-color: $brand-stable;
+}
+
+#my-toast{
+  bottom: 38px !important;
+  right: 15px !important;
 }

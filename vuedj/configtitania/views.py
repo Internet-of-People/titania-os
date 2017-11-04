@@ -42,13 +42,17 @@ def handle_config(request):
             password = request.POST.get("password")
             setUser = User(boxname=boxname, username=username, password=password)
             setUser.save()
-            return JsonResponse(["Saved successfully"], safe=False)
+            return JsonResponse([{"STATUS":"SUCCESS"},{"RESPONSE":"Config saved successfully"}], safe=False)
         elif action == 'login':
             print(action)
             username = request.POST.get("username")
             password = request.POST.get("password")
             print(username+' '+password)
-            return JsonResponse(["Saved successfully"], safe=False)
+            queryset = User.objects.all().first()
+            if username == queryset.username and password == queryset.password:
+                return JsonResponse({"STATUS":"SUCCESS", "username":queryset.username}, safe=False)
+            else:
+                return JsonResponse({"STATUS":"FAILURE"}, safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

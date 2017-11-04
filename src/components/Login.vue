@@ -34,8 +34,6 @@ export default {
   },
   methods: {
     submit () {
-      // insert login auth code here
-      console.log(this.$store.state.credentials.password)
       this.$store.dispatch('login', this.$store.state.credentials)
     }
   }

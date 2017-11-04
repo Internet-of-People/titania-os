@@ -46,7 +46,6 @@ const store = new Vuex.Store({
       state.currentPage = 'login'
     },
     'LOGIN': function (state, response) {
-      debugger
       if (response.body.STATUS === 'SUCCESS') {
         Vue.toast('Login successful', {
           id: 'my-toast',

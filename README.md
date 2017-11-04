@@ -42,3 +42,12 @@ python manage.py sqlmigrate configtitania 0001
 
 python manage.py migrate
 ```
+
+## Run Frontend on rpi
+```
+docker pull ngnix
+git clone https://gitlab.libertaria.community/titania/ux-titania.git
+docker run --name some-nginx -p 80:80 -v ~/ux-titania/dist:/usr/share/nginx/html:ro -d nginx
+
+```
+Then simply open the rpi's ip on your browser.

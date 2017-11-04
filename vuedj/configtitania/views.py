@@ -53,6 +53,13 @@ def handle_config(request):
                 return JsonResponse({"STATUS":"SUCCESS", "username":queryset.username}, safe=False)
             else:
                 return JsonResponse({"STATUS":"FAILURE"}, safe=False)
+        elif action == 'logout':
+            print(action)
+            username = request.POST.get("username")
+            print(username+' ')
+            queryset = User.objects.all().first()
+            if username == queryset.username:
+                return JsonResponse({"STATUS":"SUCCESS", "username":queryset.username}, safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

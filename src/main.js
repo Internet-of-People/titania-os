@@ -6,7 +6,9 @@ import router from './router'
 import store from './store/store.js'
 import VueHighcharts from 'vue-highcharts'
 import Toast from 'vue-easy-toast'
+import VueSession from 'vue-session'
 
+Vue.use(VueSession)
 Vue.use(Toast)
 Vue.use(VueHighcharts)
 
@@ -22,5 +24,3 @@ const v = new Vue({
 })
 
 v.$store.dispatch('initApp')
-// v.$store.dispatch('getCreds')
-// v.$store.dispatch('clearTodos')

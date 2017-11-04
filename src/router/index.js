@@ -11,7 +11,8 @@ export default new Router({
     {
       path: '/',
       name: 'dashboard',
-      component: dashboard
+      component: dashboard,
+      props: { showLogin: true }
     },
     {
       path: '/login',

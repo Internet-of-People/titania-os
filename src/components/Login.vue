@@ -32,6 +32,14 @@ export default {
       }
     }
   },
+  beforeCreate: function () {
+    if (this.$session.exists()) {
+      this.$router.push('/')
+    }
+  },
+  beforeDestory: function () {
+    this.$session.start()
+  },
   methods: {
     submit () {
       this.$store.dispatch('login', this.$store.state.credentials)

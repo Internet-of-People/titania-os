@@ -1,17 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VueSession from 'vue-session'
 import api from './api.js'
 import router from '../router'
 
 Vue.use(Vuex)
+Vue.use(VueSession)
+
 const apiRoot = 'http://localhost:8000'  // This will change if you deploy later
 
 const store = new Vuex.Store({
   state: {
     schema: '',
     credentials: {
-      username: 'Tatia',
-      password: ''
+      username: 'ruby',
+      password: 'ruby'
     },
     configuration: {
       enableConfigure: false
@@ -42,7 +45,8 @@ const store = new Vuex.Store({
       router.push('/login')
       state.currentPage = 'login'
     },
-    'LOGIN_SUCCESS': function (state, response) {
+    'LOGIN': function (state, response) {
+      debugger
       if (response.body.STATUS === 'SUCCESS') {
         Vue.toast('Login successful', {
           id: 'my-toast',
@@ -53,7 +57,7 @@ const store = new Vuex.Store({
           mode: 'queue',
           transition: 'my-transition'
         })
-        router.push('/')
+        router.push({name: 'dashboard', params: { setSession: true }})
         state.currentPage = 'dashboard'
         state.credentials.username = response.body.username
       } else {
@@ -66,6 +70,21 @@ const store = new Vuex.Store({
           mode: 'queue',
           transition: 'my-transition'
         })
+      }
+    },
+    'LOGOUT': function (state, response) {
+      if (response.body.STATUS === 'SUCCESS') {
+        Vue.toast('Logged out successfully', {
+          id: 'my-toast',
+          className: ['toast-success'],
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          duration: 2000,
+          mode: 'queue'
+        })
+        router.push('/login')
+        state.currentPage = 'login'
+        state.credentials.username = ''
       }
     },
     // Note that we added one more for logging out errors.
@@ -107,7 +126,7 @@ const store = new Vuex.Store({
         password: credentials.password
       }
       return api.post(apiRoot + '/index.html', login)
-        .then((response) => store.commit('LOGIN_SUCCESS', response))
+        .then((response) => store.commit('LOGIN', response))
         .catch((error) => store.commit('API_FAIL', error))
       // write code to check session id, store it in backend
     },
@@ -118,6 +137,15 @@ const store = new Vuex.Store({
       configdetails._action = 'saveUserDetails'
       return api.post(apiRoot + '/index.html', configdetails)
         .then((response) => store.commit('SAVE_CONFIGURATION', configdetails))
+        .catch((error) => store.commit('API_FAIL', error))
+    },
+    logout (state, credentials) {
+      var logout = {
+        _action: 'logout',
+        username: credentials.username
+      }
+      return api.post(apiRoot + '/index.html', logout)
+        .then((response) => store.commit('LOGOUT', response))
         .catch((error) => store.commit('API_FAIL', error))
     }
   }

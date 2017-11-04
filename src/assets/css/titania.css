@@ -325,7 +325,7 @@ input:not(.box-name-field) {
 
 .marginLeft40 {
   margin-left: 40px;
-  width: 98% !important;
+  width: 95% !important;
 }
 
 .header-inner-wrapper {
@@ -502,4 +502,12 @@ input:not(.box-name-field) {
 #my-toast {
   bottom: 38px !important;
   right: 15px !important;
+}
+
+.toolbar-header-options {
+  float: right;
+  padding: 13px;
+}
+.toolbar-header-options:hover {
+  color: #0067C5;
 }

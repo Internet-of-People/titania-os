@@ -19,6 +19,14 @@ export default {
     sidebarParent,
     headerParent,
     dashboardMainContent
+  },
+  mounted: function () {
+    if (this.$route.params.setSession) {
+      this.$session.start()
+    }
+    if (!this.$session.exists()) {
+      this.$router.push('/login')
+    }
   }
 }
 </script>

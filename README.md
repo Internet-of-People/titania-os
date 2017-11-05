@@ -62,6 +62,8 @@ source .venv/bin/activate
 pip install django
 pip install djangorestframework
 cd vuedj
-python manage.py migrate --fake
-python manage.py runserver
+python manage.py makemigrations
+python manage.py makemigrations configtitania
+python manage.py migrate
+python manage.py runserver 0.0.0.0:8000
 ```

@@ -24,3 +24,4 @@ const v = new Vue({
 })
 
 v.$store.dispatch('initApp')
+v.$store.dispatch('getCreds')

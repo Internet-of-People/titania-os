@@ -77,8 +77,8 @@ class SchemaViewSet(viewsets.ModelViewSet):
     """
 
     """Setting Schema"""
-    setSchema = Schema(version=common.VERSION, major_version=common.MAJOR_VERSION, minor_version=common.MINOR_VERSION)
-    setSchema.save()
+    # setSchema = Schema(version=common.VERSION, major_version=common.MAJOR_VERSION, minor_version=common.MINOR_VERSION)
+    # setSchema.save()
 
     queryset = Schema.objects.all()
     serializer_class = SchemaSerializer

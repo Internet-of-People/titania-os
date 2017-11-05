@@ -61,4 +61,7 @@ virtualenv .venv
 source .venv/bin/activate
 pip install django
 pip install djangorestframework
+cd vuedj
+python manage.py migrate --fake
+python manage.py runserver
 ```

@@ -30,6 +30,7 @@ CONTAINER           CPU %               MEM USAGE / LIMIT       MEM %           
 
 ## Uptime
 Start of Titania system / start after user has configured Titania??
+cat /proc/uptime
 
 ## Threads
 #### Across whole titania os

@@ -23,6 +23,7 @@ export default {
   mounted: function () {
     if (this.$route.params.setSession) {
       this.$session.start()
+      this.$store.dispatch('getDashboardCards')
     }
     if (!this.$session.exists()) {
       this.$router.push('/login')

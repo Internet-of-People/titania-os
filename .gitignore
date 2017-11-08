@@ -32,7 +32,7 @@ vuedj/*.py[co]
 vuedj/.tox/
 vuedj/configtitania/__pycache__/*
 vuedj/vuedj/__pycache__/*
-vuedj/db.sqlite3
+vuedj/*.sqlite3
 vuedj/configtitania/migrations/*
 vuedj/MANIFEST
 vuedj/dist/

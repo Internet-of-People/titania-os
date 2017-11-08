@@ -86,6 +86,11 @@ const store = new Vuex.Store({
         state.credentials.username = ''
       }
     },
+    'DASHBOARD_DETAILS': function (state, response) {
+      if (response.body.STATUS === 'SUCCESS') {
+        state.series = response.body.RESPONSE
+      }
+    },
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {
       console.error(error)
@@ -145,6 +150,14 @@ const store = new Vuex.Store({
       }
       return api.post(apiRoot + '/index.html', logout)
         .then((response) => store.commit('LOGOUT', response))
+        .catch((error) => store.commit('API_FAIL', error))
+    },
+    getDashboardCards (state) {
+      var logout = {
+        _action: 'getDashboardCards'
+      }
+      return api.post(apiRoot + '/index.html', logout)
+        .then((response) => store.commit('DASHBOARD_DETAILS', response))
         .catch((error) => store.commit('API_FAIL', error))
     }
   }

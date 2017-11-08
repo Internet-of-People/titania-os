@@ -1,5 +1,4 @@
-import subprocess
-import sched, time
+import subprocess, sched, time
 
 #data colletion interval
 data_collection = 60
@@ -8,9 +7,6 @@ data_collection = 60
 s = sched.scheduler(time.time, time.sleep)
 
 def monit_output(sc):
-    # collection += 1
-    # print("collection " + collection + ":\n")
-
     # threads
     print "Collection data \n\n"
     p = subprocess.check_output("ps axms | wc -l", shell=True)
@@ -39,7 +35,7 @@ def monit_output(sc):
 
     # status of stopped dApps
     p = subprocess.check_output("docker ps --filter status=stopped", shell=True)
-    print('\n\nRunning dApps info: \n')
+    print('\n\nStopped dApps info: \n')
     print(p)
     s.enter(data_collection, 1, monit_output, (sc,))
 

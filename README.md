@@ -57,6 +57,7 @@ Then simply open the rpi's ip on your browser.
 ``` bash
 cd ux-titania
 pip install -r requirements.txt
+pip install virtualenv
 virtualenv .venv
 source .venv/bin/activate
 pip install django

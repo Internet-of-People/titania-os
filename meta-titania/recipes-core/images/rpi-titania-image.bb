@@ -1,4 +1,5 @@
 # Raspberry PI base image with splash and ssh
 include recipes-core/images/rpi-basic-image.bb
 
-IMAGE_INSTALL += "docker networkmanager"
+# TODO: migrate to python3 soon
+IMAGE_INSTALL += "docker networkmanager python-core"

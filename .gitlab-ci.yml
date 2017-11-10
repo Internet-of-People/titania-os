@@ -31,6 +31,7 @@ bitbake:
     - bitbake-layers add-layer ../meta-oe/meta-python
     - bitbake-layers add-layer ../meta-oe/meta-filesystems
     - bitbake-layers add-layer ../meta-oe/meta-networking
+    - bitbake-layers add-layer ../meta-oe/meta-python
     - bitbake-layers add-layer ../meta-go
     - bitbake-layers add-layer ../meta-virtualization
     - bitbake-layers add-layer ../meta-titania

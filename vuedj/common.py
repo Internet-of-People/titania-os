@@ -20,7 +20,7 @@ Q_LIST_INSERT_DASHBOARD_COUNTERS = ('INSERT OR REPLACE INTO [counter_master] ('
                                     '(4,\'Threads\',\'ps axms | wc -l\' )')
 
 Q_CREATE_DASHBOARD_CONTENT = ('CREATE TABLE IF NOT EXISTS [content] ('
-                            '[counter_id] INTEGER NOT NULL PRIMARY KEY,'
+                            '[counter_id] INTEGER NOT NULL,'
                             '[value] INTEGER,'
                             '[collection_timestamp] TIMESTAMP DEFAULT (strftime(\'%s\', \'now\')),'
                             'FOREIGN KEY([counter_id]) REFERENCES [counter_master]([counter_id]))')

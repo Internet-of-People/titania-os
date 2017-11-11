@@ -12,10 +12,11 @@ This currently includes all the helper dApps we have for example the custom ngin
 docker ps | wc -l
 ```
 #### Running dApps
+link >> https://docs.docker.com/engine/reference/commandline/ps/#filtering
 ```
 docker ps --filter status=running | wc -l
 ```
-Similarly, we have status value as paused and stopped
+Similarly, we have status value as paused and exited
 
 ## CPU, MeM and others
 ```

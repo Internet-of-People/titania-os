@@ -27,6 +27,12 @@ Q_CREATE_DASHBOARD_CONTENT = ('CREATE TABLE IF NOT EXISTS [content] ('
 
 Q_INSERT_DASHBOARD_CONTENT = ('INSERT INTO [content] (counter_id,value) VALUES(?,?)')
 
+Q_DASHBOARD_CARDS = ('SELECT a.[counter_id], b.[counter_name], a.[value], max(a.[collection_timestamp])'
+                    ' FROM [content] a INNER JOIN [counter_master] b '
+                    ' ON a.[counter_id] = b.[counter_id]'
+                    ' GROUP BY a.[counter_id]')
+                    
+
 """COUNTER IDs"""
 #temporarily here, not a feasible solution for other counters
 TOTAL_DAPPS = 1

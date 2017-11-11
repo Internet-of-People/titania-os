@@ -11,7 +11,7 @@ from rest_framework.decorators import list_route
 from .models import User, Schema
 from .serializers import UserSerializer, SchemaSerializer
 
-import common
+import common, sqlite3
 
 @csrf_exempt
 def handle_config(request):
@@ -60,6 +60,14 @@ def handle_config(request):
             queryset = User.objects.all().first()
             if username == queryset.username:
                 return JsonResponse({"STATUS":"SUCCESS", "username":queryset.username}, safe=False)
+        elif action == 'getDashboardCards':
+            print(action)
+            con = sqlite3.connect("dashboard.sqlite3")
+            cursor = con.cursor()
+            cursor.execute(common.Q_DASHBOARD_CARDS)
+            rows = cursor.fetchall()
+            print(rows)
+            return JsonResponse(rows, safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

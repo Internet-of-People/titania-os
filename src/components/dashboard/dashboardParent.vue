@@ -24,9 +24,10 @@ export default {
     if (this.$route.params.setSession) {
       this.$session.start()
       this.$store.dispatch('getDashboardCards')
-    }
-    if (!this.$session.exists()) {
+    } else if (!this.$session.exists()) {
       this.$router.push('/login')
+    } else {
+      this.$store.dispatch('getDashboardCards')
     }
   }
 }

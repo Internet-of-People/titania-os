@@ -7,19 +7,20 @@ import router from '../router'
 Vue.use(Vuex)
 Vue.use(VueSession)
 
-const apiRoot = 'http://192.168.2.5:8000'  // This will change if you deploy later
+const apiRoot = 'http://127.0.0.1:8000'  // This will change if you deploy later
 
 const store = new Vuex.Store({
   state: {
     schema: '',
     credentials: {
-      username: '',
-      password: ''
+      username: 'ruby',
+      password: 'ruby'
     },
     configuration: {
       enableConfigure: false
     },
-    currentPage: 'dashboard'
+    currentPage: 'dashboard',
+    series: []
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -87,9 +88,8 @@ const store = new Vuex.Store({
       }
     },
     'DASHBOARD_DETAILS': function (state, response) {
-      if (response.body.STATUS === 'SUCCESS') {
-        state.series = response.body.RESPONSE
-      }
+      console.log(response.body)
+      state.series = response.body
     },
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {

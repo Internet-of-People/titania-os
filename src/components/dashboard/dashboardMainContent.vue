@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-wrapper">
     <div class="display-flex">
-      <dashboardCard v-for="serie in series" :key="serie.drilldownname" :test-prop="serie"></dashboardCard>
+      <dashboardCard v-for="serie in series" :key="serie[0]" :test-prop="serie"></dashboardCard>
     </div>
     <div>
       <div class="col-12">
@@ -27,26 +27,15 @@ import dashboardCard from '@/components/dashboard/dashboardCard'
 
 export default {
   name: 'dashboardMainContent',
+  computed: {
+    series: {
+      get: function () {
+        return this.$store.state.series
+      }
+    }
+  },
   data: function () {
     return {
-      series: [
-        { drilldownname: 'Total dApps Running',
-          caption: 'Show all apps',
-          count: 3,
-          imagetype: 'dApp'},
-        { drilldownname: 'Uptime',
-          caption: 'Show average uptime',
-          count: '4 hr',
-          imagetype: 'uptime'},
-        { drilldownname: 'Neighboring Nodes',
-          caption: 'Show neighboring nodes',
-          count: 8,
-          imagetype: 'neigh_nodes'},
-        { drilldownname: 'Threads',
-          caption: 'Show running threads',
-          count: '2.3K',
-          imagetype: 'threads'}
-      ],
       options: {
         title: {
           text: ''

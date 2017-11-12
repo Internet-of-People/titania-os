@@ -19,6 +19,7 @@ docker ps --filter status=running | wc -l
 Similarly, we have status value as paused and exited
 
 ## CPU, MeM and others
+link >> https://www.datadoghq.com/blog/how-to-collect-docker-metrics/#network-pseudo-files
 ```
 docker stats
 ```

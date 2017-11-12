@@ -74,18 +74,7 @@ export default {
         },
         series: [{
           name: 'LOC Server',
-          data: [
-            [Date.UTC(2017, 9, 1), 0],
-            [Date.UTC(2017, 9, 4), 0.28],
-            [Date.UTC(2017, 9, 6), 0.25],
-            [Date.UTC(2017, 9, 7), 0.2],
-            [Date.UTC(2017, 9, 12), 0.28],
-            [Date.UTC(2017, 9, 16), 0.28],
-            [Date.UTC(2017, 9, 20), 0.47],
-            [Date.UTC(2017, 9, 21), 0.79],
-            [Date.UTC(2017, 9, 26), 0.72],
-            [Date.UTC(2017, 9, 30), 1.02]
-          ],
+          data: [],
           color: '#3366cc',
           marker: {
             symbol: 'circle',
@@ -93,22 +82,7 @@ export default {
           }
         }, {
           name: 'Profile Server',
-          data: [
-            [Date.UTC(2017, 9, 1), 0],
-            [Date.UTC(2017, 9, 3), 0.25],
-            [Date.UTC(2017, 9, 5), 1.41],
-            [Date.UTC(2017, 9, 7), 1.64],
-            [Date.UTC(2017, 9, 8), 1.6],
-            [Date.UTC(2017, 9, 12), 2.55],
-            [Date.UTC(2017, 9, 13), 2.62],
-            [Date.UTC(2017, 9, 17), 2.5],
-            [Date.UTC(2017, 9, 19), 2.42],
-            [Date.UTC(2017, 9, 20), 2.74],
-            [Date.UTC(2017, 9, 21), 2.62],
-            [Date.UTC(2017, 9, 21), 2.6],
-            [Date.UTC(2017, 9, 22), 2.81],
-            [Date.UTC(2017, 9, 23), 2.63],
-            [Date.UTC(2017, 9, 30), 2.77]],
+          data: [],
           color: '#dc3912',
           marker: {
             symbol: 'circle',
@@ -116,18 +90,7 @@ export default {
           }
         }, {
           name: 'IPFS Service',
-          data: [
-            [Date.UTC(2017, 9, 1), 3.25],
-            [Date.UTC(2017, 9, 7), 1.66],
-            [Date.UTC(2017, 9, 8), 1.8],
-            [Date.UTC(2017, 9, 9), 1.76],
-            [Date.UTC(2017, 9, 11), 2.62],
-            [Date.UTC(2017, 9, 12), 2.41],
-            [Date.UTC(2017, 9, 12), 2.05],
-            [Date.UTC(2017, 9, 14), 1.7],
-            [Date.UTC(2017, 9, 24), 1.1],
-            [Date.UTC(2017, 9, 27), 0]
-          ],
+          data: [],
           color: '#ff9900',
           marker: {
             symbol: 'circle',
@@ -135,15 +98,7 @@ export default {
           }
         }, {
           name: 'IoP Wallet',
-          data: [
-            [Date.UTC(2017, 9, 2), 0],
-            [Date.UTC(2017, 9, 6), 0.25],
-            [Date.UTC(2017, 9, 9), 1.41],
-            [Date.UTC(2017, 9, 15), 1.64],
-            [Date.UTC(2017, 9, 24), 1.6],
-            [Date.UTC(2017, 9, 28), 2.55],
-            [Date.UTC(2017, 9, 30), 2.81]
-          ],
+          data: [],
           color: '#109618',
           marker: {
             symbol: 'circle',
@@ -152,6 +107,18 @@ export default {
         }]
       }
     }
+  },
+  methods: {
+    updateCredits: function () {
+      var chart = this.$refs.highcharts.chart
+      var series = this.$store.state.dashboardChart.series
+      for (var i = 0; i < series.length; i++) {
+        chart.series[i].setData(series[i])
+      }
+    }
+  },
+  mounted: function () {
+    this.updateCredits()
   },
   components: {
     dashboardCard

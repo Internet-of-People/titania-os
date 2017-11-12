@@ -15,33 +15,42 @@ def signal_handler(signal, frame):
 
 def monit_routine(s):
     # total dApps
-    p = subprocess.check_output("docker ps | wc -l", shell=True)
+    p = subprocess.check_output(common.CMD_TOTAL_DAPPS, shell=True)
     print('\n\nTotal dApps: ')
     print(p.strip())
-    cursor.execute(common.Q_INSERT_DASHBOARD_CONTENT,[common.TOTAL_DAPPS, p])
+    cursor.execute(common.Q_INSERT_SYSTEM_CONTENT,[common.TOTAL_DAPPS, p])
     db.commit()
 
     # status of stopped dApps
     # link >> https://docs.docker.com/engine/reference/commandline/ps/#filtering
-    p = subprocess.check_output("docker ps --filter status=paused | wc -l", shell=True)
+    p = subprocess.check_output(common.CMD_STOPPED_DAPPS, shell=True)
     print('\n\nStopped dApps:')
     print(p.strip())
-    cursor.execute(common.Q_INSERT_DASHBOARD_CONTENT,[common.STOPPED_DAPPS, p])
+    cursor.execute(common.Q_INSERT_SYSTEM_CONTENT,[common.STOPPED_DAPPS, p])
     db.commit()
 
     # uptime
-    p = subprocess.check_output("cat /proc/uptime", shell=True)
+    p = subprocess.check_output(common.CMD_UPTIME, shell=True)
     print('\n\nUptime: ')
     p = p.split(' ')
     print(p[0].strip())
-    cursor.execute(common.Q_INSERT_DASHBOARD_CONTENT,[common.UPTIME, p[0]])
+    cursor.execute(common.Q_INSERT_SYSTEM_CONTENT,[common.UPTIME, p[0]])
     db.commit()
 
     # threads
-    p = subprocess.check_output("ps axms | wc -l", shell=True)
+    p = subprocess.check_output(common.CMD_THREADS, shell=True)
     print('\n\nTotal Threads: ')
     print(p.strip())
-    cursor.execute(common.Q_INSERT_DASHBOARD_CONTENT,[common.THREADS, p])
+    cursor.execute(common.Q_INSERT_SYSTEM_CONTENT,[common.THREADS, p])
+    
+    # cpu usage docker wise
+    p = subprocess.check_output(common.CMD_CPU_USAGE, shell=True)
+    print('\n\nCPU USAGE: ')
+    print(p.strip())
+    rows = p.split('\t')
+    print(rows)
+    #cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.CPU_USAGE, , p])
+    
     s.enter(data_collection, 1, monit_routine, (s,))
 
 s.enter(data_collection, 1, monit_routine, (s,))

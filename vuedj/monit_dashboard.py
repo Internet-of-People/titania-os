@@ -8,10 +8,10 @@ cursor = db.cursor()
 data_collection = 10
 s = sched.scheduler(time.time, time.sleep)
 
-def signal_handler(signal, frame):
-    print('Exiting Monit Script')
-    db.close()
-    sys.exit(0)
+# def signal_handler(signal, frame):
+#     print('Exiting Monit Script')
+#     db.close()
+#     sys.exit(0)
 
 def monit_routine(s):
     # total dApps
@@ -42,18 +42,38 @@ def monit_routine(s):
     print('\n\nTotal Threads: ')
     print(p.strip())
     cursor.execute(common.Q_INSERT_SYSTEM_CONTENT,[common.THREADS, p])
+    db.commit()
     
+    #docker info, id, image and name
+    p = subprocess.check_output("docker ps --format '{{.ID}}\t{{.Names}}\t{{.Image}}' ", shell=True)
+    print('output \n\n ')
+    print(p)
+    p = p.split('\n')
+    lenofoutput = len(p)
+    print(len(p))
+    for x in range(lenofoutput-1):
+        print(x)
+        y = p[x].split('\t')
+        cursor.execute(common.Q_INSERT_DOCKER_MASTER,[y[0], y[1], y[2]])
+        db.commit()
+        print(y)
     # cpu usage docker wise
-    p = subprocess.check_output(common.CMD_CPU_USAGE, shell=True)
-    print('\n\nCPU USAGE: ')
-    print(p.strip())
-    rows = p.split('\t')
-    print(rows)
-    #cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.CPU_USAGE, , p])
+    p = subprocess.check_output("docker stats --no-stream --format '{{.Container}}\t{{.CPUPerc}}' ", shell=True)
+    print('output \n\n ')
+    print(p)
+    p = p.split('\n')
+    lenofoutput = len(p)
+    print(len(p))
+    for x in range(lenofoutput-1):
+        print(x)
+        y = p[x].split('\t')
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.CPU_USAGE, y[0], y[1]])
+        db.commit()
+        print(y)
     
     s.enter(data_collection, 1, monit_routine, (s,))
 
 s.enter(data_collection, 1, monit_routine, (s,))
-signal.signal(signal.SIGINT, signal_handler)
-signal.pause()
+# signal.signal(signal.SIGINT, signal_handler)
+# signal.pause()
 s.run()

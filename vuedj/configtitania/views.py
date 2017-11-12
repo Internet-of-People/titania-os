@@ -68,6 +68,14 @@ def handle_config(request):
             rows = cursor.fetchall()
             print(rows)
             return JsonResponse(rows, safe=False)
+        elif action == 'getDashboardChart':
+            print(action)
+            con = sqlite3.connect("dashboard.sqlite3")
+            cursor = con.cursor()
+            cursor.execute(common.Q_GET_DASHBOARD_CHART)
+            rows = cursor.fetchall()
+            print(rows)
+            return JsonResponse(rows, safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

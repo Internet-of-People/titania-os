@@ -24,10 +24,12 @@ export default {
     if (this.$route.params.setSession) {
       this.$session.start()
       this.$store.dispatch('getDashboardCards')
+      this.$store.dispatch('getDashboardChart')
     } else if (!this.$session.exists()) {
       this.$router.push('/login')
     } else {
       this.$store.dispatch('getDashboardCards')
+      this.$store.dispatch('getDashboardChart')
     }
   }
 }

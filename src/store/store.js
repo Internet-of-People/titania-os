@@ -138,6 +138,21 @@ const store = new Vuex.Store({
       state.currentPage = 'dashboard'
       state.series = response.body
     },
+    'DASHBOARD_CHART_INIT': function (state, response) {
+      // works for one docker component
+      console.log(response.body)
+      var iniSeries = response.body
+      var newSeries = []
+      var temp = 0
+      for (var i = 0; i < iniSeries.length; i++) {
+        temp = iniSeries[i].splice(1)
+        console.log(temp)
+        temp[1] = parseInt(temp[1].substring(0, temp[1].length - 1))
+        newSeries.push(temp)
+      }
+      console.log(newSeries)
+      state.dashboardChart.series = [newSeries]
+    },
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {
       console.error(error)
@@ -205,6 +220,14 @@ const store = new Vuex.Store({
       }
       return api.post(apiRoot + '/index.html', logout)
         .then((response) => store.commit('DASHBOARD_DETAILS', response))
+        .catch((error) => store.commit('API_FAIL', error))
+    },
+    getDashboardChart (state) {
+      var logout = {
+        _action: 'getDashboardChart'
+      }
+      return api.post(apiRoot + '/index.html', logout)
+        .then((response) => store.commit('DASHBOARD_CHART_INIT', response))
         .catch((error) => store.commit('API_FAIL', error))
     }
   }

@@ -5,7 +5,7 @@ MINOR_VERSION = 0
 
 """MONITORING TABLES """
 # failsafe so that if table exists insert row is not performed
-Q_CREATE_SYSTEM_COUNTERS = ('CREATE TABLE [counter_system] ('
+Q_CREATE_SYSTEM_COUNTERS = ('CREATE TABLE IF NOT EXISTS [counter_system] ('
                             '[counter_id] INTEGER NOT NULL PRIMARY KEY,'
                             '[counter_name] VARCHAR(20),'
                             '[formula] TEXT)')
@@ -19,40 +19,53 @@ Q_LIST_INSERT_SYSTEM_COUNTERS = ('INSERT OR REPLACE INTO [counter_system] ('
                                     '(3,\'Uptime\',\'cat /proc/uptime\'),'
                                     '(4,\'Threads\',\'ps axms | wc -l\' )')
 
-Q_CREATE_SYSTEM_CONTENT = ('CREATE TABLE IF NOT EXISTS [content] ('
+Q_CREATE_SYSTEM_CONTENT = ('CREATE TABLE IF NOT EXISTS [content_system] ('
                             '[counter_id] INTEGER NOT NULL,'
                             '[value] INTEGER,'
                             '[collection_timestamp] TIMESTAMP DEFAULT (strftime(\'%s\', \'now\')),'
                             'FOREIGN KEY([counter_id]) REFERENCES [counter_system]([counter_id]))')
 
-Q_INSERT_SYSTEM_CONTENT = ('INSERT INTO [content] (counter_id,value) VALUES(?,?)')
+Q_INSERT_SYSTEM_CONTENT = ('INSERT INTO [content_system] (counter_id,value) VALUES(?,?)')
 
 Q_DASHBOARD_CARDS = ('SELECT a.[counter_id], b.[counter_name], a.[value], max(a.[collection_timestamp])'
-                    ' FROM [content] a INNER JOIN [counter_system] b '
+                    ' FROM [content_system] a INNER JOIN [counter_system] b '
                     ' ON a.[counter_id] = b.[counter_id]'
                     ' GROUP BY a.[counter_id]')
 
-Q_CREATE_DOCKER_COUNTERS = ('CREATE TABLE [counter_docker] ('
+Q_CREATE_DOCKER_COUNTERS = ('CREATE TABLE IF NOT EXISTS [counter_docker] ('
                             '[counter_id] INTEGER NOT NULL PRIMARY KEY,'
                             '[counter_name] VARCHAR(20),'
                             '[formula] TEXT)')
             
-Q_CREATE_DOCKER_MASTER = ('CREATE TABLE [docker_master] ('
-                            '[container_id] TEXT PRIMARY KEY ,'
-                            '[formula] TEXT)')
-                            
+# unable to write escaped seq for >> docker stats --no-stream --format \'\{\{\.Container}}\t\{\{\.CPUPerc}}\')                           
 Q_LIST_INSERT_DOCKER_COUNTERS = ('INSERT OR REPLACE INTO [counter_docker]'
                                     '(counter_id,counter_name,formula)'
                                     'VALUES'
-                                    '(1,\'CPU Usage\',\'docker stats --no-stream --format \'{{.Container}}\t{{.CPUPerc}}\')')                           
+                                    '(1,\'CPU Usage\',\'docker stats --no-stream --format container.cpuperc\')')                           
+
+            
+Q_CREATE_DOCKER_MASTER = ('CREATE TABLE IF NOT EXISTS [docker_master] ('
+                            '[container_id] VARCHAR(40) PRIMARY KEY,'
+                            '[name] VARCHAR(40),'
+                            '[image] VARCHAR(40) )')
+                            
+Q_INSERT_DOCKER_MASTER = ('INSERT OR REPLACE INTO [docker_master] (container_id,name,image) VALUES(?,?,?)')                            
+        
 
 Q_CREATE_DOCKER_CONTENT = ('CREATE TABLE IF NOT EXISTS [content_docker] ('
                             '[counter_id] INTEGER NOT NULL REFERENCES [counter_docker]([counter_id]),'
-                            '[container_id] TEXT NOT NULL REFERENCES [counter_docker]([container_id])' 
+                            '[container_id] TEXT NOT NULL REFERENCES [docker_master]([container_id]),' 
                             '[value] INTEGER,'
                             '[collection_timestamp] TIMESTAMP DEFAULT (strftime(\'%s\', \'now\')))')
 
-Q_INSERT_DOCKER_CONTENT = ('INSERT INTO [content_docker] (counter_id,container_id,value) VALUES(?,?,?)')                    
+Q_INSERT_DOCKER_CONTENT = ('INSERT INTO [content_docker] (counter_id,container_id,value) VALUES(?,?,?)')     
+
+Q_GET_DASHBOARD_CHART = ('SELECT  b.[name], a.[collection_timestamp] * 1000,  a.[value]'
+                    ' FROM [content_docker] a INNER JOIN [docker_master] b '
+                    ' ON a.[container_id] = b.[container_id]'
+                    ' GROUP BY a.[container_id], a.[collection_timestamp] '
+                    ' ORDER BY a.[collection_timestamp]')
+               
 
 """SYSTEM COUNTER IDs"""
 #temporarily here, not a feasible solution for other counters

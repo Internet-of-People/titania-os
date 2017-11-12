@@ -20,7 +20,7 @@ Similarly, we have status value as paused and exited
 
 ## CPU, MeM and others
 link >> https://www.datadoghq.com/blog/how-to-collect-docker-metrics/#network-pseudo-files
-```
+```bash
 docker stats
 ```
 ```bash
@@ -28,6 +28,17 @@ CONTAINER           CPU %               MEM USAGE / LIMIT       MEM %           
 778d23b2dd52        0.00%               1.148 MiB / 927.3 MiB   0.12%               91.6 kB / 3 MB      0 B / 0 B           0
 CONTAINER           CPU %               MEM USAGE / LIMIT       MEM %               NET I/O             BLOCK I/O           PIDS
 778d23b2dd52        0.00%               1.148 MiB / 927.3 MiB   0.12%               91.6 kB / 3 MB      0 B / 0 B           0
+```
+
+Get CPU Usage
+
+```bash
+docker stats --no-stream --format '{{.Container}}\t{{.CPUPerc}}'
+```
+
+Get containers
+```bash
+docker ps --format '{{.ID}}\t{{.Names}}\t{{.Image}}'
 ```
 
 ## Uptime

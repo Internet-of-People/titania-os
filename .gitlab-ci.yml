@@ -51,6 +51,9 @@ bitbake:
 raspberry:
   stage: build
   script:
+    # Adding the SSH key TODO remove after we go public
+    - eval $(ssh-agent)
+    - echo $SSH_KEY_B64 | base64 -d | ssh-add -
     - source openembedded-core/oe-init-build-env
     - MACHINE="raspberrypi3" bitbake rpi-titania-image
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img

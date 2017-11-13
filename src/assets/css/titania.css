@@ -471,19 +471,19 @@ input:not(.box-name-field) {
   font-size: 25px;
 }
 
-.legend-1 {
+.legend-1, .legends span:nth-child(1) {
   color: #3366cc;
 }
 
-.legend-2 {
+.legend-2, .legends span:nth-child(2) {
   color: #dc3912;
 }
 
-.legend-3 {
+.legend-3, .legends span:nth-child(3) {
   color: #ff9900;
 }
 
-.legend-4 {
+.legend-4, .legends span:nth-child(4) {
   color: #109618;
 }
 

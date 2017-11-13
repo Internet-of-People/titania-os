@@ -72,10 +72,16 @@ def handle_config(request):
             print(action)
             con = sqlite3.connect("dashboard.sqlite3")
             cursor = con.cursor()
-            cursor.execute(common.Q_GET_DASHBOARD_CHART)
+            cursor.execute(common.Q_GET_CONTAINER_ID)
             rows = cursor.fetchall()
             print(rows)
-            return JsonResponse(rows, safe=False)
+            finalset = []
+            for row in rows:
+                cursor.execute(common.Q_GET_DASHBOARD_CHART,[row[0],])
+                datasets = cursor.fetchall()
+                data = {'container_name' : row[1], 'data': datasets}
+                finalset.append(data)
+            return JsonResponse(finalset, safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

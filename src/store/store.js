@@ -22,52 +22,8 @@ const store = new Vuex.Store({
     currentPage: 'dashboard',
     series: [],
     dashboardChart: {
-      series: [
-        [[Date.UTC(2017, 9, 2), 0],
-        [Date.UTC(2017, 9, 6), 0.25],
-        [Date.UTC(2017, 9, 9), 1.41],
-        [Date.UTC(2017, 9, 15), 1.64],
-        [Date.UTC(2017, 9, 24), 1.6],
-        [Date.UTC(2017, 9, 28), 2.55],
-        [Date.UTC(2017, 9, 30), 2.81]],
-        [[Date.UTC(2017, 9, 1), 3.25],
-          [Date.UTC(2017, 9, 7), 1.66],
-          [Date.UTC(2017, 9, 8), 1.8],
-          [Date.UTC(2017, 9, 9), 1.76],
-          [Date.UTC(2017, 9, 11), 2.62],
-          [Date.UTC(2017, 9, 12), 2.41],
-          [Date.UTC(2017, 9, 12), 2.05],
-          [Date.UTC(2017, 9, 14), 1.7],
-          [Date.UTC(2017, 9, 24), 1.1],
-          [Date.UTC(2017, 9, 27), 0]
-        ],
-        [
-          [Date.UTC(2017, 9, 1), 0],
-          [Date.UTC(2017, 9, 3), 0.25],
-          [Date.UTC(2017, 9, 5), 1.41],
-          [Date.UTC(2017, 9, 7), 1.64],
-          [Date.UTC(2017, 9, 8), 1.6],
-          [Date.UTC(2017, 9, 12), 2.55],
-          [Date.UTC(2017, 9, 13), 2.62],
-          [Date.UTC(2017, 9, 17), 2.5],
-          [Date.UTC(2017, 9, 19), 2.42],
-          [Date.UTC(2017, 9, 20), 2.74],
-          [Date.UTC(2017, 9, 21), 2.62],
-          [Date.UTC(2017, 9, 21), 2.6],
-          [Date.UTC(2017, 9, 22), 2.81],
-          [Date.UTC(2017, 9, 23), 2.63],
-          [Date.UTC(2017, 9, 30), 2.77]],
-        [[Date.UTC(2017, 9, 1), 0],
-            [Date.UTC(2017, 9, 4), 0.28],
-            [Date.UTC(2017, 9, 6), 0.25],
-            [Date.UTC(2017, 9, 7), 0.2],
-            [Date.UTC(2017, 9, 12), 0.28],
-            [Date.UTC(2017, 9, 16), 0.28],
-            [Date.UTC(2017, 9, 20), 0.47],
-            [Date.UTC(2017, 9, 21), 0.79],
-            [Date.UTC(2017, 9, 26), 0.72],
-            [Date.UTC(2017, 9, 30), 1.02]]
-      ]
+      series: [],
+      seriesname: []
     }
   },
   mutations: {
@@ -143,15 +99,15 @@ const store = new Vuex.Store({
       console.log(response.body)
       var iniSeries = response.body
       var newSeries = []
-      var temp = 0
+      var newSeriesName = []
       for (var i = 0; i < iniSeries.length; i++) {
-        temp = iniSeries[i].splice(1)
-        console.log(temp)
-        temp[1] = parseInt(temp[1].substring(0, temp[1].length - 1))
-        newSeries.push(temp)
+        console.log(iniSeries[i].data)
+        newSeriesName.push(iniSeries[i].container_name)
+        newSeries.push(iniSeries[i].data)
       }
       console.log(newSeries)
-      state.dashboardChart.series = [newSeries]
+      state.dashboardChart.seriesname = newSeriesName
+      state.dashboardChart.series = newSeries
     },
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {
@@ -180,11 +136,6 @@ const store = new Vuex.Store({
         .then((response) => store.commit('GET_CREDS', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
-    // clearTodos (store) {
-    //   return api.delete(apiRoot + '/schema/clear_todos/')
-    //     .then((response) => store.commit('CLEAR_TODOS'))
-    //     .catch((error) => store.commit('API_FAIL', error))
-    // },
     login (state, credentials) {
       var login = {
         _action: 'login',

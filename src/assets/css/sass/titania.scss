@@ -516,3 +516,18 @@ input:not(.box-name-field){
     color: $brand-link;
   }
 }
+
+.legends{
+  span:nth-child(1) {
+    @extend .legend-1;
+  }
+  span:nth-child(2) {
+    @extend .legend-2;
+  }
+  span:nth-child(3) {
+    @extend .legend-3;
+  }
+  span:nth-child(4) {
+    @extend .legend-4;
+  }
+}

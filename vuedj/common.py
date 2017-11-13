@@ -60,10 +60,14 @@ Q_CREATE_DOCKER_CONTENT = ('CREATE TABLE IF NOT EXISTS [content_docker] ('
 
 Q_INSERT_DOCKER_CONTENT = ('INSERT INTO [content_docker] (counter_id,container_id,value) VALUES(?,?,?)')     
 
-Q_GET_DASHBOARD_CHART = ('SELECT  b.[name], a.[collection_timestamp] * 1000,  a.[value]'
+Q_GET_CONTAINER_ID = ('SELECT [container_id],[name]'
+                    ' FROM [docker_master] ')
+                    
+Q_GET_DASHBOARD_CHART = ('SELECT a.[collection_timestamp] * 1000,  CAST(SUBSTR(a.[value],0,length(a.[value])) as decimal)'
                     ' FROM [content_docker] a INNER JOIN [docker_master] b '
                     ' ON a.[container_id] = b.[container_id]'
                     ' GROUP BY a.[container_id], a.[collection_timestamp] '
+                    ' HAVING a.[container_id] = ?'
                     ' ORDER BY a.[collection_timestamp]')
                
 

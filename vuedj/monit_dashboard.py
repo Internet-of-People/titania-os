@@ -5,7 +5,7 @@ db = sqlite3.connect('dashboard.sqlite3')
 
 # Get a cursor object
 cursor = db.cursor()
-data_collection = 10
+data_collection = 30
 s = sched.scheduler(time.time, time.sleep)
 
 # def signal_handler(signal, frame):

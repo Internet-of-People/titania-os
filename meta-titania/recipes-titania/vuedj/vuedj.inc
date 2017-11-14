@@ -12,10 +12,13 @@ LIC_FILES_CHKSUM = "file://LICENCE.md;md5=e44ee03c4611828cc7eb00aedbf7b349"
 
 inherit systemd
 
+SYSTEMD_SERVICE_${PN} = "vuedj.service"
+
 # TODO: maybe find a more sophisticated place instead of /srv/?
 do_install() {
     install -m 0755 -d ${WORKDIR}/vuedj ${D}/srv/vuedj
-
     install -m 0755 ${WORKDIR}/start_vuedj.sh ${D}/srv/vuedj/
+
+    install -d ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/vuedj.service ${D}${systemd_unitdir}/system
 }

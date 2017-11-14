@@ -1,0 +1,14 @@
+# TODO: gunicorn
+# TODO: start up nginx (via Docker)
+# TODO: find another target as per systemd reconfig
+
+[Unit]
+Description=Titania monitoring service back-end
+
+[Service]
+Restart=on-failure
+WorkingDirectory=/srv/vuedj
+ExecStart=/srv/vuedj/start_vuedj.sh
+
+[Install]
+WantedBy=multi-user.target

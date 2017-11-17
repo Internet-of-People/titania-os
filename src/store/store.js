@@ -13,8 +13,8 @@ const store = new Vuex.Store({
   state: {
     schema: '',
     credentials: {
-      username: 'ruby',
-      password: 'ruby'
+      username: '',
+      password: ''
     },
     configuration: {
       enableConfigure: false

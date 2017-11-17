@@ -48,8 +48,7 @@ python manage.py migrate
 ```
 docker pull nginx
 git clone https://gitlab.libertaria.community/titania/ux-titania.git
-docker run --name some-nginx -p 80:80 -v ~/ux-titania/dist:/usr/share/nginx/html:ro -d nginx
-
+docker run --name nginx -p 80:80 -p 443:443  -v /home/root/ux-titania/dist:/usr/html libertaria/nginx:armv7
 ```
 Then simply open the rpi's ip on your browser.
 

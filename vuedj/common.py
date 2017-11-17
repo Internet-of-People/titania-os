@@ -69,6 +69,12 @@ Q_GET_DASHBOARD_CHART = ('SELECT a.[collection_timestamp] * 1000,  CAST(SUBSTR(a
                     ' GROUP BY a.[container_id], a.[collection_timestamp] '
                     ' HAVING a.[container_id] = ?'
                     ' ORDER BY a.[collection_timestamp]')
+
+Q_PURGE_OLD_SYSTEM_DATA = ('DELETE FROM [content_system]'
+                        'WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',\'-1 week\')')
+
+Q_PURGE_OLD_DOCKER_DATA = ('DELETE FROM [content_docker]'
+                        'WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',\'-1 week\')')
                
 
 """SYSTEM COUNTER IDs"""

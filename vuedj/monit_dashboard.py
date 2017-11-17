@@ -31,6 +31,10 @@ s = sched.scheduler(time.time, time.sleep)
 
 def monit_routine(s):
     # TO DO: write a maintainance loop here
+    # currently it purges old data
+    cursor.execute(common.Q_PURGE_OLD_SYSTEM_DATA)
+    cursor.execute(common.Q_PURGE_OLD_DOCKER_DATA)
+    db.commit()
 
     # start system level collection
     # total dApps

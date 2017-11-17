@@ -54,15 +54,7 @@ Then simply open the rpi's ip on your browser.
 
 ## Install and Run django backend
 ``` bash
-cd ux-titania
-# pip install -r requirements.txt
-# pip install virtualenv
-# virtualenv .venv
-# source .venv/bin/activate
-# pip install django
-# pip install djangorestframework
-cd vuedj
-python monit_init.py
+cd ux-titania/vuedj
 python monit_dashboard.py
 python manage.py makemigrations
 python manage.py makemigrations configtitania

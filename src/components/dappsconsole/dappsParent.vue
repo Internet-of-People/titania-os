@@ -3,7 +3,7 @@
     <sidebarParent></sidebarParent>
     <headerParent :name-prop="page"></headerParent>
     <div class="margin-20">
-      <dashboardMainContent></dashboardMainContent>
+      <dappsMainContent></dappsMainContent>
     </div>
   </div>
 </template>
@@ -11,19 +11,19 @@
 <script>
 import sidebarParent from '@/components/sidebarParent'
 import headerParent from '@/components/headerParent'
-import dashboardMainContent from '@/components/dashboard/dashboardMainContent'
+import dappsMainContent from '@/components/dappsconsole/dappsMainContent'
 
 export default {
   name: 'dashboard',
   computed: {
     page () {
-      return 'DASHBOARD'
+      return 'DAPPS CONSOLE'
     }
   },
   components: {
     sidebarParent,
     headerParent,
-    dashboardMainContent
+    dappsMainContent
   },
   mounted: function () {
     if (this.$route.params.setSession) {

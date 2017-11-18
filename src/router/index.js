@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import login from '@/components/login'
 import configure from '@/components/configuration/configure'
 import dashboard from '@/components/dashboard/dashboardParent'
+import dappsParent from '@/components/dappsconsole/dappsParent'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/configure',
       name: 'configure',
       component: configure
+    },
+    {
+      path: '/dappsconsole',
+      name: 'dappsconsole',
+      component: dappsParent
     }
   ]
 })

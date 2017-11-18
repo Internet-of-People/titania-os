@@ -13,8 +13,8 @@ const store = new Vuex.Store({
   state: {
     schema: '',
     credentials: {
-      username: '',
-      password: ''
+      username: 'ruby',
+      password: 'ruby'
     },
     configuration: {
       enableConfigure: false
@@ -96,16 +96,13 @@ const store = new Vuex.Store({
     },
     'DASHBOARD_CHART_INIT': function (state, response) {
       // works for one docker component
-      console.log(response.body)
       var iniSeries = response.body
       var newSeries = []
       var newSeriesName = []
       for (var i = 0; i < iniSeries.length; i++) {
-        console.log(iniSeries[i].data)
         newSeriesName.push(iniSeries[i].container_name)
         newSeries.push(iniSeries[i].data)
       }
-      console.log(newSeries)
       state.dashboardChart.seriesname = newSeriesName
       state.dashboardChart.series = newSeries
     },
@@ -114,6 +111,7 @@ const store = new Vuex.Store({
       console.error(error)
     },
     'SET_CURRENT_PAGE': function (state, pageName) {
+      console.log(pageName)
       state.currentPage = pageName
     }
   },
@@ -180,6 +178,10 @@ const store = new Vuex.Store({
       return api.post(apiRoot + '/index.html', logout)
         .then((response) => store.commit('DASHBOARD_CHART_INIT', response))
         .catch((error) => store.commit('API_FAIL', error))
+    },
+    switchDrilldown (state, tabname) {
+      console.log('switchDrilldown')
+      store.commit('SET_CURRENT_PAGE', tabname)
     }
   }
 })

@@ -80,8 +80,8 @@ Q_PURGE_OLD_DOCKER_DATA = ('DELETE FROM [content_docker]'
 """SYSTEM COUNTER IDs"""
 #temporarily here, not a feasible solution for other counters
 TOTAL_DAPPS = 1
-STOPPED_DAPPS = 2
-UPTIME = 3
+UPTIME = 2
+STOPPED_DAPPS = 3
 THREADS = 4
 
 """DOCKER COUNTER IDs"""

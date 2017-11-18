@@ -296,7 +296,7 @@ input:not(.box-name-field) {
 .logo-icon-small {
   height: 30px;
   width: 32px;
-  background-color: #f2f2f2;
+  background-color: white;
   padding: 5px;
 }
 
@@ -336,10 +336,9 @@ input:not(.box-name-field) {
 }
 
 .page-title {
-  background-color: #f2f2f2;
   color: #5F4660;
   height: 22px;
-  padding: 12px 0px 6px 0px;
+  padding: 12px 0px 6px 12px;
   font-weight: 400;
 }
 
@@ -510,4 +509,8 @@ input:not(.box-name-field) {
 }
 .toolbar-header-options:hover {
   color: #0067C5;
+}
+
+.activeDrilldown {
+  background-color: azure;
 }

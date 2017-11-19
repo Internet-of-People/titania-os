@@ -111,7 +111,6 @@ const store = new Vuex.Store({
       console.error(error)
     },
     'SET_CURRENT_PAGE': function (state, pageName) {
-      console.log(pageName)
       state.currentPage = pageName
     }
   },
@@ -180,7 +179,6 @@ const store = new Vuex.Store({
         .catch((error) => store.commit('API_FAIL', error))
     },
     switchDrilldown (state, tabname) {
-      console.log('switchDrilldown')
       store.commit('SET_CURRENT_PAGE', tabname)
     }
   }

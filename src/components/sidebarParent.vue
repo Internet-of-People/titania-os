@@ -9,7 +9,7 @@
     <div class='margin-top-20' @click="tabSwitch('dappsconsole')" v-bind:class="{ activeDrilldown: currentTab('dappsconsole')}">
       <img class="tab-label" src="../assets/images/docker-tab.png">
     </div>
-    <div @click="tabSwitch('sometab')" v-bind:class="{ activeDrilldown: currentTab('sometab')}">
+    <div @click="tabSwitch('sometab')">
       <img class="tab-label" src="../assets/images/uptime.png">
     </div>
     <div @click="tabSwitch('systemhealth')">
@@ -26,13 +26,25 @@ import router from '../router'
 
 export default {
   name: 'sidebarParent',
+  computed: {
+    currentPage: {
+      get () {
+        return this.$store.state.currentPage
+      }
+    }
+  },
   methods: {
     tabSwitch (tabname) {
-      router.push('/' + tabname)
-      this.$store.dispatch('switchDrilldown', tabname)
+      if (tabname.length === 0) {
+        router.push('/')
+        this.$store.dispatch('switchDrilldown', 'dashboard')
+      } else {
+        router.push('/' + tabname)
+        this.$store.dispatch('switchDrilldown', tabname)
+      }
     },
     currentTab (tabname) {
-      return this.$store.state.currentPage === tabname
+      return this.currentPage === tabname
     }
   }
 }

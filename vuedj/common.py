@@ -89,7 +89,9 @@ Q_CREATE_DOCKER_OVERVIEW = ('CREATE TABLE IF NOT EXISTS [docker_overview] ('
 
 Q_CLEAR_DOCKER_OVERVIEW = ('DELETE FROM [docker_overview]')          
 
-Q_INSERT_DOCKER_OVERVIEW = ('INSERT INTO [docker_overview] VALUES(?,?,?,?,?,?,?,?)')    
+Q_INSERT_DOCKER_OVERVIEW = ('INSERT INTO [docker_overview] VALUES(?,?,?,?,?,?,?,?)')   
+
+Q_GET_DOCKER_OVERVIEW = ('SELECT * FROM [docker_overview]') 
 
 """SYSTEM COUNTER IDs"""
 #temporarily here, not a feasible solution for other counters

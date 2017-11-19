@@ -24,7 +24,8 @@ const store = new Vuex.Store({
     dashboardChart: {
       series: [],
       seriesname: []
-    }
+    },
+    dockeroverview: []
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -112,6 +113,9 @@ const store = new Vuex.Store({
     },
     'SET_CURRENT_PAGE': function (state, pageName) {
       state.currentPage = pageName
+    },
+    'DOCKER_OVERVIEW': function (state, response) {
+      state.dockeroverview = response.body
     }
   },
   actions: {
@@ -180,6 +184,14 @@ const store = new Vuex.Store({
     },
     switchDrilldown (state, tabname) {
       store.commit('SET_CURRENT_PAGE', tabname)
+    },
+    getDockerOverview (state) {
+      var logout = {
+        _action: 'getDockerOverview'
+      }
+      return api.post(apiRoot + '/index.html', logout)
+      .then((response) => store.commit('DOCKER_OVERVIEW', response))
+      .catch((error) => store.commit('API_FAIL', error))
     }
   }
 })

@@ -82,6 +82,20 @@ def handle_config(request):
                 data = {'container_name' : row[1], 'data': datasets}
                 finalset.append(data)
             return JsonResponse(finalset, safe=False)
+        elif action == 'getDockerOverview':
+            print(action)
+            con = sqlite3.connect("dashboard.sqlite3")
+            cursor = con.cursor()
+            cursor.execute(common.Q_GET_DOCKER_OVERVIEW)
+            rows = cursor.fetchall()
+            print(rows)
+            finalset = []
+            for row in rows:
+                data = {'container_id': row[0], 'name': row[1],
+                        'running_for': row[2], 'command': row[3],
+                        'ports': row[4], 'status': row[5], 'networks': row[6]}
+                finalset.append(data)
+            return JsonResponse(finalset, safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

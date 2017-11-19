@@ -85,13 +85,29 @@ def monit_routine(s):
     # delete previous snapshot
     cursor.execute(common.Q_CLEAR_DOCKER_OVERVIEW)
     db.commit()
-    p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW, shell=True)
+    #for running
+    p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW_RUNNING, shell=True)
     p = p.split("\n")
     lenofoutput = len(p)
-    print(len(p))
     for x in range(lenofoutput-1):
         y = p[x].split('\t')
-        cursor.execute(common.Q_INSERT_DOCKER_OVERVIEW,y)
+        cursor.execute(common.Q_INSERT_DOCKER_OVERVIEW_RUNNING,y)
+        db.commit()
+    #for paused
+    p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW_PAUSED, shell=True)
+    p = p.split("\n")
+    lenofoutput = len(p)
+    for x in range(lenofoutput-1):
+        cursor.execute(common.Q_INSERT_DOCKER_OVERVIEW_PAUSED,y)
+        db.commit()
+    #for exited
+    p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW_EXITED, shell=True)
+    p = p.split("\n")
+    lenofoutput = len(p)
+    for x in range(lenofoutput-1):
+        y = p[x].split('\t')
+        print(y)
+        cursor.execute(common.Q_INSERT_DOCKER_OVERVIEW_EXITED,y)
         db.commit()
     # end docker overview
 

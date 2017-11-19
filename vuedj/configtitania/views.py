@@ -91,9 +91,10 @@ def handle_config(request):
             print(rows)
             finalset = []
             for row in rows:
-                data = {'container_id': row[0], 'name': row[1],
-                        'running_for': row[2], 'command': row[3],
-                        'ports': row[4], 'status': row[5], 'networks': row[6]}
+                data = {'state': row[0], 'container_id': row[1], 'name': row[2],
+                        'image': row[3], 'running_for': row[4],
+                        'command': row[5], 'ports': row[6],
+                        'status': row[7], 'networks': row[8]}
                 finalset.append(data)
             return JsonResponse(finalset, safe=False)
         return JsonResponse(serializer.errors, status=400)

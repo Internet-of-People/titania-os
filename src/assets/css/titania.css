@@ -514,3 +514,34 @@ input:not(.box-name-field) {
 .activeDrilldown {
   background-color: azure;
 }
+
+.general-wrapper-table {
+  margin: 16px;
+  box-shadow: 0 0 2px #ADADAD;
+  overflow-y: auto;
+  min-height: 500px;
+  background-color: #FFFFFF;
+  margin: 36px 16px 16px 52px;
+}
+
+.dapps-table tr {
+  text-align: left;
+}
+.dapps-table tr td {
+  padding: 16px 8px;
+  border-bottom: 1px solid #d8d8d8;
+  vertical-align: bottom;
+}
+.dapps-table tr td span {
+  font-size: 40px;
+}
+
+.circle {
+  width: 10px;
+  display: block;
+  height: 10px;
+  background: red;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+}

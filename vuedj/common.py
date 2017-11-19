@@ -78,18 +78,22 @@ Q_PURGE_OLD_DOCKER_DATA = ('DELETE FROM [content_docker]'
 
 #command >> docker ps -a --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'
 Q_CREATE_DOCKER_OVERVIEW = ('CREATE TABLE IF NOT EXISTS [docker_overview] ('
+                            '[state] VARCHAR,'
                             '[container_id] VARCHAR(40) PRIMARY KEY,'
                             '[name] VARCHAR(40),'
                             '[image] VARCHAR(40),'
                             '[running_for] VARCHAR,'
                             '[command] VARCHAR,'
                             '[ports] VARCHAR,'
-                            '[status] VARCHAR,'
+                            '[latest_status] VARCHAR,'
                             '[networks] VARCHAR)')     
 
 Q_CLEAR_DOCKER_OVERVIEW = ('DELETE FROM [docker_overview]')          
 
-Q_INSERT_DOCKER_OVERVIEW = ('INSERT INTO [docker_overview] VALUES(?,?,?,?,?,?,?,?)')   
+Q_INSERT_DOCKER_OVERVIEW_RUNNING = ('INSERT INTO [docker_overview] VALUES(\'Running\',?,?,?,?,?,?,?,?)')   
+Q_INSERT_DOCKER_OVERVIEW_PAUSED = ('INSERT INTO [docker_overview] VALUES(\'Paused\',?,?,?,?,?,?,?,?)')   
+Q_INSERT_DOCKER_OVERVIEW_EXITED = ('INSERT INTO [docker_overview] VALUES(\'Exited\',?,?,?,?,?,?,?,?)')   
+
 
 Q_GET_DOCKER_OVERVIEW = ('SELECT * FROM [docker_overview]') 
 
@@ -115,4 +119,6 @@ CMD_DOCKER_MASTER = "docker ps -a --format '{{.ID}}\t{{.Names}}\t{{.Image}}'"
 #DOCKER METRICS
 CMD_CPU_USAGE = "docker stats -a --no-stream --format '{{.Container}}\t{{.CPUPerc}}'"
 #DOCKER INFO
-CMD_DOCKER_OVERVIEW = "docker ps -a --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
+CMD_DOCKER_OVERVIEW_RUNNING = "docker ps -a --filter status=running --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
+CMD_DOCKER_OVERVIEW_PAUSED = "docker ps -a --filter status=paused --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
+CMD_DOCKER_OVERVIEW_EXITED = "docker ps -a --filter status=exited --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"

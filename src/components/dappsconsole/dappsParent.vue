@@ -3,7 +3,9 @@
     <sidebarParent></sidebarParent>
     <headerParent :name-prop="page"></headerParent>
     <div class="margin-20">
-      <dappsMainContent></dappsMainContent>
+      <div class='general-wrapper-table'>
+        <dappsMainContent></dappsMainContent>
+      </div>
     </div>
   </div>
 </template>

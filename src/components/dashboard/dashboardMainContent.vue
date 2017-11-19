@@ -14,7 +14,8 @@
           <div class="large-fontsize">dApps</div>
           <div v-for="serie in seriesname" :key="serie" class="legends"> 
             <span class="padding-left-4">&#9679;</span>
-             {{serie}}</div>
+             {{serie}}
+          </div>
         </div>
       </div>
     </div>

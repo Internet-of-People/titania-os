@@ -1,5 +1,5 @@
 <template>
-  <div class="clearfix single-events-div ">
+  <div class="clearfix single-events-div" @click="getDrilldown(testProp[1])">
     <div class="clearfix events-desc-div">
       <div class="overview-events float-left clearfix">
         <div class="overview-event-count total-servers">{{testProp[2]}}</div>
@@ -23,6 +23,16 @@
 <script>
 export default {
   name: 'dashboardCard',
-  props: ['testProp']
+  props: ['testProp'],
+  methods: {
+    getDrilldown (cardtype) {
+      if (cardtype === 'Total dApps') {
+        this.$router.push('/dappsconsole')
+      } else if (cardtype === 'Stopped dApps') {
+        this.$router.push({name: '/dappsconsole', params: { stopped: true }})
+      }
+      // router.push({name: 'dashboard', params: { setSession: true }})
+    }
+  }
 }
 </script>

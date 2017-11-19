@@ -27,7 +27,9 @@ FILES_${PN} += "/srv/vuedj/"
 do_install() {
     # cp is out of place here but works for now until we go Rust
     install -d ${D}/srv/vuedj
+    install -d ${D}/srv/vuedj/dist
     cp -dr --no-preserve=ownership ${S}/vuedj/* ${D}/srv/vuedj
+    cp -dr --no-preserve=ownership ${S}/dist/* ${D}/srv/vuedj/dist
     install -m 0755 ${WORKDIR}/start_${TITANIA_UX_BACKEND}.sh ${D}/srv/vuedj/
 
     install -d ${D}${systemd_unitdir}/system

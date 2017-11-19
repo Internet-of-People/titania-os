@@ -16,6 +16,7 @@ try:
     cursor.execute(common.Q_LIST_INSERT_DOCKER_COUNTERS)
     cursor.execute(common.Q_CREATE_DOCKER_MASTER)
     cursor.execute(common.Q_CREATE_DOCKER_CONTENT)
+    cursor.execute(common.Q_CREATE_DOCKER_OVERVIEW)
 except sqlite3.Error, e:
     print('Error %s',e)
 db.commit()
@@ -62,7 +63,7 @@ def monit_routine(s):
 
     # start container level monitoring - currently works for CPU Usage
     # docker info, id, image and name
-    p = subprocess.check_output("docker ps --format '{{.ID}}\t{{.Names}}\t{{.Image}}' ", shell=True)
+    p = subprocess.check_output(common.CMD_DOCKER_MASTER, shell=True)
     p = p.split('\n')
     lenofoutput = len(p)
     for x in range(lenofoutput-1):
@@ -70,7 +71,7 @@ def monit_routine(s):
         cursor.execute(common.Q_INSERT_DOCKER_MASTER,[y[0], y[1], y[2]])
         db.commit()
     # cpu usage docker wise
-    p = subprocess.check_output("docker stats --no-stream --format '{{.Container}}\t{{.CPUPerc}}' ", shell=True)
+    p = subprocess.check_output(common.CMD_CPU_USAGE, shell=True)
     p = p.split('\n')
     lenofoutput = len(p)
     for x in range(lenofoutput-1):
@@ -78,6 +79,21 @@ def monit_routine(s):
         cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.CPU_USAGE, y[0], y[1]])
         db.commit()
     # end container level monitoring - currently works for CPU Usage
+
+    # docker overview- first delete all entries and then populate snapshot.
+    # we donot need to retain previous status    
+    # delete previous snapshot
+    cursor.execute(common.Q_CLEAR_DOCKER_OVERVIEW)
+    db.commit()
+    p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW, shell=True)
+    p = p.split("\n")
+    lenofoutput = len(p)
+    print(len(p))
+    for x in range(lenofoutput-1):
+        y = p[x].split('\t')
+        cursor.execute(common.Q_INSERT_DOCKER_OVERVIEW,y)
+        db.commit()
+    # end docker overview
 
     s.enter(data_collection, 1, monit_routine, (s,))
 

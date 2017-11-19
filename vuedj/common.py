@@ -75,7 +75,21 @@ Q_PURGE_OLD_SYSTEM_DATA = ('DELETE FROM [content_system]'
 
 Q_PURGE_OLD_DOCKER_DATA = ('DELETE FROM [content_docker]'
                         'WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',\'-1 week\')')
-               
+
+#command >> docker ps -a --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'
+Q_CREATE_DOCKER_OVERVIEW = ('CREATE TABLE IF NOT EXISTS [docker_overview] ('
+                            '[container_id] VARCHAR(40) PRIMARY KEY,'
+                            '[name] VARCHAR(40),'
+                            '[image] VARCHAR(40),'
+                            '[running_for] VARCHAR,'
+                            '[command] VARCHAR,'
+                            '[ports] VARCHAR,'
+                            '[status] VARCHAR,'
+                            '[networks] VARCHAR)')     
+
+Q_CLEAR_DOCKER_OVERVIEW = ('DELETE FROM [docker_overview]')          
+
+Q_INSERT_DOCKER_OVERVIEW = ('INSERT INTO [docker_overview] VALUES(?,?,?,?,?,?,?,?)')    
 
 """SYSTEM COUNTER IDs"""
 #temporarily here, not a feasible solution for other counters
@@ -94,5 +108,9 @@ CMD_TOTAL_DAPPS = "docker ps | wc -l"
 CMD_STOPPED_DAPPS = "docker ps --filter status=paused | wc -l"
 CMD_UPTIME = "cat /proc/uptime"
 CMD_THREADS = "ps axms | wc -l"
+#DOCKER MASTER
+CMD_DOCKER_MASTER = "docker ps -a --format '{{.ID}}\t{{.Names}}\t{{.Image}}'"
 #DOCKER METRICS
-CMD_CPU_USAGE = "docker stats --no-stream --format '{{.Container}}\t{{.CPUPerc}}'"
+CMD_CPU_USAGE = "docker stats -a --no-stream --format '{{.Container}}\t{{.CPUPerc}}'"
+#DOCKER INFO
+CMD_DOCKER_OVERVIEW = "docker ps -a --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"

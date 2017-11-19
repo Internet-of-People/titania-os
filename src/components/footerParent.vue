@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     getFooterClass () {
-      return this.$store.state.currentPage !== 'login'
+      return this.$store.state.currentPage !== 'login' || this.$store.state.currentPage !== 'configure'
     }
   }
 }

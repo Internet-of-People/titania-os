@@ -1,3 +1,3 @@
 require vuedj.inc
 
-SRCREV = "4e449a86522b60c8d04335b4c348caccb3babfba"
+SRCREV = "4f3614a07e146d8a83b32130301f513cfceeedda"

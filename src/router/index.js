@@ -4,6 +4,7 @@ import login from '@/components/login'
 import configure from '@/components/configuration/configure'
 import dashboard from '@/components/dashboard/dashboardParent'
 import dappsParent from '@/components/dappsconsole/dappsParent'
+import containerParent from '@/components/containerstats/containerParent'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/dappsconsole',
       name: 'dappsconsole',
       component: dappsParent
+    },
+    {
+      path: '/stats',
+      name: 'stats',
+      component: containerParent
     }
   ]
 })

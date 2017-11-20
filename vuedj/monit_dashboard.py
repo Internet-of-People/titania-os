@@ -30,6 +30,18 @@ s = sched.scheduler(time.time, time.sleep)
 #     db.close()
 #     sys.exit(0)
 
+def convert_to_bytes(input):
+    print(input)
+    p = input.split(' ')
+    num = float(p[0])
+    if p[1] == 'kiB' or p[1] == 'kB':
+        num = num*1000
+    elif p[1] == 'MiB' or p[1] == 'MB':
+        num = num*1000*1000
+    elif p[1] == 'GiB' or p[1] == 'GB':
+        num = num*1000*1000*1000
+    return num
+
 def monit_routine(s):
     # TO DO: write a maintainance loop here
     # currently it purges old data
@@ -71,7 +83,7 @@ def monit_routine(s):
         cursor.execute(common.Q_INSERT_DOCKER_MASTER,[y[0], y[1], y[2]])
         db.commit()
     # cpu usage docker wise
-    p = subprocess.check_output(common.CMD_CPU_USAGE, shell=True)
+    p = subprocess.check_output(common.CMD_DOCKER_STATS, shell=True)
     p = p.split('\n')
     lenofoutput = len(p)
     for x in range(lenofoutput-1):
@@ -79,17 +91,23 @@ def monit_routine(s):
         cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.CPU_USAGE, y[0], y[1]])
         cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.MEM_PERC, y[0], y[2]])
         #format 7.691 MiB / 927.3 MiB = mem used / limit of mem
-        mem = y[3].split('/')
-        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.MEM_USAGE, y[0], mem[0]])
-        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.MEM_USAGE_LIMIT, y[0], mem[1]])
+        mem = y[3].split('/ ')
+        mem_usage = convert_to_bytes(mem[0])
+        mem_usage_limit = convert_to_bytes(mem[1])
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.MEM_USAGE, y[0], mem_usage])
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.MEM_USAGE_LIMIT, y[0], mem_usage_limit])
         #format 168 kB / 3.08 MB 
-        net_io = y[4].split('/')
-        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.NET_IN, y[0], net_io[0]])
-        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.NET_OUT, y[0], net_io[1]])
+        net = y[4].split('/ ')
+        net_i = convert_to_bytes(net[0])
+        net_o = convert_to_bytes(net[1])
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.NET_IN, y[0], net_i])
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.NET_OUT, y[0], net_o])
         #format 6.68 MB / 4.1 kB
-        block_io = y[5].split('/')
-        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.BLOCK_IN, y[0], block_io[0]])
-        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.BLOCK_OUT, y[0], block_io[1]])
+        block = y[5].split('/ ')
+        block_i = convert_to_bytes(block[0])
+        block_o = convert_to_bytes(block[1])
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.BLOCK_IN, y[0], block_i])
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.BLOCK_OUT, y[0], block_o])
         db.commit()
     # end container level monitoring - currently works for CPU Usage
 

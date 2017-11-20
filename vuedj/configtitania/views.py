@@ -79,6 +79,7 @@ def handle_config(request):
             for row in rows:
                 cursor.execute(common.Q_GET_DASHBOARD_CHART,[row[0],])
                 datasets = cursor.fetchall()
+                print(datasets)
                 data = {'container_name' : row[1], 'data': datasets}
                 finalset.append(data)
             return JsonResponse(finalset, safe=False)
@@ -95,6 +96,26 @@ def handle_config(request):
                         'image': row[3], 'running_for': row[4],
                         'command': row[5], 'ports': row[6],
                         'status': row[7], 'networks': row[8]}
+                finalset.append(data)
+            return JsonResponse(finalset, safe=False)
+        elif action == 'getContainerStats':
+            print(action)
+            con = sqlite3.connect("dashboard.sqlite3")
+            cursor = con.cursor()
+            cursor.execute(common.Q_GET_CONTAINER_ID)
+            rows = cursor.fetchall()
+            print(rows)
+            finalset = []
+            datasets = []
+            for row in rows:
+                for iter in range(6):
+                    cursor.execute(common.Q_GET_CONTAINER_STATS,[row[0],iter])
+                    counter_val = cursor.fetchall()
+                    counter_row = {common.DOCKER_COUNTER_NAMES[iter] : counter_val}
+                    print(counter_row)
+                    datasets.append(counter_row)
+                data = {'container_name' : row[1], 'data': datasets}
+                datasets = []
                 finalset.append(data)
             return JsonResponse(finalset, safe=False)
         return JsonResponse(serializer.errors, status=400)

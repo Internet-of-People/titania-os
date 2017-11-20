@@ -66,9 +66,15 @@ Q_GET_CONTAINER_ID = ('SELECT [container_id],[name]'
 Q_GET_DASHBOARD_CHART = ('SELECT a.[collection_timestamp] * 1000,  CAST(SUBSTR(a.[value],0,length(a.[value])) as decimal)'
                     ' FROM [content_docker] a INNER JOIN [docker_master] b '
                     ' ON a.[container_id] = b.[container_id]'
-                    ' GROUP BY a.[container_id], a.[collection_timestamp] '
-                    ' HAVING a.[container_id] = ?'
-                    ' AND a.[counter_id] = 1 '
+                    ' WHERE a.[container_id] = ? '
+                    ' AND a.[counter_id] = 1'
+                    ' ORDER BY a.[collection_timestamp]')
+
+Q_GET_CONTAINER_STATS = ('SELECT a.[collection_timestamp] * 1000,  CAST(SUBSTR(a.[value],0,length(a.[value])) as decimal)'
+                    ' FROM [content_docker] a INNER JOIN [docker_master] b '
+                    ' ON a.[container_id] = b.[container_id]'
+                    ' WHERE a.[container_id] = ? '
+                    ' AND a.[counter_id] = ?'
                     ' ORDER BY a.[collection_timestamp]')
 
 Q_PURGE_OLD_SYSTEM_DATA = ('DELETE FROM [content_system]'
@@ -116,6 +122,7 @@ NET_OUT = 6
 BLOCK_IN = 7
 BLOCK_OUT = 8
 
+DOCKER_COUNTER_NAMES = ['CPU_USAGE', 'MEM_PERC','MEM_USAGE','MEM_USAGE_LIMIT','NET_IN','NET_OUT','BLOCK_IN','BLOCK_OUT']
 
 """COMMANDS TO FETCH METRICS"""
 #SYSTEM METRICS
@@ -126,7 +133,7 @@ CMD_THREADS = "ps axms | wc -l"
 #DOCKER MASTER
 CMD_DOCKER_MASTER = "docker ps -a --format '{{.ID}}\t{{.Names}}\t{{.Image}}'"
 #DOCKER METRICS
-CMD_CPU_USAGE = "docker stats -a --no-stream --format '{{.Container}}\t{{.CPUPerc}}\t{{.MemPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}'"
+CMD_DOCKER_STATS = "docker stats -a --no-stream --format '{{.Container}}\t{{.CPUPerc}}\t{{.MemPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}'"
 #DOCKER INFO
 CMD_DOCKER_OVERVIEW_RUNNING = "docker ps -a --filter status=running --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
 CMD_DOCKER_OVERVIEW_PAUSED = "docker ps -a --filter status=paused --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"

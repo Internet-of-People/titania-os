@@ -7,7 +7,7 @@ import router from '../router'
 Vue.use(Vuex)
 Vue.use(VueSession)
 
-const apiRoot = '/api'  // This will change if you deploy later
+const apiRoot = 'http://127.0.0.1:8000'  // This will change if you deploy later
 
 const store = new Vuex.Store({
   state: {
@@ -25,7 +25,8 @@ const store = new Vuex.Store({
       series: [],
       seriesname: []
     },
-    dockeroverview: []
+    dockeroverview: [],
+    dockerstats: []
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -116,6 +117,10 @@ const store = new Vuex.Store({
     },
     'DOCKER_OVERVIEW': function (state, response) {
       state.dockeroverview = response.body
+    },
+    'DOCKER_STATS': function (state, response) {
+      console.log(response.body)
+      // state.dockerstats = response.body
     }
   },
   actions: {
@@ -191,6 +196,14 @@ const store = new Vuex.Store({
       }
       return api.post(apiRoot + '/index.html', logout)
       .then((response) => store.commit('DOCKER_OVERVIEW', response))
+      .catch((error) => store.commit('API_FAIL', error))
+    },
+    getContainerStats (state) {
+      var logout = {
+        _action: 'getContainerStats'
+      }
+      return api.post(apiRoot + '/index.html', logout)
+      .then((response) => store.commit('DOCKER_STATS', response))
       .catch((error) => store.commit('API_FAIL', error))
     }
   }

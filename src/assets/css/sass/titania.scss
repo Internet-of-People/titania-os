@@ -442,6 +442,13 @@ input:not(.box-name-field){
   margin-left: -8px;
 }
 
+.chart-other{
+  margin-top: 40px;
+  height: 360px;
+  width: 400px;
+  margin-left: -8px;
+}
+
 .dashboard-wrapper{
   display: flow-root;
 }
@@ -468,7 +475,9 @@ input:not(.box-name-field){
   width: 120px;
   div{
     float: left;
+    width: 119px;
     display: block;
+    text-align: left;
   }
   span{
     font-size: 25px;
@@ -516,12 +525,16 @@ input:not(.box-name-field){
   }
 }
 
-.legends{
-  span:nth-child(1) {
-    @extend .legend-1;
+.legends {
+  div:nth-child(1) {
+    span{
+      @extend .legend-1;
+    } 
   }
-  span:nth-child(2) {
-    @extend .legend-2;
+  div:nth-child(2) {
+    span{
+      @extend .legend-2;
+    }
   }
   span:nth-child(3) {
     @extend .legend-3;
@@ -536,12 +549,11 @@ input:not(.box-name-field){
 }
 
 .general-wrapper-table{
-  margin: 16px;
   box-shadow: 0 0 2px #ADADAD;
   overflow-y: auto;
   min-height: 500px;
   background-color: #FFFFFF;
-  margin: 36px 16px 16px 52px;
+  margin: 16px 16px 16px 52px;
 }
 
 .dapps-table{
@@ -566,4 +578,33 @@ input:not(.box-name-field){
   -moz-border-radius: 50px;
   -webkit-border-radius: 50px;
   border-radius: 50px;
+}
+
+.container-holder{
+  width: 400px;
+  border-top: 1px solid #d8d8d8;
+  border-bottom: 1px solid #d8d8d8;
+  padding: 16px;
+  text-align: left;
+}
+
+.text-align{
+  text-align: left;
+}
+
+.label-wrapper{
+  margin: 0 0px 0 35px;
+  padding: 10px 0;
+}
+
+.label-text {
+  padding: 10px;
+}
+
+.state-picker{
+  border: 1px solid #D8D8D8;
+  padding: 9px 12px; 
+  margin-left: 16px;
+  width: 100px;
+  height: 16px;
 }

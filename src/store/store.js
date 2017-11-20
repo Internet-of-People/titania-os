@@ -119,8 +119,7 @@ const store = new Vuex.Store({
       state.dockeroverview = response.body
     },
     'DOCKER_STATS': function (state, response) {
-      console.log(response.body)
-      // state.dockerstats = response.body
+      state.dockerstats = response.body
     }
   },
   actions: {

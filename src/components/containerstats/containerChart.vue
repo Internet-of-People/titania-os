@@ -1,46 +1,15 @@
 <template>
-  <div class="dashboard-wrapper">
-    <div class="display-flex">
-      <dashboardCard v-for="serie in series" :key="serie[0]" :test-prop="serie"></dashboardCard>
-    </div>
     <div>
-      <div class="col-12">
-        <div class="float-left chart-caption sans-serif-bold">CPU USAGE</div>
-        <div class="float-right chart-caption time-picker">Last Month   &#9662;</div>
-      </div>
-      <div class="display-inline-flex">
-        <highcharts class="chart" :options="options" ref="highcharts"></highcharts>
-        <div class="legend-series">
-          <div class="large-fontsize">dApps</div>
-          <div class="legends">
-            <div v-for="serie in seriesname" :key="serie"> 
-             <span class="padding-left-4">&#9679;</span>
-              {{serie}}
-              </div>
-          </div>
-        </div>
-      </div>
+          <div class='container-holder'>{{testProp.container_name}}</div>
+          <highcharts class='chart-other' :options="options" ref="highcharts"></highcharts>
     </div>
-  </div>
 </template>
 
 <script>
-import dashboardCard from '@/components/dashboard/dashboardCard'
 
 export default {
-  name: 'dashboardMainContent',
-  computed: {
-    series: {
-      get: function () {
-        return this.$store.state.series
-      }
-    },
-    seriesname: {
-      get: function () {
-        return this.$store.state.dashboardChart.seriesname
-      }
-    }
-  },
+  name: 'containerChart',
+  props: ['testProp'],
   data: function () {
     return {
       options: {
@@ -55,7 +24,7 @@ export default {
         },
         yAxis: {
           title: {
-            text: 'Percentage'
+            text: ''
           },
           plotLines: [{
             value: 0,
@@ -117,20 +86,23 @@ export default {
   },
   methods: {
     updateCredits: function () {
-      var chart = this.$refs.highcharts.chart
-      var series = this.$store.state.dashboardChart.series
-      var seriesname = this.$store.state.dashboardChart.seriesname
-      for (var i = 0; i < series.length; i++) {
-        chart.series[i].update({name: seriesname[i]}, false)
-        chart.series[i].setData(series[i])
-      }
+    //   var chart
+    //   var nameType
+      var chart = this.$refs.highcharts
+      // var series = this.testProp
+      console.log(chart)
+    //   chart.series[/].setData(series[i].data[0][name])
+    //   chart.series[j].update({name: nameType}, false)
+    //     for (var j = 0; j < series[i].data.length; j++) {
+    //       nameType = Object.keys(series[i].data[j])[0]
+    //       chart.series[j].setData(series[i].data[0][name])
+    //       chart.series[j].update({name: nameType}, false)
+    //     }
+    //   }
     }
   },
   mounted: function () {
     this.updateCredits()
-  },
-  components: {
-    dashboardCard
   }
 }
 </script>

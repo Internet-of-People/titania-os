@@ -5,20 +5,24 @@
         <tr>
           <td></td>
           <td>NAME</td>
+          <td>CONTAINER ID</td>
           <td>RUNNING FOR</td>
           <td>LATEST ACTION</td>
           <td>COMMAND</td>
           <td>STATUS</td>
+          <td>NETWORKS</td>
         </tr>
       </thead>
       <tbody>
         <tr v-for="row in dockerrows" :key="row.container_id"> 
           <td><span class="circle" v-bind:style="getClass(row.state)"></span></td>
           <td>{{row.name}}</td>
+          <td>{{row.container_id}}</td>
           <td>{{row.running_for}}</td>
           <td>{{row.status}}</td>
           <td>{{row.command}}</td>
           <td>{{row.state}}</td>
+          <td>{{row.networks}}</td>
         </tr>
       </tbody>
     </table>

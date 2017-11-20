@@ -2,7 +2,22 @@
   <div>
     <sidebarParent></sidebarParent>
     <headerParent :name-prop="page"></headerParent>
-    <div class="margin-20">
+    <div class="margin-20 text-align">
+      <div class='col-12'>
+      <div class="display-inline-flex">
+        <div class='float-right display-inline-flex'>
+          <div class="label-wrapper">STATUS</div>
+          <div class="float-right state-picker">Running <span class='float-right'>&#9662;</span></div>
+        </div>
+        <div class="label-wrapper">REFRESH EVERY</div>
+        <div class='display-inline-flex padding-left-4'>
+        <input type="number" class="col-2 outline-none sans-serif-normal small-fontsize" value="1">
+        <div class="label-text outline-none sans-serif-normal regular-fontsize">Second(s)</div>
+        
+      </div>
+      <div>HIDE DETAILS</div>
+      </div>
+      </div>
       <div class='general-wrapper-table'>
         <dappsMainContent></dappsMainContent>
       </div>

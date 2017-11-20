@@ -68,6 +68,7 @@ Q_GET_DASHBOARD_CHART = ('SELECT a.[collection_timestamp] * 1000,  CAST(SUBSTR(a
                     ' ON a.[container_id] = b.[container_id]'
                     ' GROUP BY a.[container_id], a.[collection_timestamp] '
                     ' HAVING a.[container_id] = ?'
+                    ' AND a.[counter_id] = 1 '
                     ' ORDER BY a.[collection_timestamp]')
 
 Q_PURGE_OLD_SYSTEM_DATA = ('DELETE FROM [content_system]'
@@ -107,6 +108,14 @@ THREADS = 4
 """DOCKER COUNTER IDs"""
 #temporarily here, not a feasible solution for other counters
 CPU_USAGE = 1
+MEM_PERC = 2
+MEM_USAGE = 3
+MEM_USAGE_LIMIT = 4
+NET_IN = 5
+NET_OUT = 6
+BLOCK_IN = 7
+BLOCK_OUT = 8
+
 
 """COMMANDS TO FETCH METRICS"""
 #SYSTEM METRICS
@@ -117,7 +126,7 @@ CMD_THREADS = "ps axms | wc -l"
 #DOCKER MASTER
 CMD_DOCKER_MASTER = "docker ps -a --format '{{.ID}}\t{{.Names}}\t{{.Image}}'"
 #DOCKER METRICS
-CMD_CPU_USAGE = "docker stats -a --no-stream --format '{{.Container}}\t{{.CPUPerc}}'"
+CMD_CPU_USAGE = "docker stats -a --no-stream --format '{{.Container}}\t{{.CPUPerc}}\t{{.MemPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}'"
 #DOCKER INFO
 CMD_DOCKER_OVERVIEW_RUNNING = "docker ps -a --filter status=running --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
 CMD_DOCKER_OVERVIEW_PAUSED = "docker ps -a --filter status=paused --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"

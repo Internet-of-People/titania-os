@@ -77,6 +77,19 @@ def monit_routine(s):
     for x in range(lenofoutput-1):
         y = p[x].split('\t')
         cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.CPU_USAGE, y[0], y[1]])
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.MEM_PERC, y[0], y[2]])
+        #format 7.691 MiB / 927.3 MiB = mem used / limit of mem
+        mem = y[3].split('/')
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.MEM_USAGE, y[0], mem[0]])
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.MEM_USAGE_LIMIT, y[0], mem[1]])
+        #format 168 kB / 3.08 MB 
+        net_io = y[4].split('/')
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.NET_IN, y[0], net_io[0]])
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.NET_OUT, y[0], net_io[1]])
+        #format 6.68 MB / 4.1 kB
+        block_io = y[5].split('/')
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.BLOCK_IN, y[0], block_io[0]])
+        cursor.execute(common.Q_INSERT_DOCKER_CONTENT,[common.BLOCK_OUT, y[0], block_io[1]])
         db.commit()
     # end container level monitoring - currently works for CPU Usage
 

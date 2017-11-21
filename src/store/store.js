@@ -7,7 +7,7 @@ import router from '../router'
 Vue.use(Vuex)
 Vue.use(VueSession)
 
-const apiRoot = 'http://127.0.0.1:8000'  // This will change if you deploy later
+const apiRoot = '/api' // This will change if you deploy later
 
 const store = new Vuex.Store({
   state: {
@@ -26,7 +26,10 @@ const store = new Vuex.Store({
       seriesname: []
     },
     dockeroverview: [],
-    dockerstats: []
+    dockerstats: [],
+    showDetails: 'SHOW DETAILS',
+    dappsfilter: 'All',
+    dropdownstate: false
   },
   mutations: {
     // Keep in mind that response is an HTTP response

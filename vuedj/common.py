@@ -107,7 +107,7 @@ Q_GET_DOCKER_OVERVIEW = ('SELECT * FROM [docker_overview]')
 """SYSTEM COUNTER IDs"""
 #temporarily here, not a feasible solution for other counters
 TOTAL_DAPPS = 1
-STOPPED_DAPPS = 3
+STOPPED_DAPPS = 2
 UPTIME = 3
 THREADS = 4
 

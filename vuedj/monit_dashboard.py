@@ -58,6 +58,7 @@ def monit_routine(s):
     # status of stopped dApps
     # link >> https://docs.docker.com/engine/reference/commandline/ps/#filtering
     p = subprocess.check_output(common.CMD_STOPPED_DAPPS, shell=True)
+    print(p)
     cursor.execute(common.Q_INSERT_SYSTEM_CONTENT,[common.STOPPED_DAPPS, p])
     db.commit()
 

@@ -7,7 +7,23 @@
       <div class="display-inline-flex">
         <div class='float-right display-inline-flex'>
           <div class="label-wrapper">STATUS</div>
-          <div class="float-right state-picker">Running <span class='float-right'>&#9662;</span></div>
+          <div class="float-right state-picker" @click="showDropdown()">{{curentState}} <span class='float-right'>&#9662;</span>
+             <ul class='dropdown' v-bind:class="{hide: !dropdown}" >
+               <li class="float-left col-12 selected" @click="setDropdown('All')">
+                 <span class="float-left cursor-pointer overflow-hidden" style="width: 100%;">All</span>
+               </li>
+               <li class="header-right-options cursor-pointer float-left col-12" @click="setDropdown('Running')">
+                 <span title="" class="float-left cursor-pointer overflow-hidden" style="width: 100%;">Running</span>
+                 <span style="display: none;"></span>
+                 </li>
+              <li class="header-right-options cursor-pointer float-left col-12" @click="setDropdown('Paused')">
+                <span title="" class="float-left cursor-pointer overflow-hidden" style="width: 100%;">Paused</span>
+                <span style="display: none;"></span></li>
+              <li class="header-right-options cursor-pointer float-left col-12" @click="setDropdown('Exited')">
+                <span title="" class="float-left cursor-pointer overflow-hidden" style="width: 100%;">Exited</span>
+                <span style="display: none;"></span></li>
+            </ul>
+       </div>
         </div>
         <div class="label-wrapper">REFRESH EVERY</div>
         <div class='display-inline-flex padding-left-4'>
@@ -15,11 +31,11 @@
         <div class="label-text outline-none sans-serif-normal regular-fontsize">Second(s)</div>
         
       </div>
-      <div>HIDE DETAILS</div>
+      <div class='details' @click="getDetails()">{{details}}</div>
       </div>
       </div>
       <div class='general-wrapper-table'>
-        <dappsMainContent></dappsMainContent>
+        <dappsMainContent :state-prop="curentState" :detail-prop="details"></dappsMainContent>
       </div>
     </div>
   </div>
@@ -35,6 +51,30 @@ export default {
   computed: {
     page () {
       return 'DAPPS CONSOLE'
+    },
+    curentState: {
+      get: function () {
+        return this.$store.state.dappsfilter
+      },
+      set: function (newfilter) {
+        this.$store.state.dappsfilter = newfilter
+      }
+    },
+    details: {
+      get: function () {
+        return this.$store.state.showDetails
+      },
+      set: function (newdetails) {
+        this.$store.state.showDetails = newdetails
+      }
+    },
+    dropdown: {
+      get: function () {
+        return this.$store.state.dropdownstate
+      },
+      set: function (newfilter) {
+        this.$store.state.dropdownstate = newfilter
+      }
     }
   },
   components: {
@@ -50,6 +90,27 @@ export default {
       this.$router.push('/login')
     } else {
       this.$store.dispatch('getDockerOverview')
+    }
+    if (this.$route.params.stopped) {
+      this.curentState = 'Exited'
+    } else {
+      this.curentState = 'All'
+    }
+  },
+  methods: {
+    getDetails () {
+      if (this.details === 'HIDE DETAILS') {
+        this.details = 'SHOW DETAILS'
+      } else {
+        this.details = 'HIDE DETAILS'
+      }
+    },
+    showDropdown () {
+      this.dropdown = !this.dropdown
+    },
+    setDropdown (newdropdown) {
+      // this.showDropdown()
+      this.curentState = newdropdown
     }
   }
 }

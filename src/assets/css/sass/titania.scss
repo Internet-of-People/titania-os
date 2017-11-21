@@ -608,3 +608,24 @@ input:not(.box-name-field){
   width: 100px;
   height: 16px;
 }
+
+.dropdown{
+  list-style-type: none;
+  position: relative;
+  top: 0;
+  width: 125px;
+  height: 146px;
+  margin-left: -13px;
+  padding-left: 0px;
+  background-color: white;
+  box-shadow: 0 2px 2px #ADADAD;
+  li{
+    padding: 10px;
+  }
+}
+
+.details{
+  padding: 10px;
+  position: absolute;
+  right: 27px;
+}

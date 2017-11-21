@@ -2,7 +2,7 @@
   <div class=''>
     <table class='col-12 dapps-table'>
       <thead>
-        <tr>
+        <tr v-if="detailProp == 'HIDE DETAILS'">
           <td></td>
           <td>NAME</td>
           <td>CONTAINER ID</td>
@@ -12,9 +12,17 @@
           <td>STATUS</td>
           <td>NETWORKS</td>
         </tr>
+        <tr v-else>
+          <td></td>
+          <td>NAME</td>
+          <td>RUNNING FOR</td>
+          <td>LATEST ACTION</td>
+          <td>COMMAND</td>
+          <td>STATUS</td>
+        </tr>
       </thead>
-      <tbody>
-        <tr v-for="row in dockerrows" :key="row.container_id"> 
+      <tbody v-if="detailProp == 'HIDE DETAILS'">
+        <tr v-for="row in dockerrows" :key="row.container_id" v-if="showRow(row.state)"> 
           <td><span class="circle" v-bind:style="getClass(row.state)"></span></td>
           <td>{{row.name}}</td>
           <td>{{row.container_id}}</td>
@@ -23,6 +31,16 @@
           <td>{{row.command}}</td>
           <td>{{row.state}}</td>
           <td>{{row.networks}}</td>
+        </tr>
+      </tbody>
+      <tbody v-else>
+        <tr v-for="row in dockerrows" :key="row.container_id" v-if="showRow(row.state)"> 
+          <td><span class="circle" v-bind:style="getClass(row.state)"></span></td>
+          <td>{{row.name}}</td>
+          <td>{{row.running_for}}</td>
+          <td>{{row.status}}</td>
+          <td>{{row.command}}</td>
+          <td>{{row.state}}</td>
         </tr>
       </tbody>
     </table>
@@ -39,6 +57,7 @@
 <script>
 export default {
   name: 'dappsMainContent',
+  props: ['detailProp', 'stateProp'],
   computed: {
     dockerrows: {
       get: function () {
@@ -55,6 +74,14 @@ export default {
       } else if (statetype === 'Exited') {
         return 'background: #C82506;'
       }
+    },
+    showRow (rowstate) {
+      if (this.stateProp === 'All') {
+        return true
+      } else if (this.stateProp === rowstate) {
+        return true
+      }
+      return false
     }
   }
 }

@@ -1,9 +1,9 @@
 <template>
-  <div v-bind:class="{ marginLeft40: getFooterClass()}" class="footer-wrapper col-12">
+  <div v-bind:class="{ marginLeft40: !getFooterClass()}" class="footer-wrapper col-12">
     <div class='float-left'>
       <span class='titania_version'>Titania {{this.$store.state.schema}}</span>
       <span class='copyright'>&copy;&nbsp; {{new Date().getFullYear()}} Libertaria</span>
-      <span id='registeredto' class='registeredto hide' v-bind:class="{show : getFooterClass()}">Registered to {{username}}</span>
+      <span id='registeredto' class='registeredto hide' v-bind:class="{show : !getFooterClass()}">Registered to <span>{{username}}</span></span>
     </div>
     <div class='float-right footer-links padding-right-20'>
       <span class="padding-right-20"><a href="titania-link-to-documentation" target="_blank">Documentation</a></span>
@@ -18,13 +18,17 @@ export default {
   computed: {
     username: {
       get: function () {
+        if (this.$store.state.currentPage === 'configure') {
+          return true
+        }
         return this.$store.state.credentials.username
       }
     }
   },
   methods: {
     getFooterClass () {
-      return this.$store.state.currentPage !== 'login' || this.$store.state.currentPage !== 'configure'
+      var fullheader = this.$store.state.currentPage === 'login' || this.$store.state.currentPage === 'configure'
+      return fullheader
     }
   }
 }

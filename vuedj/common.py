@@ -14,8 +14,8 @@ Q_CREATE_SYSTEM_COUNTERS = ('CREATE TABLE IF NOT EXISTS [counter_system] ('
 Q_LIST_INSERT_SYSTEM_COUNTERS = ('INSERT OR REPLACE INTO [counter_system] ('
                                     'counter_id,counter_name,formula)'
                                     'VALUES'
-                                    '(1,\'Total dApps\',\'docker ps | wc -l\'),'
-                                    '(2,\'Stopped dApps\',\'docker ps --filter status=stopped | wc -l\'),'
+                                    '(1,\'Total dApps\',\'docker ps --format .ID | wc -l\'),'
+                                    '(2,\'Stopped dApps\',\'docker ps --format .ID --filter status=exited | wc -l\'),'
                                     '(3,\'Uptime\',\'cat /proc/uptime\'),'
                                     '(4,\'Threads\',\'ps axms | wc -l\' )')
 
@@ -126,8 +126,8 @@ DOCKER_COUNTER_NAMES = ['CPU_USAGE', 'MEM_PERC','MEM_USAGE','MEM_USAGE_LIMIT','N
 
 """COMMANDS TO FETCH METRICS"""
 #SYSTEM METRICS
-CMD_TOTAL_DAPPS = "docker ps | wc -l"
-CMD_STOPPED_DAPPS = "docker ps --filter status=paused | wc -l"
+CMD_TOTAL_DAPPS = "docker ps --format '{{.ID}}' | wc -l"
+CMD_STOPPED_DAPPS = "docker ps --format '{{.ID}}' --filter status=exited | wc -l"
 CMD_UPTIME = "cat /proc/uptime"
 CMD_THREADS = "ps axms | wc -l"
 #DOCKER MASTER

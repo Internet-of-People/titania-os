@@ -7,7 +7,7 @@ variables:
   BITBAKEDIR: '$CI_PROJECT_DIR/bitbake'
   IMAGE_DIR: '$CI_PROJECT_DIR/build/tmp-glibc/deploy/images'
   VERSION: 'git describe --long'
-  COMPRESSION: 'xz'
+  COMPRESSION_OPTS: '-9'
 
 # TODO:
 # add stages:
@@ -17,8 +17,8 @@ variables:
 stages:
   - setup
   - build
-  - archive
-  - sign
+  # - archive
+  # - sign
   # - publish 
 
 bitbake:
@@ -59,49 +59,53 @@ raspberry:
     - ssh-keyscan -p 2200 gitlab.libertaria.community >> ~/.ssh/known_hosts
     - source openembedded-core/oe-init-build-env
     - MACHINE="raspberrypi3" bitbake rpi-titania-image
-    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
+    - mv -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
+    - zip $COMPRESSION_OPTS $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).zip $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
+
   cache:
     paths:
       - build/sstate-cache
       - build/downloads
   artifacts:
     paths:
-      - titania-arm-rpi-*.img
+      - titania-arm-rpi-*.zip
     expire_in: 3 days
 
-desktop:
-  stage: build
-  script:
-    - source openembedded-core/oe-init-build-env
-    # TODO: maybe other machine?
-    # TODO: hard drive image, not partition image (stub because we use core-image-minimal for now)
-    - MACHINE="qemux86-64" bitbake core-image-minimal
-    - cp -H $IMAGE_DIR/qemux86-64/core-image-minimal-qemux86-64.ext4 $CI_PROJECT_DIR/titania-amd64-ext4-$(eval $VERSION).img
-  cache:
-    paths:
-      - build/sstate-cache
-      - build/downloads
-  artifacts:
-    paths:
-      - titania-amd64-ext4-*.img
-    expire_in: 3 days
+# TODO: reenable aftewards
 
-compress:
-  stage: archive
-  script:
-    - for image in titania*.img; do $COMPRESSION $image ; done
-  artifacts:
-    paths:
-      - titania*.img.*
-    expire_in: 3 days
+#desktop:
+#  stage: build
+#  script:
+#    - source openembedded-core/oe-init-build-env
+#    # TODO: maybe other machine?
+#    # TODO: hard drive image, not partition image (stub because we use core-image-minimal for now)
+#    - MACHINE="qemux86-64" bitbake core-image-minimal
+#    - cp -H $IMAGE_DIR/qemux86-64/core-image-minimal-qemux86-64.ext4 $CI_PROJECT_DIR/titania-amd64-ext4-$(eval $VERSION).img
+#  cache:
+#    paths:
+#      - build/sstate-cache
+#      - build/downloads
+#  artifacts:
+#    paths:
+#      - titania-amd64-ext4-*.img
+#    expire_in: 3 days
+
+#compress:
+#  stage: archive
+#  script:
+#    - for image in titania*.img; do $COMPRESSION $image ; done
+#  artifacts:
+#    paths:
+#      - titania*.img.*
+#    expire_in: 3 days
 
 
 # TODO: add GPG signature step
-images:
-  stage: sign
-  script:
-    - for image in titania*.img.*; do md5sum $image > $image.md5sum ; done
-  artifacts:
-    paths:
-      - titania*.img.*.md5sum
-    expire_in: 3 days
+#images:
+#  stage: sign
+#  script:
+#    - for image in titania*.img.*; do md5sum $image > $image.md5sum ; done
+#  artifacts:
+#    paths:
+#      - titania*.img.*.md5sum
+#    expire_in: 3 days

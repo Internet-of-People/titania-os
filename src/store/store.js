@@ -7,14 +7,14 @@ import router from '../router'
 Vue.use(Vuex)
 Vue.use(VueSession)
 
-const apiRoot = 'http://127.0.0.1:8000' // This will change if you deploy later
+const apiRoot = '/api' // This will change if you deploy later
 
 const store = new Vuex.Store({
   state: {
     schema: '',
     credentials: {
-      username: 'ruby',
-      password: 'ruby'
+      username: '',
+      password: ''
     },
     configuration: {
       enableConfigure: false
@@ -29,7 +29,10 @@ const store = new Vuex.Store({
     dockerstats: [],
     showDetails: 'SHOW DETAILS',
     dappsfilter: 'All',
-    dropdownstate: false
+    dropdownstate: false,
+    threadfilter: 'all',
+    threads: [],
+    containerthreads: []
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -125,7 +128,10 @@ const store = new Vuex.Store({
       state.dockerstats = response.body
     },
     'DOCKER_THREADS': function (state, response) {
-      console.log(response.body)
+      state.threads = response.body
+    },
+    'CONTAINER_THREADS': function (state, response) {
+      state.containerthreads = response.body
     }
   },
   actions: {
@@ -217,6 +223,14 @@ const store = new Vuex.Store({
       }
       return api.post(apiRoot + '/index.html', threads)
       .then((response) => store.commit('DOCKER_THREADS', response))
+      .catch((error) => store.commit('API_FAIL', error))
+    },
+    getContainerTop (state) {
+      var threads = {
+        _action: 'getContainerTop'
+      }
+      return api.post(apiRoot + '/index.html', threads)
+      .then((response) => store.commit('CONTAINER_THREADS', response))
       .catch((error) => store.commit('API_FAIL', error))
     }
   }

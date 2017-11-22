@@ -629,3 +629,61 @@ input:not(.box-name-field){
   position: absolute;
   right: 27px;
 }
+
+.threads-filter{
+  margin-left: 40px;
+  margin-top: 10px;
+  border: 1px solid;
+  div:nth-child(1){
+    border-right: 1px solid;
+  }
+  div{
+    padding: 10px;
+    cursor: pointer;
+  }
+}
+
+div.highlightedFilter{
+  background-color: #0067C5;
+  color: white;
+  cursor: pointer;
+}
+
+.threads-wrapper{
+  width: 94%;
+  margin-left: 59px;
+  position: absolute;
+  margin-top: 65px;
+  height: 554px;
+  overflow-y: auto;
+}
+
+.threads-table{
+  tr{
+    text-align: left;
+    th{
+      @extend .sans-serif-bold;
+      padding: 16px 8px;
+      border-bottom: 1px solid #d8d8d8;
+      vertical-align: bottom;
+    }
+    td{
+      padding: 16px 8px;
+      border-bottom: 1px solid #d8d8d8;
+      vertical-align: bottom;
+      span{
+        font-size: 40px;
+      }
+    }
+  }
+}
+
+.container-threads-table{
+  border: 1px solid #f2f2f2;
+  box-shadow: 0 2px 4px #adadad;
+}
+
+.container-header{
+  font-size: 16px;
+  padding: 10px 0;
+}

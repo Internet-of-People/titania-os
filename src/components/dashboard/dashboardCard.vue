@@ -30,6 +30,8 @@ export default {
         this.$router.push('/dappsconsole')
       } else if (cardtype === 'Stopped dApps') {
         this.$router.push({name: 'dappsconsole', params: { stopped: true }})
+      } else if (cardtype === 'Threads') {
+        this.$router.push('/threads')
       }
       // router.push({name: 'dashboard', params: { setSession: true }})
     }

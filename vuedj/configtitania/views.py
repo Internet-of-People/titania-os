@@ -121,14 +121,34 @@ def handle_config(request):
         elif action == 'getThreads':
             print(action)
             rows = []
-            ps = subprocess.Popen(['ps', 'aux'], stdout=subprocess.PIPE).communicate()[0]
+            ps = subprocess.Popen(['top', '-b','-n','1'], stdout=subprocess.PIPE).communicate()[0]
             processes = ps.decode().split('\n')
             # this specifies the number of splits, so the splitted lines
             # will have (nfields+1) elements
             nfields = len(processes[0].split()) - 1
-            for row in processes[1:]:
+            for row in processes[4:]:
                 rows.append(row.split(None, nfields))
             return JsonResponse(rows, safe=False)
+        elif action == 'getContainerTop':
+            print(action)
+            con = sqlite3.connect("dashboard.sqlite3")
+            cursor = con.cursor()
+            cursor.execute(common.Q_GET_CONTAINER_ID)
+            rows = cursor.fetchall()
+            resultset = []
+            for i in rows:
+                data = {}
+                datasets = []
+                ps = subprocess.Popen(['docker', 'top',i[0]], stdout=subprocess.PIPE).communicate()[0]
+                processes = ps.decode().split('\n')
+                # this specifies the number of splits, so the splitted lines
+                # will have (nfields+1) elements
+                nfields = len(processes[0].split()) - 1
+                for p in processes[1:]:
+                    datasets.append(p.split(None, nfields))
+                data = {'container_name' : i[1], 'data': datasets}
+                resultset.append(data)
+            return JsonResponse(resultset, safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):
@@ -151,3 +171,4 @@ class SchemaViewSet(viewsets.ModelViewSet):
     #
     # queryset = Schema.objects.all()
     # serializer_class = SchemaSerializer
+

@@ -3,8 +3,9 @@ import Router from 'vue-router'
 import login from '@/components/login'
 import configure from '@/components/configuration/configure'
 import dashboard from '@/components/dashboard/dashboardParent'
-import dappsParent from '@/components/dappsconsole/dappsParent'
-import containerParent from '@/components/containerstats/containerParent'
+import dappsconsole from '@/components/dappsconsole/dappsParent'
+import containerstats from '@/components/containerstats/containerParent'
+import threads from '@/components/threads/threadsParent'
 
 Vue.use(Router)
 
@@ -29,12 +30,17 @@ export default new Router({
     {
       path: '/dappsconsole',
       name: 'dappsconsole',
-      component: dappsParent
+      component: dappsconsole
     },
     {
       path: '/stats',
       name: 'stats',
-      component: containerParent
+      component: containerstats
+    },
+    {
+      path: '/threads',
+      name: 'threads',
+      component: threads
     }
   ]
 })

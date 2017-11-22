@@ -11,7 +11,7 @@ from rest_framework.decorators import list_route
 from .models import User, Schema
 from .serializers import UserSerializer, SchemaSerializer
 
-import common, sqlite3
+import common, sqlite3, subprocess
 
 @csrf_exempt
 def handle_config(request):
@@ -118,6 +118,17 @@ def handle_config(request):
                 datasets = []
                 finalset.append(data)
             return JsonResponse(finalset, safe=False)
+        elif action == 'getThreads':
+            print(action)
+            rows = []
+            ps = subprocess.Popen(['ps', 'aux'], stdout=subprocess.PIPE).communicate()[0]
+            processes = ps.decode().split('\n')
+            # this specifies the number of splits, so the splitted lines
+            # will have (nfields+1) elements
+            nfields = len(processes[0].split()) - 1
+            for row in processes[1:]:
+                rows.append(row.split(None, nfields))
+            return JsonResponse(rows, safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

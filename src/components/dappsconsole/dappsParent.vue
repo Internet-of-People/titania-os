@@ -47,7 +47,7 @@ import headerParent from '@/components/headerParent'
 import dappsMainContent from '@/components/dappsconsole/dappsMainContent'
 
 export default {
-  name: 'dashboard',
+  name: 'dappsconsole',
   computed: {
     page () {
       return 'DAPPS CONSOLE'

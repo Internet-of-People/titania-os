@@ -7,14 +7,14 @@ import router from '../router'
 Vue.use(Vuex)
 Vue.use(VueSession)
 
-const apiRoot = '/api' // This will change if you deploy later
+const apiRoot = 'http://127.0.0.1:8000' // This will change if you deploy later
 
 const store = new Vuex.Store({
   state: {
     schema: '',
     credentials: {
-      username: '',
-      password: ''
+      username: 'ruby',
+      password: 'ruby'
     },
     configuration: {
       enableConfigure: false
@@ -123,6 +123,9 @@ const store = new Vuex.Store({
     },
     'DOCKER_STATS': function (state, response) {
       state.dockerstats = response.body
+    },
+    'DOCKER_THREADS': function (state, response) {
+      console.log(response.body)
     }
   },
   actions: {
@@ -174,18 +177,18 @@ const store = new Vuex.Store({
         .catch((error) => store.commit('API_FAIL', error))
     },
     getDashboardCards (state) {
-      var logout = {
+      var dashboardcards = {
         _action: 'getDashboardCards'
       }
-      return api.post(apiRoot + '/index.html', logout)
+      return api.post(apiRoot + '/index.html', dashboardcards)
         .then((response) => store.commit('DASHBOARD_DETAILS', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
     getDashboardChart (state) {
-      var logout = {
+      var dashboardchart = {
         _action: 'getDashboardChart'
       }
-      return api.post(apiRoot + '/index.html', logout)
+      return api.post(apiRoot + '/index.html', dashboardchart)
         .then((response) => store.commit('DASHBOARD_CHART_INIT', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
@@ -193,19 +196,27 @@ const store = new Vuex.Store({
       store.commit('SET_CURRENT_PAGE', tabname)
     },
     getDockerOverview (state) {
-      var logout = {
+      var dockeroverview = {
         _action: 'getDockerOverview'
       }
-      return api.post(apiRoot + '/index.html', logout)
+      return api.post(apiRoot + '/index.html', dockeroverview)
       .then((response) => store.commit('DOCKER_OVERVIEW', response))
       .catch((error) => store.commit('API_FAIL', error))
     },
     getContainerStats (state) {
-      var logout = {
+      var getStats = {
         _action: 'getContainerStats'
       }
-      return api.post(apiRoot + '/index.html', logout)
+      return api.post(apiRoot + '/index.html', getStats)
       .then((response) => store.commit('DOCKER_STATS', response))
+      .catch((error) => store.commit('API_FAIL', error))
+    },
+    getThreads (state) {
+      var threads = {
+        _action: 'getThreads'
+      }
+      return api.post(apiRoot + '/index.html', threads)
+      .then((response) => store.commit('DOCKER_THREADS', response))
       .catch((error) => store.commit('API_FAIL', error))
     }
   }

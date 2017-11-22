@@ -126,8 +126,8 @@ DOCKER_COUNTER_NAMES = ['CPU_USAGE', 'MEM_PERC','MEM_USAGE','MEM_USAGE_LIMIT','N
 
 """COMMANDS TO FETCH METRICS"""
 #SYSTEM METRICS
-CMD_TOTAL_DAPPS = "docker ps --format '{{.ID}}' | wc -l"
-CMD_STOPPED_DAPPS = "docker ps --format '{{.ID}}' --filter status=exited | wc -l"
+CMD_TOTAL_DAPPS = "docker ps -a --format '{{.ID}}' | wc -l"
+CMD_STOPPED_DAPPS = "docker ps -a --format '{{.ID}}' --filter status=exited | wc -l"
 CMD_UPTIME = "cat /proc/uptime"
 CMD_THREADS = "ps axms | wc -l"
 #DOCKER MASTER

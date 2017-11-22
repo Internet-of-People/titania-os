@@ -9,10 +9,10 @@
     <div class='margin-top-20' @click="tabSwitch('dappsconsole')" v-bind:class="{ activeDrilldown: currentTab('dappsconsole')}">
       <img class="tab-label" src="../assets/images/docker-tab.png">
     </div>
-    <div @click="tabSwitch('stats')">
+    <div @click="tabSwitch('stats')" v-bind:class="{ activeDrilldown: currentTab('stats')}">
       <img class="tab-label" src="../assets/images/uptime.png">
     </div>
-    <div @click="tabSwitch('Config')">
+    <div @click="tabSwitch('threads')" v-bind:class="{ activeDrilldown: currentTab('threads')}">
       <img class="tab-label" src="../assets/images/tab-thread.png">
     </div>
   </div>

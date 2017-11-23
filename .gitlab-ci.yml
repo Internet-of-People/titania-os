@@ -7,7 +7,10 @@ variables:
   BITBAKEDIR: '$CI_PROJECT_DIR/bitbake'
   IMAGE_DIR: '$CI_PROJECT_DIR/build/tmp-glibc/deploy/images'
   VERSION: 'git describe --long'
-  COMPRESSION_OPTS: '-9'
+  # Insanity!
+  COMPRESSION_OPTS: '-9e'
+  COMPRESSION_CMD: 'xz'
+  # TODO: decompression cmd
 
 # TODO:
 # add stages:
@@ -60,7 +63,7 @@ raspberry:
     - source openembedded-core/oe-init-build-env
     - MACHINE="raspberrypi3" bitbake rpi-titania-image
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
-    - zip $COMPRESSION_OPTS $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).zip $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
+    - $COMPRESSION_CMD $COMPRESSION_OPTS $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
 
   cache:
     paths:
@@ -68,7 +71,7 @@ raspberry:
       - build/downloads
   artifacts:
     paths:
-      - titania-arm-rpi-*.zip
+      - titania-arm-rpi-*.img.*
     expire_in: 3 days
 
 # TODO: reenable aftewards

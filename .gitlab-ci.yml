@@ -59,7 +59,7 @@ raspberry:
     - ssh-keyscan -p 2200 gitlab.libertaria.community >> ~/.ssh/known_hosts
     - source openembedded-core/oe-init-build-env
     - MACHINE="raspberrypi3" bitbake rpi-titania-image
-    - mv -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
+    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
     - zip $COMPRESSION_OPTS $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).zip $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
 
   cache:

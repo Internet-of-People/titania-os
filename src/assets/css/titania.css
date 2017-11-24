@@ -96,7 +96,7 @@ body {
   line-height: 16px;
 }
 
-.sans-serif-bold, .threads-table tr th {
+.sans-serif-bold, .container-holder, .threads-table tr th {
   font-weight: bold;
 }
 
@@ -437,11 +437,10 @@ input:not(.box-name-field) {
   margin-left: -8px;
 }
 
-.chart-other {
+.chart-new {
   margin-top: 40px;
-  height: 360px;
-  width: 400px;
-  margin-left: -8px;
+  height: 400px;
+  width: 550px;
 }
 
 .dashboard-wrapper {
@@ -555,11 +554,11 @@ input:not(.box-name-field) {
 }
 
 .container-holder {
-  width: 400px;
-  border-top: 1px solid #d8d8d8;
+  width: 570px;
   border-bottom: 1px solid #d8d8d8;
-  padding: 16px;
+  padding: 8px 16px 8px 16px;
   text-align: left;
+  margin: 0px;
 }
 
 .text-align {
@@ -657,4 +656,59 @@ div.highlightedFilter {
 .container-header {
   font-size: 16px;
   padding: 10px 0;
+}
+
+.legend-color {
+  width: 6px;
+  height: 16px;
+}
+
+.text-align-left {
+  text-align: left;
+}
+
+.container-chart-wrapper {
+  margin: 16px 32px;
+  box-shadow: 0 2px 4px #ADADAD;
+}
+
+.label-div-chart {
+  padding: 4px 16px;
+}
+
+.label-chart-area {
+  padding-bottom: 16px;
+}
+.label-chart-area div:nth-child(2) div.legend-color {
+  background-color: #3366cc;
+}
+.label-chart-area div:nth-child(3) div.legend-color {
+  background-color: #dc3912;
+}
+.label-chart-area div:nth-child(4) div.legend-color {
+  background-color: #ff9900;
+}
+.label-chart-area div:nth-child(5) div.legend-color {
+  background-color: #109618;
+}
+
+.margin-right-4 {
+  margin-right: 4px;
+}
+
+.metrics-labels div {
+  width: 55px;
+  margin: 0px 40px;
+}
+
+.label-text-chart {
+  width: 155px;
+}
+
+.stats-header {
+  font-size: 15px;
+  position: absolute;
+  top: 50px;
+  left: 73px;
+  font-weight: bold;
 }

@@ -7,14 +7,15 @@ import router from '../router'
 Vue.use(Vuex)
 Vue.use(VueSession)
 
-const apiRoot = '/api' // This will change if you deploy later
+// const apiRoot = '/api' // deployment
+const apiRoot = 'http://127.0.0.1:8000' // dev
 
 const store = new Vuex.Store({
   state: {
-    schema: '',
+    schema: '1.0',
     credentials: {
-      username: '',
-      password: ''
+      username: 'ruby',
+      password: 'ruby'
     },
     configuration: {
       enableConfigure: false

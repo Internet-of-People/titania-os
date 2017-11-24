@@ -88,6 +88,7 @@ export default {
       this.$store.dispatch('getDockerOverview')
     } else if (!this.$session.exists()) {
       this.$router.push('/login')
+      this.$store.state.currentPage = 'login'
     } else {
       this.$store.dispatch('getDockerOverview')
     }

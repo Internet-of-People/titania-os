@@ -70,7 +70,14 @@ Q_GET_DASHBOARD_CHART = ('SELECT a.[collection_timestamp] * 1000,  CAST(SUBSTR(a
                     ' AND a.[counter_id] = 1'
                     ' ORDER BY a.[collection_timestamp]')
 
-Q_GET_CONTAINER_STATS = ('SELECT a.[collection_timestamp] * 1000,  CAST(SUBSTR(a.[value],0,length(a.[value])) as decimal)'
+Q_GET_CONTAINER_STATS_CPU = ('SELECT a.[collection_timestamp] * 1000,  CAST(SUBSTR(a.[value],0,length(a.[value])) as decimal)'
+                    ' FROM [content_docker] a INNER JOIN [docker_master] b '
+                    ' ON a.[container_id] = b.[container_id]'
+                    ' WHERE a.[container_id] = ? '
+                    ' AND a.[counter_id] = ?'
+                    ' ORDER BY a.[collection_timestamp]')
+
+Q_GET_CONTAINER_STATS = ('SELECT a.[collection_timestamp] * 1000,  a.[value] '
                     ' FROM [content_docker] a INNER JOIN [docker_master] b '
                     ' ON a.[container_id] = b.[container_id]'
                     ' WHERE a.[container_id] = ? '

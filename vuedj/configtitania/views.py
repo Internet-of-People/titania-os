@@ -108,9 +108,19 @@ def handle_config(request):
             finalset = []
             datasets = []
             for row in rows:
-                for iter in range(6):
+                # values with % appended to them
+                for iter in range(0,1):
+                    cursor.execute(common.Q_GET_CONTAINER_STATS_CPU,[row[0],iter])
+                    counter_val = cursor.fetchall()
+                    print(counter_val)
+                    counter_row = {common.DOCKER_COUNTER_NAMES[iter] : counter_val}
+                    print(counter_row)
+                    datasets.append(counter_row)
+                # values w/o % appended to them
+                for iter in range(1,6):
                     cursor.execute(common.Q_GET_CONTAINER_STATS,[row[0],iter])
                     counter_val = cursor.fetchall()
+                    print(counter_val)
                     counter_row = {common.DOCKER_COUNTER_NAMES[iter] : counter_val}
                     print(counter_row)
                     datasets.append(counter_row)

@@ -54,6 +54,7 @@ export default {
   mounted: function () {
     if (!this.$session.exists()) {
       this.$router.push('/login')
+      this.$store.state.currentPage = 'login'
     } else {
       this.$store.dispatch('getThreads')
     }

@@ -32,6 +32,7 @@ export default {
       this.$store.dispatch('getDashboardChart')
     } else if (!this.$session.exists()) {
       this.$router.push('/login')
+      this.$store.state.currentPage = 'login'
     } else {
       this.$store.dispatch('getDashboardCards')
       this.$store.dispatch('getDashboardChart')

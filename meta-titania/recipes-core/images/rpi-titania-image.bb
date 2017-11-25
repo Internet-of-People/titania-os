@@ -5,7 +5,7 @@ include recipes-core/images/rpi-basic-image.bb
 # TODO: migrate to python3 soon
 IMAGE_INSTALL += "vuedj"
 
-IMAGE_INSTALL += "docker networkmanager avahi-daemon llmnrd"
+IMAGE_INSTALL += "docker networkmanager avahi-daemon llmnrd zram"
 
 ROOTFS_POSTPROCESS_COMMAND += " titania_sysctl_config ; "
 

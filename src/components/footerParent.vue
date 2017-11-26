@@ -45,6 +45,8 @@ export default {
   height: 18px;
   border-top: 2px solid #F0F0F0;
   display: inline-block;
+  z-index: 100;
+  background-color: white;
 }
 .copyright {
   border-left: 1px solid #f2f2f2;

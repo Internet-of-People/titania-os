@@ -2,7 +2,7 @@
   <div>
     <sidebarParent></sidebarParent>
     <headerParent :name-prop="page"></headerParent>
-    <div class="margin-20">
+    <div class="stats-page">
       <div>
         <containerMainContent></containerMainContent>
       </div>

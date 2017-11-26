@@ -1,6 +1,6 @@
 <template>
-<div class='display-inline-flex'>
-      <div class='stats-header'>{{testProp.container_name}}</div>
+<div class='each-stat-block'>
+      <div class='stats-header'>{{testProp.container_name}}</div> 
       <div class='container-chart-wrapper'>
             <div class='container-holder'>CPU USAGE / MEM USAGE </div>
             <highcharts class='chart-new' :options="options" ref="highcharts"></highcharts>
@@ -166,21 +166,21 @@ export default {
   methods: {
     updateCredits: function () {
       var chart = this.$refs.highcharts.chart
-      var series = this.$store.state.dockerstats[0].data_perc
+      var series = this.testProp.data_perc
       var seriesname = this.legends_perc
       for (var i = 0; i < series.length; i++) {
         chart.series[i].update({name: seriesname[i]}, false)
         chart.series[i].setData(series[i])
       }
       var chartIo = this.$refs.highcharts_io.chart
-      series = this.$store.state.dockerstats[0].data_io
+      series = this.testProp.data_io
       seriesname = this.legends_io
       for (i = 0; i < series.length; i++) {
         chartIo.series[i].update({name: seriesname[i]}, false)
         chartIo.series[i].setData(series[i])
       }
       var chartMem = this.$refs.highcharts_mem.chart
-      series = this.$store.state.dockerstats[0].data_mem
+      series = this.testProp.data_mem
       seriesname = this.legends_io
       for (i = 0; i < series.length; i++) {
         chartMem.series[i].update({name: seriesname[i]}, false)
@@ -189,7 +189,7 @@ export default {
     },
     getMax: function (legend) {
       var pos = this.legends_perc.indexOf(legend)
-      var series = this.$store.state.dockerstats[0].data_perc[pos]
+      var series = this.testProp.data_perc[pos]
       var max = 0.00
       var min = 0.00
       var avg = 0.00
@@ -197,11 +197,9 @@ export default {
       for (var i = 0; i < series.length; i++) {
         if (series[i][1] > max) {
           max = series[i][1]
-          console.log(series[i][1])
         }
         if (series[i][1] > max) {
           max = series[i][1]
-          console.log(series[i][1])
         }
         avg += series[i][1]
       }
@@ -216,7 +214,7 @@ export default {
     },
     getMaxIO: function (legend) {
       var pos = this.legends_io.indexOf(legend)
-      var series = this.$store.state.dockerstats[0].data_io[pos]
+      var series = this.testProp.data_io[pos]
       var max = 0.00
       var min = 0.00
       var avg = 0.00
@@ -238,7 +236,7 @@ export default {
     },
     getMaxMeM: function (legend) {
       var pos = this.legends_mem.indexOf(legend)
-      var series = this.$store.state.dockerstats[0].data_mem[pos]
+      var series = this.testProp.data_mem[pos]
       var max = 0.00
       var min = 0.00
       var avg = 0.00
@@ -274,15 +272,15 @@ export default {
       if (charttype === 'perc') {
         chart = this.$refs.highcharts.chart
         pos = this.legends_perc.indexOf(legend)
-        series = this.$store.state.dockerstats[0].data_perc
+        series = this.testProp.data_perc
       } else if (charttype === 'mem') {
         chart = this.$refs.highcharts_mem.chart
         pos = this.legends_mem.indexOf(legend)
-        series = this.$store.state.dockerstats[0].data_mem
+        series = this.testProp.data_mem
       } else {
         chart = this.$refs.highcharts_io.chart
         pos = this.legends_io.indexOf(legend)
-        series = this.$store.state.dockerstats[0].data_io
+        series = this.testProp.data_io
       }
       if (chart.series[pos].yData.length === 0) {
         $('#' + elem).removeClass('fadeout-row')

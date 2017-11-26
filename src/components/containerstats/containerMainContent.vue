@@ -1,10 +1,10 @@
 <template>
-  <div class='display-flex'>
+  <div class='display-flex x-scrollable'>
       <!-- <containerChart v-for="stats in dockerstats" class='display-flex' 
         :test-prop="stats" :key="stats.container_name">
       </containerChart> -->
-      <containerChart class=''
-        :test-prop="dockerstats[0]" :key="dockerstats[0].container_name">
+      <containerChart class='' v-for="stats in dockerstats"
+        :test-prop="stats" :key="stats.container_name">
       </containerChart>
   </div>
 </template>

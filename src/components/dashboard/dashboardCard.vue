@@ -1,5 +1,5 @@
 <template>
-  <div class="clearfix single-events-div" @click="getDrilldown(testProp[1])">
+  <div class="clearfix single-events-div" @click="getDrilldown()">
     <div class="clearfix events-desc-div">
       <div class="overview-events float-left clearfix">
         <div class="overview-event-count total-servers">{{testProp[2]}}</div>
@@ -13,10 +13,9 @@
         <img v-else class="overview-event-image" src="../../assets/images/threads.png"></img>
       </div>
     </div>
-    <!-- <div class="overview-events-link-div">
-      <span class="overview-events-link-desc regular-fontsize" id="owlinkdesc"></span>
-      <span class="overview-events-link">&#8594</span>
-    </div> -->
+    <div class="overview-events-link-div">
+      <span class="overview-events-link-desc regular-fontsize" id="owlinkdesc">{{getHelpText()}}</span>
+    </div>
   </div>
 </template>
 
@@ -25,7 +24,8 @@ export default {
   name: 'dashboardCard',
   props: ['testProp'],
   methods: {
-    getDrilldown (cardtype) {
+    getDrilldown () {
+      var cardtype = this.testProp[1]
       if (cardtype === 'Total dApps') {
         this.$router.push('/dappsconsole')
       } else if (cardtype === 'Stopped dApps') {
@@ -36,6 +36,18 @@ export default {
         this.$router.push('/stats')
       }
       // router.push({name: 'dashboard', params: { setSession: true }})
+    },
+    getHelpText () {
+      var cardtype = this.testProp[1]
+      if (cardtype === 'Total dApps') {
+        return 'Show all dApps'
+      } else if (cardtype === 'Stopped dApps') {
+        return 'Show exited dApps'
+      } else if (cardtype === 'Threads') {
+        return 'Show container and system threads'
+      } else {
+        return 'Show container stats'
+      }
     }
   }
 }

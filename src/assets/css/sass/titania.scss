@@ -427,7 +427,6 @@ input:not(.box-name-field){
 .overview-events-link-div{
   display: block;
   margin-top: 9px;
-  float: left;
 }
 
 .test-conn{
@@ -630,9 +629,13 @@ input:not(.box-name-field){
 }
 
 .details{
+  @extend .cursor-pointer;
   padding: 10px;
   position: absolute;
   right: 27px;
+  &:hover{
+    color: $brand-link;
+  }
 }
 
 .threads-filter{
@@ -756,10 +759,10 @@ div.highlightedFilter{
 
 .stats-header{
   font-size: 15px;
-  position: absolute;
-  top: 50px;
-  left: 73px;
-  font-weight: bold;
+  text-align: left;
+  border-top: 1px solid #f2f2f2;
+  padding: 9px 34px;
+  box-shadow: 0 2px 0px #F2f2f2;
 }
 
 .hint-text{
@@ -772,3 +775,18 @@ div.highlightedFilter{
 .fadeout-row{
   opacity: 0.3;
 }
+
+.each-stat-block{
+  width: 670px;
+  display: inline-block !important;
+}
+
+.x-scrollable{
+  overflow-x: auto;
+}
+
+.stats-page{
+  height: 737px;
+  overflow-y: scroll;
+  width: 97%;
+}    

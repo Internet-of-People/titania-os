@@ -106,23 +106,29 @@ def handle_config(request):
             rows = cursor.fetchall()
             print(rows)
             finalset = []
-            datasets = []
+            datasets_io = []
+            datasets_mem = []
             datasets_perc = []
             for row in rows:
+                datasets_io = []
+                datasets_mem = []
                 datasets_perc = []
-                datasets = []
                 # values with % appended to them
                 for iter in range(0,2):
                     cursor.execute(common.Q_GET_CONTAINER_STATS_CPU,[row[0],iter+1])
                     counter_val = cursor.fetchall()
-                    counter_row = {common.DOCKER_COUNTER_NAMES[iter] : counter_val}
                     datasets_perc.append(counter_val)
                 # values w/o % appended to them
-                for iter in range(2,8):
+                for iter in range(2,4):
                     cursor.execute(common.Q_GET_CONTAINER_STATS,[row[0],iter+1])
                     counter_val = cursor.fetchall()
-                    datasets.append(counter_val)
-                data = {'container_name' : row[1], 'data': datasets, 'data_perc': datasets_perc}
+                    datasets_mem.append(counter_val)
+                # values w/o % appended to them
+                for iter in range(4,8):
+                    cursor.execute(common.Q_GET_CONTAINER_STATS,[row[0],iter+1])
+                    counter_val = cursor.fetchall()
+                    datasets_io.append(counter_val)
+                data = {'container_name' : row[1], 'data_io': datasets_io, 'data_mem': datasets_mem, 'data_perc': datasets_perc}
                 finalset.append(data)
             return JsonResponse(finalset, safe=False)
         elif action == 'getThreads':

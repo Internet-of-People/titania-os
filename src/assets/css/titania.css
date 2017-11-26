@@ -228,6 +228,10 @@ input:not(.box-name-field) {
   cursor: pointer;
 }
 
+.cursor-default {
+  cursor: default;
+}
+
 .configure-add-options-menu {
   padding: 0 20px;
   margin: auto;
@@ -670,10 +674,14 @@ div.highlightedFilter {
 .container-chart-wrapper {
   margin: 16px 32px;
   box-shadow: 0 2px 4px #ADADAD;
+  height: fit-content;
 }
 
 .label-div-chart {
   padding: 4px 16px;
+}
+.label-div-chart:hover {
+  background-color: #f2f2f2;
 }
 
 .label-chart-area {
@@ -711,4 +719,15 @@ div.highlightedFilter {
   top: 50px;
   left: 73px;
   font-weight: bold;
+}
+
+.hint-text {
+  color: #ADADAD;
+  margin: 0 0 0 -54px !important;
+  width: 192px !important;
+  font-size: 12px;
+}
+
+.fadeout-row {
+  opacity: 0.3;
 }

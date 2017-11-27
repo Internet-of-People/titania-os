@@ -7,6 +7,9 @@ IMAGE_INSTALL += "vuedj"
 
 IMAGE_INSTALL += "docker networkmanager avahi-daemon llmnrd zram"
 
+# Add firmware, this is needed for WiFi on RaspberryPi
+IMAGE_INSTALL += "linux-firmware-bcm43430"
+
 ROOTFS_POSTPROCESS_COMMAND += " titania_sysctl_config ; "
 
 titania_sysctl_config() {

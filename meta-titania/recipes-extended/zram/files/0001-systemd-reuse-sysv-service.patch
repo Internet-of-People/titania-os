@@ -1,0 +1,13 @@
+--- a/zram.service	2017-09-13 21:49:15.000000000 +0300
++++ b/zram.service	2017-11-27 16:13:08.097465015 +0200
+@@ -4,8 +4,8 @@
+ 
+ [Service]
+ RemainAfterExit=yes
+-ExecStart=/usr/bin/zram-load.sh --load
+-ExecStop=/usr/bin/zram-load.sh --unload
++ExecStart=/usr/bin/zram start
++ExecStop=/usr/bin/zram stop
+ Type=oneshot
+ 
+ [Install]

@@ -1,0 +1,11 @@
+--- a/init	2017-09-13 21:49:15.000000000 +0300
++++ b/init	2017-11-27 16:51:19.033716445 +0200
+@@ -34,7 +34,7 @@
+     mem_by_cpu=$(($memtotal/$num_cpus*$factor/100*1024))
+ 
+     # load dependency modules
+-    modprobe zram zram_num_devices=$num_cpus
++    modprobe zram num_devices=$num_cpus
+     echo "zram devices probed successfully"
+ 
+     # initialize the devices

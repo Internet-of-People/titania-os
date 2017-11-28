@@ -115,11 +115,93 @@ Step 8/8 : ENTRYPOINT /app/hello_world
 Removing intermediate container d7dbc9f1249c
 Successfully built 30547e87aa92
 Successfully tagged dockercat:latest
-$ docker run -it --rm dockercat
+$ docker run --rm dockercat
 Hello world
 ```
 
+## Adding ARM
 
+Now we can apply the same logic in making `Dockerfile.armv7`:
+```docker
+FROM dockcross/linux-armv7 AS build
+COPY ./src /work/src
+WORKDIR /work
+RUN cmake ./src
+RUN make
+FROM arm32v7/debian
+COPY --from=build /work/hello_world /app/hello_world
+ENTRYPOINT [ "/app/hello_world" ]
+```
 
+Which builds as expected:
+```
+$ docker build -f Dockerfile.armv7 -t dockercat-arm .
+Sending build context to Docker daemon  73.73kB
+Step 1/8 : FROM dockcross/linux-armv7 AS build
+ ---> 944b200f7fa4
+Step 2/8 : COPY ./src /work/src
+ ---> 25e2f4eb67e7
+Removing intermediate container 7bd32b5e8caf
+Step 3/8 : WORKDIR /work
+ ---> 568c766f19c7
+Removing intermediate container 0fed04114a0f
+Step 4/8 : RUN cmake ./src
+ ---> Running in 234aa984cf6d
+-- The C compiler identification is GNU 4.9.2
+-- The CXX compiler identification is GNU 4.9.2
+-- Check for working C compiler: /usr/bin/arm-linux-gnueabihf-cc
+-- Check for working C compiler: /usr/bin/arm-linux-gnueabihf-cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/arm-linux-gnueabihf-c++
+-- Check for working CXX compiler: /usr/bin/arm-linux-gnueabihf-c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /work
+ ---> e21290135c93
+Removing intermediate container 234aa984cf6d
+Step 5/8 : RUN make
+ ---> Running in 736576bb8ce4
+Scanning dependencies of target hello_world
+[ 50%] Building C object CMakeFiles/hello_world.dir/hello_world.c.o
+[100%] Linking C executable hello_world
+[100%] Built target hello_world
+ ---> d614cb06baaa
+Removing intermediate container 736576bb8ce4
+Step 6/8 : FROM arm32v7/debian
+ ---> d635ce0c090b
+Step 7/8 : COPY --from=build /work/hello_world /app/hello_world
+ ---> cf80aa4ea10f
+Removing intermediate container 9b9153a95d61
+Step 8/8 : ENTRYPOINT /app/hello_world
+ ---> Running in b0d58ee662bd
+ ---> 8f7f12985f63
+Removing intermediate container b0d58ee662bd
+Successfully built 8f7f12985f63
+Successfully tagged dockercat-arm:latest
+```
 
+## Testing on a live RPi
 
+Before we proceed with publishing the image and making it multiarch we may want to locally test the resulting image on a live Pi. To accomplish that we want to save the image to a file and load in in Titania. E.g.:
+```
+$ docker save dockercat-arm > dockercat-arm.tar
+$ scp dockercat-arm.tar root@titania.local:/tmp
+dockercat-arm.tar   100%   86MB   5.8MB/s   00:15
+$ ssh root@titania.local
+root@titania:~# docker load < /tmp/dockercat-arm.tar
+ccd48fa5ba35: Loading layer [==================================================>] 90.63 MB/90.63 MB
+1893fbd496f4: Loading layer [==================================================>] 8.192 kB/8.192 kB
+Loaded image: dockercat-arm:latest
+root@titania:~# docker run --rm dockercat-arm
+Hello world
+```
+
+### Note
+The usage of `root` user is provisional, after the release we will have a normal user account that never the less has access to `docker` commands.

@@ -119,14 +119,32 @@ a {
   outline: none;
 }
 
-input:not(.box-name-field) {
+.config-input-field {
+  margin-left: 0px;
+  background: none;
+  outline: none;
+  display: inline-block;
+  height: 32px;
+  width: 300px;
+  border: none;
+  border-bottom: 1px solid #ADADAD;
+}
+
+input:not(.box-name-field):not(.config-input-field) {
   margin-left: 20px;
   margin-bottom: 16px;
   background-color: white;
-  border: solid 1px #d8d8d8;
   display: inline-block;
   height: 32px;
-  padding-left: 8px;
+  border: none;
+  padding: 4px 32px;
+  background: none;
+  outline: none;
+  border-bottom: 1px solid #ADADAD;
+}
+
+.highcharts-background {
+  height: 0px !important;
 }
 
 .hide {
@@ -144,18 +162,20 @@ input:not(.box-name-field) {
 .button-primary {
   min-width: 90px;
   padding: 8px 16px;
-  background-color: #0067C5;
-  margin: 16px 0 16px 0px;
+  background-color: #8b6787;
   color: white;
-  border: 1px solid #00B8F6;
   outline: none;
+  height: 46px;
+  border-radius: 0px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+  width: 140px;
 }
 .button-primary i {
   color: white;
 }
 .button-primary:hover {
-  background-color: #0067C5;
-  border-color: #0067C5;
+  background-color: #8b6787;
+  border-color: #8b6787;
 }
 
 .padding-right-20 {
@@ -166,9 +186,13 @@ input:not(.box-name-field) {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  background-image: url("../images/titania-logo-bg-large.svg");
+  background-repeat: space;
+  background-position-x: right;
+  height: -webkit-fill-available;
 }
 
-.display-inline-flex {
+.display-inline-flex, .center-aligned-slider-body {
   display: inline-flex !important;
   display: -ms-inline-flexbox !important;
 }
@@ -199,8 +223,8 @@ input:not(.box-name-field) {
   bottom: 16px;
   z-index: 98;
   box-shadow: 0 0 30px 2px #B5B5B5;
-  height: 550px;
-  width: 400px;
+  height: 515px;
+  width: 810px;
   overflow-y: auto;
   margin: auto;
 }
@@ -211,8 +235,10 @@ input:not(.box-name-field) {
 
 .box-name-field {
   height: 48px;
-  width: 334px;
-  padding: 0px 12px;
+  width: 690px;
+  padding: 0px 26px;
+  border: none;
+  border-bottom: 1px solid #ADADAD;
 }
 
 .header-fontsize {
@@ -244,12 +270,14 @@ input:not(.box-name-field) {
 }
 
 .center-aligned-slider-body {
-  background-color: #f4f5f7;
-  margin: 0 20px;
-  border: 1px solid #f4f5f7;
-  padding: 10px 0;
+  margin: 0 32px;
   overflow-y: auto;
   height: 350px;
+}
+.center-aligned-slider-body div.config-slab {
+  margin: 0px 4px;
+  padding: 10px 32px;
+  background-color: #f4f5f7;
 }
 
 .form-label {
@@ -263,7 +291,8 @@ input:not(.box-name-field) {
 }
 
 .form-field-block {
-  margin-top: 10px;
+  margin-top: 24px;
+  display: inline-grid;
 }
 
 .activeTab {
@@ -272,12 +301,15 @@ input:not(.box-name-field) {
 }
 
 .save-config {
-  width: 80px;
-  height: 29px;
-  background-color: #0365C0;
-  margin: 16px 0 0 20px;
-  color: #FFFFFF;
-  border: 1px solid #0365C0;
+  margin: 14px 32px !important;
+  width: 98px !important;
+  height: 42px !important;
+}
+
+.config-headers {
+  font-size: 16px;
+  padding: 20px 0 10px 0px;
+  display: block;
 }
 
 .fadeout {
@@ -293,8 +325,20 @@ input:not(.box-name-field) {
 
 .logo-icon {
   margin: auto;
-  height: 220px;
-  width: 225px;
+  height: 252px;
+  margin-top: 80px;
+  width: 368px;
+}
+
+.logo-icon-config {
+  margin: auto;
+  height: 400px;
+  width: 500px;
+}
+
+.config-help {
+  font-size: 20px;
+  padding: 20px;
 }
 
 .logo-icon-small {
@@ -489,11 +533,11 @@ input:not(.box-name-field) {
   color: #dc3912;
 }
 
-.legend-3, .legends span:nth-child(3) {
+.legend-3, .legends div:nth-child(3) span {
   color: #ff9900;
 }
 
-.legend-4, .legends span:nth-child(4) {
+.legend-4, .legends div:nth-child(4) span {
   color: #109618;
 }
 
@@ -507,6 +551,10 @@ input:not(.box-name-field) {
 
 .toast-success {
   background-color: #00882B;
+}
+
+.toast-warning {
+  background-color: #F0BB2B;
 }
 
 #my-toast {
@@ -598,6 +646,31 @@ input:not(.box-name-field) {
 }
 .dropdown li {
   padding: 10px;
+}
+
+.selected-wifi {
+  background-color: white;
+  padding: 9px;
+  margin-top: 2px;
+}
+
+.dropdown-config {
+  position: relative;
+  top: 2px;
+  left: 0px;
+  margin: 0px;
+  text-align: left;
+  padding: 0px;
+  list-style-type: none;
+  position: relative;
+  background-color: white;
+  box-shadow: 0 2px 2px #ADADAD;
+}
+.dropdown-config li {
+  padding: 10px;
+}
+.dropdown-config li:hover {
+  background-color: #f2f2f2;
 }
 
 .details {

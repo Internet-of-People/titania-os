@@ -53,6 +53,7 @@ export default {
             text: ''
           }
         },
+        backgroundColor: null,
         yAxis: {
           title: {
             text: 'Percentage'

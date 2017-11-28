@@ -19,7 +19,10 @@ const store = new Vuex.Store({
       password: ''
     },
     configuration: {
-      enableConfigure: false
+      wifi_aps: [],
+      wifi_aps_current: '',
+      enableConfigure: false,
+      tabname: 'Config'
     },
     currentPage: 'dashboard',
     series: [],
@@ -55,12 +58,17 @@ const store = new Vuex.Store({
     'TOGGLE_CONFIGURATION': function (state) {
       state.configuration.enableConfigure = !state.configuration.enableConfigure
     },
+    'GET_ALL_APS': function (state, response) {
+      console.log(response.body)
+      state.configuration.wifi_aps = response.body
+      state.configuration.wifi_aps_current = response.body[0]
+    },
     'SAVE_CONFIGURATION': function (state, response) {
       router.push('/login')
       state.currentPage = 'login'
     },
     'LOGIN': function (state, response) {
-      if (response.body.STATUS === 'SUCCESS') {
+      if (response.body.username.length !== 0) {
         Vue.toast('Login successful', {
           id: 'my-toast',
           className: ['toast-success'],
@@ -74,7 +82,7 @@ const store = new Vuex.Store({
         state.currentPage = 'dashboard'
         state.credentials.username = response.body.username
       } else {
-        Vue.toast('Login attempt failed', {
+        Vue.toast('Login attempt failed' + response.body, {
           id: 'my-toast',
           className: ['toast-warning'],
           horizontalPosition: 'right',
@@ -169,8 +177,18 @@ const store = new Vuex.Store({
     toggleConfigForm (state) {
       store.commit('TOGGLE_CONFIGURATION')
     },
+    getAllAPs (state) {
+      var getAllAPs = {
+        _action: 'getAllAPs'
+      }
+      return api.post(apiRoot + '/index.html', getAllAPs)
+        .then((response) => store.commit('GET_ALL_APS', response))
+        .catch((error) => store.commit('API_FAIL', error))
+    },
     saveConfigForm (state, configdetails) {
       configdetails._action = 'saveUserDetails'
+      // configdetails.wifi_password = 'Pass@125'
+      // configdetails.wifi_ap = 'homigo107'
       return api.post(apiRoot + '/index.html', configdetails)
         .then((response) => store.commit('SAVE_CONFIGURATION', configdetails))
         .catch((error) => store.commit('API_FAIL', error))

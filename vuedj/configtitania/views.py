@@ -11,7 +11,11 @@ from rest_framework.decorators import list_route
 from .models import User, Schema
 from .serializers import UserSerializer, SchemaSerializer
 
-import common, sqlite3, subprocess
+import common, sqlite3, subprocess, NetworkManager, os, crypt, pwd, getpass, spwd 
+
+# fetch network AP details
+nm = NetworkManager.NetworkManager
+wlans = [d for d in nm.Devices if isinstance(d, NetworkManager.Wireless)]
 
 @csrf_exempt
 def handle_config(request):
@@ -35,24 +39,71 @@ def handle_config(request):
             queryset = User.objects.all()
             serializer = UserSerializer(queryset, many=True)
             return JsonResponse(serializer.data, safe=False)
+        elif action == 'getAllAPs':
+            wifi_aps = []   
+            for dev in wlans:
+                for ap in dev.AccessPoints:
+                    wifi_aps.append(ap.Ssid)
+            return JsonResponse(wifi_aps, safe=False)
         elif action == 'saveUserDetails':
             print(action)
             boxname = request.POST.get("boxname")
             username = request.POST.get("username")
             password = request.POST.get("password")
+            encPass = crypt.crypt(password,"22")
+            os.system("useradd -p "+encPass+" "+username)
             setUser = User(boxname=boxname, username=username, password=password)
             setUser.save()
+            # connect to wifi ap user selected
+            wifi_psk = request.POST.get("wifi_password")
+            wifi_name = request.POST.get("wifi_ap")
+            wlan0 = wlans[0]
+            # get selected ap as currentwifi
+            for dev in wlans:
+                for ap in dev.AccessPoints:
+                    if ap.Ssid == wifi_name:
+                        currentwifi = ap
+            # params to set password
+            params = {
+                    "802-11-wireless": {
+                        "security": "802-11-wireless-security",
+                    },
+                    "802-11-wireless-security": {
+                        "key-mgmt": "wpa-psk",
+                        "psk": wifi_psk
+                    },
+                }
+            conn = nm.AddAndActivateConnection(params, wlan0, currentwifi)
             return JsonResponse([{"STATUS":"SUCCESS"},{"RESPONSE":"Config saved successfully"}], safe=False)
         elif action == 'login':
             print(action)
             username = request.POST.get("username")
             password = request.POST.get("password")
-            print(username+' '+password)
-            queryset = User.objects.all().first()
-            if username == queryset.username and password == queryset.password:
-                return JsonResponse({"STATUS":"SUCCESS", "username":queryset.username}, safe=False)
+            output=''
+            """Tries to authenticate a user.
+            Returns True if the authentication succeeds, else the reason
+            (string) is returned."""
+            try:
+                enc_pwd = spwd.getspnam(username)[1]
+                if enc_pwd in ["NP", "!", "", None]:
+                    output = "user '%s' has no password set" % username
+                if enc_pwd in ["LK", "*"]:
+                    output = "account is locked"
+                if enc_pwd == "!!":
+                    output = "password has expired"
+                # Encryption happens here, the hash is stripped from the
+                # enc_pwd and the algorithm id and salt are used to encrypt
+                # the password.
+                if crypt.crypt(password, enc_pwd) == enc_pwd:
+                    output = ''
+                else:
+                    output = "incorrect password"
+            except KeyError:
+                output = "user '%s' not found" % username
+            if len(output) == 0:
+                return JsonResponse({"username":username}, safe=False)
             else:
-                return JsonResponse({"STATUS":"FAILURE"}, safe=False)
+                return JsonResponse(output, safe=False)
         elif action == 'logout':
             print(action)
             username = request.POST.get("username")

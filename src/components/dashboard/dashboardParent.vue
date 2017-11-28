@@ -3,7 +3,7 @@
     <sidebarParent></sidebarParent>
     <headerParent :name-prop="page"></headerParent>
     <div class="margin-20">
-      <dashboardMainContent></dashboardMainContent>
+      <dashboardMainContent v-if="this.$store.state.dashboardChart.series.length != 0"></dashboardMainContent>
     </div>
   </div>
 </template>
@@ -27,9 +27,9 @@ export default {
   },
   mounted: function () {
     if (this.$route.params.setSession) {
-      this.$session.start()
       this.$store.dispatch('getDashboardCards')
       this.$store.dispatch('getDashboardChart')
+      this.$session.start()
     } else if (!this.$session.exists()) {
       this.$router.push('/login')
       this.$store.state.currentPage = 'login'

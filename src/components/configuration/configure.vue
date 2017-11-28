@@ -1,10 +1,10 @@
 <template>
   <div @keyup.enter="configure()">
     <div>
-      <img class="logo-icon" src="../../assets/images/titania-logo.png">
-      <h1>Welcome aboard, Titania</h1>
+      <img class="logo-icon-config" src="../../assets/images/titania-Logo-port.svg">
+      <div class='config-help'>Welcome aboard</div>
     </div>
-    <button type="button" @click="configure()" class="outline-none small-fontsize button-primary" id="login_submit">CONFIGURE</button>
+    <button type="button" @click="configure()" class="outline-none large-fontsize button-primary" id="login_submit">CONFIGURE</button>
     <div v-if="enableConfigure">
       <config-form :closeConfigForm="closeForm" />
       <div class="fadeout" @click="closeForm()"></div>
@@ -29,6 +29,9 @@ export default {
     closeForm () {
       this.$store.dispatch('toggleConfigForm')
     }
+  },
+  mounted: function () {
+    this.$store.dispatch('getAllAPs')
   }
 }
 </script>

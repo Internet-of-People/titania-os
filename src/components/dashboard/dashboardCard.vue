@@ -7,10 +7,10 @@
         <div class="overview-event-icon"></div>
       </div>
       <div>
-        <img v-if="testProp[1] === 'Total dApps'" class="overview-event-image" src="../../assets/images/dApps.png"></img>
-        <img v-else-if="testProp[1] === 'Uptime'" class="overview-event-image" src="../../assets/images/uptime.png"></img>
+        <img v-if="testProp[1] === 'Total dApps'" class="overview-event-image" src="../../assets/images/dApps-icon.svg"></img>
+        <img v-else-if="testProp[1] === 'Uptime'" class="overview-event-image" src="../../assets/images/uptime-icon.svg"></img>
         <img v-else-if="testProp[1] === 'Stopped dApps'" class="overview-event-image" src="../../assets/images/neigh_nodes.png"></img>
-        <img v-else class="overview-event-image" src="../../assets/images/threads.png"></img>
+        <img v-else class="overview-event-image" src="../../assets/images/thread-icon.svg"></img>
       </div>
     </div>
     <div class="overview-events-link-div">

@@ -1,13 +1,13 @@
 <template>
     <div id="container" class="position-absolute">
-        <img class="logo-icon" src="../assets/images/titania-logo.png">
+        <img class="logo-icon" src="../assets/images/titania-logo-clean.svg">
         <div class='padding-top-bottom-16'>
-            <input type="text" @keyup.enter="submit()" class="input_c small-fontsize outline-none" id="username" v-model="username" placeholder="Username"/>
+            <input type="text" @keyup.enter="submit()" class="input_c regular-fontsize outline-none" id="username" v-model="username" placeholder="TitaniaUser"/>
         </div>
         <div class='padding-top-bottom-16'>
-            <input type="password" @keyup.enter="submit()" class="input_c small-fontsize outline-none" placeholder="Password" v-model="password" id="password"/>
+            <input type="password" @keyup.enter="submit()" class="input_c regular-fontsize outline-none" placeholder="Password" v-model="password" id="password"/>
         </div>
-        <button type="button" @click="submit()" @keyup.enter="submit()" class="outline-none small-fontsize button-primary" id="login_submit">LOGIN</button>
+        <button type="button" @click="submit()" @keyup.enter="submit()" class="outline-none large-fontsize button-primary" id="login_submit">LOGIN</button>
     </div>
 </template>
 

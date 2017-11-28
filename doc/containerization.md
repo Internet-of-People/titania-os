@@ -133,9 +133,9 @@ COPY --from=build /work/hello_world /app/hello_world
 ENTRYPOINT [ "/app/hello_world" ]
 ```
 
-Which builds as expected:
+Conventionally, the non-`x64` images are prefixed with the arch, therefore we can build as:
 ```
-$ docker build -f Dockerfile.armv7 -t dockercat-arm .
+$ docker build -f Dockerfile.armv7 -t arm32v7/dockercat .
 Sending build context to Docker daemon  73.73kB
 Step 1/8 : FROM dockcross/linux-armv7 AS build
  ---> 944b200f7fa4
@@ -184,24 +184,57 @@ Step 8/8 : ENTRYPOINT /app/hello_world
  ---> 8f7f12985f63
 Removing intermediate container b0d58ee662bd
 Successfully built 8f7f12985f63
-Successfully tagged dockercat-arm:latest
+Successfully tagged arm32v7/dockercat:latest
 ```
 
 ## Testing on a live RPi
 
 Before we proceed with publishing the image and making it multiarch we may want to locally test the resulting image on a live Pi. To accomplish that we want to save the image to a file and load in in Titania. E.g.:
 ```
-$ docker save dockercat-arm > dockercat-arm.tar
+$ docker save arm32v7/dockercat > dockercat-arm.tar
 $ scp dockercat-arm.tar root@titania.local:/tmp
 dockercat-arm.tar   100%   86MB   5.8MB/s   00:15
 $ ssh root@titania.local
 root@titania:~# docker load < /tmp/dockercat-arm.tar
 ccd48fa5ba35: Loading layer [==================================================>] 90.63 MB/90.63 MB
 1893fbd496f4: Loading layer [==================================================>] 8.192 kB/8.192 kB
-Loaded image: dockercat-arm:latest
-root@titania:~# docker run --rm dockercat-arm
+Loaded image: arm32v7/dockercat:latest
+root@titania:~# docker run --rm arm32v7/dockercat
 Hello world
 ```
 
 ### Note
 The usage of `root` user is provisional, after the release we will have a normal user account that never the less has access to `docker` commands.
+
+## Publishing the image on the Docker Hub
+
+Now that we've verified our image we can post in on the central repository so that Titania can download it over the network via conventional `docker pull` means.
+
+### Note
+This section assumes we use the official Docker Hub (which is the case for now) and you have an account over there. If not, please [register](https://hub.docker.com/). Throughout this section `landswellsong` refers to my username on Docker Hub.
+
+We used the prefix notation for the local images above, but changes are you won't be able to push it this way on Docker Hub (unless you run your private repositry) therefore we can either resort to having different image names or tags. I go with the latter approach. I could theoretically have the `dockercat:latest` pointing to an ARM build, but I deem this undesirable given we also want to publish the `x64` version later on. Thus we login on Docker Hub, make a correspondence between local images and the naming we get on the Docker Hub and push:
+```
+$ docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: landswellsong
+Password:
+Login Succeeded
+$ docker tag arm32v7/dockercat landswellsong/dockercat:arm32v7
+$ docker push landswellsong/dockercat:arm32v7
+The push refers to a repository [docker.io/landswellsong/dockercat]
+1893fbd496f4: Pushed
+ccd48fa5ba35: Pushed
+arm32v7: digest: sha256:9f7c5ead60a4f440e7ceba343d7d7668a5b860a9387e17dd8773be39df3249d6 size: 737
+```
+
+We can now verify that Titania is aware of such image:
+```
+$ ssh root@titania.local
+root@titania:~# docker pull landswellsong/dockercat:arm32v7
+arm32v7: Pulling from landswellsong/dockercat
+Digest: sha256:9f7c5ead60a4f440e7ceba343d7d7668a5b860a9387e17dd8773be39df3249d6
+Status: Downloaded newer image for landswellsong/dockercat:arm32v7
+root@titania:~# docker run --rm landswellsong/dockercat:arm32v7
+Hello world
+```

@@ -272,7 +272,7 @@ Status: Downloaded newer image for golang:1.9.1
 ```
 
 Now let's prepare the YML manifest that covers both of our images:
-```
+```yml
 image: landswellsong/dockercat:latest
 manifests:
     -

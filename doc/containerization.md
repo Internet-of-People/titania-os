@@ -206,7 +206,7 @@ Hello world
 ### Note
 The usage of `root` user is provisional, after the release we will have a normal user account that never the less has access to `docker` commands.
 
-## Publishing the image on the Docker Hub
+## Publishing the image(s) on the Docker Hub
 
 Now that we've verified our image we can post in on the central repository so that Titania can download it over the network via conventional `docker pull` means.
 
@@ -238,3 +238,98 @@ Status: Downloaded newer image for landswellsong/dockercat:arm32v7
 root@titania:~# docker run --rm landswellsong/dockercat:arm32v7
 Hello world
 ```
+
+Likewise, let's tag and push the `x64` image as well:
+```
+$ docker tag dockercat landswellsong/dockercat:amd64
+$ docker push landswellsong/dockercat:amd64
+The push refers to a repository [docker.io/landswellsong/dockercat]
+994c5acece31: Layer already exists
+a75caa09eb1f: Layer already exists
+amd64: digest: sha256:0a281953d97e405001302f62465c57d570ea7b81a150fd4d622224dcad206653 size: 737
+```
+
+## Creating a multiarch manifest
+
+The Titania already can pull our image via the tag specification, but the user needs to be aware of the arch he is running on, which is inconvenient. For that we are going to use the [Manifest Tool](https://github.com/estesp/manifest-tool):
+```
+$ git clone https://github.com/estesp/manifest-tool.git
+Cloning into 'manifest-tool'...
+remote: Counting objects: 3275, done.
+remote: Total 3275 (delta 0), reused 0 (delta 0), pack-reused 3275
+Receiving objects: 100% (3275/3275), 2.27 MiB | 1.55 MiB/s, done.
+Resolving deltas: 100% (1278/1278), done.
+Checking connectivity... done.
+$ cd manifest-tool/
+$ make
+docker run --rm -i  -t -v /tmp/mt/manifest-tool:/go/src/github.com/estesp/manifest-tool -w /go/src/github.com/estesp/manifest-tool golang:1.9.1 /bin/bash -c "\
+        go build -ldflags \"-X main.gitCommit="90e58e5e84ae2d1d7009d7992169037b8d178782"\" -o manifest-tool github.com/estesp/manifest-tool"
+Unable to find image 'golang:1.9.1' locally
+1.9.1: Pulling from library/golang
+...
+Digest: sha256:e2be086d86eeb789460bcb48bc26e95c5b04a61fe8cf720ae1b2195d6f40edc4
+Status: Downloaded newer image for golang:1.9.1
+```
+
+Now let's prepare the YML manifest that covers both of our images:
+```
+image: landswellsong/dockercat:latest
+manifests:
+    -
+        image: landswellsong/dockercat:amd64
+        platform:
+            architecture: amd64
+            os: linux
+    -
+        image: landswellsong/dockercat:arm32v7
+        platform:
+            architecture: arm
+            os: linux
+```
+
+And push it:
+```
+$ ./manifest-tool push from-spec dockercat-multi.yml
+Digest: sha256:7525c88652bb3183a501ad50f2c49adad080f6f181d438ea91a1254958f154a2 739
+```
+
+We can verify it afterwards:
+```
+$ ./manifest-tool inspect landswellsong/dockercat:latest
+Name:   landswellsong/dockercat:latest (Type: application/vnd.docker.distribution.manifest.list.v2+json)
+Digest: sha256:7525c88652bb3183a501ad50f2c49adad080f6f181d438ea91a1254958f154a2
+ * Contains 2 manifest references:
+1    Mfst Type: application/vnd.docker.distribution.manifest.v2+json
+1       Digest: sha256:0a281953d97e405001302f62465c57d570ea7b81a150fd4d622224dcad206653
+1  Mfst Length: 737
+1     Platform:
+1           -      OS: linux
+1           - OS Vers:
+1           - OS Feat: []
+1           -    Arch: amd64
+1           - Variant:
+1           - Feature:
+1     # Layers: 2
+         layer 1: digest = sha256:3e17c6eae66cd23c59751c8d8f5eaf7044e0611dc5cebb12b1273be07cdac242
+         layer 2: digest = sha256:708b81686504bd3905c6e29371218859f329b4c5dd4018c2774a530a33d5fa01
+
+2    Mfst Type: application/vnd.docker.distribution.manifest.v2+json
+2       Digest: sha256:9f7c5ead60a4f440e7ceba343d7d7668a5b860a9387e17dd8773be39df3249d6
+2  Mfst Length: 737
+2     Platform:
+2           -      OS: linux
+2           - OS Vers:
+2           - OS Feat: []
+2           -    Arch: arm
+2           - Variant:
+2           - Feature:
+2     # Layers: 2
+         layer 1: digest = sha256:0d9fbbfaa2cd8961ae50e51e7388e3a2a1a5ca2c105389b56a3a862dfe76d035
+         layer 2: digest = sha256:f8130a1fdf02992b82d3d23fd2de1dfc95f6b9a51672106a649d65477ee03a61
+```
+
+Now we can pull `landswellsong/dockercat:latest` from both the host and Titania and it will select the correct image automatically.
+
+## TODO: state and data folders
+
+

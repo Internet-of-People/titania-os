@@ -15,7 +15,7 @@ S = "${WORKDIR}/git"
 RDEPENDS_${PN} = "python-django python-pytz python-djangorestframework python-python-networkmanager"
 
 LICENSE = "GPL-3.0"
-LIC_FILES_CHKSUM = "file://LICENCE.md;md5=e44ee03c4611828cc7eb00aedbf7b349"
+LIC_FILES_CHKSUM = "file://LICENCE.md;md5=bb3ca60759f3202f1ae42e3519cd06bc"
 
 inherit systemd
 

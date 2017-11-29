@@ -37,6 +37,7 @@ bitbake:
     - bitbake-layers add-layer ../meta-oe/meta-python
     - bitbake-layers add-layer ../meta-go
     - bitbake-layers add-layer ../meta-virtualization
+    - bitbake-layers add-layer ../meta-swupdate
     - bitbake-layers add-layer ../meta-titania
 
     # Making sure config locations point where we want them to

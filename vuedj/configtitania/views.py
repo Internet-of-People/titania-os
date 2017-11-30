@@ -210,7 +210,7 @@ def handle_config(request):
                 nfields = len(processes[0].split()) - 1
                 for p in processes[1:]:
                     datasets.append(p.split(None, nfields))
-                data = {'container_name' : i[1], 'data': datasets}
+                data = {'container_id': i[0], 'container_name' : i[1], 'data': datasets}
                 resultset.append(data)
             return JsonResponse(resultset, safe=False)
         return JsonResponse(serializer.errors, status=400)

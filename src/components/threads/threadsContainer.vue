@@ -1,7 +1,9 @@
 <template>
-    <div>
+    <div class='threads-wrapper container-based-wrapper'>
         <div v-for="row in containerthreads" :key="row.container_name"  v-if="row.data.length > 0">
-            <div class='float-left container-header'>CONTAINER: {{row.container_name}}</div>
+            <div class='float-left container-header'>{{row.container_name}} 
+              <div class='display-inline-flex micro-fontsize'>({{row.container_id}})</div> 
+            </div>
             <table class='col-12 threads-table container-threads-table'>
             <thead>
                 <tr>
@@ -21,6 +23,7 @@
             </tbody>
             </table>
     </div>
+    <div class='hint-threads-container'>Data is shown only for running dApps</div>
   </div>
 </template>
 

@@ -8,7 +8,7 @@
             <div @click="setFilter('container')" v-bind:class="{highlightedFilter: getSelectedFilter('container')}">CONTAINER-LEVEL THREADS</div>
         </div>
         <div class='details' @click="getDetails()">{{details}}</div>
-        <div class='threads-wrapper'>
+        <div>
             <threadsAll :detail-prop="details" v-if="getSelectedFilter('all')" ></threadsAll>
             <threadsContainer :detail-prop="details" v-else ></threadsContainer>
         </div>
@@ -73,10 +73,10 @@ export default {
       }
     },
     getDetails () {
-      if (this.details === 'HIDE DETAILS') {
-        this.details = 'SHOW DETAILS'
+      if (this.details === 'Hide details') {
+        this.details = 'Show details'
       } else {
-        this.details = 'HIDE DETAILS'
+        this.details = 'Hide details'
       }
     }
   }

@@ -420,7 +420,6 @@ input:not(.box-name-field):not(.config-input-field){
   background-color: #ffffff;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.20);
   margin-left: 32px;
-  cursor: pointer;
 }
 
 .overview-event-count{
@@ -733,25 +732,24 @@ input:not(.box-name-field):not(.config-input-field){
 .threads-filter{
   margin-left: 40px;
   margin-top: 10px;
-  border: 1px solid;
-  div:nth-child(1){
-    border-right: 1px solid;
-  }
+  // border: 1px solid;
   div{
-    padding: 10px;
+    padding: 4px 10px;
     cursor: pointer;
   }
 }
 
 div.highlightedFilter{
-  background-color: #0067C5;
-  color: white;
+  // background-color: #0067C5;
+  color: $titania-dark;
   cursor: pointer;
+  border-bottom: 1px solid $titania-dark;
 }
 
 .threads-wrapper{
-  width: 94%;
-  margin-left: 59px;
+  width: 90%;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
+  margin-left: 40px;
   position: absolute;
   margin-top: 65px;
   height: 554px;
@@ -759,6 +757,10 @@ div.highlightedFilter{
 }
 
 .threads-table{
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
+  thead tr th{
+    color: $titania-dark;
+  }
   tr{
     text-align: left;
     th{
@@ -780,12 +782,15 @@ div.highlightedFilter{
 
 .container-threads-table{
   border: 1px solid #f2f2f2;
-  box-shadow: 0 2px 4px #adadad;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.2);
 }
 
 .container-header{
-  font-size: 16px;
-  padding: 10px 0;
+  @extend .cursor-default;
+  font-size: 18px;
+  text-align: left;
+  color: $titania-dark;
+  padding: 10px 0px;
 }
 
 .legend-color{
@@ -881,3 +886,17 @@ div.highlightedFilter{
   margin-left: 54px;
   width: 96%;
 }    
+
+.hint-threads-container{
+  margin: 20px;
+  font-size: 13px;
+  color: #646A73;
+}
+
+.container-based-wrapper{
+  box-shadow: none !important;
+}
+
+.cursorPointer{
+  @extend .cursor-pointer;
+}

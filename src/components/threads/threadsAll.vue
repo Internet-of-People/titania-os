@@ -1,8 +1,9 @@
 <template>
-  <div class=''>
+  <div class='threads-wrapper'>
     <table class='col-12 threads-table'>
       <thead>
-        <tr v-if="detailProp == 'HIDE DETAILS'">
+        <tr v-if="detailProp == 'Hide details'">
+          <th></th>
           <th>PID</th>
           <th>PPID</th>
           <th>USER</th>
@@ -13,14 +14,16 @@
           <th>COMMAND</th>
         </tr>
         <tr v-else>
+          <th></th>
           <th>PID</th>
           <th>USER</th>
           <th>%CPU</th>
           <th>COMMAND</th>
         </tr>
       </thead>
-      <tbody v-if="detailProp == 'HIDE DETAILS'">
+      <tbody v-if="detailProp == 'Hide details'">
         <tr v-for="row in threads" :key="row[0]"> 
+          <td></td>
           <td>{{row[0]}}</td>
           <td>{{row[1]}}</td>
           <td>{{row[2]}}</td>
@@ -33,6 +36,7 @@
       </tbody>
       <tbody v-else>
         <tr v-for="row in threads" :key="row[0]"> 
+          <td></td>
           <td>{{row[0]}}</td>
           <td>{{row[3]}}</td>
           <td>{{row[6]}}</td>

@@ -7,6 +7,9 @@ IMAGE_INSTALL += "vuedj dapp-runner"
 
 IMAGE_INSTALL += "docker networkmanager avahi-daemon llmnrd zram"
 
+# TODO: we won't need this in future
+IMAGE_INSTALL += "sqlite3"
+
 # Add firmware, this is needed for WiFi on RaspberryPi
 IMAGE_INSTALL += "linux-firmware-bcm43430"
 

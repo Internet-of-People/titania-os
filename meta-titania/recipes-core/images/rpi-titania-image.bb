@@ -1,9 +1,12 @@
 # Raspberry PI base image with splash and ssh
 include recipes-core/images/rpi-basic-image.bb
 
+# Depend on docker-prebuilt, but don't include it to the rootfs
+DEPENDS += "docker-prebuilt-datafs"
+
 # Monitoring backend
 # TODO: migrate to python3 soon
-IMAGE_INSTALL += "vuedj dapp-runner"
+IMAGE_INSTALL += "vuedj dapp-runner docker-prebuilt-rootfs"
 
 IMAGE_INSTALL += "docker networkmanager avahi-daemon llmnrd zram"
 
@@ -57,10 +60,10 @@ IMAGE_CMD_rpi-sdimg_append() {
 
     # Generate the data partition
     # TODO: tune ext4fs params
-    rm -f ${WORKDIR}/data.img -L ${DATAFS_LABEL}
+    rm -f ${WORKDIR}/data.img
     DATAFS_BLOCKS=$(LC_ALL=C parted -s ${SDIMG} unit b print | awk '/ 4 / { print substr($4, 1, length($4 -1)) / 512 /2 }')
 
-    mkfs.ext4 ${WORKDIR}/data.img $DATAFS_BLOCKS
+    mkfs.ext4 ${WORKDIR}/data.img $DATAFS_BLOCKS -L ${DATAFS_LABEL}
     dd if=${WORKDIR}/data.img of=${SDIMG} conv=notrunc seek=1 bs=$(expr 1024 \* ${DATAFS_START})
 
     parted ${SDIMG} print

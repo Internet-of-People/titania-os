@@ -179,7 +179,7 @@ def handle_config(request):
                     cursor.execute(common.Q_GET_CONTAINER_STATS,[row[0],iter+1])
                     counter_val = cursor.fetchall()
                     datasets_io.append(counter_val)
-                data = {'container_name' : row[1], 'data_io': datasets_io, 'data_mem': datasets_mem, 'data_perc': datasets_perc}
+                data = {'container_id': row[0], 'container_name' : row[1], 'data_io': datasets_io, 'data_mem': datasets_mem, 'data_perc': datasets_perc}
                 finalset.append(data)
             return JsonResponse(finalset, safe=False)
         elif action == 'getThreads':

@@ -1,68 +1,72 @@
 <template>
 <div class='each-stat-block'>
-      <div class='stats-header'>{{testProp.container_name}}</div> 
-      <div class='container-chart-wrapper'>
-            <div class='container-holder'>CPU USAGE / MEM USAGE </div>
-            <highcharts class='chart-new' :options="options" ref="highcharts"></highcharts>
-            <div class='label-chart-area'>
-              <div class='display-inline-flex metrics-labels cursor-default'>
-                  <div class='hint-text'>Toggle series visibility</div>
-                  <div>MAX</div>
-                  <div>MIN</div>
-                  <div>AVG</div>
-              </div>
-              <div v-for="legend in legends_perc" class='text-align-left' :key="legend">
-                <div :id="legend" class='display-inline-flex label-div-chart cursor-pointer' v-on:click="toggleSeriesChart('perc',legend)">
-                  <div class='legend-color margin-right-4'></div>
-                  <div class='label-text-chart'>{{legend}}</div>
-                  <div v-for="val in getMax(legend)"class='display-inline-flex metrics-labels' :key="val">
-                    <div>{{val}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div class='stats-header'>{{testProp.container_name}} 
+        <div class='display-inline-flex micro-fontsize'>({{testProp.container_id}})</div> 
       </div>
-      <div class='container-chart-wrapper'>
-            <div class='container-holder'>MEM USAGE / MEM USAGE LIMIT</div>
-            <highcharts class='chart-new' :options="options" ref="highcharts_mem"></highcharts>
-            <div class='label-chart-area'>
-              <div class='display-inline-flex metrics-labels cursor-default'>
-                  <div class='hint-text'>Toggle series visibility</div>
-                  <div>MAX</div>
-                  <div>MIN</div>
-                  <div>AVG</div>
-              </div>
-              <div v-for="legend in legends_mem" class='text-align-left' :key="legend">
-                <div :id="legend" class='display-inline-flex label-div-chart cursor-pointer' v-on:click="toggleSeriesChart('mem',legend)">
-                  <div class='legend-color margin-right-4'></div>
-                  <div class='label-text-chart'>{{legend}}</div>
-                  <div v-for="val in getMaxMeM(legend)"class='display-inline-flex metrics-labels' :key="val">
-                    <div>{{val}}</div>
+      <div v-bind:class="{ displayInlineFlex: layout}">
+        <div class='container-chart-wrapper'>
+              <div class='container-holder'>CPU USAGE / MEM USAGE </div>
+              <highcharts class='chart-new' :options="options" ref="highcharts"></highcharts>
+              <div class='label-chart-area'>
+                <div class='display-inline-flex metrics-labels cursor-default'>
+                    <div class='hint-text'>Toggle series visibility</div>
+                    <div>MAX</div>
+                    <div>MIN</div>
+                    <div>AVG</div>
+                </div>
+                <div v-for="legend in legends_perc" class='text-align-left' :key="legend">
+                  <div :id="legend" class='display-inline-flex label-div-chart cursor-pointer' v-on:click="toggleSeriesChart('perc',legend)">
+                    <div class='legend-color margin-right-4'></div>
+                    <div class='label-text-chart'>{{legend}}</div>
+                    <div v-for="val in getMax(legend)"class='display-inline-flex metrics-labels' :key="val">
+                      <div>{{val}}</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-      </div>
-      <div class='container-chart-wrapper'>
-            <div class='container-holder'>NET IO / BLOCK IO</div>
-            <highcharts class='chart-new' :options="options" ref="highcharts_io"></highcharts>
-            <div class='label-chart-area'>
-              <div class='display-inline-flex metrics-labels cursor-default'>
-                  <div class='hint-text'>Toggle series visibility</div>
-                  <div>MAX</div>
-                  <div>MIN</div>
-                  <div>AVG</div>
-              </div>
-              <div v-for="legend in legends_io" class='text-align-left' :key="legend">
-                <div :id="legend" class='display-inline-flex label-div-chart cursor-pointer' v-on:click="toggleSeriesChart('io',legend)">
-                  <div class='legend-color margin-right-4'></div>
-                  <div class='label-text-chart'>{{legend}}</div>
-                  <div v-for="val in getMaxIO(legend)"class='display-inline-flex metrics-labels' :key="val">
-                    <div>{{val}}</div>
+        </div>
+        <div class='container-chart-wrapper'>
+              <div class='container-holder'>MEM USAGE / MEM USAGE LIMIT</div>
+              <highcharts class='chart-new' :options="options" ref="highcharts_mem"></highcharts>
+              <div class='label-chart-area'>
+                <div class='display-inline-flex metrics-labels cursor-default'>
+                    <div class='hint-text'>Toggle series visibility</div>
+                    <div>MAX</div>
+                    <div>MIN</div>
+                    <div>AVG</div>
+                </div>
+                <div v-for="legend in legends_mem" class='text-align-left' :key="legend">
+                  <div :id="legend" class='display-inline-flex label-div-chart cursor-pointer' v-on:click="toggleSeriesChart('mem',legend)">
+                    <div class='legend-color margin-right-4'></div>
+                    <div class='label-text-chart'>{{legend}}</div>
+                    <div v-for="val in getMaxMeM(legend)"class='display-inline-flex metrics-labels' :key="val">
+                      <div>{{val}}</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+        </div>
+        <div class='container-chart-wrapper'>
+              <div class='container-holder'>NET IO / BLOCK IO</div>
+              <highcharts class='chart-new' :options="options" ref="highcharts_io"></highcharts>
+              <div class='label-chart-area'>
+                <div class='display-inline-flex metrics-labels cursor-default'>
+                    <div class='hint-text'>Toggle series visibility</div>
+                    <div>MAX</div>
+                    <div>MIN</div>
+                    <div>AVG</div>
+                </div>
+                <div v-for="legend in legends_io" class='text-align-left' :key="legend">
+                  <div :id="legend" class='display-inline-flex label-div-chart cursor-pointer' v-on:click="toggleSeriesChart('io',legend)">
+                    <div class='legend-color margin-right-4'></div>
+                    <div class='label-text-chart'>{{legend}}</div>
+                    <div v-for="val in getMaxIO(legend)"class='display-inline-flex metrics-labels' :key="val">
+                      <div>{{val}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
       </div>
     </div>
 </template>
@@ -86,6 +90,11 @@ export default {
     legends_mem: {
       get: function () {
         return ['MEM_USAGE', 'MEM_USAGE_LIMIT']
+      }
+    },
+    layout: {
+      get: function () {
+        return this.$store.state.dockerstats.length === 1
       }
     }
   },

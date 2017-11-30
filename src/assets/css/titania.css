@@ -192,7 +192,7 @@ input:not(.box-name-field):not(.config-input-field) {
   height: -webkit-fill-available;
 }
 
-.display-inline-flex, .center-aligned-slider-body {
+.display-inline-flex, .center-aligned-slider-body, .displayInlineFlex {
   display: inline-flex !important;
   display: -ms-inline-flexbox !important;
 }
@@ -378,6 +378,7 @@ input:not(.box-name-field):not(.config-input-field) {
 .header-inner-wrapper {
   width: 100%;
   height: 40px;
+  z-index: 94;
   background-color: white;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
@@ -473,8 +474,9 @@ input:not(.box-name-field):not(.config-input-field) {
 
 .chart-new {
   margin-top: 40px;
-  height: 400px;
-  width: 550px;
+  height: 380px;
+  width: 450px;
+  margin-left: 22px;
 }
 
 .dashboard-wrapper {
@@ -598,11 +600,12 @@ input:not(.box-name-field):not(.config-input-field) {
 }
 
 .container-holder {
-  width: 570px;
-  border-bottom: 1px solid #d8d8d8;
-  padding: 8px 16px 8px 16px;
+  width: 450px;
+  border-bottom: 1px solid #f2f2f2;
+  padding: 16px 16px 12px 16px;
   text-align: left;
   margin: 0px;
+  color: #8b6787;
 }
 
 .text-align {
@@ -753,8 +756,8 @@ div.highlightedFilter {
 }
 
 .container-chart-wrapper {
-  margin: 16px 32px;
-  box-shadow: 0 2px 4px #ADADAD;
+  margin: 16px 20px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
   height: fit-content;
 }
 
@@ -787,7 +790,7 @@ div.highlightedFilter {
 
 .metrics-labels div {
   width: 55px;
-  margin: 0px 40px;
+  margin: 0px 22px;
 }
 
 .label-text-chart {
@@ -795,11 +798,11 @@ div.highlightedFilter {
 }
 
 .stats-header {
-  font-size: 15px;
+  font-size: 18px;
   text-align: left;
   border-top: 1px solid #f2f2f2;
-  padding: 9px 34px;
-  box-shadow: 0 2px 0px #F2f2f2;
+  padding: 20px 4px 2px 34px;
+  color: #8b6787;
 }
 
 .hint-text {
@@ -814,7 +817,6 @@ div.highlightedFilter {
 }
 
 .each-stat-block {
-  width: 670px;
   display: inline-block !important;
 }
 
@@ -823,7 +825,7 @@ div.highlightedFilter {
 }
 
 .stats-page {
-  height: 737px;
   overflow-y: scroll;
-  width: 97%;
+  margin-left: 54px;
+  width: 96%;
 }

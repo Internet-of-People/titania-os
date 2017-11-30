@@ -1,6 +1,6 @@
 <template>
   <div class="header-inner-wrapper">
-    <div class="page-title sans-serif-normal float-left regular-fontsize">{{nameProp}}</div>
+    <div class="page-title sans-serif-normal float-left regular-fontsize">{{getPageTitle(nameProp)}}</div>
     <div @click="logout()" class="toolbar-header-options cursor-pointer">
       LOGOUT
     </div>
@@ -16,6 +16,9 @@ export default {
       this.$session.destroy()
       this.$router.push('/login')
       this.$store.state.currentPage = 'login'
+    },
+    getPageTitle (pagename) {
+      return pagename === 'DASHBOARD' ? 'DASHBOARD' : 'DASHBOARD  >  ' + pagename
     }
   }
 }

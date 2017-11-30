@@ -32,7 +32,7 @@ const store = new Vuex.Store({
     },
     dockeroverview: [],
     dockerstats: [],
-    showDetails: 'SHOW DETAILS',
+    showDetails: 'Show details',
     dappsfilter: 'All',
     dropdownstate: false,
     threadfilter: 'all',

@@ -2,7 +2,7 @@
   <div class=''>
     <table class='col-12 dapps-table'>
       <thead>
-        <tr v-if="detailProp == 'HIDE DETAILS'">
+        <tr v-if="detailProp == 'Hide details'">
           <td></td>
           <td>NAME</td>
           <td>CONTAINER ID</td>
@@ -21,9 +21,13 @@
           <td>STATUS</td>
         </tr>
       </thead>
-      <tbody v-if="detailProp == 'HIDE DETAILS'">
+      <tbody v-if="detailProp == 'Hide details'">
         <tr v-for="row in dockerrows" :key="row.container_id" v-if="showRow(row.state)"> 
-          <td><span class="circle" v-bind:style="getClass(row.state)"></span></td>
+          <td>
+            <img class='state-dapps' v-if="row.state === 'Running'" src="../../assets/images/state-running.svg"/>
+            <img class='state-dapps' v-else-if="row.state === 'Paused'" src="../../assets/images/state-paused.svg"/>
+            <img class='state-dapps' v-else src="../../assets/images/state-stopped.svg"/>
+          </td>
           <td>{{row.name}}</td>
           <td>{{row.container_id}}</td>
           <td>{{row.running_for}}</td>
@@ -35,7 +39,11 @@
       </tbody>
       <tbody v-else>
         <tr v-for="row in dockerrows" :key="row.container_id" v-if="showRow(row.state)"> 
-          <td><span class="circle" v-bind:style="getClass(row.state)"></span></td>
+          <td>
+            <img class='state-dapps' v-if="row.state === 'Running'" src="../../assets/images/state-running.svg"/>
+            <img class='state-dapps' v-else-if="row.state === 'Paused'" src="../../assets/images/state-paused.svg"/>
+            <img class='state-dapps' v-else src="../../assets/images/state-stopped.svg"/>
+          </td>
           <td>{{row.name}}</td>
           <td>{{row.running_for}}</td>
           <td>{{row.status}}</td>
@@ -68,7 +76,7 @@ export default {
   methods: {
     getClass (statetype) {
       if (statetype === 'Running') {
-        return 'background: #00882B;'
+        return '../../assets/images/state-running.svg'
       } else if (statetype === 'Paused') {
         return 'background: #F0BB2B;'
       } else if (statetype === 'Exited') {

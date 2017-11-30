@@ -57,6 +57,7 @@ export default {
       this.$store.state.currentPage = 'login'
     } else {
       this.$store.dispatch('getThreads')
+      this.$store.state.currentPage = 'threads'
     }
   },
   methods: {

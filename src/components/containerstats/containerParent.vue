@@ -31,11 +31,13 @@ export default {
     if (this.$route.params.setSession) {
       this.$session.start()
       this.$store.dispatch('getContainerStats')
+      this.$store.state.currentPage = 'stats'
     } else if (!this.$session.exists()) {
       this.$router.push('/login')
       this.$store.state.currentPage = 'login'
     } else {
       this.$store.dispatch('getContainerStats')
+      this.$store.state.currentPage = 'stats'
     }
   }
 }

@@ -446,7 +446,7 @@ input:not(.box-name-field):not(.config-input-field){
 }
 
 .margin-20{
-  margin: 20px 24px 20px 40px;
+  margin: 20px 24px 20px 54px;
 }
 
 .display-flex{
@@ -602,10 +602,14 @@ input:not(.box-name-field):not(.config-input-field){
   overflow-y: auto;
   min-height: 500px;
   background-color: #FFFFFF;
-  margin: 16px 16px 16px 52px;
+  margin: 12px 16px 16px 32px;
 }
 
 .dapps-table{
+  thead tr td{
+    color: $titania-dark;
+    font-size: 16px;
+  }
   tr{
     text-align: left;
     td{
@@ -619,14 +623,11 @@ input:not(.box-name-field):not(.config-input-field){
   }
 }
 
-.circle{
-  width: 10px;
-  display: block;
-  height: 10px;
-  background: red;
-  -moz-border-radius: 50px;
-  -webkit-border-radius: 50px;
-  border-radius: 50px;
+.state-dapps{
+  width: 14px;
+  position: relative;
+  left: 8px;
+  top: 2px;
 }
 
 .container-holder{
@@ -646,14 +647,23 @@ input:not(.box-name-field):not(.config-input-field){
 .label-wrapper{
   margin: 0 0px 0 35px;
   padding: 10px 0;
+  color: #646A73;
 }
 
 .label-text {
   padding: 10px;
+  color: #646A73;
+}
+
+.refresh-field {
+  box-shadow: 0 2px 10px #ADADAD;
+  height: 24px !important;
+  padding: 4px 0px 4px 16px !important;
+  border-bottom: none !important;
 }
 
 .state-picker{
-  border: 1px solid #D8D8D8;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
   padding: 9px 12px; 
   margin-left: 16px;
   width: 100px;
@@ -663,15 +673,19 @@ input:not(.box-name-field):not(.config-input-field){
 .dropdown{
   list-style-type: none;
   position: relative;
-  top: 0;
-  width: 125px;
+  top: -2px;
+  width: 124px;
   height: 146px;
-  margin-left: -13px;
+  margin-left: -12px;
   padding-left: 0px;
   background-color: white;
-  box-shadow: 0 2px 2px #ADADAD;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
   li{
     padding: 10px;
+    &:hover{
+      background-color: #f2f2f2;
+      width: -webkit-fill-available;
+    }
   }
 }
 
@@ -704,7 +718,7 @@ input:not(.box-name-field):not(.config-input-field){
   @extend .cursor-pointer;
   padding: 10px;
   position: absolute;
-  right: 27px;
+  right: 32px;
   &:hover{
     color: $brand-link;
   }

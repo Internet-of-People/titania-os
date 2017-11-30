@@ -11,7 +11,7 @@
       <img v-else class="tab-label" src="../assets/images/dApps-icon.svg">
     </div>
     <div @click="tabSwitch('stats')" title='dApps Stats' class='cursor-pointer'>
-      <img v-if="currentTab('stats')" class="tab-label" src="../assets/images/uptime-selected.svg">
+      <img v-if="currentPage == 'stats'" class="tab-label" src="../assets/images/uptime-selected.svg">
       <img v-else class="tab-label" src="../assets/images/uptime-icon.svg">
     </div>
     <div @click="tabSwitch('threads')" title='Threads' class='cursor-pointer'>
@@ -28,8 +28,11 @@ export default {
   name: 'sidebarParent',
   computed: {
     currentPage: {
-      get () {
+      get: function () {
         return this.$store.state.currentPage
+      },
+      set: function (page) {
+        this.$store.state.currentPage = page
       }
     }
   },
@@ -41,6 +44,7 @@ export default {
       } else {
         router.push('/' + tabname)
         this.$store.dispatch('switchDrilldown', tabname)
+        this.currentPage = tabname
       }
     },
     currentTab (tabname) {

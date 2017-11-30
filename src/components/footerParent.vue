@@ -37,13 +37,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .footer-wrapper {
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   left: 0px;
   color: #53585F;
   padding: 6px 16px;
   height: 18px;
-  border-top: 2px solid #F0F0F0;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.20);
   display: inline-block;
   z-index: 100;
   background-color: white;

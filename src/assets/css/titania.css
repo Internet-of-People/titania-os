@@ -351,7 +351,6 @@ input:not(.box-name-field):not(.config-input-field) {
 .tab-label {
   height: 30px;
   width: 32px;
-  background-color: none;
   padding: 5px;
 }
 
@@ -359,10 +358,10 @@ input:not(.box-name-field):not(.config-input-field) {
   width: 40px;
   float: left;
   color: #fff;
-  min-height: 738px;
+  height: 100%;
   overflow: hidden;
   white-space: nowrap;
-  position: relative;
+  position: fixed;
   z-index: 95;
   background-color: #966f96;
   -webkit-transition: width 0.1s ease-in-out;
@@ -380,7 +379,7 @@ input:not(.box-name-field):not(.config-input-field) {
   width: 100%;
   height: 40px;
   background-color: white;
-  box-shadow: 0px 0px 4px #ADADAD;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
 
 .page-title {
@@ -388,6 +387,7 @@ input:not(.box-name-field):not(.config-input-field) {
   height: 22px;
   padding: 12px 0px 6px 12px;
   font-weight: 400;
+  margin-left: 40px;
 }
 
 .clearfix {
@@ -403,18 +403,17 @@ input:not(.box-name-field):not(.config-input-field) {
 }
 
 .single-events-div {
-  width: 23%;
-  height: 90px;
+  width: 20%;
+  height: 84px;
   padding: 40px 20px;
   background-color: #ffffff;
-  box-shadow: 0 0 2px 0 #ADADAD;
-  margin-left: 22px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  margin-left: 32px;
   cursor: pointer;
 }
 
 .overview-event-count {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 28px;
   line-height: 1.3;
 }
 
@@ -422,35 +421,23 @@ input:not(.box-name-field):not(.config-input-field) {
   color: var(--dark-grey);
 }
 
+.overview-events,
+.replication-legend {
+  width: 150px;
+}
 .overview-events .total-servers,
 .replication-legend .total-servers {
-  color: #17E6E6;
-}
-.overview-events .disconnected-servers,
-.replication-legend .disconnected-servers {
-  color: #002452;
-}
-.overview-events .critical-servers,
-.replication-legend .critical-servers {
-  color: #C82506;
-}
-.overview-events .warning-servers,
-.replication-legend .warning-servers {
-  color: #F0BB2B;
-}
-.overview-events .normal-servers,
-.replication-legend .normal-servers {
-  color: #00882B;
+  color: #8b6787;
 }
 
 .overview-event-image {
   float: right;
-  width: 72px;
-  height: 65px;
+  width: 86px;
+  height: 64px;
 }
 
 .margin-20 {
-  margin: 20px;
+  margin: 20px 24px 20px 40px;
 }
 
 .display-flex {
@@ -458,14 +445,14 @@ input:not(.box-name-field):not(.config-input-field) {
 }
 
 .events-desc-div {
-  border-bottom: 2px solid #f2f2f2;
-  width: 100%;
+  border-bottom: 1px solid #ADADAD;
+  width: 248px;
   padding-bottom: 20px;
 }
 
 .overview-events-link-div {
-  display: block;
   margin-top: 9px;
+  color: #646A73;
 }
 
 .test-conn {
@@ -568,6 +555,11 @@ input:not(.box-name-field):not(.config-input-field) {
 }
 .toolbar-header-options:hover {
   color: #0067C5;
+}
+
+.legends div > span {
+  position: relative;
+  top: 3px;
 }
 
 .activeDrilldown {

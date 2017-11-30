@@ -6,17 +6,16 @@
     <div>
       <div class="col-12">
         <div class="float-left chart-caption sans-serif-bold">CPU USAGE</div>
-        <div class="float-right chart-caption time-picker">Last Month   &#9662;</div>
       </div>
       <div class="display-inline-flex">
         <highcharts class="chart" :options="options" ref="highcharts"></highcharts>
         <div class="legend-series">
           <div class="large-fontsize">dApps</div>
           <div class="legends">
-            <div v-for="serie in seriesname" :key="serie"> 
+            <div :id="serie" v-for="serie in seriesname" :key="serie" class='cursor-pointer' @click="toggleSeries(serie)"> 
              <span class="padding-left-4">&#9679;</span>
               {{serie}}
-              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -124,6 +123,21 @@ export default {
       for (var i = 0; i < series.length; i++) {
         chart.series[i].update({name: seriesname[i]}, false)
         chart.series[i].setData(series[i])
+      }
+    },
+    toggleSeries: function (seriesVal) {
+      var chart = this.$refs.highcharts.chart
+      var pos
+      var series = this.$store.state.dashboardChart.series
+      var seriesname = this.$store.state.dashboardChart.seriesname
+      var elem = seriesVal
+      pos = seriesname.indexOf(seriesVal)
+      if (chart.series[pos].yData.length === 0) {
+        $('#' + elem).removeClass('fadeout-row')
+        chart.series[pos].setData(series[pos])
+      } else {
+        $('#' + elem).addClass('fadeout-row')
+        chart.series[pos].setData([])
       }
     }
   },

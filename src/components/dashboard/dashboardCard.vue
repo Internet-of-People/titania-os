@@ -2,14 +2,16 @@
   <div class="clearfix single-events-div" @click="getDrilldown()">
     <div class="clearfix events-desc-div">
       <div class="overview-events float-left clearfix">
-        <div class="overview-event-count total-servers">{{testProp[2]}}</div>
+        <div v-if="testProp[1] === 'Uptime'" class="overview-event-count total-servers" >{{secondsToHms(testProp[2])}}</div>
+        <div v-else-if="testProp[1] === 'Threads'" class="overview-event-count total-servers" >{{nFormatter(testProp[2])}}</div>
+        <div v-else class="overview-event-count total-servers">{{testProp[2]}}</div>
         <div class="overview-event-desc large-fontsize">{{testProp[1]}}</div>
         <div class="overview-event-icon"></div>
       </div>
       <div>
         <img v-if="testProp[1] === 'Total dApps'" class="overview-event-image" src="../../assets/images/dApps-icon.svg"></img>
         <img v-else-if="testProp[1] === 'Uptime'" class="overview-event-image" src="../../assets/images/uptime-icon.svg"></img>
-        <img v-else-if="testProp[1] === 'Stopped dApps'" class="overview-event-image" src="../../assets/images/neigh_nodes.png"></img>
+        <img v-else-if="testProp[1] === 'Stopped dApps'" class="overview-event-image" src="../../assets/images/stopped-dapps.svg"></img>
         <img v-else class="overview-event-image" src="../../assets/images/thread-icon.svg"></img>
       </div>
     </div>
@@ -44,10 +46,33 @@ export default {
       } else if (cardtype === 'Stopped dApps') {
         return 'Show exited dApps'
       } else if (cardtype === 'Threads') {
-        return 'Show container and system threads'
+        return 'Show running threads'
       } else {
         return 'Show container stats'
       }
+    },
+    secondsToHms (d) {
+      d = Number(d)
+      var h = Math.floor(d / 3600)
+      var m = Math.floor(d % 3600 / 60)
+      var s = Math.floor(d % 3600 % 60)
+
+      var hDisplay = h > 0 ? h + (m / 60).toFixed(2) + ' h ' : ''
+      var mDisplay = m > 0 && h === 0 ? m + (s / 60).toFixed(2) + ' m ' : ''
+      var sDisplay = s > 0 && m === 0 ? s + ' s' : ''
+      return hDisplay + mDisplay + sDisplay
+    },
+    nFormatter (num) {
+      if (num >= 1000000000) {
+        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'G'
+      }
+      if (num >= 1000000) {
+        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M'
+      }
+      if (num >= 1000) {
+        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K'
+      }
+      return num
     }
   }
 }

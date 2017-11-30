@@ -332,4 +332,15 @@ Now we can pull `landswellsong/dockercat:latest` from both the host and Titania 
 
 ## TODO: state and data folders
 
+## Useful toolchains:
+- [*Various C/C++ toolchains with Glibc](https://github.com/dockcross/dockcross)
+- [*ARM toolchain for musl/alpine](https://github.com/andrew-d/docker-musl-cross-arm)
+- [Go](https://hub.docker.com/r/dockercore/golang-cross/)
+- [Rust](https://github.com/hone/docker-rust-cross)
+- [*Microsoft .NET](https://hub.docker.com/r/microsoft/dotnet/) Use `-sdk-` tags for build environment and `-runtime-` tags for the final image
+- [*Python](https://hub.docker.com/_/python/) Python doesn't require compilation, so one step `Dockerfile` is enough
+
+### Disclaimer
+I've only tested personally the ones with a star (*)
+
 

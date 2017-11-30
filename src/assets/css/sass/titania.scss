@@ -70,6 +70,7 @@ $button-save:           #0365C0;
 
 //Titania
 $titania-dark:           #8b6787;
+$titania-darker:          #554151;
 
 body{
   height: 100%;
@@ -351,19 +352,20 @@ input:not(.box-name-field):not(.config-input-field){
 
 .logo-icon-small{
   height: 30px;
-  width: 32px;
+  width: 44px;
   background-color: white;
   padding: 5px;
 }
 
 .tab-label{
-  height: 30px;
+  height: 48px;
   width: 32px;
   padding: 5px;
 }
 
+
 .sidebar-container {
-  width: 40px;
+  width: 54px;
   float: left;
   color: #fff;
   height: 100%;
@@ -371,7 +373,7 @@ input:not(.box-name-field):not(.config-input-field){
   white-space: nowrap;
   position: fixed;
   z-index: 95;
-  background-color: #966f96;
+  background-color: $titania-darker;
  -webkit-transition: width 0.1s ease-in-out;
  -moz-transition: width 0.1s ease-in-out;
  -o-transition: width 0.1s ease-in-out;
@@ -379,7 +381,7 @@ input:not(.box-name-field):not(.config-input-field){
 }
 
 .marginLeft40{
-  margin-left: 40px;
+  margin-left: 54px;
   width: 95% !important;
 }
 
@@ -395,7 +397,7 @@ input:not(.box-name-field):not(.config-input-field){
   height: 22px;
   padding: 12px 0px 6px 12px;
   font-weight: 400;
-  margin-left: 40px;
+  margin-left: 54px;
 }
 
 .clearfix {

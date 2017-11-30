@@ -1,0 +1,8 @@
+[Unit]
+Description=Generic dApp runnner service
+Wants=network.target
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/dapp-runner.sh %I

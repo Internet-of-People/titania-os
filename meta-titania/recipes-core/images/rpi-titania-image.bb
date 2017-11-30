@@ -3,7 +3,7 @@ include recipes-core/images/rpi-basic-image.bb
 
 # Monitoring backend
 # TODO: migrate to python3 soon
-IMAGE_INSTALL += "vuedj"
+IMAGE_INSTALL += "vuedj dapp-runner"
 
 IMAGE_INSTALL += "docker networkmanager avahi-daemon llmnrd zram"
 

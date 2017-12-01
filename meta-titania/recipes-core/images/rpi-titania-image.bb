@@ -8,7 +8,7 @@ DEPENDS += "docker-prebuilt-datafs"
 # TODO: migrate to python3 soon
 IMAGE_INSTALL += "vuedj dapp-runner docker-prebuilt-rootfs"
 
-IMAGE_INSTALL += "docker networkmanager avahi-daemon llmnrd zram"
+IMAGE_INSTALL += "docker networkmanager avahi-daemon llmnrd zram parted e2fsprogs"
 
 # TODO: we won't need this in future
 IMAGE_INSTALL += "sqlite3"
@@ -35,7 +35,7 @@ titania_sysctl_config() {
 # TODO: maybe split DATA partition to a separate state partition
 # but this requires either GPT (bad for bootloader on RPi) or
 # an extended partition
-DATAFS_SIZE ?= "122880"
+DATAFS_SIZE ?= "491520"
 DATAFS_LABEL ?= "data"
 
 IMAGE_CMD_rpi-sdimg_append() {

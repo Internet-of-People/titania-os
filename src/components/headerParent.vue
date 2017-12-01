@@ -4,6 +4,9 @@
     <div @click="logout()" class="toolbar-header-options cursor-pointer">
       LOGOUT
     </div>
+    <div class='hide-mobile-menu' @click="openMenu()">
+      <img src='../assets/images/menu-icon.svg'>
+    </div>
   </div>
 </template>
 
@@ -19,6 +22,9 @@ export default {
     },
     getPageTitle (pagename) {
       return pagename === 'DASHBOARD' ? 'DASHBOARD' : 'DASHBOARD  >  ' + pagename
+    },
+    openMenu () {
+      this.$router.push('/menu')
     }
   }
 }

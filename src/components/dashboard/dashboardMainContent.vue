@@ -3,7 +3,7 @@
     <div class="display-flex">
       <dashboardCard v-for="serie in series" :key="serie[0]" :test-prop="serie"></dashboardCard>
     </div>
-    <div>
+    <div class='some-class'>
       <div class="col-12">
         <div class="float-left chart-caption sans-serif-bold">CPU USAGE</div>
       </div>

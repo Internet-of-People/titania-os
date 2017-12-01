@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="20px" viewBox="0 0 24 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>MenuIcon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Mobile-L4" transform="translate(-270.000000, -15.000000)" fill="#4D4E4C">
+            <g id="Header">
+                <path d="M272,15 L292,15 C293.104569,15 294,15.8954305 294,17 L294,17 C294,18.1045695 293.104569,19 292,19 L272,19 C270.895431,19 270,18.1045695 270,17 L270,17 L270,17 C270,15.8954305 270.895431,15 272,15 L272,15 Z M272,23 L292,23 C293.104569,23 294,23.8954305 294,25 C294,26.1045695 293.104569,27 292,27 L272,27 C270.895431,27 270,26.1045695 270,25 C270,23.8954305 270.895431,23 272,23 L272,23 Z M272,31 L292,31 C293.104569,31 294,31.8954305 294,33 C294,34.1045695 293.104569,35 292,35 L272,35 C270.895431,35 270,34.1045695 270,33 C270,31.8954305 270.895431,31 272,31 L272,31 Z" id="MenuIcon"></path>
+            </g>
+        </g>
+    </g>
+</svg>

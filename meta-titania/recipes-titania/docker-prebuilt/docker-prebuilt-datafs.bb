@@ -8,10 +8,11 @@ LICENSE = "GPL-3.0"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/gplv3.md;md5=f149fa3bc39a974fe62c04649f34883a"
 
 # Main package with containers
-FILES_${PN} = "/.keeper"
+FILES_${PN} = "/docker/.keeper"
 
 do_install_append() {
     # Temporary measure, after we have a good way of preinstalling dockers this will go
+    install -d ${D}/docker
     touch ${D}/.keeper
 }
 

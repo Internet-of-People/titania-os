@@ -1,15 +1,17 @@
 # TODO: maybe part of Docker bbappend?
 [Unit]
-Description=Docker state directory
+Description=Data SD card volumne
+Requires=datafs-resizer.service
+After=datafs-resizer.service
 DefaultDependencies=no
 Conflicts=umount.target
 Before=local-fs.target umount.target
 
 [Mount]
-What=/datafs/docker
-Where=/var/lib/docker
+What=/dev/mmcblk0p4
+Where=/datafs
 Type=ext4
-Options=bind
+Options=defaults
 
 [Install]
 WantedBy=local-fs.target

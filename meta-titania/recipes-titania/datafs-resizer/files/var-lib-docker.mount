@@ -1,9 +1,16 @@
 # TODO: maybe part of Docker bbappend?
 [Unit]
 Description=Data SD card volumne
+Requires=datafs-resizer.service
+After=datafs-resizer.service
+Before=docker.service local-fs.target
 
 [Mount]
 What=/dev/mmcblk0p4
 Where=/var/lib/docker
 Type=ext4
-Option=defaults
+Options=defaults
+
+[Install]
+WantedBy=local-fs.target
+RequiredBy=docker.service

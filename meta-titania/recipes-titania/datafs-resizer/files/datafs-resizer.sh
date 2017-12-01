@@ -9,14 +9,15 @@ if parted /dev/mmcblk0 print free | tail -n 2 | grep -q 'Free Space'; then
         umount /dev/mmcblk0p4
     fi
 
+    # Check the filesystem just in case
+    e2fsck -fy /dev/mmcblk0p4
+
     # Grow the partition
     parted /dev/mmcblk0 resizepart 4 100%
 
     # Grow the filesystem
     resize2fs /dev/mmcblk0p4
 
-    # Check the filesystem just in case
-    fsck -y /dev/mmcblk0p4
 
     echo "New size: "$(parted /dev/mmcblk0p4 print | tail -n 2 | awk '{ print $4; }')
 fi

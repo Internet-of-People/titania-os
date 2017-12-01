@@ -4,7 +4,7 @@
     <headerParent :name-prop="page"></headerParent>
     <div class="margin-20 text-align">
       <div class='col-12'>
-      <div class="display-inline-flex">
+      <div class="display-inline-flex dapps-console">
         <div class='float-right display-inline-flex'>
           <div class="label-wrapper">STATUS</div>
           <div class="float-right state-picker" @click="showDropdown()">{{curentState}} <span class='float-right'>&#9662;</span>
@@ -25,10 +25,10 @@
             </ul>
        </div>
         </div>
-        <div class="label-wrapper">Refresh every</div>
-        <div class='display-inline-flex padding-left-4'>
-        <input type="number" class="col-2 outline-none refresh-field sans-serif-normal small-fontsize" value="1">
-        <div class="label-text outline-none sans-serif-normal regular-fontsize">Second(s)</div>
+        <div class="label-wrapper refresh-marker">Refresh every</div>
+        <div class='display-inline-flex padding-left-4 refresh-marker'>
+        <input type="number" class="col-2 refresh-marker outline-none refresh-field sans-serif-normal small-fontsize" value="1">
+        <div class="label-text refresh-marker outline-none sans-serif-normal regular-fontsize">Second(s)</div>
         
       </div>
       <div class='details' @click="getDetails()">{{details}}</div>

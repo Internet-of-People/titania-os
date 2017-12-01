@@ -68,6 +68,7 @@ export default {
       this.$store.state.currentPage = 'login'
     },
     tabSwitch (tabname) {
+      this.$store.state.menu = !this.$store.state.menu
       if (tabname.length === 0) {
         router.push('/')
         this.$store.dispatch('switchDrilldown', 'dashboard')

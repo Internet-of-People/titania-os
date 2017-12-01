@@ -24,7 +24,12 @@ export default {
       return pagename === 'DASHBOARD' ? 'DASHBOARD' : 'DASHBOARD  >  ' + pagename
     },
     openMenu () {
-      this.$router.push('/menu')
+      if (this.$store.state.menu) {
+        this.$router.push('/')
+      } else {
+        this.$router.push('/menu')
+      }
+      this.$store.state.menu = !this.$store.state.menu
     }
   }
 }

@@ -7,9 +7,9 @@ import router from '../router'
 Vue.use(Vuex)
 Vue.use(VueSession)
 
-// const apiRoot = '/api' // deployment
+const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-const apiRoot = 'http://192.168.2.4:8000' // dev pi
+// const apiRoot = 'http://192.168.2.4:8000' // dev pi
 
 const store = new Vuex.Store({
   state: {
@@ -37,7 +37,8 @@ const store = new Vuex.Store({
     dropdownstate: false,
     threadfilter: 'all',
     threads: [],
-    containerthreads: []
+    containerthreads: [],
+    menu: 0
   },
   mutations: {
     // Keep in mind that response is an HTTP response

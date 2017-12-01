@@ -628,6 +628,7 @@ input:not(.box-name-field):not(.config-input-field){
 }
 
 .dapps-table{
+  display: contents;
   thead tr td{
     color: $titania-dark;
     font-size: 16px;
@@ -635,6 +636,7 @@ input:not(.box-name-field):not(.config-input-field){
   tr{
     text-align: left;
     td{
+      color: $titania-dark;
       padding: 16px 8px;
       border-bottom: 1px solid #d8d8d8;
       vertical-align: bottom;
@@ -826,6 +828,8 @@ div.highlightedFilter{
   margin: 16px 20px;
   box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
   height: fit-content;
+  background-color: white;
+  opacity: 0.8;
 }
 
 .label-div-chart{
@@ -1264,5 +1268,122 @@ div.highlightedFilter{
       cursor: pointer;
     }
   }
-  
+  .dapps-console{
+    .label-wrapper{
+      font-size: 32px;
+    }
+    .refresh-marker{
+      display: none !important;
+    }
+    .state-picker{
+      box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+      padding: 9px 12px;
+      margin-left: 16px;
+      width: 236px;
+      height: 32px;
+      font-size: 32px;
+    }
+    .dropdown{
+      list-style-type: none;
+      position: relative;
+      top: -26px;
+      width: 256px;
+      height: 227px;
+      margin-left: -12px;
+      padding-left: 0px;
+      background-color: white;
+      box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+    }
+    .refresh-field{
+      width: 40px;
+      font-size: 32px;
+      margin-top: 16px;
+    }
+    .label-text{
+      font-size: 32px;
+      padding: 0 0 0 8px;
+      margin-top: 16px;
+    }
+    .details{
+      padding: 10px;
+      position: fixed;
+      right: 32px;
+      margin: 48px 0;
+      font-size: 32px;
+    }
+  }
+  .general-wrapper-table{
+    margin: 90px 16px 16px 32px;
+    box-shadow: 0 0 10px #ADADAD;
+    .dapps-table thead tr{
+      height: 40px;
+    }
+    .dapps-table thead tr td{
+      font-size: 28px;
+      height: 40px;
+    }
+    .dapps-table tr td{
+      font-size: 28px;
+      padding: 16px 22px;
+      display: contents;
+    }
+  }
+  .chart-new{
+    height: 300px;
+    width: 390px;
+  }
+  .container-holder{
+    width: 390px;
+  }
+  .metrics-labels div{
+    margin: 0px 2px;
+  }
+  .threads-filter{
+    margin: 0px;
+    position: absolute;
+    left: 54px;
+    padding: 32px;
+    font-size: 34px;
+  }
+  .threads-wrapper{
+    width: 83%;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+    margin-left: 40px;
+    position: absolute;
+    margin-top: 133px;
+    height: 554px;
+    /* margin-right: 57px; */
+    overflow-y: auto;
+  }
+  .threads-table thead tr th{
+    font-size: 29px;
+  }
+  .threads-table tr td{
+    font-size: 29px;
+  }
+  .container-threads-table{
+    border: 1px solid #f2f2f2;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+    width: 96%;
+    margin-left: 2px;
+  }
+  .container-header{
+    font-size: 32px;
+    .micro-fontsize{
+      font-size: 22px !important;
+    }
+  }
+  .details{
+    padding: 10px;
+    position: absolute;
+    right: 58px;
+    top: 200px;
+    font-size: 24px;
+  }
+  .hint-threads-container{
+    font-size: 22px;
+  }
+  .state-dapps{
+    width: 40px;
+  }
 }

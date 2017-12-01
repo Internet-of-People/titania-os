@@ -16,11 +16,17 @@ inherit systemd
 
 FILES_${PN} = "${bindir}/datafs-resizer.sh \
                ${systemd_unitdir}/system/datafs-resizer.service \
-               ${systemd_unitdir}/system/var-lib-docker.mount"
+               ${systemd_unitdir}/system/var-lib-docker.mount
+               ${localstatedir}/lib/docker
+               /datafs"
 
 SYSTEMD_SERVICE_${PN} = "datafs-resizer.service var-lib-docker.mount"
 
 do_install() {
+    # Mountpoints blanks
+    install -d ${D}${localstatedir}/lib/docker
+    install -d ${D}/datafs
+
     install -d ${D}${bindir}
     install -m 755 ${WORKDIR}/datafs-resizer.sh ${D}${bindir}
 

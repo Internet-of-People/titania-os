@@ -12,7 +12,7 @@
         <div class="legend-series">
           <div class="large-fontsize">dApps</div>
           <div class="legends">
-            <div :id="serie" v-for="serie in seriesname" :key="serie" class='cursor-pointer' @click="toggleSeries(serie)"> 
+            <div :id="serie" v-for="serie in seriesname" :title="serie" :key="serie" class='cursor-pointer' @click="toggleSeries(serie)"> 
              <span class="padding-left-4">&#9679;</span>
               {{serie}}
             </div>

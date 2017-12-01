@@ -9,9 +9,9 @@
         <div class="overview-event-icon"></div>
       </div>
       <div>
-        <img v-if="testProp[1] === 'Total dApps'" class="overview-event-image" src="../../assets/images/dApps-icon.svg"></img>
+        <img v-if="testProp[1] === 'Total dApps'" class="overview-event-image" src="../../assets/images/boxes-icon.svg"></img>
         <img v-else-if="testProp[1] === 'Uptime'" class="overview-event-image" src="../../assets/images/uptime-icon.svg"></img>
-        <img v-else-if="testProp[1] === 'Stopped dApps'" class="overview-event-image" src="../../assets/images/stopped-dapps.svg"></img>
+        <img v-else-if="testProp[1] === 'Stopped dApps'" class="overview-event-image" src="../../assets/images/stopped-dapps-icon.svg"></img>
         <img v-else class="overview-event-image" src="../../assets/images/thread-icon.svg"></img>
       </div>
     </div>
@@ -57,8 +57,8 @@ export default {
       var m = Math.floor(d % 3600 / 60)
       var s = Math.floor(d % 3600 % 60)
 
-      var hDisplay = h > 0 ? h + (m / 60).toFixed(2) + ' h ' : ''
-      var mDisplay = m > 0 && h === 0 ? m + (s / 60).toFixed(2) + ' m ' : ''
+      var hDisplay = h > 0 ? h + '.' + parseInt((m * 100) / 60) + ' h ' : ''
+      var mDisplay = m > 0 && h === 0 ? m + '.' + parseInt((s * 100) / 60) + ' m ' : ''
       var sDisplay = s > 0 && m === 0 ? s + ' s' : ''
       return hDisplay + mDisplay + sDisplay
     },

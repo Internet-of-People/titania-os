@@ -7,9 +7,9 @@ import router from '../router'
 Vue.use(Vuex)
 Vue.use(VueSession)
 
-const apiRoot = '/api' // deployment
+// const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.2.4:8000' // dev pi
+const apiRoot = 'http://192.168.2.4:8000' // dev pi
 
 const store = new Vuex.Store({
   state: {
@@ -22,7 +22,7 @@ const store = new Vuex.Store({
       wifi_aps: [],
       wifi_aps_current: '',
       enableConfigure: false,
-      tabname: 'Config'
+      tabname: 'config'
     },
     currentPage: 'dashboard',
     series: [],
@@ -59,16 +59,16 @@ const store = new Vuex.Store({
       state.configuration.enableConfigure = !state.configuration.enableConfigure
     },
     'GET_ALL_APS': function (state, response) {
-      console.log(response.body)
       state.configuration.wifi_aps = response.body
       state.configuration.wifi_aps_current = response.body[0]
+      state.currentPage = 'configure'
     },
     'SAVE_CONFIGURATION': function (state, response) {
       router.push('/login')
       state.currentPage = 'login'
     },
     'LOGIN': function (state, response) {
-      if (response.body.username.length !== 0) {
+      if (response.body.username) {
         Vue.toast('Login successful', {
           id: 'my-toast',
           className: ['toast-success'],
@@ -82,7 +82,7 @@ const store = new Vuex.Store({
         state.currentPage = 'dashboard'
         state.credentials.username = response.body.username
       } else {
-        Vue.toast('Login attempt failed' + response.body, {
+        Vue.toast('Login attempt failed', {
           id: 'my-toast',
           className: ['toast-warning'],
           horizontalPosition: 'right',

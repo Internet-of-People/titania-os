@@ -146,8 +146,9 @@ input:not(.box-name-field):not(.config-input-field){
   border-bottom: 1px solid #ADADAD;
 }
 
-.highcharts-background{
-  height: 0px !important;
+.highcharts-background, .highcharts-plot-background{
+  background-color: white;
+  opacity: 0.8;
 }
 
 .hide{
@@ -160,6 +161,11 @@ input:not(.box-name-field):not(.config-input-field){
 
 .outline-none{
   outline: none;
+}
+
+.selectedConfigTab{
+  border-bottom: 2px solid $titania-dark;
+  color: $titania-dark;
 }
 
 .button-primary {
@@ -227,7 +233,7 @@ input:not(.box-name-field):not(.config-input-field){
   z-index: 98;
   box-shadow: 0 0 30px 2px #B5B5B5;
   height: 515px;
-  width: 810px;
+  width: 400px;
   overflow-y: auto;
   margin: auto;
 }
@@ -238,7 +244,7 @@ input:not(.box-name-field):not(.config-input-field){
 
 .box-name-field{
   height: 48px;
-  width: 690px;
+  width: 270px;
   padding: 0px 26px;
   border:none;
   border-bottom: 1px solid #ADADAD;
@@ -276,14 +282,14 @@ input:not(.box-name-field):not(.config-input-field){
 .center-aligned-slider-body{
   @extend .display-inline-flex;
   // background-color: #f4f5f7;
-  margin: 0 32px;
+  // margin: 0 32px;
   // border: 1px solid #f4f5f7;
   // padding: 10px 0;
   overflow-y: auto;
   height: 350px;
   div.config-slab{
-    margin: 0px 4px;
-    padding: 10px 32px;
+    margin: 0px 16px;
+    padding: 18px 32px;
     background-color: #f4f5f7;
   }
 }
@@ -310,15 +316,15 @@ input:not(.box-name-field):not(.config-input-field){
 }
 
 .save-config{
-  margin: 14px 32px !important;
+  margin: 14px 16px !important;
   width: 98px !important;
   height: 42px !important;
 }
 
 .config-headers{
+  @extend .cursor-pointer;
   font-size: 16px;
-  padding: 20px 0 10px 0px;
-  display: block;
+  padding: 20px 20px 10px;
 }
 
 .fadeout{
@@ -510,12 +516,16 @@ input:not(.box-name-field):not(.config-input-field){
 
 .legend-series{
   margin: 60px 16px;
-  width: 120px;
+  max-width: 120px;
   div{
     float: left;
-    width: 119px;
+    width: 110px;
     display: block;
     text-align: left;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
   span{
     font-size: 25px;
@@ -542,16 +552,12 @@ input:not(.box-name-field):not(.config-input-field){
   margin-top: 20px;
 }
 
-.toast-warning{
-  background-color: $brand-critical;
-}
-
 .toast-success{
   background-color: $brand-stable;
 }
 
 .toast-warning{
-  background-color: $brand-warning;
+  background-color: $brand-critical;
 }
 
 .displayInlineFlex{
@@ -569,6 +575,14 @@ input:not(.box-name-field):not(.config-input-field){
   &:hover{
     color: $brand-link;
   }
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+
+  /* Required for text-overflow to do anything */
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .legends {
@@ -698,19 +712,22 @@ input:not(.box-name-field):not(.config-input-field){
   background-color: white;
   padding: 9px;
   margin-top: 2px;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
 }
 
 .dropdown-config{
-  position: relative;
-  top: 2px;
-  left: 0px;
+  z-index: 94;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
+  position: absolute;
+  max-height: 250px;
+  overflow-y: auto;
+  top: 224px;
+  width: 304px;
   margin: 0px;
   text-align: left;
   padding: 0px;
   list-style-type: none;
-  position: relative;
   background-color: white;
-  box-shadow: 0 2px 2px #ADADAD;
   li{
     padding: 10px;
     &:hover{
@@ -899,4 +916,202 @@ div.highlightedFilter{
 
 .cursorPointer{
   @extend .cursor-pointer;
+}
+
+.footer-wrapper {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  color: #53585F;
+  padding: 6px 16px;
+  height: 18px;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.20);
+  display: inline-block;
+  z-index: 100;
+  background-color: white;
+}
+.copyright {
+  border-left: 1px solid #f2f2f2;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.registeredto {
+  border-left: 1px solid #f2f2f2;
+  padding-left: 5px;
+}
+.footer-links > span:hover {
+  color: #0067C5;
+}
+
+@media only screen and (max-device-width: 600px) {
+  /* For mobile phones: */
+  [class*="col-"] {
+      width: 100%;
+  }
+  #app{
+    height: fit-content;
+    background-position-x: center;
+  }
+  #container{
+    margin: 38% auto;
+    height: 100%;
+  }
+  .logo-icon, .logo-icon-config{
+    margin: auto;
+    width: 690px;
+    height: auto;
+    margin-bottom: 50px;
+  }
+  .input_c{
+    width: 70%;
+    font-size: 24px;
+  }
+  .button-primary{
+    font-size: 35px;
+    height: 100px;
+    width: 300px;
+    margin-top: 42px;
+    padding: 8px 16px;
+    background-color: #8b6787;
+    color: white;
+    outline: none;
+    border-radius: 0px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  .footer-wrapper{
+    height: 100px;
+    .desktop-footer-essentials{
+      display: none !important;
+    }
+    .footer-links{
+      float: left;
+      width: 100%;
+    }
+    .white-paper-footer{
+      float: left;
+      font-size: 42px;
+      padding: 25px;
+    }
+    .feedback-footer{
+      float: right;
+      font-size: 42px;
+      padding: 25px 55px;
+    }
+  }
+
+  input:not(.box-name-field):not(.config-input-field){
+    border-bottom: 4px solid $titania-dark;
+    font-size: 42px;
+    height: 70px;
+    color: $titania-darker;
+  }
+
+  .et-wrapper{
+    font-size: 44px;
+    height: 70px;
+    max-width: 550px;
+    margin: 10% auto;
+    top: 0px !important;
+    width: 1220px !important;
+    bottom: none !important;
+    padding: 18px 20px 0px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  }
+  .et-wrapper.et-bottom{
+    bottom: none !important;
+    top: none !important;
+  }
+  .et-wrapper.et-right{
+    left: 0 !important;
+    bottom: none !important;
+  }
+  #my-toast {
+    top: 0px;
+    bottom: none !important;
+  }    
+  .marginLeft40{
+    margin-left: none !important;
+  }
+  .config-help{
+    font-size: 52px;
+    padding: 82px;
+  }
+  .center-aligned-slider{
+    position: fixed;
+    background-color: #FFFFFF;
+    right: 10%;
+    left: 10%;
+    top: 4%;
+    bottom: 4%;
+    z-index: 98;
+    box-shadow: 0 0 30px 2px #B5B5B5;
+    height: 1500px;
+    width: 800px;
+    overflow-y: auto;
+    margin: unset;
+  }
+  .box-name-field{
+    height: 130px;
+    width: 90%;
+    padding: 0px 12px;
+    border: none;
+    color: $titania-dark;
+    border-bottom: 6px solid $titania-dark;
+  }
+  .header-fontsize{
+    font-size: 60px !important;
+  }
+  .center-aligned-slider-body{
+    height: 75%;
+  } 
+  .config-headers{
+    font-size: 60px;
+    cursor: pointer;
+  }
+  .form-field-block{
+    margin-top: 160px;
+    .large-fontsize{
+      font-size: 44px;
+      color: #646A73;
+    }
+  }
+  .config-input-field{
+    height: 90px;
+    width: 100%;
+    font-size: 36px;
+  }
+  .selected-wifi{
+    margin-top: 30px; 
+    padding: 21px;
+    font-size: 36px;
+  }
+  .center-aligned-slider-body div.config-slab{
+    margin: 0px 50px;
+  }
+  .dropdown-config{
+    z-index: 94;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+    position: absolute;
+    max-height: 500px;
+    overflow-y: auto;
+    /* top: 224px; */
+    width: 630px;
+    margin: 0px;
+    text-align: left;
+    padding: 0px;
+    list-style-type: none;
+    background-color: white;
+    top: 580px;
+    li{
+      padding: 16px;
+      font-size: 36px;
+    }
+  }
+  .save-config{
+    float: unset;
+    width: 180px !important;
+    height: 90px !important;
+    margin: 50px;
+  }
 }

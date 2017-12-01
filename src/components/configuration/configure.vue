@@ -1,5 +1,5 @@
 <template>
-  <div @keyup.enter="configure()">
+  <div id='container' @keyup.enter="configure()">
     <div>
       <img class="logo-icon-config" src="../../assets/images/titania-Logo-port.svg">
       <div class='config-help'>Welcome aboard</div>

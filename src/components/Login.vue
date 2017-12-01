@@ -1,6 +1,6 @@
 <template>
-    <div id="container" class="position-absolute">
-        <img class="logo-icon" src="../assets/images/titania-logo-clean.svg">
+    <div id="container" >
+        <img class="logo-icon" src="../assets/images/titania-Logo-port.svg">
         <div class='padding-top-bottom-16'>
             <input type="text" @keyup.enter="submit()" class="input_c regular-fontsize outline-none" id="username" v-model="username" placeholder="TitaniaUser"/>
         </div>

@@ -1,45 +1,49 @@
 <template>
     <div class="float-left center-aligned-slider outline-none">
       <div class="padding-20">
-            <input id="boxname" name="boxname" v-model="configdetails.boxname" placeholder="Enter box name" class="sans-serif-normal box-name-field outline-none header-fontsize" type="text" maxLength="64" />
+            <input id="boxname" name="boxname" v-model="configdetails.boxname" placeholder="MyTitaniumBox" class="sans-serif-normal box-name-field outline-none header-fontsize" type="text" maxLength="64" />
       </div>
       <div class="center-aligned-slider-body">
         <div class='config-slab '>
-          <span id="config" class="config-headers">CONFIG</span>
-          <div class="form-field-block col-12">
-             <div class="sans-serif-normal text-align large-fontsize">Username</div>
-             <input v-model="configdetails.username" class="config-input-field regular-fontsize" type="text" />
+          <div class='display-inline-block'>
+            <span id="config" @click="setTab('config')" v-bind:class="{selectedConfigTab: currenttab === 'config'}" class="config-headers">CONFIG</span>
+            <span id="wireless" @click="setTab('wifi')" v-bind:class="{selectedConfigTab: currenttab === 'wifi'}" class="config-headers">WIFI</span>
           </div>
-          <div class="form-field-block col-12">
-             <div class="sans-serif-normal text-align large-fontsize">Password</div>
-             <input v-model="configdetails.password" class="config-input-field regular-fontsize" type="password" />
+          <div v-if="currenttab === 'config'" class='margin-top-20'>
+            <div class="form-field-block col-12">
+              <div class="sans-serif-normal text-align large-fontsize">Username</div>
+              <input v-model="configdetails.username" class="config-input-field regular-fontsize" type="text" />
+            </div>
+            <div class="form-field-block col-12">
+              <div class="sans-serif-normal text-align large-fontsize">Password</div>
+              <input v-model="configdetails.password" class="config-input-field regular-fontsize" type="password" />
+            </div>
+            <div class="form-field-block col-12">
+              <div class="sans-serif-normal text-align large-fontsize">Confirm Password</div>
+              <input v-model="configdetails.confirmPassword" class="config-input-field regular-fontsize" type="password" />
+            </div>
           </div>
-          <div class="form-field-block col-12">
-             <div class="sans-serif-normal text-align large-fontsize">Confirm Password</div>
-             <input v-model="configdetails.confirmPassword" class="config-input-field regular-fontsize" type="password" />
+          <div v-else class='margin-top-20'>
+            <div class="form-field-block col-12">
+              <div class="sans-serif-normal text-align large-fontsize">WIFI Network</div>
+              <div class="text-align cursor-pointer selected-wifi" @click="getWiFiList()">{{currentwifiap}} <div class='float-right'>&#9662;</div></div>       
+              <ul class='dropdown-config hide' >
+                <li v-for="item in wifiAps" :key="item" class="float-left  cursor-pointer col-12 selected" @click="setWifiAP(item)" >
+                  <span v-if="item == currentwifiap" class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{item}}</span>
+                  <span v-else class="float-left cursor-pointer sans-serif-normal overflow-hidden" style="width: 100%;">{{item}}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="form-field-block col-12">
+              <div class="sans-serif-normal text-align large-fontsize">Username (Optional)</div>
+              <input class="config-input-field regular-fontsize" type="text" />
+            </div>
+            <div class="form-field-block col-12">
+              <div class="sans-serif-normal text-align large-fontsize">Password</div>
+              <input v-model="configdetails.wifi_password" class="config-input-field regular-fontsize" type="password" />
+            </div>
+            <!-- <button id="" class="test-conn outline-none cursor-pointer outline-none sans-serif-normal small-fontsize">TEST</button> -->
           </div>
-        </div>
-        <div class='config-slab'>
-          <span id="wireless" class="config-headers">WIFI SETUP</span>
-          <div class="form-field-block col-12">
-            <div class="sans-serif-normal text-align regular-fontsize">WIFI Network</div>
-            <div class="text-align cursor-pointer selected-wifi" @click="getWiFiList()">{{currentwifiap}} <div class='float-right'>&#9662;</div></div>       
-             <ul class='dropdown-config hide' >
-               <li v-for="item in wifiAps" :key="item" class="float-left  cursor-pointer col-12 selected" @click="setWifiAP(item)" >
-                 <span v-if="item == currentwifiap" class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{item}}</span>
-                 <span v-else class="float-left cursor-pointer sans-serif-normal overflow-hidden" style="width: 100%;">{{item}}</span>
-               </li>
-            </ul>
-          </div>
-          <div class="form-field-block col-12">
-             <div class="sans-serif-normal text-align large-fontsize">Username (Optional)</div>
-             <input class="config-input-field regular-fontsize" type="text" />
-          </div>
-          <div class="form-field-block col-12">
-             <div class="sans-serif-normal text-align large-fontsize">Password</div>
-             <input v-model="configdetails.wifi_password" class="config-input-field regular-fontsize" type="password" />
-          </div>
-          <!-- <button id="" class="test-conn outline-none cursor-pointer outline-none sans-serif-normal small-fontsize">TEST</button> -->
         </div>
       </div>
       <div class="col-12">
@@ -124,6 +128,9 @@ export default {
       } else {
         $('.dropdown-config').addClass('hide')
       }
+    },
+    setTab (tab) {
+      this.currenttab = tab
     }
   }
 }

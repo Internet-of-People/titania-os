@@ -1,0 +1,9 @@
+# TODO: maybe part of Docker bbappend?
+[Unit]
+Description=Data SD card volumne
+
+[Mount]
+What=/dev/mmcblk0p4
+Where=/var/lib/docker
+Type=ext4
+Option=defaults

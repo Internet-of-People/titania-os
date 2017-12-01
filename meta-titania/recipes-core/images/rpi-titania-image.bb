@@ -6,9 +6,9 @@ DEPENDS += "docker-prebuilt-datafs"
 
 # Monitoring backend
 # TODO: migrate to python3 soon
-IMAGE_INSTALL += "vuedj dapp-runner docker-prebuilt-rootfs"
+IMAGE_INSTALL += "vuedj dapp-runner docker-prebuilt-rootfs datafs-resizer"
 
-IMAGE_INSTALL += "docker networkmanager avahi-daemon llmnrd zram parted e2fsprogs"
+IMAGE_INSTALL += "docker networkmanager avahi-daemon llmnrd zram"
 
 # TODO: we won't need this in future
 IMAGE_INSTALL += "sqlite3"

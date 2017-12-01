@@ -1,0 +1,7 @@
+[Unit]
+Description=SD card size check
+Before=docker.service
+
+[Service]
+Restart=no
+ExecStart=/usr/bin/datafs-resizer.sh

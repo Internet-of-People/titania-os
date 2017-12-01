@@ -1,0 +1,10 @@
+# TODO: maybe part of Docker bbappend?
+[Unit]
+Description=Auto-mount Data SD card volumne
+Requires=datafs-resizer.service
+
+[Automount]
+Where=/var/lib/docker
+
+[Install]
+WantedBy=multi-user.target

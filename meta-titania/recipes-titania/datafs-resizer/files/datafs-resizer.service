@@ -1,5 +1,6 @@
 [Unit]
 Description=SD card size check
+DefaultDependencies=no
 
 [Service]
 Type=oneshot

@@ -51,7 +51,7 @@ def handle_config(request):
             username = request.POST.get("username")
             password = request.POST.get("password")
             encPass = crypt.crypt(password,"22")
-            os.system("useradd -p "+encPass+" "+username)
+            os.system("useradd -G docker,wheel -p "+encPass+" "+username)
             setUser = User(boxname=boxname, username=username, password=password)
             setUser.save()
             # connect to wifi ap user selected

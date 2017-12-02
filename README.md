@@ -31,7 +31,3 @@ echo 'DISTRO = "titania"' >> conf/local.conf
 # Compile the thing
 bitbake rpi-titania-image
 ```
-
-# How do I have a passwordless root? (For Debugging)
-
-Include the `EXTRA_USERS_PARAMS = ""` in your `conf/local.conf`.

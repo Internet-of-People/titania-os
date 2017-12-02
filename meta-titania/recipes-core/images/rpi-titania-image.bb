@@ -8,7 +8,7 @@ DEPENDS += "docker-prebuilt-datafs"
 # TODO: migrate to python3 soon
 IMAGE_INSTALL += "vuedj dapp-runner docker-prebuilt-rootfs datafs-resizer"
 
-IMAGE_INSTALL += "docker networkmanager avahi-daemon llmnrd zram systemd-analyze"
+IMAGE_INSTALL += "sudo docker networkmanager avahi-daemon llmnrd zram systemd-analyze"
 
 # TODO: we won't need this in future
 IMAGE_INSTALL += "sqlite3"
@@ -17,9 +17,9 @@ IMAGE_INSTALL += "sqlite3"
 IMAGE_INSTALL += "linux-firmware-bcm43430"
 
 # Disable passwordless root
-# Redefine in local conf to empty string to keep it passwordless
 inherit extrausers
-EXTRA_USERS_PARAMS = "usermod -L root;"
+EXTRA_USERS_PARAMS += "usermod -L root;"
+EXTRA_USERS_PARAMS += "groupadd wheel;"
 
 ROOTFS_POSTPROCESS_COMMAND += " titania_sysctl_config ; "
 

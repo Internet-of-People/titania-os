@@ -22,7 +22,7 @@
             <div class='registered-user'>{{username}}</div>
         </div>
         <div class='versioning-info'>
-            <span class='titania_version'>Titania {{this.$store.state.schema}} <br/></span>
+            <span class='titania_version'>Titania {{this.$store.state.schema}} Release Candidate<br/></span>
             <span class='copyright'>Copyright {{new Date().getFullYear()}} Libertaria</span>  
         </div>
         <div @click="logout()" class='logout-menu'>

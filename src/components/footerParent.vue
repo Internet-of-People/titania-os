@@ -1,7 +1,7 @@
 <template>
   <div v-bind:class="{ marginLeft40: !getFooterClass()}" class="footer-wrapper col-12">
     <div class='float-left cursor-default desktop-footer-essentials'>
-      <span class='titania_version'>Titania {{this.$store.state.schema}}</span>
+      <span class='titania_version'>Titania {{this.$store.state.schema}} Release Candidate</span>
       <span class='copyright'>&copy;&nbsp; {{new Date().getFullYear()}} Libertaria</span>
       <span id='registeredto' class='registeredto hide' v-bind:class="{show : !getFooterClass()}">Registered to <span>{{username}}</span></span>
     </div>

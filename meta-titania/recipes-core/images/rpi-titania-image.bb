@@ -16,6 +16,11 @@ IMAGE_INSTALL += "sqlite3"
 # Add firmware, this is needed for WiFi on RaspberryPi
 IMAGE_INSTALL += "linux-firmware-bcm43430"
 
+# Disable passwordless root
+# Redefine in local conf to empty string to keep it passwordless
+inherit extrausers
+EXTRA_USERS_PARAMS = "usermod -L root;"
+
 ROOTFS_POSTPROCESS_COMMAND += " titania_sysctl_config ; "
 
 titania_sysctl_config() {

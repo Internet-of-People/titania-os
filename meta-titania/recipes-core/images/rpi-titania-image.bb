@@ -16,10 +16,12 @@ IMAGE_INSTALL += "sqlite3"
 # Add firmware, this is needed for WiFi on RaspberryPi
 IMAGE_INSTALL += "linux-firmware-bcm43430"
 
-# Disable passwordless root
+# Add custom groups
 inherit extrausers
-EXTRA_USERS_PARAMS += "usermod -L root;"
 EXTRA_USERS_PARAMS += "groupadd wheel;"
+# Disable passwordless root for non-debug builds
+# TODO: is there a standard variable for this?
+EXTRA_USERS_PARAMS += "${@ 'usermod -L root;' if not d.getVar('TITANIA_DEBUG') else ''}"
 
 ROOTFS_POSTPROCESS_COMMAND += " titania_sysctl_config ; "
 

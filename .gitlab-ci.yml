@@ -63,6 +63,9 @@ raspberry:
     - source openembedded-core/oe-init-build-env
     # Enable TITANIA_DEBUG variable to be passed directly without local.conf
     - export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE TITANIA_DEBUG"
+    # TODO: schedule removal
+    # Force datafs to be installed
+    - MACHINE="raspberrypi3" bitbake -c install docker-prebuilt-datafs
     # Release image
     - MACHINE="raspberrypi3" bitbake rpi-titania-image
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img

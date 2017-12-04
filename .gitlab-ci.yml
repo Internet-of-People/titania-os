@@ -61,9 +61,17 @@ raspberry:
     - mkdir ~/.ssh || true
     - ssh-keyscan -p 2200 gitlab.libertaria.community >> ~/.ssh/known_hosts
     - source openembedded-core/oe-init-build-env
+    # Enable TITANIA_DEBUG variable to be passed directly without local.conf
+    - export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE TITANIA_DEBUG"
+    # Release image
     - MACHINE="raspberrypi3" bitbake rpi-titania-image
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
     - $COMPRESSION_CMD $COMPRESSION_OPTS $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
+    # Debug image
+    # TODO: unify the call with above
+    - TITANIA_DEBUG="true" MACHINE="raspberrypi3" bitbake rpi-titania-image
+    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION)-debug.img
+    - $COMPRESSION_CMD $COMPRESSION_OPTS $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION)-debug.img
 
   cache:
     paths:

@@ -165,6 +165,10 @@ input:not(.box-name-field):not(.config-input-field) {
   color: #8b6787;
 }
 
+.error-hint {
+  border-bottom: 1px solid #C82506 !important;
+}
+
 .button-primary {
   min-width: 90px;
   padding: 8px 16px;
@@ -256,7 +260,7 @@ input:not(.box-name-field):not(.config-input-field) {
   color: #C82506;
 }
 
-.cursor-pointer, .configure-add-options-menu span:not(.form-error), .config-headers, .details, .cursorPointer {
+.cursor-pointer, .button-primary, .configure-add-options-menu span:not(.form-error), .config-headers, .details, .cursorPointer {
   cursor: pointer;
 }
 

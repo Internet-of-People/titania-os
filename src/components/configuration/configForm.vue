@@ -12,15 +12,15 @@
           <div v-if="currenttab === 'config'" class='margin-top-20'>
             <div class="form-field-block col-12">
               <div class="sans-serif-normal text-align large-fontsize">Username</div>
-              <input v-model="configdetails.username" class="config-input-field regular-fontsize" type="text" />
+              <input id="username" v-model="configdetails.username" class="config-input-field regular-fontsize" type="text" />
             </div>
             <div class="form-field-block col-12">
               <div class="sans-serif-normal text-align large-fontsize">Password</div>
-              <input v-model="configdetails.password" class="config-input-field regular-fontsize" type="password" />
+              <input id="password" v-model="configdetails.password" class="config-input-field regular-fontsize" type="password" />
             </div>
             <div class="form-field-block col-12">
               <div class="sans-serif-normal text-align large-fontsize">Confirm Password</div>
-              <input v-model="configdetails.confirmPassword" class="config-input-field regular-fontsize" type="password" />
+              <input id="confirmPassword" v-model="configdetails.confirmPassword" class="config-input-field regular-fontsize" type="password" />
             </div>
           </div>
           <div v-else class='margin-top-20'>
@@ -40,7 +40,7 @@
             </div>
             <div class="form-field-block col-12">
               <div class="sans-serif-normal text-align large-fontsize">Password</div>
-              <input v-model="configdetails.wifi_password" class="config-input-field regular-fontsize" type="password" />
+              <input id="wifipassword" v-model="configdetails.wifi_password" class="config-input-field regular-fontsize" type="password" />
             </div>
             <!-- <button id="" class="test-conn outline-none cursor-pointer outline-none sans-serif-normal small-fontsize">TEST</button> -->
           </div>
@@ -55,9 +55,6 @@
 <script>
 import Vue from 'vue'
 export default {
-  props: [
-    'closeConfigForm'
-  ],
   name: 'configForm',
   computed: {
     wifiAps: {
@@ -88,7 +85,8 @@ export default {
         boxname: '',
         username: '',
         password: '',
-        wifi_password: ''
+        wifi_password: '',
+        confirmPassword: ''
       }
     }
   },
@@ -107,8 +105,9 @@ export default {
           duration: 2000,
           mode: 'queue'
         })
-        return
+        $('#boxname').addClass('error-hint')
       } else if (this.configdetails.username.length === 0) {
+        $('#boxname').removeClass('error-hint')
         Vue.toast('Enter username', {
           id: 'my-toast',
           className: ['toast-warning'],
@@ -117,10 +116,25 @@ export default {
           duration: 2000,
           mode: 'queue'
         })
-        return
+        $('#username').addClass('error-hint')
+      } else if (this.configdetails.password !== this.configdetails.confirmPassword || this.configdetails.password.length === 0) {
+        $('#username').removeClass('error-hint')
+        Vue.toast(this.configdetails.password.length > 0 ? 'Password mismatch' : 'Password not supplied', {
+          id: 'my-toast',
+          className: ['toast-warning'],
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          duration: 2000,
+          mode: 'queue'
+        })
+        $('#password').addClass('error-hint')
+        $('#confirmPassword').addClass('error-hint')
+      } else {
+        $('#password').removeClass('error-hint')
+        $('#confirmPassword').removeClass('error-hint')
+        this.configdetails.wifi_ap = this.currentwifiap
+        this.$store.dispatch('saveConfigForm', this.configdetails)
       }
-      this.configdetails.wifi_ap = this.currentwifiap
-      this.$store.dispatch('saveConfigForm', this.configdetails)
     },
     getWiFiList () {
       if ($('.dropdown-config.hide').length) {

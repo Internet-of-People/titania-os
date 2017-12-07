@@ -168,7 +168,12 @@ input:not(.box-name-field):not(.config-input-field){
   color: $titania-dark;
 }
 
+.error-hint{
+  border-bottom: 1px solid $brand-critical !important;
+}
+
 .button-primary {
+  @extend .cursor-pointer;
   min-width: 90px;
   padding: 8px 16px;
   background-color: $titania-dark;

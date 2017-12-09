@@ -1,13 +1,13 @@
 <template>
     <div class="float-left center-aligned-slider outline-none">
-      <div class="padding-20">
+      <div v-if="getOnSettingPage()" class="padding-20">
             <input id="boxname" name="boxname" v-model="configdetails.boxname" placeholder="MyTitaniumBox" class="sans-serif-normal box-name-field outline-none header-fontsize" type="text" maxLength="64" />
       </div>
       <div class="center-aligned-slider-body">
         <div class='config-slab '>
           <div class='display-inline-block'>
-            <span id="config" @click="setTab('config')" v-bind:class="{selectedConfigTab: currenttab === 'config'}" class="config-headers">CONFIG</span>
-            <span id="wireless" @click="setTab('wifi')" v-bind:class="{selectedConfigTab: currenttab === 'wifi'}" class="config-headers">WIFI</span>
+            <span id="config" @click="setTab('config')" v-if="showThisTab('user')" v-bind:class="{selectedConfigTab: currenttab === 'config'}" class="config-headers">USER</span>
+            <span id="wireless" @click="setTab('wifi')" v-if="showThisTab('wifi')" v-bind:class="{selectedConfigTab: currenttab === 'wifi'}" class="config-headers">WIFI</span>
           </div>
           <div v-if="currenttab === 'config'" class='margin-top-20'>
             <div class="form-field-block col-12">
@@ -56,6 +56,7 @@
 import Vue from 'vue'
 export default {
   name: 'configForm',
+  props: ['testProp'],
   computed: {
     wifiAps: {
       get: function () {
@@ -96,44 +97,87 @@ export default {
       $('.dropdown-config').addClass('hide')
     },
     saveConfig () {
-      if (this.configdetails.boxname.length === 0) {
-        Vue.toast('Enter box name', {
-          id: 'my-toast',
-          className: ['toast-warning'],
-          horizontalPosition: 'right',
-          verticalPosition: 'bottom',
-          duration: 2000,
-          mode: 'queue'
-        })
-        $('#boxname').addClass('error-hint')
-      } else if (this.configdetails.username.length === 0) {
-        $('#boxname').removeClass('error-hint')
-        Vue.toast('Enter username', {
-          id: 'my-toast',
-          className: ['toast-warning'],
-          horizontalPosition: 'right',
-          verticalPosition: 'bottom',
-          duration: 2000,
-          mode: 'queue'
-        })
-        $('#username').addClass('error-hint')
-      } else if (this.configdetails.password !== this.configdetails.confirmPassword || this.configdetails.password.length === 0) {
-        $('#username').removeClass('error-hint')
-        Vue.toast(this.configdetails.password.length > 0 ? 'Password mismatch' : 'Password not supplied', {
-          id: 'my-toast',
-          className: ['toast-warning'],
-          horizontalPosition: 'right',
-          verticalPosition: 'bottom',
-          duration: 2000,
-          mode: 'queue'
-        })
-        $('#password').addClass('error-hint')
-        $('#confirmPassword').addClass('error-hint')
+      if (this.testProp) {
+        if (this.testProp === 'user') {
+          console.log('heee')
+          if (this.configdetails.username.length === 0) {
+            Vue.toast('Enter username', {
+              id: 'my-toast',
+              className: ['toast-warning'],
+              horizontalPosition: 'right',
+              verticalPosition: 'bottom',
+              duration: 2000,
+              mode: 'queue'
+            })
+            $('#username').addClass('error-hint')
+          } else if ($.inArray(this.configdetails.username, this.$store.state.settings.users) !== -1) {
+            Vue.toast('User with this name already exists', {
+              id: 'my-toast',
+              className: ['toast-warning'],
+              horizontalPosition: 'right',
+              verticalPosition: 'bottom',
+              duration: 2000,
+              mode: 'queue'
+            })
+            $('#username').addClass('error-hint')
+          } else if (this.configdetails.password !== this.configdetails.confirmPassword || this.configdetails.password.length === 0) {
+            $('#username').removeClass('error-hint')
+            Vue.toast(this.configdetails.password.length > 0 ? 'Password mismatch' : 'Password not supplied', {
+              id: 'my-toast',
+              className: ['toast-warning'],
+              horizontalPosition: 'right',
+              verticalPosition: 'bottom',
+              duration: 2000,
+              mode: 'queue'
+            })
+            $('#password').addClass('error-hint')
+            $('#confirmPassword').addClass('error-hint')
+          } else {
+            $('#password').removeClass('error-hint')
+            $('#confirmPassword').removeClass('error-hint')
+            this.$store.dispatch('addNewUser', this.configdetails)
+          }
+        }
       } else {
-        $('#password').removeClass('error-hint')
-        $('#confirmPassword').removeClass('error-hint')
-        this.configdetails.wifi_ap = this.currentwifiap
-        this.$store.dispatch('saveConfigForm', this.configdetails)
+        if (this.configdetails.boxname.length === 0) {
+          Vue.toast('Enter box name', {
+            id: 'my-toast',
+            className: ['toast-warning'],
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom',
+            duration: 2000,
+            mode: 'queue'
+          })
+          $('#boxname').addClass('error-hint')
+        } else if (this.configdetails.username.length === 0) {
+          $('#boxname').removeClass('error-hint')
+          Vue.toast('Enter username', {
+            id: 'my-toast',
+            className: ['toast-warning'],
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom',
+            duration: 2000,
+            mode: 'queue'
+          })
+          $('#username').addClass('error-hint')
+        } else if (this.configdetails.password !== this.configdetails.confirmPassword || this.configdetails.password.length === 0) {
+          $('#username').removeClass('error-hint')
+          Vue.toast(this.configdetails.password.length > 0 ? 'Password mismatch' : 'Password not supplied', {
+            id: 'my-toast',
+            className: ['toast-warning'],
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom',
+            duration: 2000,
+            mode: 'queue'
+          })
+          $('#password').addClass('error-hint')
+          $('#confirmPassword').addClass('error-hint')
+        } else {
+          $('#password').removeClass('error-hint')
+          $('#confirmPassword').removeClass('error-hint')
+          this.configdetails.wifi_ap = this.currentwifiap
+          this.$store.dispatch('saveConfigForm', this.configdetails)
+        }
       }
     },
     getWiFiList () {
@@ -145,6 +189,12 @@ export default {
     },
     setTab (tab) {
       this.currenttab = tab
+    },
+    getOnSettingPage () {
+      return this.testProp.length === 0
+    },
+    showThisTab (tabname) {
+      return this.testProp.length === 0 || this.testProp === tabname
     }
   }
 }

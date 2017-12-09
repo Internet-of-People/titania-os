@@ -989,6 +989,14 @@ div.highlightedFilter{
   margin: 24px 40px;
   background-color: white;
 }
+.settings-page{
+  .center-aligned-slider-body{
+    margin-top: 40px;
+  }
+  .center-aligned-slider{
+    height: 475px;
+  }
+}
 .settings-header{
   @extend .text-align-left;
   padding: 16px 20px;
@@ -998,7 +1006,6 @@ div.highlightedFilter{
   border-bottom: 1px solid #d8d8d8;
 }
 .add-new{
-  @extend .cursor-pointer;
   margin: 20px;
 }
 .user-row{

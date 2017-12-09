@@ -232,6 +232,17 @@ def handle_config(request):
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = fetchusers.split(':')[3].split(',')
             return JsonResponse([{'users':userlist}], safe=False)
+        elif action == 'addNewUser':
+            print(action)
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            encPass = crypt.crypt(password,"22")
+            os.system("useradd -G docker,wheel -p "+encPass+" "+username)
+            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
+            # sample ps 
+            # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+            userlist = fetchusers.split(':')[3].split(',')
+            return JsonResponse([{'users':userlist}], safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

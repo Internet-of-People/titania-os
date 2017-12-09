@@ -260,7 +260,7 @@ input:not(.box-name-field):not(.config-input-field) {
   color: #C82506;
 }
 
-.cursor-pointer, .button-primary, .configure-add-options-menu span:not(.form-error), .config-headers, .details, .cursorPointer, .settings-options, .add-new {
+.cursor-pointer, .button-primary, .configure-add-options-menu span:not(.form-error), .config-headers, .details, .cursorPointer, .settings-options {
   cursor: pointer;
 }
 
@@ -937,6 +937,13 @@ div.highlightedFilter {
   opacity: .6;
   margin: 24px 40px;
   background-color: white;
+}
+
+.settings-page .center-aligned-slider-body {
+  margin-top: 40px;
+}
+.settings-page .center-aligned-slider {
+  height: 475px;
 }
 
 .settings-header {

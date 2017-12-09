@@ -44,7 +44,9 @@ const store = new Vuex.Store({
     settingOption: 'users',
     settings: {
       users: [],
-      wifi: []
+      wifi: [],
+      getform: false,
+      formname: 'user'
     }
   },
   mutations: {
@@ -157,8 +159,9 @@ const store = new Vuex.Store({
     'SETTINGS': function (state, response) {
       state.settings.users = response.body[0].users
     },
-    'REFRESH_LIST': function (state, response, user) {
-      Vue.toast('User ' + user + 'deleted successfully', {
+    'REFRESH_LIST': function (state, response, user, reqtype) {
+      var message = reqtype === 'delete' ? 'User ' + user + 'deleted successfully' : 'User ' + user + 'added successfully'
+      Vue.toast(message, {
         id: 'my-toast',
         className: ['toast-success'],
         horizontalPosition: 'right',
@@ -167,6 +170,7 @@ const store = new Vuex.Store({
         mode: 'queue'
       })
       state.settings.users = response.body[0].users
+      state.settings.getform = false
     }
   },
   actions: {
@@ -289,7 +293,13 @@ const store = new Vuex.Store({
     deleteUser (state, deleterequest) {
       deleterequest._action = 'deleteUser'
       return api.post(apiRoot + '/index.html', deleterequest)
-      .then((response) => store.commit('REFRESH_LIST', response, deleterequest.user))
+      .then((response) => store.commit('REFRESH_LIST', response, deleterequest.user, 'delete'))
+      .catch((error) => store.commit('API_FAIL', error))
+    },
+    addNewUser (state, configdetails) {
+      configdetails._action = 'addNewUser'
+      return api.post(apiRoot + '/index.html', configdetails)
+      .then((response) => store.commit('REFRESH_LIST', response, configdetails.username, 'add'))
       .catch((error) => store.commit('API_FAIL', error))
     }
   }

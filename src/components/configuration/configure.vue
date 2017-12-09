@@ -50,6 +50,9 @@ export default {
   mounted: function () {
     this.$store.dispatch('getAllAPs')
     this.$store.dispatch('initApp')
+  },
+  unmounted: function () {
+    window.removeEventListener('keyup', this.submit)
   }
 }
 </script>

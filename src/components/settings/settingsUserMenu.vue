@@ -2,12 +2,12 @@
   <div class='col-12'>
     <div class='col-12 settings-container'>
         <div class='settings-header'>USER LIST</div> 
-        <div v-for="user in users" :key="user" class='user-row'> 
-            <div class='col-10'>{{user}}</div>
-            <div class='col-1 float-right'>
-                <img class="" src="../../assets/images/icon-plus.svg"/>
-            </div>
-            <div class='col-1 float-right'>
+        <div v-if="currentuser.length > 0" class='user-row'>
+            <div class='sans-serif-bold'>{{currentuser}}</div>
+        </div>
+        <div v-for="user in users" v-if="currentuser !== user" :key="user" class='user-row'> 
+            <div class='col-11'>{{user}}</div>
+            <div class='col-1 float-right cursor-pointer' @click="deleteuser(user)">
                 <img class="" src="../../assets/images/icon-plus.svg"/>
             </div>
         </div>
@@ -20,6 +20,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueLocalStorage from 'vue-ls'
+
+Vue.use(VueLocalStorage)
 
 export default {
   name: 'userlist',
@@ -30,6 +34,19 @@ export default {
       get: function () {
         return this.$store.state.settings.users
       }
+    },
+    currentuser: {
+      get: function () {
+        return Vue.ls.get('user')
+      }
+    }
+  },
+  methods: {
+    deleteuser: function (username) {
+      console.log(username)
+      var deleterequest = {}
+      deleterequest.user = username
+      this.$store.dispatch('deleteUser', deleterequest)
     }
   }
 }

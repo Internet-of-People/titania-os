@@ -13,6 +13,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueLocalStorage from 'vue-ls'
+
+Vue.use(VueLocalStorage)
+
 export default {
   name: 'footerParent',
   computed: {
@@ -21,7 +26,7 @@ export default {
         if (this.$store.state.currentPage === 'configure') {
           return true
         }
-        return this.$store.state.credentials.username
+        return Vue.ls.get('user')
       }
     },
     getmailhref: {

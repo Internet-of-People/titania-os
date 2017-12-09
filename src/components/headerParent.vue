@@ -11,6 +11,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueLocalStorage from 'vue-ls'
+
+Vue.use(VueLocalStorage)
+
 export default {
   name: 'headerParent',
   props: ['nameProp'],
@@ -20,6 +25,7 @@ export default {
       this.$router.push('/login')
       this.$store.state.currentPage = 'login'
       this.$store.state.credentials.password = ''
+      Vue.ls.set('user', '')
     },
     getPageTitle (pagename) {
       return pagename === 'DASHBOARD' ? 'DASHBOARD' : 'DASHBOARD  >  ' + pagename
@@ -34,7 +40,7 @@ export default {
     }
   },
   mounted: function () {
-    console.log(this.$store.state.credentials.username)
+    console.log(Vue.ls.get('user'))
   }
 }
 </script>

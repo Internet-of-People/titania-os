@@ -3,9 +3,11 @@ import Vuex from 'vuex'
 import VueSession from 'vue-session'
 import api from './api.js'
 import router from '../router'
+import VueLocalStorage from 'vue-ls'
 
 Vue.use(Vuex)
 Vue.use(VueSession)
+Vue.use(VueLocalStorage)
 
 // const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
@@ -89,6 +91,7 @@ const store = new Vuex.Store({
         router.push({name: 'dashboard', params: { setSession: true }})
         state.currentPage = 'dashboard'
         state.credentials.username = response.body.username
+        Vue.ls.set('user', state.credentials.username)
       } else {
         Vue.toast('Login attempt failed', {
           id: 'my-toast',
@@ -152,9 +155,18 @@ const store = new Vuex.Store({
       state.containerthreads = response.body
     },
     'SETTINGS': function (state, response) {
-      console.log(response.body)
       state.settings.users = response.body[0].users
-      console.log(state.settings.users)
+    },
+    'REFRESH_LIST': function (state, response, user) {
+      Vue.toast('User ' + user + 'deleted successfully', {
+        id: 'my-toast',
+        className: ['toast-success'],
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+        duration: 2000,
+        mode: 'queue'
+      })
+      state.settings.users = response.body[0].users
     }
   },
   actions: {
@@ -272,6 +284,12 @@ const store = new Vuex.Store({
       }
       return api.post(apiRoot + '/index.html', settings)
       .then((response) => store.commit('SETTINGS', response))
+      .catch((error) => store.commit('API_FAIL', error))
+    },
+    deleteUser (state, deleterequest) {
+      deleterequest._action = 'deleteUser'
+      return api.post(apiRoot + '/index.html', deleterequest)
+      .then((response) => store.commit('REFRESH_LIST', response, deleterequest.user))
       .catch((error) => store.commit('API_FAIL', error))
     }
   }

@@ -44,6 +44,9 @@ export default {
     submit () {
       this.$store.dispatch('login', this.$store.state.credentials)
     }
+  },
+  mounted () {
+    this.$store.dispatch('initApp')
   }
 }
 </script>

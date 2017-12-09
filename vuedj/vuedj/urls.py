@@ -20,7 +20,7 @@ from rest_framework import routers
 from configtitania import views
 
 router = routers.SimpleRouter()
-router.register(r'user', views.UserViewSet)
+# router.register(r'user', views.UserViewSet)
 # router.register(r'schema', views.SchemaViewSet)
 
 urlpatterns = [

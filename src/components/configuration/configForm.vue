@@ -28,9 +28,9 @@
               <div class="sans-serif-normal text-align large-fontsize">WIFI Network</div>
               <div class="text-align cursor-pointer selected-wifi" @click="getWiFiList()">{{currentwifiap}} <div class='float-right'>&#9662;</div></div>       
               <ul class='dropdown-config hide' >
-                <li v-for="item in wifiAps" :key="item" class="float-left  cursor-pointer col-12 selected" @click="setWifiAP(item)" >
+                <li v-for="item in wifiAps" :key="item" class="float-left  cursor-pointer col-11 selected" @click="setWifiAP(item)" >
                   <span v-if="item == currentwifiap" class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{item}}</span>
-                  <span v-else class="float-left cursor-pointer sans-serif-normal overflow-hidden" style="width: 100%;">{{item}}</span>
+                  <span v-else class="float-left cursor-pointer sans-serif-normal overflow-hidden" style="width:70%;">{{item}}</span>
                 </li>
               </ul>
             </div>

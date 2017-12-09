@@ -13,7 +13,7 @@ const apiRoot = 'http://192.168.2.5:8000' // dev pi
 
 const store = new Vuex.Store({
   state: {
-    schema: '1.0',
+    schema: '',
     credentials: {
       username: '',
       password: ''
@@ -45,7 +45,7 @@ const store = new Vuex.Store({
     // returned by the Promise.
     // The mutations are in charge of updating the client state.
     'SET_SCHEMA': function (state, response) {
-      state.schema = response.body[0].version
+      state.schema = response.body.version_info
     },
     'GET_CREDS': function (state, response) {
       if (response.body.length === 0) {
@@ -65,8 +65,10 @@ const store = new Vuex.Store({
       state.currentPage = 'configure'
     },
     'SAVE_CONFIGURATION': function (state, response) {
-      router.push('/login')
-      state.currentPage = 'login'
+      if (response.body.STATUS === 'SUCCESS') {
+        router.push('/login')
+        state.currentPage = 'login'
+      }
     },
     'LOGIN': function (state, response) {
       if (response.body.username) {
@@ -157,10 +159,10 @@ const store = new Vuex.Store({
         }).catch((error) => store.commit('API_FAIL', error))
     },
     getCreds (state) {
-      var getUserDetails = {
-        _action: 'getUserDetails'
+      var getIfConfigured = {
+        _action: 'getIfConfigured'
       }
-      return api.post(apiRoot + '/index.html', getUserDetails)
+      return api.post(apiRoot + '/index.html', getIfConfigured)
         .then((response) => store.commit('GET_CREDS', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
@@ -191,7 +193,7 @@ const store = new Vuex.Store({
       // configdetails.wifi_password = 'Pass@125'
       // configdetails.wifi_ap = 'homigo107'
       return api.post(apiRoot + '/index.html', configdetails)
-        .then((response) => store.commit('SAVE_CONFIGURATION', configdetails))
+        .then((response) => store.commit('SAVE_CONFIGURATION', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
     logout (state, credentials) {

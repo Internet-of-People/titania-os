@@ -8,14 +8,24 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
 
-from .models import User, Schema
-from .serializers import UserSerializer, SchemaSerializer
+from .models import BoxDetails
+from .serializers import BoxDetailsSerializer
 
 import common, sqlite3, subprocess, NetworkManager, os, crypt, pwd, getpass, spwd 
 
 # fetch network AP details
 nm = NetworkManager.NetworkManager
 wlans = [d for d in nm.Devices if isinstance(d, NetworkManager.Wireless)]
+
+def get_osversion():
+    """
+    Name of your Linux distro (in lowercase).
+    """
+    with open("/etc/os-release") as f:
+        osfilecontent = f.read().split("\n")
+        # $PRETTY_NAME is at the 5th position
+        version = osfilecontent[4].split('=')[1].strip('\"')
+        return version
 
 @csrf_exempt
 def handle_config(request):
@@ -25,19 +35,12 @@ def handle_config(request):
     if request.method == 'POST':
         action = request.POST.get("_action")
         if action == 'getSchema':
+            schema = get_osversion()
+            return JsonResponse({"version_info":schema}, safe=False)
+        elif action == 'getIfConfigured':
             print(action)
-            queryset = Schema.objects.all()
-            schemaSet = len(queryset)
-            if schemaSet == 0:
-                setSchema = Schema(version=common.VERSION, major_version=common.MAJOR_VERSION, minor_version=common.MINOR_VERSION)
-                setSchema.save()
-                print('saved schema')
-            serializer = SchemaSerializer(queryset, many=True)
-            return JsonResponse(serializer.data, safe=False)
-        elif action == 'getUserDetails':
-            print(action)
-            queryset = User.objects.all()
-            serializer = UserSerializer(queryset, many=True)
+            queryset = BoxDetails.objects.all()
+            serializer = BoxDetailsSerializer(queryset, many=True)
             return JsonResponse(serializer.data, safe=False)
         elif action == 'getAllAPs':
             wifi_aps = []   
@@ -52,8 +55,8 @@ def handle_config(request):
             password = request.POST.get("password")
             encPass = crypt.crypt(password,"22")
             os.system("useradd -G docker,wheel -p "+encPass+" "+username)
-            setUser = User(boxname=boxname, username=username, password=password)
-            setUser.save()
+            setBoxName = BoxDetails(boxname=boxname)
+            setBoxName.save()
             # connect to wifi ap user selected
             wifi_psk = request.POST.get("wifi_password")
             wifi_name = request.POST.get("wifi_ap")
@@ -74,7 +77,7 @@ def handle_config(request):
                     },
                 }
             conn = nm.AddAndActivateConnection(params, wlan0, currentwifi)
-            return JsonResponse([{"STATUS":"SUCCESS"},{"RESPONSE":"Config saved successfully"}], safe=False)
+            return JsonResponse({"STATUS":"SUCCESS"}, safe=False)
         elif action == 'login':
             print(action)
             username = request.POST.get("username")
@@ -218,13 +221,13 @@ def handle_config(request):
 def index(request):
     return render(request, 'index.html')
 
-#not being used
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+
+class BoxDetailsViewSet(viewsets.ModelViewSet):
+    queryset = BoxDetails.objects.all()
+    serializer_class = BoxDetailsSerializer
 
 #not being used
-class SchemaViewSet(viewsets.ModelViewSet):
+# class SchemaViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """

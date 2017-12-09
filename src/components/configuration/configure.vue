@@ -49,6 +49,7 @@ export default {
   },
   mounted: function () {
     this.$store.dispatch('getAllAPs')
+    this.$store.dispatch('initApp')
   }
 }
 </script>

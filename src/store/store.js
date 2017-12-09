@@ -38,7 +38,12 @@ const store = new Vuex.Store({
     threadfilter: 'all',
     threads: [],
     containerthreads: [],
-    menu: 0
+    menu: 0,
+    settingOption: 'users',
+    settings: {
+      users: [],
+      wifi: []
+    }
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -145,6 +150,11 @@ const store = new Vuex.Store({
     },
     'CONTAINER_THREADS': function (state, response) {
       state.containerthreads = response.body
+    },
+    'SETTINGS': function (state, response) {
+      console.log(response.body)
+      state.settings.users = response.body[0].users
+      console.log(state.settings.users)
     }
   },
   actions: {
@@ -249,11 +259,19 @@ const store = new Vuex.Store({
       .catch((error) => store.commit('API_FAIL', error))
     },
     getContainerTop (state) {
-      var threads = {
+      var containerthreads = {
         _action: 'getContainerTop'
       }
-      return api.post(apiRoot + '/index.html', threads)
+      return api.post(apiRoot + '/index.html', containerthreads)
       .then((response) => store.commit('CONTAINER_THREADS', response))
+      .catch((error) => store.commit('API_FAIL', error))
+    },
+    getSettingsList (state) {
+      var settings = {
+        _action: 'getSettings'
+      }
+      return api.post(apiRoot + '/index.html', settings)
+      .then((response) => store.commit('SETTINGS', response))
       .catch((error) => store.commit('API_FAIL', error))
     }
   }

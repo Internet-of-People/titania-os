@@ -7,6 +7,7 @@ import dappsconsole from '@/components/dappsconsole/dappsParent'
 import containerstats from '@/components/containerstats/containerParent'
 import threads from '@/components/threads/threadsParent'
 import menu from '@/components/mobilemenu/menuParent'
+import settings from '@/components/settings/settingsParent'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/menu',
       name: 'menu',
       component: menu
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: settings
     }
   ]
 })

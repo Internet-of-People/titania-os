@@ -260,7 +260,7 @@ input:not(.box-name-field):not(.config-input-field) {
   color: #C82506;
 }
 
-.cursor-pointer, .button-primary, .configure-add-options-menu span:not(.form-error), .config-headers, .details, .cursorPointer {
+.cursor-pointer, .button-primary, .configure-add-options-menu span:not(.form-error), .config-headers, .details, .cursorPointer, .settings-options, .add-new {
   cursor: pointer;
 }
 
@@ -781,7 +781,7 @@ div.highlightedFilter {
   height: 16px;
 }
 
-.text-align-left {
+.text-align-left, .settings-header {
   text-align: left;
 }
 
@@ -818,6 +818,10 @@ div.highlightedFilter {
 
 .margin-right-4 {
   margin-right: 4px;
+}
+
+.margin-right-8 {
+  margin-right: 8px;
 }
 
 .metrics-labels div {
@@ -898,6 +902,60 @@ div.highlightedFilter {
 
 .footer-links > span:hover {
   color: #0067C5;
+}
+
+.settings-tab {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+}
+
+.highlightedOption {
+  color: #8b6787;
+  cursor: pointer;
+  border-bottom: 1px solid #8b6787;
+}
+
+.settings-options {
+  margin-left: 40px;
+}
+.settings-options div {
+  padding: 8px 16px;
+  font-size: 15px;
+}
+
+.display-table {
+  display: table;
+}
+
+.settings-container {
+  display: inline-block;
+  width: 600px;
+  height: 500px;
+  overflow-y: scroll;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  opacity: .6;
+  margin: 24px 40px;
+  background-color: white;
+}
+
+.settings-header {
+  padding: 16px 20px;
+  font-size: 15px;
+  color: #554151;
+  font-weight: 400;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.add-new {
+  margin: 20px;
+}
+
+.user-row {
+  padding: 15px 20px;
+  border-bottom: 1px solid #d8d8d8;
+  text-align: left;
+  display: flex;
 }
 
 @media only screen and (max-device-width: 600px) {

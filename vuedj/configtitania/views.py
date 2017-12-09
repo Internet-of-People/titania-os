@@ -216,6 +216,13 @@ def handle_config(request):
                 data = {'container_id': i[0], 'container_name' : i[1], 'data': datasets}
                 resultset.append(data)
             return JsonResponse(resultset, safe=False)
+        elif action == 'getSettings':
+            print(action)
+            ps = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
+            # sample ps 
+            # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+            userlist = ps.split(':')[3].split(',')
+            return JsonResponse([{'users':userlist}], safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):
@@ -226,16 +233,4 @@ class BoxDetailsViewSet(viewsets.ModelViewSet):
     queryset = BoxDetails.objects.all()
     serializer_class = BoxDetailsSerializer
 
-#not being used
-# class SchemaViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-
-    """Setting Schema"""
-    # # setSchema = Schema(version=common.VERSION, major_version=common.MAJOR_VERSION, minor_version=common.MINOR_VERSION)
-    # # setSchema.save()
-    #
-    # queryset = Schema.objects.all()
-    # serializer_class = SchemaSerializer
 

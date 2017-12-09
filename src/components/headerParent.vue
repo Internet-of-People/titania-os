@@ -19,6 +19,7 @@ export default {
       this.$session.destroy()
       this.$router.push('/login')
       this.$store.state.currentPage = 'login'
+      this.$store.state.credentials.password = ''
     },
     getPageTitle (pagename) {
       return pagename === 'DASHBOARD' ? 'DASHBOARD' : 'DASHBOARD  >  ' + pagename
@@ -31,6 +32,9 @@ export default {
       }
       this.$store.state.menu = !this.$store.state.menu
     }
+  },
+  mounted: function () {
+    console.log(this.$store.state.credentials.username)
   }
 }
 </script>

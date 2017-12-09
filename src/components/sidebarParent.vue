@@ -18,6 +18,10 @@
       <img v-if="currentTab('threads')" class="tab-label" src="../assets/images/icon-thread-b.svg">
       <img v-else class="tab-label" src="../assets/images/icon-thread-a.svg">
     </div>
+    <div @click="tabSwitch('settings')" title='Settings' class='cursor-pointer settings-tab'>
+      <img v-if="currentTab('settings')" class="tab-label" src="../assets/images/settings-white.svg">
+      <img v-else class="tab-label" src="../assets/images/settings.svg">
+    </div>
   </div>
 </template>
 

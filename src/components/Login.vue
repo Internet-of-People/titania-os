@@ -46,7 +46,7 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('initApp')
+    // this.$store.dispatch('initApp')
   }
 }
 </script>

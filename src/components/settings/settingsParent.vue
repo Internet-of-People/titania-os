@@ -2,8 +2,8 @@
   <div>
     <sidebarParent></sidebarParent>
     <headerParent :name-prop="page"></headerParent>
-    <div class="margin-20">
-      <dashboardMainContent v-if="this.$store.state.dashboardChart.series.length != 0"></dashboardMainContent>
+    <div class="margin-20 display-table">
+        <settingsWrapper></settingsWrapper>
     </div>
   </div>
 </template>
@@ -11,31 +11,30 @@
 <script>
 import sidebarParent from '@/components/sidebarParent'
 import headerParent from '@/components/headerParent'
-import dashboardMainContent from '@/components/dashboard/dashboardMainContent'
+import settingsWrapper from '@/components/settings/settingsWrapper'
 
 export default {
-  name: 'dashboard',
+  name: 'settings',
   computed: {
     page () {
-      return 'DASHBOARD'
+      return 'SETTINGS'
     }
   },
   components: {
     sidebarParent,
     headerParent,
-    dashboardMainContent
+    settingsWrapper
   },
   mounted: function () {
     if (this.$route.params.setSession && !this.$session.exists()) {
-      this.$store.dispatch('getDashboardCards')
-      this.$store.dispatch('getDashboardChart')
+      this.$store.dispatch('getSettingsList')
       this.$session.start()
     } else if (!this.$session.exists()) {
       this.$router.push('/login')
       this.$store.state.currentPage = 'login'
     } else {
-      this.$store.dispatch('getDashboardCards')
-      this.$store.dispatch('getDashboardChart')
+      this.$store.dispatch('getSettingsList')
+    //   this.$store.dispatch('getDashboardChart')
     }
   }
 }

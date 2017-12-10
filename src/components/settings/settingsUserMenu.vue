@@ -7,8 +7,8 @@
         </div>
         <div v-for="user in users" v-if="currentuser !== user" :key="user" class='user-row'> 
             <div class='col-11'>{{user}}</div>
-            <div class='col-1 float-right cursor-pointer' @click="deleteuser(user)">
-                <img class="" src="../../assets/images/icon-plus.svg"/>
+            <div class='col-1 float-right cursor-pointer' @click="deleteuser(user)" title='Delete user'>
+                <img class="edit-remove-icon" src="../../assets/images/trash.svg"/>
             </div>
         </div>
         <div class='cursor-pointer float-left add-new display-inline-flex' @click="addNewUser()">

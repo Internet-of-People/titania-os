@@ -26,7 +26,7 @@
           <div v-else-if="showThisTab('wifi')" class='margin-top-20'>
             <div class="form-field-block col-12">
               <div class="sans-serif-normal text-align large-fontsize">WIFI Network</div>
-              <div class="text-align cursor-pointer selected-wifi" @click="getWiFiList()">{{currentwifiap}} <div class='float-right'>&#9662;</div></div>       
+              <div class="text-align cursor-pointer selected-wifi" @click="getWiFiList()">{{currentwifiap}} <div v-if="this.editProp === false" class='float-right'>&#9662;</div></div>       
               <ul class='dropdown-config hide' >
                 <li v-for="item in wifiAps" :key="item" class="float-left  cursor-pointer col-11 selected" @click="setWifiAP(item)" >
                   <span v-if="item == currentwifiap" class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{item}}</span>
@@ -56,7 +56,7 @@
 import Vue from 'vue'
 export default {
   name: 'configForm',
-  props: ['testProp'],
+  props: ['testProp', 'editProp', 'editWifiapProp'],
   computed: {
     wifiAps: {
       get: function () {
@@ -73,6 +73,9 @@ export default {
     },
     currentwifiap: {
       get: function () {
+        if (this.editProp) {
+          return this.editWifiapProp
+        }
         return this.$store.state.configuration.wifi_aps_current
       },
       set: function (apname) {
@@ -137,8 +140,13 @@ export default {
             this.$store.dispatch('addNewUser', this.configdetails)
           }
         } else {
-          this.configdetails.wifi_ap = this.currentwifiap
-          this.$store.dispatch('addWifi', this.configdetails)
+          if (this.editProp) {
+            this.configdetails.wifi_ap = this.editWifiapProp
+            this.$store.dispatch('editWifi', this.configdetails)
+          } else {
+            this.configdetails.wifi_ap = this.currentwifiap
+            this.$store.dispatch('addWifi', this.configdetails)
+          }
         }
       } else {
         if (this.configdetails.boxname.length === 0) {
@@ -183,6 +191,9 @@ export default {
       }
     },
     getWiFiList () {
+      if (this.editProp === true) {
+        return
+      }
       if ($('.dropdown-config.hide').length) {
         $('.dropdown-config').removeClass('hide')
       } else {

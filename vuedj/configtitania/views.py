@@ -81,6 +81,31 @@ def delete_WifiConn(wifiap):
     ps = subprocess.Popen(['nmcli', 'connection','delete','id',wifiap], stdout=subprocess.PIPE)
     print(ps)
 
+def edit_WifiConn(wifiname, wifipass):
+    ps = subprocess.Popen(['nmcli', 'connection','delete','id',wifiname], stdout=subprocess.PIPE)
+    print(ps)
+    print(wlans)
+    wlan0 = wlans[0]
+    print(wlan0)
+    print(wifiname)
+    # get selected ap as currentwifi
+    for dev in wlans:
+        for ap in dev.AccessPoints:
+            if ap.Ssid == wifiname:
+                currentwifi = ap
+    # params to set password
+    params = {
+            "802-11-wireless": {
+                "security": "802-11-wireless-security",
+            },
+            "802-11-wireless-security": {
+                "key-mgmt": "wpa-psk",
+                "psk": wifipass
+            },
+        }
+    conn = nm.AddAndActivateConnection(params, wlan0, currentwifi) 
+    return       
+
 @csrf_exempt
 def handle_config(request):
     """
@@ -269,7 +294,7 @@ def handle_config(request):
             userlist = fetchusers.split(':')[3].split(',')
             configuredwifi = get_allconfiguredwifi()
             wifi_aps = get_allAPs()
-            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps}], safe=False)
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'deleteuser', 'endpoint': username}], safe=False)
         elif action == 'addNewUser':
             print(action)
             username = request.POST.get("username")
@@ -281,7 +306,7 @@ def handle_config(request):
             userlist = fetchusers.split(':')[3].split(',')
             configuredwifi = get_allconfiguredwifi()
             wifi_aps = get_allAPs()
-            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps}], safe=False)
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'adduser', 'endpoint': username}], safe=False)
         elif action == 'addWifi':
             print(action)
             # connect to wifi ap user selected
@@ -294,7 +319,7 @@ def handle_config(request):
             userlist = fetchusers.split(':')[3].split(',')
             configuredwifi = get_allconfiguredwifi()
             wifi_aps = get_allAPs()
-            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps}], safe=False)
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'addwifi', 'endpoint': wifi_name}], safe=False)
         elif action == 'deleteWifi':
             print(action)
             # connect to wifi ap user selected
@@ -306,7 +331,20 @@ def handle_config(request):
             userlist = fetchusers.split(':')[3].split(',')
             configuredwifi = get_allconfiguredwifi()
             wifi_aps = get_allAPs()
-            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps}], safe=False)
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'deletewifi', 'endpoint': wifi_name}], safe=False)
+        elif action == 'editWifi':
+            print(action)
+            # connect to wifi ap user selected
+            wifi_name = request.POST.get("wifi_ap")
+            wifi_pass = request.POST.get("wifi_password")
+            edit_WifiConn(wifi_name,wifi_pass)
+            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
+            # sample ps 
+            # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+            userlist = fetchusers.split(':')[3].split(',')
+            configuredwifi = get_allconfiguredwifi()
+            wifi_aps = get_allAPs()
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'editwifi', 'endpoint': wifi_name}], safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

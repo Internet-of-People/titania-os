@@ -17,7 +17,7 @@
         </div>
     </div>
     <div v-if="configure">
-      <config-form :test-prop='tabname' ref="configFormDiv" />
+      <config-form :test-prop='tabname' :edit-prop='iseditwifi' :edit-wifiap-prop='editwifiname' ref="configFormDiv" />
       <div class="fadeout" @click="toggleConfig()"></div>
     </div>
   </div>
@@ -52,14 +52,30 @@ export default {
       get: function () {
         return 'wifi'
       }
+    },
+    iseditwifi: {
+      get: function () {
+        return this.$store.state.settings.getaseditwifiform
+      },
+      set: function (val) {
+        this.$store.state.settings.getaseditwifiform = val
+      }
+    },
+    editwifiname: {
+      get: function () {
+        return this.$store.state.settings.editwifiap
+      },
+      set: function (val) {
+        this.$store.state.settings.editwifiap = val
+      }
     }
   },
   methods: {
     updatewifi: function (wifiap) {
       console.log(wifiap)
-      var updaterequest = {}
-      updaterequest.wifi = wifiap
-      this.$store.dispatch('updateWiFi', updaterequest)
+      this.iseditwifi = true
+      this.editwifiname = wifiap
+      this.configure = !this.configure
     },
     deletewifi: function (wifiap) {
       console.log(wifiap)
@@ -68,6 +84,8 @@ export default {
       this.$store.dispatch('deleteWifi', deleterequest)
     },
     addNewWifi: function () {
+      this.iseditwifi = false
+      this.editwifiname = ''
       this.configure = !this.configure
     },
     toggleConfig: function () {

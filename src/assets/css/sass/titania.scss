@@ -996,6 +996,9 @@ div.highlightedFilter{
   .center-aligned-slider{
     height: 475px;
   }
+  .dropdown-config{
+    top: 174px;
+  }
 }
 .settings-header{
   @extend .text-align-left;
@@ -1013,6 +1016,10 @@ div.highlightedFilter{
   border-bottom: 1px solid #d8d8d8;
   text-align: left;
   display: flex;
+}
+.edit-remove-icon{
+  height: 16px;
+  width: 16px;
 }
 
 @media only screen and (max-device-width: 600px) {

@@ -40,6 +40,47 @@ def get_allconfiguredwifi():
         wifi.append(name[0])
     return wifi
 
+def get_allAPs():
+    wifi_aps = []   
+    for dev in wlans:
+        for ap in dev.AccessPoints:
+            wifi_aps.append(ap.Ssid)
+    return wifi_aps
+
+def add_user(username, password):
+    encPass = crypt.crypt(password,"22")
+    os.system("useradd -G docker,wheel -p "+encPass+" "+username)
+
+def add_newWifiConn(wifiname, wifipass):
+    print(wlans)
+    wlan0 = wlans[0]
+    print(wlan0)
+    print(wifiname)
+    # get selected ap as currentwifi
+    for dev in wlans:
+        for ap in dev.AccessPoints:
+            if ap.Ssid == wifiname:
+                currentwifi = ap
+    print(currentwifi)
+    # params to set password
+    params = {
+            "802-11-wireless": {
+                "security": "802-11-wireless-security",
+            },
+            "802-11-wireless-security": {
+                "key-mgmt": "wpa-psk",
+                "psk": wifipass
+            },
+        }
+    conn = nm.AddAndActivateConnection(params, wlan0, currentwifi)        
+
+def delete_WifiConn(wifiap):
+    """
+    nmcli connection delete id <connection name>
+    """
+    ps = subprocess.Popen(['nmcli', 'connection','delete','id',wifiap], stdout=subprocess.PIPE)
+    print(ps)
+
 @csrf_exempt
 def handle_config(request):
     """
@@ -56,40 +97,20 @@ def handle_config(request):
             serializer = BoxDetailsSerializer(queryset, many=True)
             return JsonResponse(serializer.data, safe=False)
         elif action == 'getAllAPs':
-            wifi_aps = []   
-            for dev in wlans:
-                for ap in dev.AccessPoints:
-                    wifi_aps.append(ap.Ssid)
+            wifi_aps = get_allAPs()
             return JsonResponse(wifi_aps, safe=False)
         elif action == 'saveUserDetails':
             print(action)
             boxname = request.POST.get("boxname")
             username = request.POST.get("username")
             password = request.POST.get("password")
-            encPass = crypt.crypt(password,"22")
-            os.system("useradd -G docker,wheel -p "+encPass+" "+username)
+            add_user(username,password)
             setBoxName = BoxDetails(boxname=boxname)
             setBoxName.save()
             # connect to wifi ap user selected
-            wifi_psk = request.POST.get("wifi_password")
+            wifi_pass = request.POST.get("wifi_password")
             wifi_name = request.POST.get("wifi_ap")
-            wlan0 = wlans[0]
-            # get selected ap as currentwifi
-            for dev in wlans:
-                for ap in dev.AccessPoints:
-                    if ap.Ssid == wifi_name:
-                        currentwifi = ap
-            # params to set password
-            params = {
-                    "802-11-wireless": {
-                        "security": "802-11-wireless-security",
-                    },
-                    "802-11-wireless-security": {
-                        "key-mgmt": "wpa-psk",
-                        "psk": wifi_psk
-                    },
-                }
-            conn = nm.AddAndActivateConnection(params, wlan0, currentwifi)
+            add_newWifiConn(wifi_name,wifi_pass)
             return JsonResponse({"STATUS":"SUCCESS"}, safe=False)
         elif action == 'login':
             print(action)
@@ -236,7 +257,8 @@ def handle_config(request):
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = ps.split(':')[3].split(',')
             configuredwifi = get_allconfiguredwifi()
-            return JsonResponse([{'users':userlist,'wifi':configuredwifi}], safe=False)
+            wifi_aps = get_allAPs()
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps}], safe=False)
         elif action == 'deleteUser':
             print(action)
             username = request.POST.get("user")
@@ -246,24 +268,49 @@ def handle_config(request):
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = fetchusers.split(':')[3].split(',')
             configuredwifi = get_allconfiguredwifi()
-            return JsonResponse([{'users':userlist,'wifi':configuredwifi}], safe=False)
+            wifi_aps = get_allAPs()
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps}], safe=False)
         elif action == 'addNewUser':
             print(action)
             username = request.POST.get("username")
             password = request.POST.get("password")
-            encPass = crypt.crypt(password,"22")
-            os.system("useradd -G docker,wheel -p "+encPass+" "+username)
+            add_user(username,password)
             fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = fetchusers.split(':')[3].split(',')
             configuredwifi = get_allconfiguredwifi()
-            return JsonResponse([{'users':userlist,'wifi':configuredwifi}], safe=False)
+            wifi_aps = get_allAPs()
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps}], safe=False)
+        elif action == 'addWifi':
+            print(action)
+            # connect to wifi ap user selected
+            wifi_pass = request.POST.get("wifi_password")
+            wifi_name = request.POST.get("wifi_ap")
+            add_newWifiConn(wifi_name,wifi_pass)
+            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
+            # sample ps 
+            # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+            userlist = fetchusers.split(':')[3].split(',')
+            configuredwifi = get_allconfiguredwifi()
+            wifi_aps = get_allAPs()
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps}], safe=False)
+        elif action == 'deleteWifi':
+            print(action)
+            # connect to wifi ap user selected
+            wifi_name = request.POST.get("wifi")
+            delete_WifiConn(wifi_name)
+            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
+            # sample ps 
+            # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+            userlist = fetchusers.split(':')[3].split(',')
+            configuredwifi = get_allconfiguredwifi()
+            wifi_aps = get_allAPs()
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps}], safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):
     return render(request, 'index.html')
-
 
 class BoxDetailsViewSet(viewsets.ModelViewSet):
     queryset = BoxDetails.objects.all()

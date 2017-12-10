@@ -158,9 +158,18 @@ const store = new Vuex.Store({
     'SETTINGS': function (state, response) {
       state.settings.users = response.body[0].users
       state.settings.wifi = response.body[0].wifi
+      state.configuration.wifi_aps = response.body[0].allwifiaps
+      state.configuration.wifi_aps_current = response.body[0].allwifiaps[0]
     },
-    'REFRESH_LIST': function (state, response, user, reqtype) {
-      var message = reqtype === 'delete' ? 'User ' + user + 'deleted successfully' : 'User ' + user + 'added successfully'
+    'REFRESH_LIST': function (state, response, endpoint, reqtype) {
+      var message = ''
+      if (reqtype === 'addwifi') {
+        message = 'Wifi ' + endpoint + ' setup successfully'
+      } else if (reqtype === 'deletewifi') {
+        message = 'Wifi ' + endpoint + ' removed successfully'
+      } else {
+        message = reqtype === 'delete' ? 'User ' + endpoint + ' deleted successfully' : 'User ' + endpoint + ' added successfully'
+      }
       Vue.toast(message, {
         id: 'my-toast',
         className: ['toast-success'],
@@ -171,6 +180,8 @@ const store = new Vuex.Store({
       })
       state.settings.users = response.body[0].users
       state.settings.wifi = response.body[0].wifi
+      state.configuration.wifi_aps = response.body[0].allwifiaps
+      state.configuration.wifi_aps_current = response.body[0].allwifiaps[0]
       state.settings.getform = false
     }
   },
@@ -301,6 +312,18 @@ const store = new Vuex.Store({
       configdetails._action = 'addNewUser'
       return api.post(apiRoot + '/index.html', configdetails)
       .then((response) => store.commit('REFRESH_LIST', response, configdetails.username, 'add'))
+      .catch((error) => store.commit('API_FAIL', error))
+    },
+    addWifi (state, configdetails) {
+      configdetails._action = 'addWifi'
+      return api.post(apiRoot + '/index.html', configdetails)
+      .then((response) => store.commit('REFRESH_LIST', response, configdetails.currentwifiap, 'addwifi'))
+      .catch((error) => store.commit('API_FAIL', error))
+    },
+    deleteWifi (state, deleterequest) {
+      deleterequest._action = 'deleteWifi'
+      return api.post(apiRoot + '/index.html', deleterequest)
+      .then((response) => store.commit('REFRESH_LIST', response, deleterequest.wifi, 'deletewifi'))
       .catch((error) => store.commit('API_FAIL', error))
     }
   }

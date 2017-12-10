@@ -2,10 +2,13 @@
   <div class='col-12 settings-page'>
     <div class='col-12 settings-container'>
         <div class='settings-header'>WiFi LIST</div> 
-        <div v-for="wifi in wifiaps" :key="wifi" class='user-row'> 
-            <div class='col-11'>{{wifi}}</div>
-            <div class='col-1 float-right cursor-pointer' @click="deletewifi(wifi)">
-                <img class="" src="../../assets/images/icon-plus.svg"/>
+        <div v-for="wifi in wifiaps" v-if="wifi.length > 0" :key="wifi" class='user-row'> 
+            <div class='col-10'>{{wifi}}</div>
+            <div class='col-1 float-right cursor-pointer' @click="updatewifi(wifi)" title="Update connection">
+                <img class="edit-remove-icon" src="../../assets/images/edit.svg"/>
+            </div>
+            <div class='col-1 float-right cursor-pointer' @click="deletewifi(wifi)" title="Delete connection">
+                <img class="edit-remove-icon" src="../../assets/images/trash.svg"/>
             </div>
         </div>
         <div class='cursor-pointer float-left add-new display-inline-flex' @click="addNewWifi()">
@@ -52,11 +55,17 @@ export default {
     }
   },
   methods: {
-    deletewifi: function (username) {
-      console.log(username)
+    updatewifi: function (wifiap) {
+      console.log(wifiap)
+      var updaterequest = {}
+      updaterequest.wifi = wifiap
+      this.$store.dispatch('updateWiFi', updaterequest)
+    },
+    deletewifi: function (wifiap) {
+      console.log(wifiap)
       var deleterequest = {}
-      deleterequest.user = username
-      this.$store.dispatch('deleteUser', deleterequest)
+      deleterequest.wifi = wifiap
+      this.$store.dispatch('deleteWifi', deleterequest)
     },
     addNewWifi: function () {
       this.configure = !this.configure

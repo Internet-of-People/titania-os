@@ -99,7 +99,6 @@ export default {
     saveConfig () {
       if (this.testProp) {
         if (this.testProp === 'user') {
-          console.log('heee')
           if (this.configdetails.username.length === 0) {
             Vue.toast('Enter username', {
               id: 'my-toast',
@@ -137,6 +136,9 @@ export default {
             $('#confirmPassword').removeClass('error-hint')
             this.$store.dispatch('addNewUser', this.configdetails)
           }
+        } else {
+          this.configdetails.wifi_ap = this.currentwifiap
+          this.$store.dispatch('addWifi', this.configdetails)
         }
       } else {
         if (this.configdetails.boxname.length === 0) {

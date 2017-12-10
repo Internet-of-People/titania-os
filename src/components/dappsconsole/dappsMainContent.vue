@@ -6,7 +6,7 @@
           <td></td>
           <td>NAME</td>
           <td>CONTAINER ID</td>
-          <td>RUNNING FOR</td>
+          <!-- <td>RUNNING FOR</td> -->
           <td>LATEST ACTION</td>
           <td>COMMAND</td>
           <td>STATUS</td>
@@ -15,7 +15,7 @@
         <tr v-else>
           <td></td>
           <td>NAME</td>
-          <td>RUNNING FOR</td>
+          <!-- <td>RUNNING FOR</td> -->
           <td>LATEST ACTION</td>
           <td>COMMAND</td>
           <td>STATUS</td>
@@ -30,7 +30,7 @@
           </td>
           <td>{{row.name}}</td>
           <td>{{row.container_id}}</td>
-          <td>{{row.running_for}}</td>
+          <!-- <td>{{row.running_for}}</td> -->
           <td>{{row.status}}</td>
           <td>{{row.command}}</td>
           <td>{{row.state}}</td>
@@ -45,7 +45,7 @@
             <img class='state-dapps' v-else src="../../assets/images/state-stopped.svg"/>
           </td>
           <td>{{row.name}}</td>
-          <td>{{row.running_for}}</td>
+          <!-- <td>{{row.running_for}}</td> -->
           <td>{{row.status}}</td>
           <td>{{row.command}}</td>
           <td>{{row.state}}</td>

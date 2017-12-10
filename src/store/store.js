@@ -64,6 +64,7 @@ const store = new Vuex.Store({
       } else {
         router.push('/login')
         state.currentPage = 'login'
+        Vue.ls.set('boxname', response.body[0].boxname)
       }
     },
     'TOGGLE_CONFIGURATION': function (state) {

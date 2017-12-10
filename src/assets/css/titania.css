@@ -1304,6 +1304,7 @@ div.highlightedFilter {
     margin: 20px 40px;
   }
   .menu-page-wrapper div.registration-text {
+    text-align: left;
     font-size: 40px;
     width: 300px;
     display: block;
@@ -1459,5 +1460,66 @@ div.highlightedFilter {
 
   .state-dapps {
     width: 40px;
+  }
+
+  .settings-menu {
+    display: block !important;
+    position: fixed;
+    bottom: 270px;
+    text-align: right;
+    cursor: pointer;
+  }
+
+  .display-table {
+    display: block;
+  }
+
+  .settings-options div {
+    font-size: 48px;
+  }
+
+  .settings-container {
+    width: 90% !important;
+    height: auto;
+  }
+
+  .settings-header {
+    padding: 40px;
+    font-size: 36px;
+  }
+
+  .user-row {
+    padding: 42px 40px;
+    font-size: 40px;
+  }
+  .user-row .col-1.float-right.cursor-pointer, .user-row .col-1.float-right.button-primary, .user-row .configure-add-options-menu span.col-1.float-right:not(.form-error), .configure-add-options-menu .user-row span.col-1.float-right:not(.form-error), .user-row .col-1.float-right.config-headers, .user-row .col-1.float-right.details, .user-row .col-1.float-right.cursorPointer, .user-row .col-1.float-right.settings-options {
+    width: 15%;
+  }
+
+  .edit-remove-icon {
+    height: 44px;
+    width: 44px;
+    float: right;
+  }
+
+  .add-new {
+    padding: 40px 20px;
+  }
+  .add-new img {
+    height: 44px;
+    width: 44px;
+  }
+  .add-new img.margin-right-8 {
+    margin-right: 20px;
+  }
+  .add-new div {
+    font-size: 40px;
+  }
+
+  .settings-page .center-aligned-slider {
+    height: 1484px;
+  }
+  .settings-page .save-config {
+    margin: 50px !important;
   }
 }

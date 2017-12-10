@@ -1313,6 +1313,7 @@ div.highlightedFilter{
       margin: 20px 40px;
     }
     div.registration-text{
+      text-align: left;
       font-size: 40px;
       width: 300px;
       display: block;
@@ -1457,5 +1458,61 @@ div.highlightedFilter{
   }
   .state-dapps{
     width: 40px;
+  }
+  .settings-menu{
+    display: block !important;
+    position: fixed;
+    bottom: 270px;
+    text-align: right;
+    cursor: pointer;
+  }
+  .display-table{
+    display: block;
+  }
+  .settings-options{
+    div{
+      font-size: 48px;
+    }
+  }
+  .settings-container{
+    width: 90% !important;
+    height: auto;
+  }
+  .settings-header{
+    padding: 40px;
+    font-size: 36px;
+  }
+  .user-row{
+    padding: 42px 40px;
+    font-size: 40px;
+    .col-1.float-right.cursor-pointer{
+      width: 15%;
+    }
+  }
+  .edit-remove-icon{
+    height: 44px;
+    width: 44px;
+    float: right;
+  }
+  .add-new {
+    padding: 40px 20px;
+    img{
+      height: 44px;
+      width: 44px;
+    }
+    img.margin-right-8{
+      margin-right: 20px;
+    }
+    div{
+      font-size: 40px;
+    }
+  }
+  .settings-page{
+    .center-aligned-slider{
+      height: 1484px;
+    }
+    .save-config{
+      margin: 50px !important;
+    }
   }
 }

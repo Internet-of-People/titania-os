@@ -1,6 +1,6 @@
 <template>
   <div class=''>
-    <div class='float-left display-inline-flex settings-options'>
+    <div class='float-left display-inline-flex col-12 settings-options'>
         <div @click="setSettingsOption('users')" v-bind:class="{highlightedOption: getSelected('users')}">USERS</div>
         <div @click="setSettingsOption('wifi')" v-bind:class="{highlightedOption: getSelected('wifi')}">WIFI</div>
     </div>

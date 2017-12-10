@@ -18,12 +18,14 @@
             <img src="../../assets/images/icon-thread-b.svg"/>
             <div>Threads</div>
         </div>
-        <div class='registration-text'>Registered to:
-            <div class='registered-user'>{{username}}</div>
-        </div>
+        <div class='registration-text'>Registered to:<div class='registered-user'>{{username}}</div></div>
+        <div class='registration-text'>Box name:<div class='registered-user'>{{boxname}}</div></div>
         <div class='versioning-info'>
             <span class='titania_version'>{{this.$store.state.schema}}<br/></span>
             <span class='copyright'>Copyright {{new Date().getFullYear()}} Libertaria</span>  
+        </div>
+        <div @click="tabSwitch('settings')" class='settings-menu'>
+            <img src='../../assets/images/settings.svg'/>
         </div>
         <div @click="logout()" class='logout-menu'>
             <img src='../../assets/images/logout-icon.svg'/>
@@ -33,8 +35,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueLocalStorage from 'vue-ls'
 import headerParent from '@/components/headerParent'
 import router from '../../router'
+
+Vue.use(VueLocalStorage)
 
 export default {
   name: 'menu',
@@ -44,7 +50,19 @@ export default {
     },
     username: {
       get: function () {
-        return this.$store.state.credentials.username
+        if (this.$store.state.currentPage === 'configure') {
+          return true
+        }
+        return Vue.ls.get('user')
+      }
+    },
+    boxname: {
+      get: function () {
+        if (this.$store.state.currentPage === 'configure') {
+          return true
+        }
+        console.log(Vue.ls.get('boxname'))
+        return Vue.ls.get('boxname')
       }
     },
     currentPage: {

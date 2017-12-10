@@ -1,0 +1,14 @@
+# TODO: monitor router restarts
+# TODO: periodically refresh 
+# TUDU: UDP?
+
+[Unit]
+Description=Port forwarding for %i/TCP
+
+[Service]
+Restart=on-failure
+RemainAfterExit=true
+# That's a year (3600*24*365)
+ExecStart=/usr/bin/natpmpc -a %i %i tcp 31536000
+ExecStop=/usr/bin/natpmpc -a %i %i tcp 0
+

@@ -10,6 +10,9 @@ IMAGE_INSTALL += "vuedj dapp-runner docker-prebuilt-rootfs datafs-resizer"
 
 IMAGE_INSTALL += "sudo docker networkmanager avahi-daemon llmnrd zram systemd-analyze"
 
+# TODO: replace with IPv6 or something eventually
+IMAGE_INSTALL += "natpmp"
+
 # TODO: we won't need this in future
 IMAGE_INSTALL += "sqlite3"
 

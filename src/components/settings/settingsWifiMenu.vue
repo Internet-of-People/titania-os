@@ -1,19 +1,16 @@
 <template>
   <div class='col-12 settings-page'>
     <div class='col-12 settings-container'>
-        <div class='settings-header'>USER LIST</div> 
-        <div v-if="currentuser.length > 0" class='user-row'>
-            <div class='sans-serif-bold'>{{currentuser}}</div>
-        </div>
-        <div v-for="user in users" v-if="currentuser !== user" :key="user" class='user-row'> 
-            <div class='col-11'>{{user}}</div>
-            <div class='col-1 float-right cursor-pointer' @click="deleteuser(user)">
+        <div class='settings-header'>WiFi LIST</div> 
+        <div v-for="wifi in wifiaps" :key="wifi" class='user-row'> 
+            <div class='col-11'>{{wifi}}</div>
+            <div class='col-1 float-right cursor-pointer' @click="deletewifi(wifi)">
                 <img class="" src="../../assets/images/icon-plus.svg"/>
             </div>
         </div>
-        <div class='cursor-pointer float-left add-new display-inline-flex' @click="addNewUser()">
+        <div class='cursor-pointer float-left add-new display-inline-flex' @click="addNewWifi()">
             <img class='margin-right-8' src="../../assets/images/icon-plus.svg">
-            <div>Add new user</div>
+            <div>Add new WiFi</div>
         </div>
     </div>
     <div v-if="configure">
@@ -30,19 +27,14 @@ import configForm from '@/components/configuration/configForm'
 Vue.use(VueLocalStorage)
 
 export default {
-  name: 'userlist',
+  name: 'wifilist',
   components: {
     configForm
   },
   computed: {
-    users: {
+    wifiaps: {
       get: function () {
-        return this.$store.state.settings.users
-      }
-    },
-    currentuser: {
-      get: function () {
-        return Vue.ls.get('user')
+        return this.$store.state.settings.wifi
       }
     },
     configure: {
@@ -55,22 +47,22 @@ export default {
     },
     tabname: {
       get: function () {
-        return 'user'
+        return 'wifi'
       }
     }
   },
   methods: {
-    deleteuser: function (username) {
+    deletewifi: function (username) {
       console.log(username)
       var deleterequest = {}
       deleterequest.user = username
       this.$store.dispatch('deleteUser', deleterequest)
     },
-    addNewUser: function () {
+    addNewWifi: function () {
       this.configure = !this.configure
     },
     toggleConfig: function () {
-      this.addNewUser()
+      this.addNewWifi()
     },
     submit: function (event) {
       if (event.which === 13) {

@@ -9,7 +9,7 @@
             <span id="config" @click="setTab('config')" v-if="showThisTab('user')" v-bind:class="{selectedConfigTab: currenttab === 'config'}" class="config-headers">USER</span>
             <span id="wireless" @click="setTab('wifi')" v-if="showThisTab('wifi')" v-bind:class="{selectedConfigTab: currenttab === 'wifi'}" class="config-headers">WIFI</span>
           </div>
-          <div v-if="currenttab === 'config'" class='margin-top-20'>
+          <div v-if="currenttab === 'config' && showThisTab('user')" class='margin-top-20'>
             <div class="form-field-block col-12">
               <div class="sans-serif-normal text-align large-fontsize">Username</div>
               <input id="username" v-model="configdetails.username" class="config-input-field regular-fontsize" type="text" />
@@ -23,7 +23,7 @@
               <input id="confirmPassword" v-model="configdetails.confirmPassword" class="config-input-field regular-fontsize" type="password" />
             </div>
           </div>
-          <div v-else class='margin-top-20'>
+          <div v-else-if="showThisTab('wifi')" class='margin-top-20'>
             <div class="form-field-block col-12">
               <div class="sans-serif-normal text-align large-fontsize">WIFI Network</div>
               <div class="text-align cursor-pointer selected-wifi" @click="getWiFiList()">{{currentwifiap}} <div class='float-right'>&#9662;</div></div>       
@@ -191,10 +191,10 @@ export default {
       this.currenttab = tab
     },
     getOnSettingPage () {
-      return this.testProp.length === 0
+      return this.testProp === undefined
     },
     showThisTab (tabname) {
-      return this.testProp.length === 0 || this.testProp === tabname
+      return this.testProp === undefined || this.testProp === tabname
     }
   }
 }

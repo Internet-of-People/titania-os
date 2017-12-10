@@ -5,7 +5,7 @@
         <div @click="setSettingsOption('wifi')" v-bind:class="{highlightedOption: getSelected('wifi')}">WIFI</div>
     </div>
     <userlist v-if="getSelected('users')" ></userlist>
-    <!-- <wifilist v-if="getSelected('wifi')"></wifilist> -->
+    <wifilist v-if="getSelected('wifi')"></wifilist>
   </div>
 </template>
 
@@ -13,11 +13,14 @@
 
 import containerChart from '@/components/settings/settingsWrapper'
 import userlist from '@/components/settings/settingsUserMenu'
+import wifilist from '@/components/settings/settingsWifiMenu'
+
 export default {
   name: 'settingsWrapper',
   components: {
     containerChart,
-    userlist
+    userlist,
+    wifilist
   },
   computed: {
     settingOption: {

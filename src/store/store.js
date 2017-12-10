@@ -45,8 +45,7 @@ const store = new Vuex.Store({
     settings: {
       users: [],
       wifi: [],
-      getform: false,
-      formname: 'user'
+      getform: false
     }
   },
   mutations: {
@@ -158,6 +157,7 @@ const store = new Vuex.Store({
     },
     'SETTINGS': function (state, response) {
       state.settings.users = response.body[0].users
+      state.settings.wifi = response.body[0].wifi
     },
     'REFRESH_LIST': function (state, response, user, reqtype) {
       var message = reqtype === 'delete' ? 'User ' + user + 'deleted successfully' : 'User ' + user + 'added successfully'
@@ -170,6 +170,7 @@ const store = new Vuex.Store({
         mode: 'queue'
       })
       state.settings.users = response.body[0].users
+      state.settings.wifi = response.body[0].wifi
       state.settings.getform = false
     }
   },

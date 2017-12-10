@@ -19,13 +19,26 @@ wlans = [d for d in nm.Devices if isinstance(d, NetworkManager.Wireless)]
 
 def get_osversion():
     """
-    Name of your Linux distro (in lowercase).
+    PRETTY_NAME of your Titania os (in lowercase).
     """
     with open("/etc/os-release") as f:
         osfilecontent = f.read().split("\n")
         # $PRETTY_NAME is at the 5th position
         version = osfilecontent[4].split('=')[1].strip('\"')
         return version
+
+def get_allconfiguredwifi():
+    """
+    nmcli con | grep 802-11-wireless
+    """
+    ps = subprocess.Popen('nmcli con | grep 802-11-wireless', shell=True,stdout=subprocess.PIPE).communicate()[0]
+    wifirows = ps.split('\n')
+    wifi = []
+    for row in wifirows:
+        name = row.split('      ')
+        print(name)
+        wifi.append(name[0])
+    return wifi
 
 @csrf_exempt
 def handle_config(request):
@@ -222,7 +235,8 @@ def handle_config(request):
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = ps.split(':')[3].split(',')
-            return JsonResponse([{'users':userlist}], safe=False)
+            configuredwifi = get_allconfiguredwifi()
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi}], safe=False)
         elif action == 'deleteUser':
             print(action)
             username = request.POST.get("user")
@@ -231,7 +245,8 @@ def handle_config(request):
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = fetchusers.split(':')[3].split(',')
-            return JsonResponse([{'users':userlist}], safe=False)
+            configuredwifi = get_allconfiguredwifi()
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi}], safe=False)
         elif action == 'addNewUser':
             print(action)
             username = request.POST.get("username")
@@ -242,7 +257,8 @@ def handle_config(request):
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = fetchusers.split(':')[3].split(',')
-            return JsonResponse([{'users':userlist}], safe=False)
+            configuredwifi = get_allconfiguredwifi()
+            return JsonResponse([{'users':userlist,'wifi':configuredwifi}], safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

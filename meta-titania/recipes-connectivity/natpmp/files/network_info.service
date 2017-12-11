@@ -6,5 +6,9 @@ After=NetworkManager-wait-online.service
 
 [Service]
 ExecStart=/usr/bin/network_info.sh
+ExecStop=/bin/rm -f /run/network_info.env
 RemainAfterExit=true
 Type=oneshot
+
+[Install]
+WantedBy=multi-user.target

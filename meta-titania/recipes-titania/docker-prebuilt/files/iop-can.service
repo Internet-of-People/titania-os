@@ -3,10 +3,10 @@
 [Unit]
 Description=Internet of People Content Addressing Network Server
 After=network_info.service
-Requires=forward_port@14001.service
-Requires=forward_port@14002.service
-Requires=forward_port@15001.service
-Requires=forward_port@18080.service
+Wants=forward_port@14001.service
+Wants=forward_port@14002.service
+Wants=forward_port@15001.service
+Wants=forward_port@18080.service
 
 [Service]
 TimeoutStartSec=0

@@ -3,8 +3,8 @@
 [Unit]
 Description=Internet of People Profile Server
 After=network_info.service
-Requires=forward_port@16987.service
-Requires=forward_port@16988.service
+Wants=forward_port@16987.service
+Wants=forward_port@16988.service
 
 [Service]
 TimeoutStartSec=0

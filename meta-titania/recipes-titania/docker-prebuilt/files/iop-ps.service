@@ -9,7 +9,7 @@ Requires=forward_port@16988.service
 [Service]
 TimeoutStartSec=0
 Restart=always
-ExecStartPre=-/usr/bin/docker create --name %p libertaria/iop-ps -p 16987:16987 -p 16988:16988
+ExecStartPre=-/usr/bin/docker create -it --name %p libertaria/iop-ps -p 16987:16987 -p 16988:16988
 ExecStart=/usr/bin/docker start -i -a %p
 
 [Install]

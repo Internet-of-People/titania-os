@@ -1,0 +1,16 @@
+# via http://container-solutions.com/running-docker-containers-with-systemd/
+# TODO: generalize maybe?
+[Unit]
+Description=Internet of People Profile Server
+After=network_info.service
+Requires=forward_port@16987.service
+Requires=forward_port@16988.service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStartPre=-/usr/bin/docker create --name %p libertaria/iop-ps -p 16987:16987 -p 16988:16988
+ExecStart=/usr/bin/docker start -i -a %p
+
+[Install]
+WantedBy=multi-user.target

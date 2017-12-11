@@ -1,0 +1,20 @@
+# via http://container-solutions.com/running-docker-containers-with-systemd/
+# TODO: generalize maybe?
+[Unit]
+Description=Internet of People Content Addressing Network Server
+After=network_info.service
+Requires=forward_port@14001.service
+Requires=forward_port@14002.service
+Requires=forward_port@15001.service
+Requires=forward_port@18080.service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStartPre=-/bin/mkdir /datafs/ipfs
+ExecStartPre=-/bin/chown 1000 /datafs/ipfs
+ExecStartPre=-/usr/bin/docker create --name %p libertaria/iop-can -p 14001:14001 -p 14002:14002 -p 127.0.0.1:15001:15001 -p 18080:18080  -v /datafs/ipfs:/data/ipfs 
+ExecStart=/usr/bin/docker start -a %p
+
+[Install]
+WantedBy=multi-user.target

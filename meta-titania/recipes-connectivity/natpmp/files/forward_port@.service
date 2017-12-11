@@ -4,6 +4,8 @@
 
 [Unit]
 Description=Port forwarding for %i/TCP
+Requires=NetworkManager-wait-online.service
+After=NetworkManager-wait-online.service
 
 [Service]
 Restart=on-failure

@@ -1,0 +1,10 @@
+[Unit]
+Description=Public IP and location detection
+# NOTE: NetworkManager specific
+Requires=NetworkManager-wait-online.service
+After=NetworkManager-wait-online.service
+
+[Service]
+ExecStart=/usr/bin/network_info.sh
+RemainAfterExit=true
+Type=oneshot

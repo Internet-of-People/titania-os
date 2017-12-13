@@ -13,7 +13,7 @@ Restart=always
 EnvironmentFile=/run/network_info.env
 ExecStartPre=-/bin/mkdir /datafs/locnet
 ExecStartPre=-/bin/chown 1000 /datafs/locnet
-ExecStartPre=-/usr/bin/docker create -t --name %p libertaria/iop-loc:arm7-v1.2Beta -p 16980:16980 -p 16981:16981 -p 16982:16982 -v /datafs/locnet:/data/locnet -e LATITUDE="${LATITUDE}" -e LONGITUDE="${LONGITUDE}" -e NODEID="${PUBLIC_IP}"
+ExecStartPre=-/usr/bin/docker create -t --name %p -p 16980:16980 -p 16981:16981 -p 16982:16982 -v /datafs/locnet:/data/locnet -e LATITUDE="${LATITUDE}" -e LONGITUDE="${LONGITUDE}" -e NODEID="${PUBLIC_IP}" libertaria/iop-loc:arm7-v1.2Beta
 ExecStart=/usr/bin/docker start -a %p
 
 [Install]

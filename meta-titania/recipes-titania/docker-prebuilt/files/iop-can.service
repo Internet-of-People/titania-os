@@ -13,7 +13,7 @@ TimeoutStartSec=0
 Restart=always
 ExecStartPre=-/bin/mkdir /datafs/ipfs
 ExecStartPre=-/bin/chown 1000 /datafs/ipfs
-ExecStartPre=-/usr/bin/docker create --name %p libertaria/iop-can -p 14001:14001 -p 14002:14002 -p 127.0.0.1:15001:15001 -p 18080:18080  -v /datafs/ipfs:/data/ipfs 
+ExecStartPre=-/usr/bin/docker create --name %p -p 14001:14001 -p 14002:14002 -p 127.0.0.1:15001:15001 -p 18080:18080  -v /datafs/ipfs:/data/ipfs libertaria/iop-can
 ExecStart=/usr/bin/docker start -a %p
 
 [Install]

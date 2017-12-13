@@ -1,0 +1,20 @@
+# via http://container-solutions.com/running-docker-containers-with-systemd/
+# TODO: generalize maybe?
+[Unit]
+Description=Internet of People Profile Server
+After=network_info.service
+Wants=forward_port@16980.service
+Wants=forward_port@16981.service
+Wants=forward_port@16982.service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+EnvironmentFile=/run/network_info.env
+ExecStartPre=-/bin/mkdir /datafs/locnet
+ExecStartPre=-/bin/chown 1000 /datafs/locnet
+ExecStartPre=-/usr/bin/docker create -t --name %p libertaria/iop-loc:arm7-v1.2Beta -p 16980:16980 -p 16981:16981 -p 16982:16982 -v /datafs/locnet:/data/locnet -e LATITUDE="${LATITUDE}" -e LONGITUDE="${LONGITUDE}" -e NODEID="${PUBLIC_IP}"
+ExecStart=/usr/bin/docker start -a %p
+
+[Install]
+WantedBy=multi-user.target

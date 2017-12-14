@@ -31,21 +31,32 @@ def get_allconfiguredwifi():
     """
     nmcli con | grep 802-11-wireless
     """
-    ps = subprocess.Popen('nmcli con | grep 802-11-wireless', shell=True,stdout=subprocess.PIPE).communicate()[0]
+    ps = subprocess.Popen('nmcli -f NAME,TYPE conn | grep 802-11-wireless', shell=True,stdout=subprocess.PIPE).communicate()[0]
     wifirows = ps.split('\n')
     wifi = []
     for row in wifirows:
-        name = row.split('      ')
+        name = row.split(' ')
         print(name)
         wifi.append(name[0])
     return wifi
 
 def get_allAPs():
-    wifi_aps = []   
-    for dev in wlans:
-        for ap in dev.AccessPoints:
-            wifi_aps.append(ap.Ssid)
-    return wifi_aps
+    """
+    nmcli con | grep 802-11-wireless
+    """
+    ps = subprocess.Popen('nmcli -t -f SSID,BARS device wifi list', shell=True,stdout=subprocess.PIPE).communicate()[0]
+    wifirows = ps.split('\n')
+    wifi = []
+    for row in wifirows:
+        entry = row.split(':')
+        print(entry)
+        wifi.append(entry)
+    return wifi
+    # wifi_aps = []   
+    # for dev in wlans:
+    #     for ap in dev.AccessPoints:
+    #         wifi_aps.append(ap.Ssid)
+    # return wifi_aps
 
 def add_user(username, password):
     encPass = crypt.crypt(password,"22")
@@ -135,7 +146,8 @@ def handle_config(request):
             # connect to wifi ap user selected
             wifi_pass = request.POST.get("wifi_password")
             wifi_name = request.POST.get("wifi_ap")
-            add_newWifiConn(wifi_name,wifi_pass)
+            if len(wifi_name) > 0:
+                add_newWifiConn(wifi_name,wifi_pass)
             return JsonResponse({"STATUS":"SUCCESS"}, safe=False)
         elif action == 'login':
             print(action)
@@ -312,7 +324,8 @@ def handle_config(request):
             # connect to wifi ap user selected
             wifi_pass = request.POST.get("wifi_password")
             wifi_name = request.POST.get("wifi_ap")
-            add_newWifiConn(wifi_name,wifi_pass)
+            if len(wifi_name) > 0:
+                add_newWifiConn(wifi_name,wifi_pass)
             fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run

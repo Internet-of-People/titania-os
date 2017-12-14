@@ -72,18 +72,28 @@ export default {
   },
   methods: {
     updatewifi: function (wifiap) {
-      console.log(wifiap)
       this.iseditwifi = true
       this.editwifiname = wifiap
       this.configure = !this.configure
     },
     deletewifi: function (wifiap) {
-      console.log(wifiap)
       var deleterequest = {}
       deleterequest.wifi = wifiap
       this.$store.dispatch('deleteWifi', deleterequest)
     },
     addNewWifi: function () {
+      if (this.$store.state.configuration.wifi_aps.length === 0) {
+        Vue.toast('No WiFi APs found nearby', {
+          id: 'my-toast',
+          className: ['toast-warning'],
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          duration: 4000,
+          mode: 'queue',
+          transition: 'my-transition'
+        })
+        return
+      }
       this.iseditwifi = false
       this.editwifiname = ''
       this.configure = !this.configure

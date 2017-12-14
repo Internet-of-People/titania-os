@@ -3,7 +3,7 @@
     <div class='float-left cursor-default desktop-footer-essentials'>
       <span class='titania_version'>{{this.$store.state.schema}}</span>
       <span class='copyright'>&copy;&nbsp; {{new Date().getFullYear()}} Libertaria</span>
-      <span id='registeredto' class='registeredto hide' v-bind:class="{show : !getFooterClass()}">Registered to <span>{{username}}</span></span>
+      <span id='registeredto' class='registeredto hide' v-bind:class="{show : !getFooterClass()}">Logged in as: <span>{{username}}</span></span>
     </div>
     <div class='float-right footer-links padding-right-20'>
       <span class="padding-right-20 white-paper-footer"><a href="https://drive.google.com/file/d/11xDyBFACJYxrDQY4YNdiBqF8UFhgvpT9/view" target="_blank">White Paper</a></span>

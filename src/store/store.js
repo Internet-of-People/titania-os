@@ -9,9 +9,9 @@ Vue.use(Vuex)
 Vue.use(VueSession)
 Vue.use(VueLocalStorage)
 
-const apiRoot = '/api' // deployment
+// const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.2.5:8000' // dev pi
+const apiRoot = 'http://192.168.2.5:8000' // dev pi
 
 const store = new Vuex.Store({
   state: {
@@ -71,8 +71,9 @@ const store = new Vuex.Store({
       state.configuration.enableConfigure = !state.configuration.enableConfigure
     },
     'GET_ALL_APS': function (state, response) {
+      // response.body = []
       state.configuration.wifi_aps = response.body
-      state.configuration.wifi_aps_current = response.body[0]
+      state.configuration.wifi_aps_current = response.body[0][0]
       state.currentPage = 'configure'
     },
     'SAVE_CONFIGURATION': function (state, response) {
@@ -161,8 +162,11 @@ const store = new Vuex.Store({
     'SETTINGS': function (state, response) {
       state.settings.users = response.body[0].users
       state.settings.wifi = response.body[0].wifi
+      // verify no aps found case
+      // state.configuration.wifi_aps = []
+      // state.configuration.wifi_aps_current = ''
       state.configuration.wifi_aps = response.body[0].allwifiaps
-      state.configuration.wifi_aps_current = response.body[0].allwifiaps[0]
+      state.configuration.wifi_aps_current = response.body[0].allwifiaps[0][0]
     },
     'REFRESH_LIST': function (state, response) {
       var message = ''
@@ -188,7 +192,7 @@ const store = new Vuex.Store({
       state.settings.users = response.body[0].users
       state.settings.wifi = response.body[0].wifi
       state.configuration.wifi_aps = response.body[0].allwifiaps
-      state.configuration.wifi_aps_current = response.body[0].allwifiaps[0]
+      state.configuration.wifi_aps_current = response.body[0].allwifiaps[0][0]
       state.settings.getform = false
     }
   },

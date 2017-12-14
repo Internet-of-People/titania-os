@@ -18,7 +18,7 @@
             <img src="../../assets/images/icon-thread-b.svg"/>
             <div>Threads</div>
         </div>
-        <div class='registration-text'>Registered to:<div class='registered-user'>{{username}}</div></div>
+        <div class='registration-text'>Logged in as:<div class='registered-user'>{{username}}</div></div>
         <div class='registration-text'>Box name:<div class='registered-user'>{{boxname}}</div></div>
         <div class='versioning-info'>
             <span class='titania_version'>{{this.$store.state.schema}}<br/></span>

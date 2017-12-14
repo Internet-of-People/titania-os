@@ -61,7 +61,6 @@ export default {
   },
   methods: {
     deleteuser: function (username) {
-      console.log(username)
       var deleterequest = {}
       deleterequest.user = username
       this.$store.dispatch('deleteUser', deleterequest)

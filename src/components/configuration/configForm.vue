@@ -28,9 +28,9 @@
               <div class="sans-serif-normal text-align large-fontsize">WIFI Network</div>
               <div class="text-align cursor-pointer selected-wifi" @click="getWiFiList()">{{currentwifiap}} <div v-if="this.editProp === false" class='float-right'>&#9662;</div></div>       
               <ul class='dropdown-config hide' >
-                <li v-for="item in wifiAps" :key="item" class="float-left  cursor-pointer col-11 selected" @click="setWifiAP(item)" >
-                  <span v-if="item == currentwifiap" class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{item}}</span>
-                  <span v-else class="float-left cursor-pointer sans-serif-normal overflow-hidden" style="width:70%;">{{item}}</span>
+                <li v-for="item in wifiAps" :key="item[0]" v-if="item[0].length > 0" class="float-left  cursor-pointer col-11 selected" @click="setWifiAP(item[0])" >
+                  <span v-if="item[0] == currentwifiap && item[0].length > 0" class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{item[0]}}</span>
+                  <span v-else class="float-left cursor-pointer sans-serif-normal overflow-hidden" style="width:70%;">{{item[0]}}</span>
                 </li>
               </ul>
             </div>
@@ -207,6 +207,9 @@ export default {
       return this.testProp === undefined
     },
     showThisTab (tabname) {
+      if (tabname === 'wifi' && this.testProp === undefined && this.wifiAps.length === 0) {
+        return false
+      }
       return this.testProp === undefined || this.testProp === tabname
     }
   }

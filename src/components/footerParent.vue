@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     getFooterClass () {
-      var fullheader = this.$store.state.currentPage === 'login' || this.$store.state.currentPage === 'configure'
+      var fullheader = this.$store.state.currentPage === 'login' || this.$store.state.currentPage === 'configure' || this.$store.state.currentPage === 'landingpage'
       return fullheader
     },
     getmailhref () {

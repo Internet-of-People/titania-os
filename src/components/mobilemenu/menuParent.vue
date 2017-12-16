@@ -25,7 +25,7 @@
             <span class='copyright'>Copyright {{new Date().getFullYear()}} Libertaria</span>  
         </div>
         <div @click="tabSwitch('settings')" class='settings-menu'>
-            <img src='../../assets/images/settings.svg'/>
+            <img src='../../assets/images/settings-gray.svg'/>
         </div>
         <div @click="logout()" class='logout-menu'>
             <img src='../../assets/images/logout-icon.svg'/>

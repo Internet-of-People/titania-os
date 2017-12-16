@@ -9,9 +9,9 @@ Vue.use(Vuex)
 Vue.use(VueSession)
 Vue.use(VueLocalStorage)
 
-const apiRoot = '/api' // deployment
+// const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.2.5:8000' // dev pi
+const apiRoot = 'http://192.168.2.5:8000' // dev pi
 
 const store = new Vuex.Store({
   state: {
@@ -142,7 +142,15 @@ const store = new Vuex.Store({
     },
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {
-      console.error(error)
+      console.log('backend is down')
+      router.push('/landingpage')
+      state.currentPage = 'landingpage'
+      if (error.status === 0 || error.status === 502) {
+        setTimeout(function () {
+          location.reload()
+        }, 5000)
+      }
+      console.error(error.status)
     },
     'SET_CURRENT_PAGE': function (state, pageName) {
       state.currentPage = pageName

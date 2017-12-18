@@ -45,7 +45,7 @@ titania_sysctl_config() {
 # TODO: maybe split DATA partition to a separate state partition
 # but this requires either GPT (bad for bootloader on RPi) or
 # an extended partition
-DATAFS_SIZE ?= "245760"
+DATAFS_SIZE ?= "1966080"
 DATAFS_LABEL ?= "data"
 
 IMAGE_CMD_rpi-sdimg_append() {

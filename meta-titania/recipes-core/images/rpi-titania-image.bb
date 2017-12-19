@@ -26,6 +26,7 @@ EXTRA_USERS_PARAMS += "groupadd wheel;"
 # TODO: is there a standard variable for this?
 EXTRA_USERS_PARAMS += "${@ 'usermod -L root;' if not d.getVar('TITANIA_DEBUG') else ''}"
 
+# Additinal systemctl variables
 ROOTFS_POSTPROCESS_COMMAND += " titania_sysctl_config ; "
 
 titania_sysctl_config() {
@@ -34,6 +35,16 @@ titania_sysctl_config() {
         # Muting verbose printk() not to flood the console
         test -d ${IMAGE_ROOTFS}${sysconfdir}/sysctl.d && \
                 echo "kernel.printk = 3 4 1 3" > ${IMAGE_ROOTFS}${sysconfdir}/sysctl.d/quiet-boot.conf
+}
+
+# Touch /var/lib/systemd/clock (location hardcoded in binary!) to the time of the build
+# so that the clock is more reasonably initialized
+ROOTFS_POSTPROCESS_COMMAND += " update_systemd_clock ; "
+
+update_systemd_clock() {
+    # TODO: WARNING: this seems to be /var/lib/systemd/timesync/clock in recent versions
+    # update if the problem resurfaces
+    touch ${IMAGE_ROOTFS}/var/lib/systemd/clock
 }
 
 # TODO: maybe separate in a dedicated include for more board support

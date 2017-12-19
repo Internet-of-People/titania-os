@@ -1,5 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-SRC_URI += "file://titania.ascii"
+SRC_URI += "file://titania.ascii \
+            file://0001-sbin-for-not-root-user.patch;patchdir=${WORKDIR}"
 
 hostname = "titania"
 

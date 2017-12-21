@@ -143,8 +143,8 @@ const store = new Vuex.Store({
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {
       console.log('backend is down')
-      router.push('/landingpage')
       state.currentPage = 'landingpage'
+      router.push('/landingpage')
       if (error.status === 0 || error.status === 502) {
         setTimeout(function () {
           location.reload()

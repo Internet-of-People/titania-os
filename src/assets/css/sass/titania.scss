@@ -1022,6 +1022,12 @@ div.highlightedFilter{
   width: 16px;
 }
 
+.landing-background{
+  background-image: url("../images/landing-page.svg");
+  height: inherit;
+  background-position-y: bottom;
+}
+
 @media only screen and (max-device-width: 600px) {
   /* For mobile phones: */
   [class*="col-"] {

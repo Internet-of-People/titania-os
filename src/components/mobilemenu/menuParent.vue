@@ -37,7 +37,7 @@
 <script>
 import Vue from 'vue'
 import VueLocalStorage from 'vue-ls'
-import headerParent from '@/components/headerParent'
+import headerParent from '@/components/common/headerParent'
 import router from '../../router'
 
 Vue.use(VueLocalStorage)

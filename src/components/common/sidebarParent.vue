@@ -1,23 +1,23 @@
 <template>
   <div class='sidebar-container dark-black'>
     <div @click="tabSwitch('')" title='Dashboard'>
-      <img class="logo-icon-small cursor-pointer" src="../assets/images/titania-logo-clean.svg">
+      <img class="logo-icon-small cursor-pointer" src="../../assets/images/titania-logo-clean.svg">
     </div>
     <div class='margin-top-20 cursor-pointer' title='dApps Console' @click="tabSwitch('dappsconsole')" >
-      <img v-if="currentTab('dappsconsole')" class="tab-label" src="../assets/images/icon-boxes-b.svg">
-      <img v-else class="tab-label" src="../assets/images/icon-boxes-a.svg">
+      <img v-if="currentTab('dappsconsole')" class="tab-label" src="../../assets/images/icon-boxes-b.svg">
+      <img v-else class="tab-label" src="../../assets/images/icon-boxes-a.svg">
     </div>
     <div @click="tabSwitch('stats')" title='dApps Stats' class='cursor-pointer'>
-      <img v-if="currentPage == 'stats'" class="tab-label" src="../assets/images/icon-server-b.svg">
-      <img v-else class="tab-label" src="../assets/images/icon-server-a.svg">
+      <img v-if="currentPage == 'stats'" class="tab-label" src="../../assets/images/icon-server-b.svg">
+      <img v-else class="tab-label" src="../../assets/images/icon-server-a.svg">
     </div>
     <div @click="tabSwitch('threads')" title='Threads' class='cursor-pointer'>
-      <img v-if="currentTab('threads')" class="tab-label" src="../assets/images/icon-thread-b.svg">
-      <img v-else class="tab-label" src="../assets/images/icon-thread-a.svg">
+      <img v-if="currentTab('threads')" class="tab-label" src="../../assets/images/icon-thread-b.svg">
+      <img v-else class="tab-label" src="../../assets/images/icon-thread-a.svg">
     </div>
     <div @click="tabSwitch('settings')" title='Settings' class='cursor-pointer settings-tab'>
-      <img v-if="currentTab('settings')" class="tab-label" src="../assets/images/settings-white.svg">
-      <img v-else class="tab-label" src="../assets/images/settings.svg">
+      <img v-if="currentTab('settings')" class="tab-label" src="../../assets/images/settings-white.svg">
+      <img v-else class="tab-label" src="../../assets/images/settings.svg">
     </div>
     <div v-for="item in otherAddons" :key="item">
       <div class="addons"  :title="item.name">
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import router from '../router'
+import router from '../../router'
 
 export default {
   name: 'sidebarParent',

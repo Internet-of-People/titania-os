@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import footerParent from '@/components/footerParent'
+import footerParent from '@/components/common/footerParent'
 export default {
   components: { footerParent },
   name: 'app'

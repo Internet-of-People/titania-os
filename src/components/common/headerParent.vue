@@ -5,7 +5,7 @@
       LOGOUT
     </div>
     <div class='hide-mobile-menu' @click="openMenu()">
-      <img src='../assets/images/menu-icon.svg'>
+      <img src='../../assets/images/menu-icon.svg'>
     </div>
   </div>
 </template>

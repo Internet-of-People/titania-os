@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import sidebarParent from '@/components/sidebarParent'
-import headerParent from '@/components/headerParent'
+import sidebarParent from '@/components/common/sidebarParent'
+import headerParent from '@/components/common/headerParent'
 import dappsMainContent from '@/components/dappsconsole/dappsMainContent'
 
 export default {

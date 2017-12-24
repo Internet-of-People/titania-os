@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import sidebarParent from '@/components/sidebarParent'
-import headerParent from '@/components/headerParent'
+import sidebarParent from '@/components/common/sidebarParent'
+import headerParent from '@/components/common/headerParent'
 import threadsAll from '@/components/threads/threadsAll'
 import threadsContainer from '@/components/threads/threadsContainer'
 

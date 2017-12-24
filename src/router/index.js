@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import login from '@/components/login'
+import login from '@/components/common/login'
 import configure from '@/components/configuration/configure'
 import dashboard from '@/components/dashboard/dashboardParent'
 import dappsconsole from '@/components/dappsconsole/dappsParent'

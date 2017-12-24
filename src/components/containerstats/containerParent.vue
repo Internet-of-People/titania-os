@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import sidebarParent from '@/components/sidebarParent'
-import headerParent from '@/components/headerParent'
+import sidebarParent from '@/components/common/sidebarParent'
+import headerParent from '@/components/common/headerParent'
 import containerMainContent from '@/components/containerstats/containerMainContent.vue'
 
 export default {

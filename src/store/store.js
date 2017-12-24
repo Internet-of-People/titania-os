@@ -205,7 +205,9 @@ const store = new Vuex.Store({
       state.settings.getform = false
     },
     'RECORD_ADDONS': function (state, response) {
-      state.sidebarAddons = response.body
+      // state.sidebarAddons = response.body
+      state.sidebarAddons = [{'id': 1, 'name': 'HelloWorld', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'},
+      {'id': 2, 'name': 'iopwallet', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'}]
     }
   },
   actions: {

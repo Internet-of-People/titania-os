@@ -149,7 +149,7 @@ const store = new Vuex.Store({
       if (error.status === 0 || error.status === 502) {
         setTimeout(function () {
           location.reload()
-        }, 5000)
+        }, 8000)
       }
       console.error(error.status)
     },

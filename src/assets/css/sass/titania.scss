@@ -1022,10 +1022,260 @@ div.highlightedFilter{
   width: 16px;
 }
 
-.landing-background{
-  background-image: url("../images/landing-page.svg");
-  height: inherit;
-  background-position-y: bottom;
+.center-aligned{
+  margin: 10% 25%;
+}
+
+.margin-20-center{
+  margin: 20px;
+}
+
+.landing-background {
+  position: absolute;              /* float above any content */
+  z-index: 10;                     /* make sure that it is above any other absolute element */
+  top: 0;                          /* sticks to edges of screen */
+  bottom: 0;                       /* sticks to edges of screen */
+  left: 0;                         /* sticks to edges of screen */
+  right: 0;                        /* sticks to edges of screen */
+  margin: 0;                       /* make sure there is no margin */
+  padding: 0;                      /* make sure there is no padding */
+  background: url("../images/landing-winter.svg") bottom no-repeat;     /* sticks to bottom and does not repeat */
+  background-size: contain;        /* contains the image */
+  background-color: #f2f2f2;
+}
+
+.loader {
+  position: relative;
+  margin-top: 30px;
+  width: 300px;
+  height: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader__bar {
+  height: 2px;
+  width: 100%;
+  background: #8B6787;
+}
+
+.loader__slider {
+  position: absolute;
+  left: 0;
+  height: 4px;
+  width: 54px;
+  /*background: url("images/loader.svg") no-repeat;*/
+  // background: url("../images/loader2.png") no-repeat;
+  background-size: 50px 4px;
+  animation: slide 3s ease-in-out infinite alternate;
+}
+
+@keyframes slide {
+  0%   {
+    left: 0;
+  }
+  50%  {
+    left: 246px;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+.loader-ring {
+  position: relative;
+  margin-top: 130px;
+  margin: auto;
+  width: 220px;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader-ring__logo {
+  width: 110px;
+  height: 110px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -55px;
+  margin-left: -55px;
+  // margin: auto;
+  z-index: 30;
+}
+.loader-ring__logo img {
+  width: 110px;
+  height: auto;
+}
+
+.loader-ring__inner div {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  top: 50%;
+  left: 50%;
+  margin-top: -90px;
+  margin-left: -90px;
+  z-index: 20;
+  background: url(../images/ring-inner.svg) center no-repeat;
+  background-size: 180px 180px;
+}
+
+.loader-ring__outer div {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  top: 50%;
+  left: 50%;
+  margin-top: -110px;
+  margin-left: -110px;
+  z-index: 10;
+  background: url(../images/ring-outer.svg) center no-repeat;
+  background-size: 220px 220px;
+}
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.rotating {
+  -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  -o-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+}
+
+@-webkit-keyframes rotating2 /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(-360deg);
+    -o-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes rotating2 {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(-360deg);
+    -moz-transform: rotate(-360deg);
+    -webkit-transform: rotate(-360deg);
+    -o-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+  }
+}
+.rotating2 {
+  -webkit-animation: rotating2 2s linear infinite;
+  -moz-animation: rotating2 2s linear infinite;
+  -ms-animation: rotating2 2s linear infinite;
+  -o-animation: rotating2 2s linear infinite;
+  animation: rotating2 2s linear infinite;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(.1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.zoomIn1 {
+  animation: zoomIn .5s cubic-bezier(0.55, 0.06, 0.68, 0.19);
+}
+.zoomIn2 {
+  animation: zoomIn .9s cubic-bezier(0.55, 0.06, 0.68, 0.19);
+}
+.zoomIn3 {
+  animation: zoomIn 1.3s cubic-bezier(0.55, 0.06, 0.68, 0.19);
+}
+
+@keyframes zoomOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(.1);
+  }
+}
+.zoomOut {
+  animation: zoomOut 1s cubic-bezier(0.55, 0.06, 0.68, 0.19);
+  animation-delay: 6s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(.9);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(.9);
+  }
+}
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@media (min-width: 1870px) {
+  #container.landing-background {
+    background-size: cover;
+  }
+  
+  body {
+    background-size: 40%;
+    background-position: 70% 10%;
+  }
+}
+
+@media (max-width: 1024px) {
+  body {
+    background-size: 90%;
+    background-position: center 10%;
+  }
 }
 
 @media only screen and (max-device-width: 600px) {

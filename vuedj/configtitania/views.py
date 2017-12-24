@@ -8,8 +8,8 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
 
-from .models import BoxDetails
-from .serializers import BoxDetailsSerializer
+from .models import BoxDetails, RegisteredServices
+from .serializers import BoxDetailsSerializer, RegisteredServicesSerializer
 
 import common, sqlite3, subprocess, NetworkManager, os, crypt, pwd, getpass, spwd 
 
@@ -121,16 +121,31 @@ def edit_WifiConn(wifiname, wifipass):
 def handle_config(request):
     """
     List all code snippets, or create a new snippet.
-    """
+    """ 
     if request.method == 'POST':
         action = request.POST.get("_action")
-        if action == 'getSchema':
+        print(action)
+        if action == 'registerService':
+            request_name = request.POST.get("name")
+            request_address = request.POST.get("address")
+            request_icon = request.POST.get("icon")
+            print(request_name)
+            print(request_address)
+            print(request_icon)
+            setServiceDetails = RegisteredServices.objects.get_or_create(name=request_name,address=request_address,icon=request_icon)
+            return JsonResponse({"STATUS":"SUCCESS"}, safe=False)
+        elif action == 'getSchema':
             schema = get_osversion()
             return JsonResponse({"version_info":schema}, safe=False)
         elif action == 'getIfConfigured':
             print(action)
             queryset = BoxDetails.objects.all()
             serializer = BoxDetailsSerializer(queryset, many=True)
+            return JsonResponse(serializer.data, safe=False)
+        elif action == 'loadDependencies':
+            print(action)
+            queryset = RegisteredServices.objects.all()
+            serializer = RegisteredServicesSerializer(queryset, many=True)
             return JsonResponse(serializer.data, safe=False)
         elif action == 'getAllAPs':
             wifi_aps = get_allAPs()
@@ -366,5 +381,9 @@ def index(request):
 class BoxDetailsViewSet(viewsets.ModelViewSet):
     queryset = BoxDetails.objects.all()
     serializer_class = BoxDetailsSerializer
+
+class RegisteredServicesViewSet(viewsets.ModelViewSet):
+    queryset = RegisteredServices.objects.all()
+    serializer_class = RegisteredServicesSerializer    
 
 

@@ -3,6 +3,8 @@ import VueResource from 'vue-resource'
 
 Vue.use(VueResource)
 
+// Vue.http.options.root = 'http://localhost:3000'
+
 export default {
   // get (url, request) {
   //   return Vue.http.get(url, request)

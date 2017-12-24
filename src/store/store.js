@@ -48,7 +48,8 @@ const store = new Vuex.Store({
       getform: false,
       getaseditwifiform: false,
       editwifiap: ''
-    }
+    },
+    sidebarAddons: []
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -202,9 +203,21 @@ const store = new Vuex.Store({
       state.configuration.wifi_aps = response.body[0].allwifiaps
       state.configuration.wifi_aps_current = response.body[0].allwifiaps[0][0]
       state.settings.getform = false
+    },
+    'RECORD_ADDONS': function (state, response) {
+      state.sidebarAddons = response.body
     }
   },
   actions: {
+    loadDependencies (state) {
+      var loadDependencies = {
+        _action: 'loadDependencies'
+      }
+      return api.post(apiRoot + '/index.html', loadDependencies)
+      .then(function (response) {
+        store.commit('RECORD_ADDONS', response)
+      }).catch((error) => store.commit('API_FAIL', error))
+    },
     initApp (state) {
       var getSchema = {
         _action: 'getSchema'

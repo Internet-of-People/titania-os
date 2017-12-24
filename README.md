@@ -62,8 +62,16 @@ python manage.py migrate
 python manage.py runserver 0.0.0.0:8000 &
 ```
 
-##Integrated image
+## Integrated image
 ``` bash
 systemctl restart vuedj 
 systemctl restart docker-monitoring 
+```
+
+## Add Services
+```
+git clone ssh://git@gitlab.libertaria.community:2200/titania/sample-dapps-services.git
+cd sample-dapps-services
+npm init
+node app.js
 ```

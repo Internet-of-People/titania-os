@@ -23,4 +23,5 @@ const v = new Vue({
   components: { App }
 })
 
+v.$store.dispatch('loadDependencies')
 v.$store.dispatch('initApp')

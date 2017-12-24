@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="180px" viewBox="0 0 180 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>ring-inner</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="loading6" transform="translate(-637.000000, -783.000000)" fill="#6C5267">
+            <g id="loader2" transform="translate(617.000000, 762.000000)">
+                <path d="M200,111 C200,160.705627 159.705627,201 110,201 C109.547165,201 109.095112,200.996656 108.643863,200.98999 L110.003997,200.98999 L110.003997,196 C156.946364,195.99784 195,157.942871 195,111 L200,111 Z M110.003997,21 L110.003997,26.0000001 C63.0591329,26 25.0054098,64.0503867 25.0000006,110.98999 L20.003997,110.98999 L20.003997,111.857143 C20.0013343,111.571744 20,111.286028 20,111 C20,61.2943725 60.2943725,21 110,21 Z" id="ring-inner" transform="translate(110.000000, 111.000000) rotate(-270.000000) translate(-110.000000, -111.000000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

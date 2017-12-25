@@ -201,8 +201,8 @@ input:not(.box-name-field):not(.config-input-field){
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   background-image: url("../images/titania-logo-bg-large.svg");
-  background-repeat: space;
   background-position-x: right;
+  background-repeat: no-repeat;
   height: -webkit-fill-available;
 }
 
@@ -629,20 +629,22 @@ input:not(.box-name-field):not(.config-input-field){
   box-shadow: 0 0 2px #ADADAD;
   overflow-y: auto;
   min-height: 500px;
+  border-collapse: collapse;
   background-color: #FFFFFF;
   margin: 12px 16px 16px 32px;
 }
 
 .dapps-table{
   display: contents;
+  border-collapse: collapse;
   thead tr td{
-    color: $titania-dark;
+    color: #4D4E4C;
     font-size: 16px;
   }
   tr{
     text-align: left;
     td{
-      color: $titania-dark;
+      color: #4D4E4C;
       padding: 16px 8px;
       border-bottom: 1px solid #d8d8d8;
       vertical-align: bottom;
@@ -786,6 +788,7 @@ div.highlightedFilter{
 
 .threads-table{
   box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
+  border-collapse: collapse;
   thead tr th{
     color: $titania-dark;
   }
@@ -798,6 +801,7 @@ div.highlightedFilter{
       vertical-align: bottom;
     }
     td{
+      color: #4D4E4C;
       padding: 16px 8px;
       border-bottom: 1px solid #d8d8d8;
       vertical-align: bottom;
@@ -810,6 +814,7 @@ div.highlightedFilter{
 
 .container-threads-table{
   border: 1px solid #f2f2f2;
+  border-collapse: collapse;
   box-shadow: 0 0 20px 0 rgba(0,0,0,0.2);
 }
 
@@ -1308,6 +1313,7 @@ div.highlightedFilter{
     height: fit-content;
     background-position-x: center;
     width: unset;
+    background-repeat: no-repeat;
   }
   #container{
     margin: 38% auto;
@@ -1685,15 +1691,18 @@ div.highlightedFilter{
   .general-wrapper-table{
     margin: 90px 16px 16px 32px;
     box-shadow: 0 0 10px #ADADAD;
+    border-collapse: collapse;
     .dapps-table thead tr{
       height: 40px;
     }
     .dapps-table thead tr td{
+      color: #4D4E4C;
       font-size: 28px;
       height: 40px;
     }
     .dapps-table tr td{
       font-size: 28px;
+      color: #4D4E4C;
       padding: 16px 22px;
       display: contents;
     }
@@ -1729,10 +1738,12 @@ div.highlightedFilter{
     font-size: 29px;
   }
   .threads-table tr td{
+    color: #4D4E4C;
     font-size: 29px;
   }
   .container-threads-table{
     border: 1px solid #f2f2f2;
+    border-collapse: collapse;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
     width: 96%;
     margin-left: 2px;

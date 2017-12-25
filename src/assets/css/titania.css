@@ -417,11 +417,14 @@ input:not(.box-name-field):not(.config-input-field) {
 
 .single-events-div {
   width: 20%;
-  height: 84px;
   padding: 40px 20px;
   background-color: #ffffff;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   margin-left: 32px;
+  height: auto;
+  /* as content shrinks width is smaller and height gets larger - this way height grows with content */
+  padding: 40px 20px 20px 20px;
+  /* reducing padding on bottom */
 }
 
 .overview-event-count {
@@ -444,7 +447,7 @@ input:not(.box-name-field):not(.config-input-field) {
 
 .overview-event-image {
   float: right;
-  width: 86px;
+  width: 40%;
   height: 64px;
 }
 
@@ -458,7 +461,8 @@ input:not(.box-name-field):not(.config-input-field) {
 
 .events-desc-div {
   border-bottom: 1px solid #ADADAD;
-  width: 248px;
+  width: 100%;
+  /* uses all width space inside of card and grows/shrinks with it */
   padding-bottom: 20px;
 }
 
@@ -1527,7 +1531,8 @@ div.highlightedFilter {
   }
 
   .overview-events, .replication-legend {
-    width: 150px;
+    width: 58%;
+    /* fix width is no good for responsive, this will dynamically follow the width of the card, 2% left for spacing between text and icon */
     position: relative;
     top: 230px;
   }

@@ -1,8 +1,3 @@
-"""SCHEMA PREF """
-VERSION = 1.0
-MAJOR_VERSION = 1
-MINOR_VERSION = 0
-
 """MONITORING TABLES """
 # failsafe so that if table exists insert row is not performed
 Q_CREATE_SYSTEM_COUNTERS = ('CREATE TABLE IF NOT EXISTS [counter_system] ('
@@ -84,11 +79,63 @@ Q_GET_CONTAINER_STATS = ('SELECT a.[collection_timestamp] * 1000,  a.[value] '
                     ' AND a.[counter_id] = ?'
                     ' ORDER BY a.[collection_timestamp]')
 
+# Maintainance logic
+# 
+# Create temp table with data older than 1 week
+# create table temp as
+#    ...> select * from content_docker
+#    ...> WHERE DATETIME([collection_timestamp],
+#    ...> 'unixepoch') < DATETIME('now','-1 week');                        
+
+# Aggregating values
+# create table temp2 as
+# select max(value),container_id,counter_id
+#    ...> from temp
+#    ...> group by container_id, counter_id
+
+# Factoring time into the aggregation
+# sqlite> select counter_id, max(value),container_id, collection_timestamp
+#    ...> from temp                                           
+#    ...> group by container_id, counter_id, date(collection_timestamp, 'unixepoch');
+
+# purge all entries
+# insert into existing table
+# insert into content_docker
+# select * from temp2
+
+
+Q_EXTRACT_OLD_SYSTEM_DATA = ('CREATE TEMPORARY TABLE IF NOT EXISTS system_temp AS'
+                            ' SELECT * FROM [content_system]'
+                            ' WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',\'-1 week\')')
+
+Q_AGGREGATE_OLD_SYSTEM_DATA = ('CREATE TEMPORARY TABLE IF NOT EXISTS [system_temp2] AS'
+                            ' SELECT [counter_id], max([value]) as [value] , [collection_timestamp]'
+                            ' FROM [system_temp] '
+                            ' GROUP BY [counter_id], date([collection_timestamp], \'unixepoch\')')                            
+
 Q_PURGE_OLD_SYSTEM_DATA = ('DELETE FROM [content_system]'
                         'WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',\'-1 week\')')
 
+Q_INSERT_AGGREGATE_SYSTEM_DATA = ('INSERT OR REPLACE INTO [content_system] '
+                                    ' SELECT * FROM [system_temp2]')
+
+Q_EXTRACT_OLD_DOCKER_DATA = ('CREATE TEMPORARY TABLE IF NOT EXISTS [docker_temp] AS'
+                            ' SELECT * FROM [content_docker]'
+                            ' WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',\'-1 week\')')
+
+Q_AGGREGATE_OLD_DOCKER_DATA = ('CREATE TEMPORARY TABLE IF NOT EXISTS  [docker_temp2] AS'
+                            ' SELECT [counter_id], [container_id], max([value]) as [value] , [collection_timestamp]'
+                            ' FROM [docker_temp] '
+                            ' GROUP BY [container_id], [counter_id], date([collection_timestamp], \'unixepoch\')')                            
+
 Q_PURGE_OLD_DOCKER_DATA = ('DELETE FROM [content_docker]'
                         'WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',\'-1 week\')')
+
+Q_INSERT_AGGREGATE_DOCKER_DATA = ('INSERT OR REPLACE INTO [content_docker] '
+                                    ' SELECT * FROM [docker_temp2]')
+
+# Q_DROP_TABLE = ('DROP TABLE IF EXISTS ')
+# Q_TEMP_TABLES = ['system_temp2','system_temp2','docker_temp','docker_temp2']
 
 #command >> docker ps -a --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'
 Q_CREATE_DOCKER_OVERVIEW = ('CREATE TABLE IF NOT EXISTS [docker_overview] ('

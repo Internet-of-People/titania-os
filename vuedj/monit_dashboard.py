@@ -43,10 +43,19 @@ def convert_to_bytes(input):
     return num
 
 def monit_routine(s):
-    # TO DO: write a maintainance loop here
-    # currently it purges old data
+    # Maintainance loop 
+    cursor.execute(common.Q_EXTRACT_OLD_SYSTEM_DATA)
+    cursor.execute(common.Q_AGGREGATE_OLD_SYSTEM_DATA)
     cursor.execute(common.Q_PURGE_OLD_SYSTEM_DATA)
+    cursor.execute(common.Q_INSERT_AGGREGATE_SYSTEM_DATA)
+    cursor.execute(common.Q_EXTRACT_OLD_DOCKER_DATA)
+    cursor.execute(common.Q_AGGREGATE_OLD_DOCKER_DATA)
     cursor.execute(common.Q_PURGE_OLD_DOCKER_DATA)
+    cursor.execute(common.Q_INSERT_AGGREGATE_DOCKER_DATA)
+    # for x in common.Q_TEMP_TABLES:
+    #     print(x)
+    #     print(common.Q_DROP_TABLE)
+    #     cursor.execute(common.Q_DROP_TABLE, [x])
     db.commit()
 
     # start system level collection

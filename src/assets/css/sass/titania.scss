@@ -1278,6 +1278,26 @@ div.highlightedFilter{
   }
 }
 
+.services-menu{
+  margin: auto 20px;
+}
+
+.services-dropdown-menu{
+  width: 200px;
+  position: absolute;
+  float: left;
+  top: 40px;
+  right: 60px;
+  background-color: white;
+  height: auto;
+  z-index: 99;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.20);
+}
+
+.service-item{
+  margin: 30px 20px;
+}
+
 @media only screen and (max-device-width: 600px) {
   /* For mobile phones: */
   [class*="col-"] {
@@ -1467,6 +1487,26 @@ div.highlightedFilter{
   }
   .toolbar-header-options{
     display: none;
+  }
+  .services-menu{
+    img{
+      margin: 36px;
+      width: 36px;
+    }
+  }
+  .service-item{
+    margin: 100px 40px;
+    img{
+      height: 100px;
+      width: 100px;
+    }
+    .service-name{
+      font-size: 32px;
+    }
+  }
+  .services-dropdown-menu{
+    width: 470px;
+    top: 98px;
   }
   .display-flex{
     display: table;

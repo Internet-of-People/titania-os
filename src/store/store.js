@@ -49,7 +49,8 @@ const store = new Vuex.Store({
       getaseditwifiform: false,
       editwifiap: ''
     },
-    sidebarAddons: []
+    sidebarAddons: [],
+    services: false
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -143,7 +144,6 @@ const store = new Vuex.Store({
     },
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {
-      console.log('backend is down')
       state.currentPage = 'landingpage'
       router.push('/landingpage')
       if (error.status === 0 || error.status === 502) {
@@ -205,9 +205,9 @@ const store = new Vuex.Store({
       state.settings.getform = false
     },
     'RECORD_ADDONS': function (state, response) {
-      // state.sidebarAddons = response.body
-      state.sidebarAddons = [{'id': 1, 'name': 'HelloWorld', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'},
-      {'id': 2, 'name': 'iopwallet', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'}]
+      state.sidebarAddons = response.body
+      // state.sidebarAddons = [{'id': 1, 'name': 'HelloWorld', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'},
+      // {'id': 2, 'name': 'iopwallet', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'}]
     }
   },
   actions: {

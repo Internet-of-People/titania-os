@@ -10,19 +10,22 @@ NETWORK_INFO_FILE="/run/network_info.env"
 
 
 IPINFO=$(curl -s https://ipinfo.io)
-LOCATION=$(echo $IPINFO | grep -o '"loc": "[0-9,.]*"' | grep -o '[0-9,.]*')
+LOCATION=$(echo $IPINFO | grep -o '"loc": "[0-9,.-]*"' | grep -o '[0-9,.-]*')
 echo -e "Location:\t\t\t$LOCATION"
+
+LATITUDE=$(echo $LOCATION | grep -o '^[0-9.-]*')
+LONGITUDE=$(echo $LOCATION | grep -o '[0-9.-]*$')
+
+echo -e "Latitude:\t$LATITUDE"
+echo -e "Longitude:\t$LONGITUDE"
 
 EXTERNAL_IP=$(echo $IPINFO | grep -o '"ip": "[0-9.]*"' | grep -o '[0-9.]*')
 echo -e "Address seen from outside:\t$EXTERNAL_IP"
 
-LATITUDE=$(echo $LOCATION | grep -o '^[0-9.]*')
-LONGITUDE=$(echo $LOCATION | grep -o '[0-9.]*$')
-
 # TODO: race conditions when run in parallel a few times, do a HEREDOC or something
 echo "PUBLIC_IP='$EXTERNAL_IP'" > $NETWORK_INFO_FILE
 echo "LATITUDE='$LATITUDE'" >> $NETWORK_INFO_FILE
-echo "LOGNITUDE='$LONGITUDE'" >> $NETWORK_INFO_FILE
+echo "LONGITUDE='$LONGITUDE'" >> $NETWORK_INFO_FILE
 
 if /sbin/ifconfig | grep -vq "addr:${EXTERNAL_IP}" ; then
     echo "We seem to be behind the router, trying NAT-PMP"
@@ -34,7 +37,7 @@ if /sbin/ifconfig | grep -vq "addr:${EXTERNAL_IP}" ; then
     else
         echo -e "Router reported address:\t$ROUTER_IP"
     fi
-    
+
     echo "ROUTER_IP='$ROUTER_IP'" >> $NETWORK_INFO_FILE
 
     if [ "$ROUTER_IP" != "$EXTERNAL_IP" ] ; then
@@ -46,4 +49,3 @@ else
     echo "We seem to be directly connected to the internet"
     # TODO: do we need to mark it?
 fi
-

@@ -2,7 +2,8 @@
   <div>
     <sidebarParent></sidebarParent>
     <headerParent :name-prop="page"></headerParent>
-    <div class="margin-20 text-align">
+    <pageLoader v-if="this.$store.state.dockeroverview.length === 0"></pageLoader>
+    <div class="margin-20 text-align" v-if="this.$store.state.dockeroverview.length !== 0">
       <div class='col-12'>
       <div class="display-inline-flex dapps-console">
         <div class='float-right display-inline-flex'>
@@ -45,6 +46,7 @@
 import sidebarParent from '@/components/common/sidebarParent'
 import headerParent from '@/components/common/headerParent'
 import dappsMainContent from '@/components/dappsconsole/dappsMainContent'
+import pageLoader from '@/components/common/pageLoader'
 
 export default {
   name: 'dappsconsole',
@@ -80,7 +82,8 @@ export default {
   components: {
     sidebarParent,
     headerParent,
-    dappsMainContent
+    dappsMainContent,
+    pageLoader
   },
   mounted: function () {
     if (this.$route.params.setSession) {

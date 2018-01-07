@@ -2,7 +2,7 @@
   <div>
     <sidebarParent></sidebarParent>
     <headerParent :name-prop="page"></headerParent>
-    <div class='margin-20'>
+    <div class='margin-20' v-if="this.$store.state.threads.length !== 0">
         <div class='float-left display-inline-flex threads-filter'>
             <div @click="setFilter('all')" v-bind:class="{highlightedFilter: getSelectedFilter('all')}">SYSTEM THREADS</div>
             <div @click="setFilter('container')" v-bind:class="{highlightedFilter: getSelectedFilter('container')}">CONTAINER-LEVEL THREADS</div>
@@ -13,6 +13,7 @@
             <threadsContainer :detail-prop="details" v-else ></threadsContainer>
         </div>
     </div>
+    <pageLoader v-if="this.$store.state.threads.length === 0"></pageLoader>
   </div>
 </template>
 
@@ -21,6 +22,7 @@ import sidebarParent from '@/components/common/sidebarParent'
 import headerParent from '@/components/common/headerParent'
 import threadsAll from '@/components/threads/threadsAll'
 import threadsContainer from '@/components/threads/threadsContainer'
+import pageLoader from '@/components/common/pageLoader'
 
 export default {
   name: 'threads',
@@ -49,7 +51,8 @@ export default {
     sidebarParent,
     headerParent,
     threadsAll,
-    threadsContainer
+    threadsContainer,
+    pageLoader
   },
   mounted: function () {
     if (!this.$session.exists()) {

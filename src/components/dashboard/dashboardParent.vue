@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div style="height:inherit;">
     <sidebarParent></sidebarParent>
     <headerParent :name-prop="page"></headerParent>
     <div class="margin-20">
-      <dashboardMainContent v-if="this.$store.state.dashboardChart.series.length != 0"></dashboardMainContent>
+      <dashboardMainContent v-if="this.$store.state.dashboardChart.series.length !== 0"></dashboardMainContent>
+      <pageLoader v-if="this.$store.state.dashboardChart.series.length === 0"></pageLoader>
     </div>
   </div>
 </template>
@@ -12,6 +13,7 @@
 import sidebarParent from '@/components/common/sidebarParent'
 import headerParent from '@/components/common/headerParent'
 import dashboardMainContent from '@/components/dashboard/dashboardMainContent'
+import pageLoader from '@/components/common/pageLoader'
 
 export default {
   name: 'dashboard',
@@ -23,7 +25,8 @@ export default {
   components: {
     sidebarParent,
     headerParent,
-    dashboardMainContent
+    dashboardMainContent,
+    pageLoader
   },
   mounted: function () {
     if (this.$route.params.setSession && !this.$session.exists()) {

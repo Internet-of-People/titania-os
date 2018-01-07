@@ -7,6 +7,7 @@
         <containerMainContent></containerMainContent>
       </div>
     </div>
+    <pageLoader v-if="this.$store.state.dockerstats.length === 0"></pageLoader>
   </div>
 </template>
 
@@ -14,6 +15,7 @@
 import sidebarParent from '@/components/common/sidebarParent'
 import headerParent from '@/components/common/headerParent'
 import containerMainContent from '@/components/containerstats/containerMainContent.vue'
+import pageLoader from '@/components/common/pageLoader'
 
 export default {
   name: 'containerstats',
@@ -25,7 +27,8 @@ export default {
   components: {
     sidebarParent,
     headerParent,
-    containerMainContent
+    containerMainContent,
+    pageLoader
   },
   mounted: function () {
     if (this.$route.params.setSession) {

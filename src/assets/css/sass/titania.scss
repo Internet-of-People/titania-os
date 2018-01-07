@@ -782,7 +782,7 @@ div.highlightedFilter{
   margin-left: 40px;
   position: absolute;
   margin-top: 65px;
-  height: 554px;
+  height: 76%;
   overflow-y: auto;
 }
 
@@ -1304,6 +1304,61 @@ div.highlightedFilter{
   margin: 30px 20px;
 }
 
+/** page loader css **/
+.loader-main-div{
+  width: 100%;
+  float: left;
+  text-align: center;
+  /* background-color: #FFFFFF; */
+  position: fixed;
+  top: 50px;
+  left: 48px;
+  height: 100%;
+}
+
+.loader-header{
+  height: 50px;
+  width: 50px;
+  margin: auto;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg)
+  }
+
+  to {
+    transform: rotate(1turn)
+  }
+}
+
+.loader-page{
+  z-index: 2;
+  box-sizing: border-box;
+  height: 32px;
+  width: 32px;
+  transform: translate(-50%, -50%)
+}
+
+.loader-page > div{
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  transition: all .75s ease 0s;
+  border-radius: 100%;
+  // border-right: 4px solid #111;
+  border-right: 4px solid $titania-dark;
+  border-top: 4px solid #ddd;
+  border-left: 4px solid #ddd;
+  border-bottom: 4px solid #ddd;
+  animation: rotate .75s infinite linear;
+  transform-origin: center;
+  opacity: 1;
+}
+
+/*
+  Mobile Resolution
+*/
 @media only screen and (max-device-width: 600px) {
   /* For mobile phones: */
   [class*="col-"] {

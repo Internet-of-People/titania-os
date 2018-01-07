@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="col-12">
-        <button @click="saveConfig()" class="save-config button-primary float-right cursor-pointer outline-none large-fontsize">SAVE</button>
+        <button id='saveForm' @click="saveConfig()" class="save-config button-primary float-right cursor-pointer outline-none large-fontsize">SAVE</button>
       </div>
   </div>
 </template>
@@ -137,14 +137,20 @@ export default {
           } else {
             $('#password').removeClass('error-hint')
             $('#confirmPassword').removeClass('error-hint')
+            $('body').css('cursor', 'progress')
+            $('#saveForm').css('cursor', 'wait')
             this.$store.dispatch('addNewUser', this.configdetails)
           }
         } else {
           if (this.editProp) {
             this.configdetails.wifi_ap = this.editWifiapProp
+            $('body').css('cursor', 'progress')
+            $('#saveForm').css('cursor', 'wait')
             this.$store.dispatch('editWifi', this.configdetails)
           } else {
             this.configdetails.wifi_ap = this.currentwifiap
+            $('body').css('cursor', 'progress')
+            $('#saveForm').css('cursor', 'wait')
             this.$store.dispatch('addWifi', this.configdetails)
           }
         }
@@ -186,6 +192,9 @@ export default {
           $('#password').removeClass('error-hint')
           $('#confirmPassword').removeClass('error-hint')
           this.configdetails.wifi_ap = this.currentwifiap
+          // adding wait cursor
+          $('body').css('cursor', 'progress')
+          $('#saveForm').css('cursor', 'wait')
           this.$store.dispatch('saveConfigForm', this.configdetails)
         }
       }

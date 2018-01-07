@@ -7,7 +7,7 @@
         </div>
         <div v-for="user in users" v-if="currentuser !== user" :key="user" class='user-row'> 
             <div class='col-11'>{{user}}</div>
-            <div class='col-1 float-right cursor-pointer' @click="deleteuser(user)" title='Delete user'>
+            <div class='col-1 del-user float-right cursor-pointer' @click="deleteuser(user)" title='Delete user'>
                 <img class="edit-remove-icon" src="../../assets/images/trash.svg"/>
             </div>
         </div>
@@ -63,6 +63,9 @@ export default {
     deleteuser: function (username) {
       var deleterequest = {}
       deleterequest.user = username
+      // add wait cursor
+      $('body').css('cursor', 'progress')
+      $('.del-user').css('cursor', 'wait')
       this.$store.dispatch('deleteUser', deleterequest)
     },
     addNewUser: function () {

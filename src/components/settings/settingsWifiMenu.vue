@@ -7,7 +7,7 @@
             <div class='col-1 float-right cursor-pointer' @click="updatewifi(wifi)" title="Update connection">
                 <img class="edit-remove-icon" src="../../assets/images/edit.svg"/>
             </div>
-            <div class='col-1 float-right cursor-pointer' @click="deletewifi(wifi)" title="Delete connection">
+            <div class='col-1 float-right del-wifi cursor-pointer' @click="deletewifi(wifi)" title="Delete connection">
                 <img class="edit-remove-icon" src="../../assets/images/trash.svg"/>
             </div>
         </div>
@@ -79,6 +79,9 @@ export default {
     deletewifi: function (wifiap) {
       var deleterequest = {}
       deleterequest.wifi = wifiap
+      // add wait cursor
+      $('body').css('cursor', 'progress')
+      $('.del-wifi').css('cursor', 'wait')
       this.$store.dispatch('deleteWifi', deleterequest)
     },
     addNewWifi: function () {

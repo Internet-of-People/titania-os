@@ -57,6 +57,8 @@ export default {
         return
       }
       $('#username').removeClass('error-hint')
+      $('body').css('cursor', 'progress')
+      $('#login_submit').css('cursor', 'wait')
       this.$store.dispatch('login', this.$store.state.credentials)
     }
   },

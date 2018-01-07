@@ -79,12 +79,20 @@ const store = new Vuex.Store({
       state.currentPage = 'configure'
     },
     'SAVE_CONFIGURATION': function (state, response) {
+      // removing loaders
+      $('body').css('cursor', 'default')
+      $('#saveForm').css('cursor', 'pointer')
+      // open login form
       if (response.body.STATUS === 'SUCCESS') {
         router.push('/login')
         state.currentPage = 'login'
       }
     },
     'LOGIN': function (state, response) {
+      // removing loaders
+      $('body').css('cursor', 'default')
+      $('#login_submit').css('cursor', 'pointer')
+      // applying response set
       if (response.body.username) {
         Vue.toast('Login successful', {
           id: 'my-toast',
@@ -178,6 +186,11 @@ const store = new Vuex.Store({
       state.configuration.wifi_aps_current = response.body[0].allwifiaps[0][0]
     },
     'REFRESH_LIST': function (state, response) {
+      // removing loaders
+      $('body').css('cursor', 'default')
+      $('#saveForm').css('cursor', 'pointer')
+      $('.del-user').css('cursor', 'pointer')
+      $('.del-wifi').css('cursor', 'pointer')
       var message = ''
       var reqtype = response.body[0].reqtype
       var endpoint = response.body[0].endpoint

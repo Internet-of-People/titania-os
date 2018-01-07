@@ -30,6 +30,10 @@ export default {
   methods: {
     toggleConfig () {
       this.configure = !this.configure
+      // reseting form on close/exit
+      if (!this.configure) {
+        this.$store.state.configuration.tabname = 'config'
+      }
     },
     submit (event) {
       if (event.which === 13) {

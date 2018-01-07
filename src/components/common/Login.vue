@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 export default {
   name: 'login',
   computed: {
@@ -42,6 +43,20 @@ export default {
   },
   methods: {
     submit () {
+      if (this.username.length === 0) {
+        Vue.toast('Enter Username', {
+          id: 'my-toast',
+          className: ['toast-warning'],
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          duration: 4000,
+          mode: 'queue',
+          transition: 'my-transition'
+        })
+        $('#username').addClass('error-hint')
+        return
+      }
+      $('#username').removeClass('error-hint')
       this.$store.dispatch('login', this.$store.state.credentials)
     }
   },

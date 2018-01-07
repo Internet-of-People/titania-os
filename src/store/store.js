@@ -9,9 +9,9 @@ Vue.use(Vuex)
 Vue.use(VueSession)
 Vue.use(VueLocalStorage)
 
-const apiRoot = '/api' // deployment
+// const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.2.5:8000' // dev pi
+const apiRoot = 'http://192.168.2.5:8000' // dev pi
 
 const store = new Vuex.Store({
   state: {
@@ -100,7 +100,7 @@ const store = new Vuex.Store({
         state.credentials.username = response.body.username
         Vue.ls.set('user', state.credentials.username)
       } else {
-        Vue.toast('Login attempt failed', {
+        Vue.toast(response.body, {
           id: 'my-toast',
           className: ['toast-warning'],
           horizontalPosition: 'right',
@@ -241,7 +241,7 @@ const store = new Vuex.Store({
     login (state, credentials) {
       var login = {
         _action: 'login',
-        username: credentials.username,
+        username: escape(credentials.username),
         password: credentials.password
       }
       return api.post(apiRoot + '/index.html', login)

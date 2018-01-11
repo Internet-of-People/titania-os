@@ -187,7 +187,7 @@ CMD_THREADS = "ps axms | wc -l"
 #DOCKER MASTER
 CMD_DOCKER_MASTER = "docker ps -a --format '{{.ID}}\t{{.Names}}\t{{.Image}}'"
 #DOCKER METRICS
-CMD_DOCKER_STATS = "docker stats -a --no-stream --format '{{.Container}}\t{{.CPUPerc}}\t{{.MemPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}'"
+CMD_DOCKER_STATS = "docker stats --no-stream --format '{{.Container}}\t{{.CPUPerc}}\t{{.MemPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}'"
 #DOCKER INFO
 CMD_DOCKER_OVERVIEW_RUNNING = "docker ps -a --filter status=running --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
 CMD_DOCKER_OVERVIEW_PAUSED = "docker ps -a --filter status=paused --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"

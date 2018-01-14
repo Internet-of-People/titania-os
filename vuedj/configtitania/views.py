@@ -60,7 +60,8 @@ def get_allAPs():
     # return wifi_aps
 
 def add_user(username, password):
-    encPass = crypt.crypt(password,"22")
+    # create a random sal for the user and encrypt password with sha512
+    encPass = crypt.crypt(password,crypt.mksalt(crypt.METHOD_SHA512))
     os.system("useradd -G docker,wheel -p "+encPass+" "+username)
 
 def add_newWifiConn(wifiname, wifipass):

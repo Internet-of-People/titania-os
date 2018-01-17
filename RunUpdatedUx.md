@@ -1,7 +1,6 @@
 # ON rpi
 ## reset the running backend
 ```bash
-sudo pip install flask
 systemctl stop vuedj
 cd /srv
 rm -f vuedj

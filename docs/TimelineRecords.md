@@ -13,7 +13,7 @@
 #### Bug Fixes
 1. Verify and include fixes to issues #20, #21, #22 to ux-titania @pooja
 2. Network info script fix for negative lat/long @jimfromsa ![#c5f015](https://placehold.it/15/c5f015/000000?text=+)
-3. Check the systemd starter scripts @landswellsong
+3. Check the systemd starter scripts @landswellsong / @jimfromsa
 4. Parser issues with wifi menu and monit @pooja ![#c5f015](https://placehold.it/15/c5f015/000000?text=+)
 5. Security fixes for code injections @pooja 
 

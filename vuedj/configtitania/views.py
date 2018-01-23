@@ -7,12 +7,11 @@ from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
-from flask import escape
 
 from .models import BoxDetails, RegisteredServices
 from .serializers import BoxDetailsSerializer, RegisteredServicesSerializer
 
-import common, sqlite3, subprocess, NetworkManager, os, crypt, pwd, getpass, spwd 
+import common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd
 
 # fetch network AP details
 nm = NetworkManager.NetworkManager
@@ -62,8 +61,9 @@ def get_allAPs():
 def add_user(username, password):
     # create a random sal for the user and encrypt password with sha512
     encPass = crypt.crypt(password,crypt.mksalt(crypt.METHOD_SHA512))
-    os.system("useradd -G docker,wheel -p "+encPass+" "+username)
-
+    #subprocess escapes the username stopping code injection
+    subprocess.call(['useradd','-G','docker,wheel','-p',encPass,username])
+    
 def add_newWifiConn(wifiname, wifipass):
     print(wlans)
     wlan0 = wlans[0]
@@ -154,9 +154,9 @@ def handle_config(request):
             return JsonResponse(wifi_aps, safe=False)
         elif action == 'saveUserDetails':
             print(action)
-            boxname = escape(request.POST.get("boxname"))
-            username = escape(request.POST.get("username"))
-            password = escape(request.POST.get("password"))
+            boxname = request.POST.get("boxname")
+            username = request.POST.get("username")
+            password = request.POST.get("password")
             print(username)
             add_user(username,password)
             setBoxName = BoxDetails(boxname=boxname)
@@ -169,8 +169,8 @@ def handle_config(request):
             return JsonResponse({"STATUS":"SUCCESS"}, safe=False)
         elif action == 'login':
             print(action)
-            username = escape(request.POST.get("username"))
-            password = escape(request.POST.get("password"))
+            username = request.POST.get("username")
+            password = request.POST.get("password")
             output=''
             """Tries to authenticate a user.
             Returns True if the authentication succeeds, else the reason
@@ -316,7 +316,7 @@ def handle_config(request):
             return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps}], safe=False)
         elif action == 'deleteUser':
             print(action)
-            username = escape(request.POST.get("user"))
+            username = request.POST.get("user")
             ps = subprocess.Popen(['userdel', username], stdout=subprocess.PIPE).communicate()
             fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
             # sample ps 
@@ -327,8 +327,8 @@ def handle_config(request):
             return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'deleteuser', 'endpoint': username}], safe=False)
         elif action == 'addNewUser':
             print(action)
-            username = escape(request.POST.get("username"))
-            password = escape(request.POST.get("password"))
+            username = request.POST.get("username")
+            password = request.POST.get("password")
             add_user(username,password)
             fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
             # sample ps 
@@ -340,7 +340,7 @@ def handle_config(request):
         elif action == 'addWifi':
             print(action)
             # connect to wifi ap user selected
-            wifi_pass = escape(request.POST.get("wifi_password"))
+            wifi_pass = request.POST.get("wifi_password")
             wifi_name = request.POST.get("wifi_ap")
             if len(wifi_name) > 0:
                 add_newWifiConn(wifi_name,wifi_pass)
@@ -367,7 +367,7 @@ def handle_config(request):
             print(action)
             # connect to wifi ap user selected
             wifi_name = request.POST.get("wifi_ap")
-            wifi_pass = escape(request.POST.get("wifi_password"))
+            wifi_pass = request.POST.get("wifi_password")
             edit_WifiConn(wifi_name,wifi_pass)
             fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
             # sample ps 

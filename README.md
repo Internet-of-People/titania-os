@@ -53,7 +53,6 @@ docker run --name nginx -p 80:80 -p 443:443  -v /home/root/ux-titania/dist:/usr/
 Then simply open the rpi's ip on your browser.
 
 ## Install and Run django backend
-```sudo pip install flask```
 ``` bash
 cd ux-titania/vuedj
 python monit_dashboard.py &

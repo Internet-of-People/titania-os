@@ -11,7 +11,7 @@ from rest_framework.decorators import list_route
 from .models import BoxDetails, RegisteredServices
 from .serializers import BoxDetailsSerializer, RegisteredServicesSerializer
 
-import common, sqlite3, subprocess, NetworkManager, os, crypt, pwd, getpass, spwd 
+import common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd
 
 # fetch network AP details
 nm = NetworkManager.NetworkManager
@@ -60,7 +60,8 @@ def get_allAPs():
 
 def add_user(username, password):
     encPass = crypt.crypt(password,"22")
-    os.system("useradd -G docker,wheel -p "+encPass+" "+username)
+    #subprocess escapes the username stopping code injection
+    subprocess.call(['useradd','-G','docker,wheel','-p',encPass,username])
 
 def add_newWifiConn(wifiname, wifipass):
     print(wlans)

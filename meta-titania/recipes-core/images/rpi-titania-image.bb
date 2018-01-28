@@ -1,3 +1,10 @@
+# Add compressed root for SWupdate
+# TODO: compress kernel as well?
+# NOTE: it's actually an ext4
+IMAGE_FSTYPES += "ext3.gz"
+# Compressed version of the image
+IMAGE_FSTYPES += "rpi-sdimg.gz"
+
 # Raspberry PI base image with splash and ssh
 include recipes-core/images/rpi-basic-image.bb
 
@@ -24,7 +31,7 @@ inherit extrausers
 EXTRA_USERS_PARAMS += "groupadd wheel;"
 # Disable passwordless root for non-debug builds
 # TODO: is there a standard variable for this?
-EXTRA_USERS_PARAMS += "${@ 'usermod -L root;' if not d.getVar('TITANIA_DEBUG') else ''}"
+EXTRA_USERS_PARAMS += "usermod -L root;"
 
 # Additinal systemctl variables
 ROOTFS_POSTPROCESS_COMMAND += " titania_sysctl_config ; "

@@ -7,10 +7,6 @@ variables:
   BITBAKEDIR: '$CI_PROJECT_DIR/bitbake'
   IMAGE_DIR: '$CI_PROJECT_DIR/build/tmp-glibc/deploy/images'
   VERSION: 'git describe --long'
-  # Insanity!
-  COMPRESSION_OPTS: '-9e'
-  COMPRESSION_CMD: 'xz'
-  # TODO: decompression cmd
 
 # TODO:
 # add stages:
@@ -20,7 +16,6 @@ variables:
 stages:
   - setup
   - build
-  # - archive
   # - sign
   # - publish 
 
@@ -62,20 +57,13 @@ raspberry:
     - mkdir ~/.ssh || true
     - ssh-keyscan -p 2200 gitlab.libertaria.community >> ~/.ssh/known_hosts
     - source openembedded-core/oe-init-build-env
-    # Enable TITANIA_DEBUG variable to be passed directly without local.conf
-    - export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE TITANIA_DEBUG"
-    # TODO: schedule removal
     # Force datafs to be installed
+    # TODO: remove this abomination
     - MACHINE="raspberrypi3" bitbake -c install docker-prebuilt-datafs
-    # Release image
-    - MACHINE="raspberrypi3" bitbake rpi-titania-image
-    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
-    - $COMPRESSION_CMD $COMPRESSION_OPTS $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img
-    # Debug image
-    # TODO: unify the call with above
-    - TITANIA_DEBUG="true" MACHINE="raspberrypi3" bitbake rpi-titania-image
-    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION)-debug.img
-    - $COMPRESSION_CMD $COMPRESSION_OPTS $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION)-debug.img
+    # Update image, the full SD image is pulled as a dependency
+    - MACHINE="raspberrypi3" bitbake rpi-titania-update
+    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg.gz $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img.gz
+    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-update-raspberrypi3.swu $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).swu
 
   cache:
     paths:
@@ -83,37 +71,9 @@ raspberry:
       - build/downloads
   artifacts:
     paths:
-      - titania-arm-rpi-*.img.*
+      - titania-arm-rpi-*.img.gz
+      - titania-arm-rpi-*.swu
     expire_in: 3 days
-
-# TODO: reenable aftewards
-
-#desktop:
-#  stage: build
-#  script:
-#    - source openembedded-core/oe-init-build-env
-#    # TODO: maybe other machine?
-#    # TODO: hard drive image, not partition image (stub because we use core-image-minimal for now)
-#    - MACHINE="qemux86-64" bitbake core-image-minimal
-#    - cp -H $IMAGE_DIR/qemux86-64/core-image-minimal-qemux86-64.ext4 $CI_PROJECT_DIR/titania-amd64-ext4-$(eval $VERSION).img
-#  cache:
-#    paths:
-#      - build/sstate-cache
-#      - build/downloads
-#  artifacts:
-#    paths:
-#      - titania-amd64-ext4-*.img
-#    expire_in: 3 days
-
-#compress:
-#  stage: archive
-#  script:
-#    - for image in titania*.img; do $COMPRESSION $image ; done
-#  artifacts:
-#    paths:
-#      - titania*.img.*
-#    expire_in: 3 days
-
 
 # TODO: add GPG signature step
 #images:

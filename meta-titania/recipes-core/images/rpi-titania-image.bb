@@ -8,7 +8,7 @@ DEPENDS += "docker-prebuilt-datafs"
 # TODO: migrate to python3 soon
 IMAGE_INSTALL += "vuedj dapp-runner docker-prebuilt-rootfs datafs-resizer"
 
-IMAGE_INSTALL += "sudo docker networkmanager avahi-daemon llmnrd zram systemd-analyze"
+IMAGE_INSTALL += "sudo docker networkmanager avahi-daemon llmnrd zram systemd-analyze swupdate"
 
 # TODO: replace with IPv6 or something eventually
 IMAGE_INSTALL += "natpmp"

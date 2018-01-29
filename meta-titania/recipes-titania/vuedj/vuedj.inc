@@ -12,7 +12,10 @@ S = "${WORKDIR}/git"
 
 # Pull Python in
 # TODO: remove after we move to rust (dont forget to remove the layer too)
-RDEPENDS_${PN} = "python-django python-pytz python-djangorestframework python-python-networkmanager"
+RDEPENDS_${PN} = "python3-django \
+                  python3-pytz \
+                  python3-djangorestframework \
+                  python3-python-networkmanager"
 
 LICENSE = "GPL-3.0"
 LIC_FILES_CHKSUM = "file://LICENCE.md;md5=bb3ca60759f3202f1ae42e3519cd06bc"

@@ -5,7 +5,6 @@ include recipes-core/images/rpi-basic-image.bb
 DEPENDS += "docker-prebuilt-datafs"
 
 # Monitoring backend
-# TODO: migrate to python3 soon
 IMAGE_INSTALL += "vuedj dapp-runner docker-prebuilt-rootfs datafs-resizer"
 
 IMAGE_INSTALL += "sudo docker networkmanager avahi-daemon llmnrd zram systemd-analyze"

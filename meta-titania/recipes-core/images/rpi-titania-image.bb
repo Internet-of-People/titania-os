@@ -12,9 +12,6 @@ IMAGE_INSTALL += "sudo docker networkmanager avahi-daemon llmnrd zram systemd-an
 # TODO: replace with IPv6 or something eventually
 IMAGE_INSTALL += "natpmp"
 
-# TODO: we won't need this in future
-IMAGE_INSTALL += "sqlite3"
-
 # Add firmware, this is needed for WiFi on RaspberryPi
 IMAGE_INSTALL += "linux-firmware-bcm43430"
 

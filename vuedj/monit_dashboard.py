@@ -17,8 +17,8 @@ try:
     cursor.execute(common.Q_CREATE_DOCKER_MASTER)
     cursor.execute(common.Q_CREATE_DOCKER_CONTENT)
     cursor.execute(common.Q_CREATE_DOCKER_OVERVIEW)
-except sqlite3.Error, e:
-    print('Error %s',e)
+except sqlite3.Error as err:
+    print('Error %s', er)
 db.commit()
 
 data_collection = 30
@@ -31,7 +31,6 @@ s = sched.scheduler(time.time, time.sleep)
 #     sys.exit(0)
 
 def convert_to_bytes(input):
-    print(input)
     p = input.split(' ')
     num = float(p[0])
     if p[1] == 'kiB' or p[1] == 'kB':
@@ -67,12 +66,12 @@ def monit_routine(s):
     # status of stopped dApps
     # link >> https://docs.docker.com/engine/reference/commandline/ps/#filtering
     p = subprocess.check_output(common.CMD_STOPPED_DAPPS, shell=True)
-    print(p)
     cursor.execute(common.Q_INSERT_SYSTEM_CONTENT,[common.STOPPED_DAPPS, p])
     db.commit()
 
     # uptime
     p = subprocess.check_output(common.CMD_UPTIME, shell=True)
+    p = p.decode("utf-8")
     p = p.split(' ')
     cursor.execute(common.Q_INSERT_SYSTEM_CONTENT,[common.UPTIME, p[0]])
     db.commit()
@@ -86,6 +85,7 @@ def monit_routine(s):
     # start container level monitoring - currently works for CPU Usage
     # docker info, id, image and name
     p = subprocess.check_output(common.CMD_DOCKER_MASTER, shell=True)
+    p = p.decode("utf-8")
     p = p.split('\n')
     lenofoutput = len(p)
     for x in range(lenofoutput-1):
@@ -94,6 +94,7 @@ def monit_routine(s):
         db.commit()
     # cpu usage docker wise
     p = subprocess.check_output(common.CMD_DOCKER_STATS, shell=True)
+    p = p.decode("utf-8")
     p = p.split('\n')
     lenofoutput = len(p)
     for x in range(lenofoutput-1):
@@ -128,6 +129,7 @@ def monit_routine(s):
     db.commit()
     #for running
     p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW_RUNNING, shell=True)
+    p = p.decode("utf-8")
     p = p.split("\n")
     lenofoutput = len(p)
     for x in range(lenofoutput-1):
@@ -136,6 +138,7 @@ def monit_routine(s):
         db.commit()
     #for paused
     p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW_PAUSED, shell=True)
+    p = p.decode("utf-8")
     p = p.split("\n")
     lenofoutput = len(p)
     for x in range(lenofoutput-1):
@@ -143,11 +146,11 @@ def monit_routine(s):
         db.commit()
     #for exited
     p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW_EXITED, shell=True)
+    p = p.decode("utf-8")
     p = p.split("\n")
     lenofoutput = len(p)
     for x in range(lenofoutput-1):
         y = p[x].split('\t')
-        print(y)
         cursor.execute(common.Q_INSERT_DOCKER_OVERVIEW_EXITED,y)
         db.commit()
     # end docker overview

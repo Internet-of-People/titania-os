@@ -31,7 +31,7 @@ def get_allconfiguredwifi():
     """
     nmcli con | grep 802-11-wireless
     """
-    ps = subprocess.Popen('nmcli -t -f NAME,TYPE conn | grep 802-11-wireless', shell=True,stdout=subprocess.PIPE).communicate()[0]
+    ps = subprocess.Popen('nmcli -t -f NAME,TYPE conn | grep 802-11-wireless', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
     wifirows = ps.split('\n')
     wifi = []
     for row in wifirows:
@@ -44,7 +44,7 @@ def get_allAPs():
     """
     nmcli con | grep 802-11-wireless
     """
-    ps = subprocess.Popen('nmcli -t -f SSID,BARS device wifi list', shell=True,stdout=subprocess.PIPE).communicate()[0]
+    ps = subprocess.Popen('nmcli -t -f SSID,BARS device wifi list', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
     wifirows = ps.split('\n')
     wifi = []
     for row in wifirows:
@@ -127,16 +127,18 @@ def handle_config(request):
     if request.method == 'POST':
         action = request.POST.get("_action")
         print(action)
-        if action == 'registerService':
-            request_name = request.POST.get("name")
-            request_address = request.POST.get("address")
-            request_icon = request.POST.get("icon")
-            print(request_name)
-            print(request_address)
-            print(request_icon)
-            setServiceDetails = RegisteredServices.objects.get_or_create(name=request_name,address=request_address,icon=request_icon)
-            return JsonResponse({"STATUS":"SUCCESS"}, safe=False)
-        elif action == 'getSchema':
+        ## Added in rc_v2 for addon support
+        ## Will be replaced by dApps Hub
+        # if action == 'registerService':
+        #     request_name = request.POST.get("name")
+        #     request_address = request.POST.get("address")
+        #     request_icon = request.POST.get("icon")
+        #     print(request_name)
+        #     print(request_address)
+        #     print(request_icon)
+        #     setServiceDetails = RegisteredServices.objects.get_or_create(name=request_name,address=request_address,icon=request_icon)
+        #     return JsonResponse({"STATUS":"SUCCESS"}, safe=False)   
+        if action == 'getSchema':
             schema = get_osversion()
             return JsonResponse({"version_info":schema}, safe=False)
         elif action == 'getIfConfigured':
@@ -307,7 +309,7 @@ def handle_config(request):
             return JsonResponse(resultset, safe=False)
         elif action == 'getSettings':
             print(action)
-            ps = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
+            ps = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = ps.split(':')[3].split(',')
@@ -318,7 +320,7 @@ def handle_config(request):
             print(action)
             username = request.POST.get("user")
             ps = subprocess.Popen(['userdel', username], stdout=subprocess.PIPE).communicate()
-            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
+            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = fetchusers.split(':')[3].split(',')
@@ -330,7 +332,7 @@ def handle_config(request):
             username = request.POST.get("username")
             password = request.POST.get("password")
             add_user(username,password)
-            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
+            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = fetchusers.split(':')[3].split(',')
@@ -344,7 +346,7 @@ def handle_config(request):
             wifi_name = request.POST.get("wifi_ap")
             if len(wifi_name) > 0:
                 add_newWifiConn(wifi_name,wifi_pass)
-            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
+            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = fetchusers.split(':')[3].split(',')
@@ -356,7 +358,7 @@ def handle_config(request):
             # connect to wifi ap user selected
             wifi_name = request.POST.get("wifi")
             delete_WifiConn(wifi_name)
-            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
+            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = fetchusers.split(':')[3].split(',')
@@ -369,7 +371,7 @@ def handle_config(request):
             wifi_name = request.POST.get("wifi_ap")
             wifi_pass = request.POST.get("wifi_password")
             edit_WifiConn(wifi_name,wifi_pass)
-            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].split('\n')[0]
+            fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
             userlist = fetchusers.split(':')[3].split(',')

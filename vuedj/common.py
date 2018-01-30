@@ -22,7 +22,7 @@ Q_CREATE_SYSTEM_CONTENT = ('CREATE TABLE IF NOT EXISTS [content_system] ('
 
 Q_INSERT_SYSTEM_CONTENT = ('INSERT INTO [content_system] (counter_id,value) VALUES(?,?)')
 
-Q_DASHBOARD_CARDS = ('SELECT a.[counter_id], b.[counter_name], a.[value], max(a.[collection_timestamp])'
+Q_DASHBOARD_CARDS = ('SELECT a.[counter_id], b.[counter_name], CAST(a.[value] as decimal), max(a.[collection_timestamp])'
                     ' FROM [content_system] a INNER JOIN [counter_system] b '
                     ' ON a.[counter_id] = b.[counter_id]'
                     ' GROUP BY a.[counter_id]')

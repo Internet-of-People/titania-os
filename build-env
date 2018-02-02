@@ -1,0 +1,4 @@
+# source this in the bash script to quickly set the environment up
+# TOOD: not universal and not meant to be
+export BITBAKEDIR=`pwd`/bitbake
+. openembedded-core/oe-init-build-env

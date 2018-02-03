@@ -9,10 +9,13 @@ SRC_URI = "file://sw-description\
 
 LIC_FILES_CHKSUM = "file://${WORKDIR}/gplv3.md;md5=f149fa3bc39a974fe62c04649f34883a"
 
-IMAGE_DEPENDS = "rpi-titania-image virtual/kernel"
+# TODO: kernel in next commit
+# IMAGE_DEPENDS = "rpi-titania-image virtual/kernel"
+IMAGE_DEPENDS = "rpi-titania-image"
 
-SWUPDATE_IMAGES = "rpi-titania-image Image"
+# SWUPDATE_IMAGES = "rpi-titania-image Image"
+SWUPDATE_IMAGES = "rpi-titania-image"
 SWUPDATE_IMAGES_FSTYPES[rpi-titania-image] = ".ext3.gz"
-SWUPDATE_IMAGES_FSTYPES[Image] = ".bin"
+# SWUPDATE_IMAGES_FSTYPES[Image] = ".bin"
 
 inherit swupdate

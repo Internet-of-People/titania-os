@@ -67,6 +67,18 @@ DATAFS_SIZE ?= "1966080"
 DATAFS_LABEL ?= "data"
 
 IMAGE_CMD_rpi-sdimg_append() {
+    # Modifying the name of the kernel on VFAT
+    # TODO: is there a more elegant way?
+    # TODO: `pyro` branch always names the kernel `uImage` whereas
+    # `master` uses an env var. Watch out for upgrades.
+    mdel -i ${WORKDIR}/boot.img ::${KERNEL_IMAGETYPE}
+    mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}${KERNEL_INITRAMFS}-${MACHINE}.bin ::${KERNEL_IMAGETYPE}_a
+
+    # We need to rewrite the VFAT partition in order to avoid patching or copypasting meta-raspberrypi code
+    dd if=${WORKDIR}/boot.img of=${SDIMG} conv=notrunc seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024)
+
+    # Option: alternate between "uImage" and e.g. "uImage-alt"  but this is ugly and non-symmetrical naming
+
     # Update SD card image size
     NEW_SDIMG_SIZE=$(expr ${SDIMG_SIZE} + ${ROOTFS_SIZE} + ${DATAFS_SIZE})
     dd if=/dev/zero of=${SDIMG} bs=1024 count=0 seek=${NEW_SDIMG_SIZE}

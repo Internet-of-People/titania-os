@@ -15,8 +15,12 @@ software =
                 );
                 uboot: (
                         {
-                            name = "rpipart";
-                            value = "2";
+                            name = "active_root";
+                            value = "a";
+                        },
+                        {
+                            name = "after_update";
+                            value = "1";
                         }
                 );
             };
@@ -32,8 +36,12 @@ software =
                 );
                 uboot: (
                         {
-                            name = "rpipart";
-                            value = "3";
+                            name = "active_root";
+                            value = "b";
+                        },
+                        {
+                            name = "after_update";
+                            value = "1";
                         }
                 );
             };

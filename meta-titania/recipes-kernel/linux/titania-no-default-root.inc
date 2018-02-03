@@ -1,0 +1,1 @@
+CMDLINE_remove = "root=/dev/mmcblk0p2"

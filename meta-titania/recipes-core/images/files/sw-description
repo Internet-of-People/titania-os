@@ -1,0 +1,42 @@
+software = 
+{
+    version = "0.9.0";
+
+    raspberrypi3 = {
+        stable : {
+            copy1 : {
+                images: (
+                        {
+                            filename = "rpi-titania-image-raspberrypi3.ext3.gz";
+                            type = "raw";
+                            compressed = true;
+                            device = "/dev/mmcblk0p2";
+                        }
+                );
+                uboot: (
+                        {
+                            name = "rpipart";
+                            value = "2";
+                        }
+                );
+            };
+
+            copy2 : {
+                images: (
+                        {
+                            filename = "rpi-titania-image-raspberrypi3.ext3.gz";
+                            type = "raw";
+                            compressed = true;
+                            device = "/dev/mmcblk0p3";
+                        }
+                );
+                uboot: (
+                        {
+                            name = "rpipart";
+                            value = "3";
+                        }
+                );
+            };
+        };
+    }
+}

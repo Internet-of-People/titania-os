@@ -20,6 +20,7 @@ bitbake-layers add-layer ../meta-oe/meta-filesystems
 bitbake-layers add-layer ../meta-oe/meta-networking
 bitbake-layers add-layer ../meta-go
 bitbake-layers add-layer ../meta-virtualization
+bitbake-layers add-layer ../meta-swupdate
 
 # TitaniaOS specific
 # TODO: tweak the priority

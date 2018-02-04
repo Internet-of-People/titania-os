@@ -12,16 +12,12 @@ include recipes-core/images/rpi-basic-image.bb
 DEPENDS += "docker-prebuilt-datafs"
 
 # Monitoring backend
-# TODO: migrate to python3 soon
 IMAGE_INSTALL += "vuedj dapp-runner docker-prebuilt-rootfs datafs-resizer"
 
 IMAGE_INSTALL += "sudo docker networkmanager avahi-daemon llmnrd zram systemd-analyze swupdate"
 
 # TODO: replace with IPv6 or something eventually
 IMAGE_INSTALL += "natpmp"
-
-# TODO: we won't need this in future
-IMAGE_INSTALL += "sqlite3"
 
 # Add firmware, this is needed for WiFi on RaspberryPi
 IMAGE_INSTALL += "linux-firmware-bcm43430"

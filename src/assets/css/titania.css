@@ -713,6 +713,28 @@ input:not(.box-name-field):not(.config-input-field) {
   background-color: #f2f2f2;
 }
 
+.dropdown-encyption {
+  z-index: 94;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+  position: absolute;
+  max-height: 250px;
+  overflow-y: auto;
+  top: 248px;
+  width: 304px;
+  margin: 0px;
+  text-align: left;
+  padding: 0px;
+  list-style-type: none;
+  background-color: white;
+}
+.dropdown-encyption li {
+  width: 100%;
+  padding: 10px;
+}
+.dropdown-encyption li:hover {
+  background-color: #f2f2f2;
+}
+
 .details {
   padding: 10px;
   position: absolute;

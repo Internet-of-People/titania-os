@@ -35,8 +35,14 @@
               </ul>
             </div>
             <div class="form-field-block col-12">
-              <div class="sans-serif-normal text-align large-fontsize">Username (Optional)</div>
-              <input class="config-input-field regular-fontsize" type="text" />
+              <div class="sans-serif-normal text-align large-fontsize">Security Protocol</div>
+              <div class="text-align cursor-pointer selected-wifi" @click="getSecurityModeList()">{{currentprotocol}} <div v-if="this.editProp === false" class='float-right'>&#9662;</div></div>       
+              <ul class='dropdown-encyption hide' >
+                <li v-for="item in encryptModes" :key="item[0]" v-if="item[0].length > 0" class="float-left  cursor-pointer col-11 selected" @click="setSecurityOptions(item)" >
+                  <span v-if="item == currentprotocol" class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{item}}</span>
+                  <span v-else class="float-left cursor-pointer sans-serif-normal overflow-hidden" style="width:70%;">{{item}}</span>
+                </li>
+              </ul>
             </div>
             <div class="form-field-block col-12">
               <div class="sans-serif-normal text-align large-fontsize">Password</div>
@@ -63,6 +69,11 @@ export default {
         return this.$store.state.configuration.wifi_aps
       }
     },
+    encryptModes: {
+      get: function () {
+        return this.$store.state.encrypt_modes
+      }
+    },
     currenttab: {
       get: function () {
         return this.$store.state.configuration.tabname
@@ -81,6 +92,18 @@ export default {
       set: function (apname) {
         this.$store.state.configuration.wifi_aps_current = apname
       }
+    },
+    currentprotocol: {
+      get: function () {
+        // if (this.editProp) {
+        //   return this.editWifiapProp
+        // }
+        console.log(this.$store.state.configuration)
+        return this.$store.state.configuration.wifi_encrpt
+      },
+      set: function (encyptmode) {
+        this.$store.state.configuration.wifi_encrpt = encyptmode
+      }
     }
   },
   data () {
@@ -98,6 +121,12 @@ export default {
     setWifiAP (apname) {
       this.currentwifiap = apname
       $('.dropdown-config').addClass('hide')
+      $('.dropdown-encyption').addClass('hide')
+    },
+    setSecurityOptions (encyptmode) {
+      this.currentprotocol = encyptmode
+      $('.dropdown-config').addClass('hide')
+      $('.dropdown-encyption').addClass('hide')
     },
     saveConfig () {
       if (this.testProp) {
@@ -207,6 +236,16 @@ export default {
         $('.dropdown-config').removeClass('hide')
       } else {
         $('.dropdown-config').addClass('hide')
+      }
+    },
+    getSecurityModeList () {
+      // if (this.editProp === true) {
+      //   return
+      // }
+      if ($('.dropdown-encyption.hide').length) {
+        $('.dropdown-encyption').removeClass('hide')
+      } else {
+        $('.dropdown-encyption').addClass('hide')
       }
     },
     setTab (tab) {

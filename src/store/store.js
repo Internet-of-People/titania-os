@@ -11,7 +11,7 @@ Vue.use(VueLocalStorage)
 
 const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.2.5:8000' // dev pi
+// const apiRoot = 'http://192.168.2.3:8000' // dev pi
 
 const store = new Vuex.Store({
   state: {
@@ -23,7 +23,7 @@ const store = new Vuex.Store({
     configuration: {
       wifi_aps: [],
       wifi_aps_current: '',
-      enableConfigure: false,
+      wifi_encrpt: 'WPA (default)',
       tabname: 'config'
     },
     currentPage: 'dashboard',
@@ -50,7 +50,8 @@ const store = new Vuex.Store({
       editwifiap: ''
     },
     sidebarAddons: [],
-    services: false
+    services: false,
+    encrypt_modes: ['WPA (default)', 'Open', 'WEP']
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -216,23 +217,23 @@ const store = new Vuex.Store({
       state.configuration.wifi_aps = response.body[0].allwifiaps
       state.configuration.wifi_aps_current = response.body[0].allwifiaps[0][0]
       state.settings.getform = false
-    },
-    'RECORD_ADDONS': function (state, response) {
-      state.sidebarAddons = response.body
-      // state.sidebarAddons = [{'id': 1, 'name': 'HelloWorld', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'},
-      // {'id': 2, 'name': 'iopwallet', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'}]
     }
+    // 'RECORD_ADDONS': function (state, response) {
+    //   state.sidebarAddons = response.body
+    //   // state.sidebarAddons = [{'id': 1, 'name': 'HelloWorld', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'},
+    //   // {'id': 2, 'name': 'iopwallet', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'}]
+    // }
   },
   actions: {
-    loadDependencies (state) {
-      var loadDependencies = {
-        _action: 'loadDependencies'
-      }
-      return api.post(apiRoot + '/index.html', loadDependencies)
-      .then(function (response) {
-        store.commit('RECORD_ADDONS', response)
-      }).catch((error) => store.commit('API_FAIL', error))
-    },
+    // loadDependencies (state) {
+    //   var loadDependencies = {
+    //     _action: 'loadDependencies'
+    //   }
+    //   return api.post(apiRoot + '/index.html', loadDependencies)
+    //   .then(function (response) {
+    //     store.commit('RECORD_ADDONS', response)
+    //   }).catch((error) => store.commit('API_FAIL', error))
+    // },
     initApp (state) {
       var getSchema = {
         _action: 'getSchema'
@@ -275,8 +276,6 @@ const store = new Vuex.Store({
     },
     saveConfigForm (state, configdetails) {
       configdetails._action = 'saveUserDetails'
-      // configdetails.wifi_password = 'Pass@125'
-      // configdetails.wifi_ap = 'homigo107'
       return api.post(apiRoot + '/index.html', configdetails)
         .then((response) => store.commit('SAVE_CONFIGURATION', response))
         .catch((error) => store.commit('API_FAIL', error))

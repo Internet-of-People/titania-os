@@ -8,8 +8,8 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
 
-from .models import BoxDetails, RegisteredServices
-from .serializers import BoxDetailsSerializer, RegisteredServicesSerializer
+from .models import BoxDetails
+from .serializers import BoxDetailsSerializer
 
 import common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd
 
@@ -64,27 +64,45 @@ def add_user(username, password):
     #subprocess escapes the username stopping code injection
     subprocess.call(['useradd','-G','docker,wheel','-p',encPass,username])
     
-def add_newWifiConn(wifiname, wifipass):
-    print(wlans)
+def add_newWifiConn(wifiname, wifiencrypt, wifipass):
     wlan0 = wlans[0]
-    print(wlan0)
-    print(wifiname)
     # get selected ap as currentwifi
     for dev in wlans:
         for ap in dev.AccessPoints:
             if ap.Ssid == wifiname:
                 currentwifi = ap
-    print(currentwifi)
     # params to set password
-    params = {
-            "802-11-wireless": {
-                "security": "802-11-wireless-security",
-            },
-            "802-11-wireless-security": {
-                "key-mgmt": "wpa-psk",
-                "psk": wifipass
-            },
-        }
+    if len(wifipass) == 0: #open wifi
+        params = {
+                    "802-11-wireless": {
+                        "security": "open-wifi",
+                    },
+                    "open-wifi": {
+                        "key-mgmt": "none",
+                    }
+                }
+    else: 
+        if wifiencrypt == "wpa":
+            params = {
+                    "802-11-wireless": {
+                        "security": "802-11-wireless-security",
+                    },
+                    "802-11-wireless-security": {
+                        "key-mgmt": "wpa-psk",
+                        "psk": wifipass
+                    },
+                }
+        elif wifiencrypt == "wep":
+            params = {
+                    "802-11-wireless": {
+                        "security": "open-wifi",
+                    },
+                    "open-wifi": {
+                        "key-mgmt": "none",
+                        "wep_key0": wifipass,
+                        "wep_tx_keyidx": "0"
+                    },
+                }
     conn = nm.AddAndActivateConnection(params, wlan0, currentwifi)        
 
 def delete_WifiConn(wifiap):
@@ -92,15 +110,10 @@ def delete_WifiConn(wifiap):
     nmcli connection delete id <connection name>
     """
     ps = subprocess.Popen(['nmcli', 'connection','delete','id',wifiap], stdout=subprocess.PIPE)
-    print(ps)
 
 def edit_WifiConn(wifiname, wifipass):
-    ps = subprocess.Popen(['nmcli', 'connection','delete','id',wifiname], stdout=subprocess.PIPE)
-    print(ps)
-    print(wlans)
+    delete_WifiConn(wifiname)
     wlan0 = wlans[0]
-    print(wlan0)
-    print(wifiname)
     # get selected ap as currentwifi
     for dev in wlans:
         for ap in dev.AccessPoints:
@@ -126,7 +139,6 @@ def handle_config(request):
     """ 
     if request.method == 'POST':
         action = request.POST.get("_action")
-        print(action)
         ## Added in rc_v2 for addon support
         ## Will be replaced by dApps Hub
         # if action == 'registerService':
@@ -142,15 +154,14 @@ def handle_config(request):
             schema = get_osversion()
             return JsonResponse({"version_info":schema}, safe=False)
         elif action == 'getIfConfigured':
-            print(action)
             queryset = BoxDetails.objects.all()
             serializer = BoxDetailsSerializer(queryset, many=True)
             return JsonResponse(serializer.data, safe=False)
-        elif action == 'loadDependencies':
-            print(action)
-            queryset = RegisteredServices.objects.all()
-            serializer = RegisteredServicesSerializer(queryset, many=True)
-            return JsonResponse(serializer.data, safe=False)
+        # elif action == 'loadDependencies':
+        #     print(action)
+        #     queryset = RegisteredServices.objects.all()
+        #     serializer = RegisteredServicesSerializer(queryset, many=True)
+        #     return JsonResponse(serializer.data, safe=False)
         elif action == 'getAllAPs':
             wifi_aps = get_allAPs()
             return JsonResponse(wifi_aps, safe=False)
@@ -166,8 +177,9 @@ def handle_config(request):
             # connect to wifi ap user selected
             wifi_pass = request.POST.get("wifi_password")
             wifi_name = request.POST.get("wifi_ap")
+            wifi_encrpt = request.POST.get("wifi_encrpt")
             if len(wifi_name) > 0:
-                add_newWifiConn(wifi_name,wifi_pass)
+                add_newWifiConn(wifi_name, wifi_encrpt,wifi_pass)
             return JsonResponse({"STATUS":"SUCCESS"}, safe=False)
         elif action == 'login':
             print(action)
@@ -340,18 +352,27 @@ def handle_config(request):
             wifi_aps = get_allAPs()
             return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'adduser', 'endpoint': username}], safe=False)
         elif action == 'addWifi':
-            print(action)
+            print('1')
             # connect to wifi ap user selected
             wifi_pass = request.POST.get("wifi_password")
             wifi_name = request.POST.get("wifi_ap")
+            wifi_encrpt = request.POST.get("wifi_encrpt")
+            print(wifi_name)
             if len(wifi_name) > 0:
-                add_newWifiConn(wifi_name,wifi_pass)
+                add_newWifiConn(wifi_name,wifi_encrpt,wifi_pass)
+            fetchusers = ''
+            print('5')
+            print(fetchusers)
             fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
+            print(fetchusers)
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+            print('4')
             userlist = fetchusers.split(':')[3].split(',')
             configuredwifi = get_allconfiguredwifi()
+            print(configuredwifi)
             wifi_aps = get_allAPs()
+            print(wifi_aps)
             return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'addwifi', 'endpoint': wifi_name}], safe=False)
         elif action == 'deleteWifi':
             print(action)
@@ -378,6 +399,7 @@ def handle_config(request):
             configuredwifi = get_allconfiguredwifi()
             wifi_aps = get_allAPs()
             return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'editwifi', 'endpoint': wifi_name}], safe=False)
+        print('69')
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):
@@ -387,8 +409,8 @@ class BoxDetailsViewSet(viewsets.ModelViewSet):
     queryset = BoxDetails.objects.all()
     serializer_class = BoxDetailsSerializer
 
-class RegisteredServicesViewSet(viewsets.ModelViewSet):
-    queryset = RegisteredServices.objects.all()
-    serializer_class = RegisteredServicesSerializer    
+# class RegisteredServicesViewSet(viewsets.ModelViewSet):
+#     queryset = RegisteredServices.objects.all()
+#     serializer_class = RegisteredServicesSerializer    
 
 

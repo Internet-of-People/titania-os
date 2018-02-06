@@ -2,6 +2,25 @@
 # TODO: preprocess to remove whitespace/comments
 # TODO: label the partitions and select by label?
 
+# Check if it was a failed run
+if env exists trial_run; then
+    echo "Previous trial run failed, reverting active partitions"
+    if test "${active_root}" = "a"; then
+        setenv active_root "b"
+    else
+        setenv active_root "a"
+    fi
+    setenv trial_run
+    saveenv
+# Check if we are just after update
+elif env exists after_update; then
+    echo "Update detected, tracking the next boot"
+    
+    setenv after_update
+    setenv trial_run 1
+    saveenv
+fi
+
 # Picking the version to run
 if test "${active_root}" = "b"; then
     setenv rootpart "3"
@@ -18,23 +37,6 @@ echo "Active partition: /dev/mmcblk0p${rootpart}"
 
 # Loading FDT
 fdt addr ${fdt_addr} && fdt get value bootargs /chosen bootargs
-
-# Check if we are just after update
-# TODO: maybe add a "failed" variable that's cleared by systemd?
-# if so, update swupdate.md
-if env exists after_update; then
-    echo "Update detected, setting previous version as fallback."
-    if test "${active_root}" = "a"; then
-        setenv active_root "b"
-    else
-        setenv active_root "a"
-    fi
-    setenv after_update
-    saveenv
-
-    # Setting kernel params
-    setenv bootargs ${bootargs} after_update
-fi
 setenv bootargs ${bootargs} root=/dev/mmcblk0p${rootpart}
 
 # Loading and starting the kernel

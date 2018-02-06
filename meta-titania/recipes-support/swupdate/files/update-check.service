@@ -1,0 +1,10 @@
+[Unit]
+Description=Check for successful update
+After=multi-user.target
+
+[Service]
+ExecStart=/sbin/update_check.sh
+Type=simple
+
+[Install]
+WantedBy=after-everything.target

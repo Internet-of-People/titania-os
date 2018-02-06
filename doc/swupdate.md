@@ -25,6 +25,7 @@ The information which root/kernel combo to run is stored in `u-boot` environment
 Variables used:
     - `active_root`: must be either `a` or `b`. Respectively the kernel to use is either `uImage-a` or `uImage-b` (RPi) with `/dev/mmcblk0p2` or `/dev/mmcblk0p3` as root partition respectively.
     - `after_update`: set if the next run would be the first run of an updated image
+    - `trial_run`: set during the first run of an updated image
 
 ## `SWupdate`
 
@@ -34,17 +35,21 @@ On successful update `SWupdate` alternates the `active_root` variable and sets `
 
 - pick the image corresponding to `active_root`
 - append `root=/dev/mmcblk0pX` according to `active_root` setting to kernel parameters
-- if `after_update` is set:
-    - unset `after_update`
-    - swap `active_root` value (so that if kernel fails we automatically reboot to previous root)
+- if `trial_run` is set:
+    - unset `trial_run`
+    - swap `active_root` value
     - save the environment
-    - append `after_update` to kernel parameters
+
+- elif `after_update` is set:
+    - unset `after_update`
+    - set `trial_run` to `1`
+    - save the environment
 - boot
 
 ## `systemd`
 
-- if `after_update` is present in kernel parameters
+- if `trial_run` is set
     - If all the services started up correctly:
-        - swap `active_root` value in `u-boot` environment
+        - unset `trial_run`
     - Otherwise
         - reboot

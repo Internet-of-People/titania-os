@@ -24,6 +24,8 @@ SYSTEMD_SERVICE_${PN} = "network_info.service"
 
 do_install() {
     # Manually install what we need
+    # TODO: maybe /sbin for network info?
+    # TODO: maybe network-info service instead of underscore?
     install -d ${D}${bindir}
     install -m 0755 ${S}/natpmpc-static ${D}${bindir}/natpmpc
     install -m 0755 ${WORKDIR}/network_info.sh ${D}${bindir}/network_info.sh

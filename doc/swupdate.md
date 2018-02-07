@@ -17,6 +17,9 @@ So far the following is not automatically updated:
 
 Boot is considered successful if none of the services failed and `systemd` was allowed to reach `multi-user.target`. A special unit is to be made which is scheduled after everything and checks if no other unit failed. If the check is positive, permantent bootloader config is written.
 
+# `sw-description`
+
+The file describes what to install and where. Note that roots are intentionally labeled vice versa so that `swupdate` doesn't have to flip the active root on its own.
 
 # Boot process
 
@@ -53,3 +56,13 @@ On successful update `SWupdate` alternates the `active_root` variable and sets `
         - unset `trial_run`
     - Otherwise
         - reboot
+
+
+# Running updates
+
+WIP!
+
+Use the following command:
+`/sbin/update_system.sh /path/to/updatefile.swu`
+
+The partition should pick up automatically.

@@ -1,7 +1,9 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += "file://after-everything.target \
-            file://update-check.service \
-            file://update_check.sh"
+            file://check-update.service \
+            file://defconfig \
+            file://check_update.sh \
+            file://update_system.sh"
 
 # TODO: we probably don't care but ideally we should honor the config file 
 # and check if CONFIG_UBOOT is set
@@ -10,12 +12,23 @@ SRC_URI += "file://after-everything.target \
 # We need u-boot-fw-utils on Titania, not just during the build
 RDEPENDS_${PN} += "u-boot-fw-utils"
 
-SYSTEMD_SERVICE_${PN} += "update-check.service after-everything.target"
-FILES_${PN} += "${base_sbindir}/update_check.sh"
+# TODO: add progress indicator service
+SYSTEMD_SERVICE_${PN} = "check-update.service after-everything.target"
+FILES_${PN} += "${base_sbindir}/check_update.sh \
+                ${base_sbindir}/update_system.sh \
+                ${sysconfdir}/hwrevision"
 
 do_install_append() {
     install -d ${D}${base_sbindir}
-    install -m 0744 ${WORKDIR}/update_check.sh ${D}${base_sbindir}
+    install -m 0744 ${WORKDIR}/check_update.sh ${D}${base_sbindir}
+    install -m 0744 ${WORKDIR}/update_system.sh ${D}${base_sbindir}
     install -m 0644 ${WORKDIR}/after-everything.target ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/update-check.service ${D}${systemd_unitdir}/system
+    install -m 0644 ${WORKDIR}/check-update.service ${D}${systemd_unitdir}/system
+
+    # TODO: generalize based on MACHINE info
+    echo "raspberrypi 3" > ${D}${sysconfdir}/hwrevision
+
+    # Make QA happy
+    # TODO: "all except for progress" maybe?
+    rm -f ${D}${systemd_unitdir}/system/swupdate*.service
 }

@@ -2,9 +2,11 @@ software =
 {
     version = "0.9.0";
 
-    raspberrypi3 = {
+    raspberrypi = {
+        hardware-compatibility: [ "3" ];
+
         stable : {
-            copy1 : {
+            b : {
                 images: (
                         {
                             filename = "rpi-titania-image-raspberrypi3.ext3.gz";
@@ -25,7 +27,7 @@ software =
                 );
             };
 
-            copy2 : {
+            a : {
                 images: (
                         {
                             filename = "rpi-titania-image-raspberrypi3.ext3.gz";

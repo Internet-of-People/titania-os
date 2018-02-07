@@ -15,6 +15,12 @@ software =
                             device = "/dev/mmcblk0p2";
                         }
                 );
+                files: (
+                       {
+                           filename = "uImage-raspberrypi3.bin";
+                           path = "/boot/uImage_a";
+                       }
+                );
                 uboot: (
                         {
                             name = "active_root";
@@ -35,6 +41,12 @@ software =
                             compressed = true;
                             device = "/dev/mmcblk0p3";
                         }
+                );
+                files: (
+                       {
+                           filename = "uImage-raspberrypi3.bin";
+                           path = "/boot/uImage_b";
+                       }
                 );
                 uboot: (
                         {

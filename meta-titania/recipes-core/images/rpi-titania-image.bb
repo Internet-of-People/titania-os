@@ -70,9 +70,6 @@ IMAGE_CMD_rpi-sdimg_append() {
     mdel -i ${WORKDIR}/boot.img ::${KERNEL_IMAGETYPE}
     mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}${KERNEL_INITRAMFS}-${MACHINE}.bin ::${KERNEL_IMAGETYPE}_a
 
-    # TODO: remove in next commit
-    mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}${KERNEL_INITRAMFS}-${MACHINE}.bin ::${KERNEL_IMAGETYPE}_b
-
     # We need to rewrite the VFAT partition in order to avoid patching or copypasting meta-raspberrypi code
     dd if=${WORKDIR}/boot.img of=${SDIMG} conv=notrunc seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024)
 

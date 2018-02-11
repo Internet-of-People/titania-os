@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="39px" height="36px" viewBox="0 0 39 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>hub copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="L11b" transform="translate(-15.000000, -232.000000)" stroke="#FFFFFF">
+            <g id="Sidebar">
+                <g id="hub-copy" transform="translate(17.000000, 234.000000)">
+                    <path d="M18.2857143,9.75661376 L18.2857143,15.2380952" id="Line" stroke-width="3"></path>
+                    <path d="M14.7301587,21.8412698 L9.14285714,25.3968254" id="Line-Copy" stroke-width="3"></path>
+                    <path d="M27.4285714,21.8412698 L21.8412698,25.3968254" id="Line-Copy-2" stroke-width="3" transform="translate(24.634921, 23.619048) scale(-1, 1) translate(-24.634921, -23.619048) "></path>
+                    <polygon id="Polygon-4-Copy-8" stroke-width="3" transform="translate(18.285714, 4.825397) rotate(-270.000000) translate(-18.285714, -4.825397) " points="18.2857143 -0.253968254 22.9045164 2.28571429 22.9045164 7.36507937 18.2857143 9.9047619 13.6669121 7.36507937 13.6669121 2.28571429"></polygon>
+                    <polygon id="Polygon-4-Copy-10" stroke-width="3" transform="translate(31.238095, 27.174603) rotate(-270.000000) translate(-31.238095, -27.174603) " points="31.2380952 23.3650794 34.5396825 25.2698413 34.5396825 29.0793651 31.2380952 30.984127 27.9365079 29.0793651 27.9365079 25.2698413"></polygon>
+                    <polygon id="Polygon-4-Copy-11" stroke-width="3" transform="translate(5.079365, 27.682540) rotate(-270.000000) translate(-5.079365, -27.682540) " points="5.07936508 22.8571429 9.14285714 25.2698413 9.14285714 30.0952381 5.07936508 32.5079365 1.01587302 30.0952381 1.01587302 25.2698413"></polygon>
+                    <polygon id="Polygon-4-Copy-12" stroke-width="4" fill="#FFFFFF" transform="translate(18.285714, 19.809524) rotate(-270.000000) translate(-18.285714, -19.809524) " points="18.2857143 15.7460317 21.8048016 17.7777778 21.8048016 21.8412698 18.2857143 23.8730159 14.7666269 21.8412698 14.7666269 17.7777778"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

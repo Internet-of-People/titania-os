@@ -9,6 +9,7 @@ import threads from '@/components/threads/threadsParent'
 import menu from '@/components/mobilemenu/menuParent'
 import settings from '@/components/settings/settingsParent'
 import landingpage from '@/components/common/landingPage'
+import dappshub from '@/components/dappshub/dappsHubParent'
 
 Vue.use(Router)
 
@@ -59,6 +60,11 @@ export default new Router({
       path: '/landingpage',
       name: 'landingpage',
       component: landingpage
+    },
+    {
+      path: '/dappshub',
+      name: 'dappshub',
+      component: dappshub
     }
   ]
 })

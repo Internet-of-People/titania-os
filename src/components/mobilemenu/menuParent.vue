@@ -61,7 +61,7 @@ export default {
         if (this.$store.state.currentPage === 'configure') {
           return true
         }
-        console.log(Vue.ls.get('boxname'))
+        // console.log(Vue.ls.get('boxname'))
         return Vue.ls.get('boxname')
       }
     },

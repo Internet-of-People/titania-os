@@ -9,9 +9,9 @@ Vue.use(Vuex)
 Vue.use(VueSession)
 Vue.use(VueLocalStorage)
 
-const apiRoot = '/api' // deployment
+// const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.2.3:8000' // dev pi
+const apiRoot = 'http://10.23.2.165:8000' // dev pi
 
 const store = new Vuex.Store({
   state: {

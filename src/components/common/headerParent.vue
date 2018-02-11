@@ -12,7 +12,7 @@
         <img src='../../assets/images/menu-icon.svg'>
       </div>
     </div>
-    <div v-if="services" class='services-dropdown-menu'>
+    <!-- <div v-if="services" class='services-dropdown-menu'>
       <div v-for="item in otherAddons" :key="item.id" class="display-inline-flex service-item">
         <div class=""  :title="item.name">
           <a class="" :href="item.address" target='_blank'>
@@ -21,7 +21,7 @@
           </a>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -39,15 +39,16 @@ export default {
       get: function () {
         return this.$store.state.sidebarAddons
       }
-    },
-    services: {
-      get: function () {
-        return this.$store.state.services
-      },
-      set: function (val) {
-        this.$store.state.services = val
-      }
     }
+    // ,
+    // services: {
+    //   get: function () {
+    //     return this.$store.state.services
+    //   },
+    //   set: function (val) {
+    //     this.$store.state.services = val
+    //   }
+    // }
   },
   methods: {
     logout () {
@@ -69,12 +70,12 @@ export default {
       this.$store.state.menu = !this.$store.state.menu
     },
     showServices () {
-      console.log(this)
-      this.services = !this.services
+      // console.log(this)
+      // this.services = !this.services
     }
   },
   mounted: function () {
-    console.log(Vue.ls.get('user'))
+    // console.log(Vue.ls.get('user'))
   }
 }
 </script>

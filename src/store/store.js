@@ -11,7 +11,7 @@ Vue.use(VueLocalStorage)
 
 // const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-const apiRoot = 'http://10.23.2.165:8000' // dev pi
+const apiRoot = 'http://192.168.1.244:8000' // dev pi
 
 const store = new Vuex.Store({
   state: {
@@ -51,7 +51,12 @@ const store = new Vuex.Store({
     },
     sidebarAddons: [],
     services: false,
-    encrypt_modes: ['WPA (default)', 'Open', 'WEP']
+    encrypt_modes: ['WPA (default)', 'Open', 'WEP'],
+    dappsjson: [{
+      'name': 'IOP CAN',
+      'description': 'Internet Of People Content Address Network',
+      'logo': 'https://raw.githubusercontent.com/Internet-of-People/iop-resources/master/logo/v2/logo_iop.png'
+    }]
   },
   mutations: {
     // Keep in mind that response is an HTTP response

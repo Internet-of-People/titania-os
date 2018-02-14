@@ -1336,13 +1336,25 @@ div.highlightedFilter {
   opacity: 1;
 }
 
-.hub-parent-block div {
+.hub-parent-block div.dapps-category {
   color: #554151;
   display: block;
   height: 100px;
   border-bottom: 1px solid #f2f2f2;
   text-align: left;
   padding: 20px 24px;
+}
+.hub-parent-block div.dapps-category img.dapps-logo {
+  height: 50px;
+}
+.hub-parent-block div.dapps-category img.dapps-settings {
+  height: 20px;
+}
+
+.dapp-component {
+  height: 80px;
+  width: 80px;
+  padding: 16px;
 }
 
 /*

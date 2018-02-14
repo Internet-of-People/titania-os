@@ -3,7 +3,7 @@
         <sidebarParent></sidebarParent>
         <headerParent :name-prop="page"></headerParent>
         <pageLoader v-if="false"></pageLoader>
-        <dAppsHubContent/>
+        <dappsHubContent/>
     </div>
 </template>
 
@@ -11,7 +11,7 @@
 import sidebarParent from '@/components/common/sidebarParent'
 import headerParent from '@/components/common/headerParent'
 import pageLoader from '@/components/common/pageLoader'
-import dAppsHubContent from '@/components/dappshub/dAppsHubContent'
+import dappsHubContent from '@/components/dappshub/dappsHubContent'
 
 export default {
   name: 'dappshub',
@@ -24,7 +24,7 @@ export default {
     sidebarParent,
     headerParent,
     pageLoader,
-    dAppsHubContent
+    dappsHubContent
   }
 }
 </script>

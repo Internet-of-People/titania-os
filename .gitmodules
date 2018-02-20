@@ -21,4 +21,4 @@
 	url = https://github.com/sbabic/meta-swupdate.git
 [submodule "doc"]
 	path = doc
-	url = ssh://git@gitlab.libertaria.community:2200/titania/yocto-titania.wiki.git
+	url = ../yocto-titania.wiki.git

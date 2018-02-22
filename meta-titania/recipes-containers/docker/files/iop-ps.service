@@ -3,6 +3,7 @@
 [Unit]
 Description=Internet of People Profile Server
 After=network_info.service
+After=preinstall-docker-images.service
 Wants=forward_port@16987.service
 Wants=forward_port@16988.service
 

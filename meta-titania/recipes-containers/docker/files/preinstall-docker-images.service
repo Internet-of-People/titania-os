@@ -1,0 +1,11 @@
+[Unit]
+Description=Docker image pre-installation
+Requires=docker.service
+After=docker.service 
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/preinstall_docker_images.sh
+
+[Install]
+WantedBy=multi-user.target

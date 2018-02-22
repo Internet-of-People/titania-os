@@ -3,6 +3,7 @@
 [Unit]
 Description=Libertaria containerized Nginx
 After=vuedj.service
+After=preinstall-docker-images.service
 Requires=docker.service
 
 [Service]

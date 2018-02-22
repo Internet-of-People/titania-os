@@ -17,13 +17,15 @@ DOCKER_PREINSTALL_DIR ?= "/docker/preinstall"
 PACKAGES += "${PN}-preinstall ${PN}-iop ${PN}-dapp"
 FILES_${PN}-preinstall = "${DOCKER_PREINSTALL_DIR}/*"
 
-FILES_${PN}-dapp = "${bindir}/dapp-runner.sh \
-				   ${systemd_unitdir}/system/dapp@.service"
+FILES_${PN}-dapp = "${bindir}/dapp-runner.sh 									\
+					${bindir}/preinstall_docker_images.sh						\
+				    ${systemd_unitdir}/system/dapp@.service 					\
+				    ${systemd_unitdir}/system/preinstall-docker-images.service 	\
+				   	${systemd_unitdir}/system/nginx.service"
+SYSTEMD_SERVICE_${PN}-dapp = "nginx.service preinstall-docker-images.service"
 
-FILES_${PN}-iop = "${systemd_unitdir}/system/nginx.service \
-              		${systemd_unitdir}/system/iop-*.service"
-SYSTEMD_SERVICE_${PN}-iop = "nginx.service 		\
-							 iop-ps.service 	\
+FILES_${PN}-iop = "${systemd_unitdir}/system/iop-*.service"
+SYSTEMD_SERVICE_${PN}-iop = "iop-ps.service 	\
 							 iop-can.service 	\
 							 iop-loc.service"
 

@@ -5,14 +5,14 @@ IMAGE_FSTYPES += "ext3.gz"
 # Compressed version of the image
 IMAGE_FSTYPES += "rpi-sdimg.gz"
 
+# Cause datafs image to be built
+do_image_rpi_sdimg[depends] += "titania-datafs-image:do_build"
+
 # Raspberry PI base image with splash and ssh
 include recipes-core/images/rpi-basic-image.bb
 
-# We need the data filesystem
-DEPENDS += "docker-prebuilt-datafs"
-
 # Monitoring backend
-IMAGE_INSTALL += "vuedj dapp-runner docker-prebuilt-rootfs datafs-resizer"
+IMAGE_INSTALL += "vuedj dapp-runner datafs-resizer"
 
 IMAGE_INSTALL += "sudo docker networkmanager avahi-daemon llmnrd zram systemd-analyze swupdate"
 
@@ -59,8 +59,9 @@ update_systemd_clock() {
 # TODO: maybe split DATA partition to a separate state partition
 # but this requires either GPT (bad for bootloader on RPi) or
 # an extended partition
-DATAFS_SIZE ?= "1966080"
-DATAFS_LABEL ?= "data"
+# TODO: label datafs?
+# TOOD: can we query that somehow?
+DATAFS_FILENAME ?= "titania-datafs-image-${MACHINE}.ext3"
 
 IMAGE_CMD_rpi-sdimg_append() {
     # Modifying the name of the kernel on VFAT
@@ -76,6 +77,8 @@ IMAGE_CMD_rpi-sdimg_append() {
     # Option: alternate between "uImage" and e.g. "uImage-alt"  but this is ugly and non-symmetrical naming
 
     # Update SD card image size
+    # TODO: can we get IMAGE_SIZE from other image?
+    DATAFS_SIZE=$(du -Hk "${DEPLOY_DIR_IMAGE}/${DATAFS_FILENAME}" | cut -f1)
     NEW_SDIMG_SIZE=$(expr ${SDIMG_SIZE} + ${ROOTFS_SIZE} + ${DATAFS_SIZE})
     dd if=/dev/zero of=${SDIMG} bs=1024 count=0 seek=${NEW_SDIMG_SIZE}
 
@@ -94,15 +97,8 @@ IMAGE_CMD_rpi-sdimg_append() {
     # We currently leave RootB empty to preserve space of the image
     # This is where the flasher would be putting the update anyway
 
-    # Generate the data partition
-    # TODO: tune ext4fs params
-    rm -f ${WORKDIR}/data.img
-    DATAFS_BLOCKS=$(LC_ALL=C parted -s ${SDIMG} unit b print | awk '/ 4 / { print substr($4, 1, length($4 -1)) / 512 /2 }')
-
-    # NOTE TODO: RPi-dependent, find a general way
-    DATA_ROOT=${WORKDIR}/../../../cortexa7hf-neon-vfpv4-oe-linux-gnueabi/docker-prebuilt-datafs/1.0-r0/image
-    mkfs.ext4 ${WORKDIR}/data.img $DATAFS_BLOCKS -L ${DATAFS_LABEL} -d $DATA_ROOT
-    dd if=${WORKDIR}/data.img of=${SDIMG} conv=notrunc seek=1 bs=$(expr 1024 \* ${DATAFS_START})
+    # Burning datafs
+    dd if=${DEPLOY_DIR_IMAGE}/${DATAFS_FILENAME} of=${SDIMG} conv=notrunc seek=1 bs=$(expr 1024 \* ${DATAFS_START})
 
     parted ${SDIMG} print
 }

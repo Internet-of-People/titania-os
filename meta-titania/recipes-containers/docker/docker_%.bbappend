@@ -4,7 +4,10 @@ DOCKER_IMAGE_PREINSTALL ?= "\
 	libertaria/iop-loc:latest \
 	libertaria/iop-ps:latest"
 
-FILES_${PN}-preinstall += "/titania/preinstall/*"
+DOCKER_PREINSTALL_DIR ?= "/docker/preinstall"
+PACKAGES += "${PN}-preinstall"
+FILES_${PN}-preinstall += "${DOCKER_PREINSTALL_DIR}/*"
+
 DEPENDS += "curl-native jq-native ca-certificates-native"
 
 # TODO: cache operation, don't do every run
@@ -21,9 +24,9 @@ do_install_append() {
 		echo "Saving $image to $IMAGE_DIR."
 
 	    ${S}/contrib/download-frozen-image-v2.sh $IMAGE_DIR $image
-	    install -d ${D}/titania/preinstall/
+	    install -d ${D}${DOCKER_PREINSTALL_DIR}
 
 	    # Using gzip to gain a first boot speed tradeoff over small size benefit
-	    tar -czC $IMAGE_DIR -f ${D}/titania/preinstall/${IMAGE_SAFE_FILENAME}.tar.gz . 
+	    tar -czC $IMAGE_DIR -f ${D}${DOCKER_PREINSTALL_DIR}/${IMAGE_SAFE_FILENAME}.tar.gz . 
 	done
 }

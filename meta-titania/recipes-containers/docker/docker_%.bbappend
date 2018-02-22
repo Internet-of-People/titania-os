@@ -1,3 +1,11 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
+SRC_URI += "file://dapp@.service 	\ 
+			file://nginx.service 	\
+            file://iop-ps.service 	\
+            file://iop-can.service 	\
+            file://iop-loc.service"
+
 DOCKER_IMAGE_PREINSTALL ?= "\
 	libertaria/nginx:armv7 \
 	libertaria/iop-can:latest \
@@ -5,14 +13,39 @@ DOCKER_IMAGE_PREINSTALL ?= "\
 	libertaria/iop-ps:latest"
 
 DOCKER_PREINSTALL_DIR ?= "/docker/preinstall"
-PACKAGES += "${PN}-preinstall"
-FILES_${PN}-preinstall += "${DOCKER_PREINSTALL_DIR}/*"
+# TODO: remove docker-iop after generalisation with docker-dapp
+PACKAGES += "${PN}-preinstall ${PN}-iop ${PN}-dapp"
+FILES_${PN}-preinstall = "${DOCKER_PREINSTALL_DIR}/*"
+
+FILES_${PN}-dapp = "${bindir}/dapp-runner.sh \
+				   ${systemd_unitdir}/system/dapp@.service"
+
+FILES_${PN}-iop = "${systemd_unitdir}/system/nginx.service \
+              		${systemd_unitdir}/system/iop-*.service"
+SYSTEMD_SERVICE_${PN}-iop = "nginx.service 		\
+							 iop-ps.service 	\
+							 iop-can.service 	\
+							 iop-loc.service"
 
 DEPENDS += "curl-native jq-native ca-certificates-native"
 
 # TODO: cache operation, don't do every run
 # TODO: requires some checksum
 do_install_append() {
+	install -d ${D}${systemd_unitdir}/system
+    
+	# Dapp Runner
+	install -d ${D}${bindir}
+    install -m 755 ${WORKDIR}/dapp-runner.sh ${D}${bindir}
+
+    install -m 0644 ${WORKDIR}/dapp@.service ${D}${systemd_unitdir}/system
+
+    # IoP
+    install -m 0644 ${WORKDIR}/nginx.service ${D}${systemd_unitdir}/system
+    install -m 0644 ${WORKDIR}/iop-*.service ${D}${systemd_unitdir}/system
+
+	# Preinstalled images
+
 	# curl-native has a built-in location for certificates
 	# inform it where to take sysroot certificates from
 	export CURL_CA_BUNDLE="${STAGING_ETCDIR_NATIVE}/ssl/certs/ca-certificates.crt"

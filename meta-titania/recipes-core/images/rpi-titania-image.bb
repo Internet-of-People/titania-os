@@ -11,10 +11,13 @@ do_image_rpi_sdimg[depends] += "titania-datafs-image:do_build"
 # Raspberry PI base image with splash and ssh
 include recipes-core/images/rpi-basic-image.bb
 
-# Monitoring backend
-IMAGE_INSTALL += "vuedj dapp-runner datafs-resizer"
+# Titania own software
+IMAGE_INSTALL += "vuedj datafs-resizer"
 
-IMAGE_INSTALL += "sudo docker networkmanager avahi-daemon llmnrd zram systemd-analyze swupdate"
+IMAGE_INSTALL += "sudo networkmanager avahi-daemon llmnrd zram systemd-analyze swupdate"
+
+# Docker
+IMAGE_INSTALL += "docker docker-dapp docker-iop"
 
 # TODO: replace with IPv6 or something eventually
 IMAGE_INSTALL += "natpmp"

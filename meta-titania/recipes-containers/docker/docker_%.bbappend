@@ -1,10 +1,13 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRC_URI += "file://dapp@.service 	\ 
+SRC_URI += "file://dapp@.service 	\
+            file://dapp-runner.sh   \ 
 			file://nginx.service 	\
             file://iop-ps.service 	\
             file://iop-can.service 	\
-            file://iop-loc.service"
+            file://iop-loc.service  \
+            file://preinstall-docker-images.service \
+            file://preinstall_docker_images.sh"
 
 DOCKER_IMAGE_PREINSTALL ?= "\
 	libertaria/nginx:armv7 \

@@ -1,5 +1,6 @@
 # Add compressed root for SWupdate
 # TODO: compress kernel as well?
+# TODO: remove the .tar, we don't need it really
 # NOTE: it's actually an ext4
 IMAGE_FSTYPES += "ext3.gz"
 # Compressed version of the image
@@ -81,7 +82,8 @@ IMAGE_CMD_rpi-sdimg_append() {
 
     # Update SD card image size
     # TODO: can we get IMAGE_SIZE from other image?
-    DATAFS_SIZE=$(du -Hk "${DEPLOY_DIR_IMAGE}/${DATAFS_FILENAME}" | cut -f1)
+    DATAFS_SIZE=$(du --apparent-size -Hk "${DEPLOY_DIR_IMAGE}/${DATAFS_FILENAME}" | cut -f1)
+    echo "Data file system is of ${DATAFS_SIZE} kiB in size"
     NEW_SDIMG_SIZE=$(expr ${SDIMG_SIZE} + ${ROOTFS_SIZE} + ${DATAFS_SIZE})
     dd if=/dev/zero of=${SDIMG} bs=1024 count=0 seek=${NEW_SDIMG_SIZE}
 
@@ -101,7 +103,9 @@ IMAGE_CMD_rpi-sdimg_append() {
     # This is where the flasher would be putting the update anyway
 
     # Burning datafs
-    dd if=${DEPLOY_DIR_IMAGE}/${DATAFS_FILENAME} of=${SDIMG} conv=notrunc seek=1 bs=$(expr 1024 \* ${DATAFS_START})
+    # Using large `bs` for offsets results in serious memory requirements
+    # TODO: maybe patch upstream
+    dd if=${DEPLOY_DIR_IMAGE}/${DATAFS_FILENAME} of=${SDIMG} conv=notrunc seek=1024 bs=${DATAFS_START}
 
     parted ${SDIMG} print
 }

@@ -15,6 +15,13 @@ DOCKER_IMAGE_PREINSTALL ?= "\
 	libertaria/iop-loc:latest \
 	libertaria/iop-ps:latest"
 
+# By default the Docker package wildcards /usr/bin/* and /lib/systemd/*
+# This prevents docker-iop and docker-dapp to collect their files properly
+FILES_${PN}_remove = "${bindir}/*"
+FILES_${PN} += "${bindir}/docker*"
+FILES_${PN}_remove = "${systemd_unitdir}/system/*"
+FILES_${PN} += "${systemd_unitdir}/system/docker*"
+
 DOCKER_PREINSTALL_DIR ?= "/docker/preinstall"
 # TODO: remove docker-iop after generalisation with docker-dapp
 PACKAGES += "${PN}-preinstall ${PN}-iop ${PN}-dapp"
@@ -42,8 +49,10 @@ do_install_append() {
 	# Dapp Runner
 	install -d ${D}${bindir}
     install -m 755 ${WORKDIR}/dapp-runner.sh ${D}${bindir}
+    install -m 755 ${WORKDIR}/preinstall_docker_images.sh ${D}${bindir}
 
     install -m 0644 ${WORKDIR}/dapp@.service ${D}${systemd_unitdir}/system
+    install -m 0644 ${WORKDIR}/preinstall-docker-images.service ${D}${systemd_unitdir}/system
 
     # IoP
     install -m 0644 ${WORKDIR}/nginx.service ${D}${systemd_unitdir}/system

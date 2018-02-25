@@ -9,10 +9,10 @@
         <div class="overview-event-icon"></div>
       </div>
       <div>
-        <img v-if="testProp[1] === 'Total dApps'" class="overview-event-image" src="../../assets/images/boxes-icon.svg"></img>
-        <img v-else-if="testProp[1] === 'Uptime'" class="overview-event-image" src="../../assets/images/uptime-icon.svg"></img>
-        <img v-else-if="testProp[1] === 'Stopped dApps'" class="overview-event-image" src="../../assets/images/stopped-dapps-icon.svg"></img>
-        <img v-else class="overview-event-image" src="../../assets/images/thread-icon.svg"></img>
+        <img v-if="testProp[1] === 'Total dApps'" class="overview-event-image" src="../../assets/images/boxes-icon.svg"/>
+        <img v-else-if="testProp[1] === 'Uptime'" class="overview-event-image" src="../../assets/images/uptime-icon.svg"/>
+        <img v-else-if="testProp[1] === 'Stopped dApps'" class="overview-event-image" src="../../assets/images/stopped-dapps-icon.svg"/>
+        <img v-else class="overview-event-image" src="../../assets/images/thread-icon.svg"/>
       </div>
     </div>
     <div class="overview-events-link-div">

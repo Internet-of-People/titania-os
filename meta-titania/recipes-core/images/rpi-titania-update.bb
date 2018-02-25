@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/gplv3.md;md5=f149fa3bc39a974fe62c04649f348
 IMAGE_DEPENDS = "rpi-titania-image virtual/kernel"
 
 SWUPDATE_IMAGES = "rpi-titania-image uImage"
-SWUPDATE_IMAGES_FSTYPES[rpi-titania-image] = ".ext3.gz"
+SWUPDATE_IMAGES_FSTYPES[rpi-titania-image] = ".ext4.gz"
 SWUPDATE_IMAGES_FSTYPES[uImage] = ".bin"
 
 inherit swupdate

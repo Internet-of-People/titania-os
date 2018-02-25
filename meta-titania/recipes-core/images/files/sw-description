@@ -9,7 +9,7 @@ software =
             b : {
                 images: (
                         {
-                            filename = "rpi-titania-image-raspberrypi3.ext3.gz";
+                            filename = "rpi-titania-image-raspberrypi3.ext4.gz";
                             type = "raw";
                             compressed = true;
                             device = "/dev/mmcblk0p2";
@@ -36,7 +36,7 @@ software =
             a : {
                 images: (
                         {
-                            filename = "rpi-titania-image-raspberrypi3.ext3.gz";
+                            filename = "rpi-titania-image-raspberrypi3.ext4.gz";
                             type = "raw";
                             compressed = true;
                             device = "/dev/mmcblk0p3";

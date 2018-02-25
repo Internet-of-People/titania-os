@@ -1,10 +1,12 @@
 # Add compressed root for SWupdate
-# TODO: compress kernel as well?
-# TODO: remove the .tar, we don't need it really
-# NOTE: it's actually an ext4
-IMAGE_FSTYPES += "ext3.gz"
+
+# Re-initializing the types of the images
+IMAGE_FSTYPES = "ext4 rpi-sdimg"
 # Compressed version of the image
-IMAGE_FSTYPES += "rpi-sdimg.gz"
+IMAGE_FSTYPES += "ext4.gz rpi-sdimg.gz"
+# Informing RPi SDImg class what we've got
+# TODO: decide if we should opt for a compressed one here?
+SDIMG_ROOTFS_TYPE = "ext4"
 
 # Cause datafs image to be built
 do_image_rpi_sdimg[depends] += "titania-datafs-image:do_build"
@@ -65,7 +67,7 @@ update_systemd_clock() {
 # an extended partition
 # TODO: label datafs?
 # TOOD: can we query that somehow?
-DATAFS_FILENAME ?= "titania-datafs-image-${MACHINE}.ext3"
+DATAFS_FILENAME ?= "titania-datafs-image-${MACHINE}.ext4"
 
 IMAGE_CMD_rpi-sdimg_append() {
     # Modifying the name of the kernel on VFAT

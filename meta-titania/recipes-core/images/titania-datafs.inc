@@ -1,17 +1,3 @@
-require titania-rootfs.inc
-
-
-# Cause datafs image to be built
-do_image_rpi_sdimg[depends] += "titania-datafs-image:do_build"
-
-# Raspberry PI base image with splash and ssh
-include recipes-core/images/rpi-basic-image.bb
-
-require titania-packages.inc
-require user-setup.inc
-require clean-logs.inc
-require sync-clock.inc
-
 # TODO: maybe separate in a dedicated include for more board support
 # - issues: currently based directly on meta-raspberrypi
 
@@ -24,6 +10,9 @@ require sync-clock.inc
 # TODO: label datafs?
 # TOOD: can we query that somehow?
 DATAFS_FILENAME ?= "titania-datafs-image-${MACHINE}.ext4"
+
+# Cause datafs image to be built
+do_image_rpi_sdimg[depends] += "titania-datafs-image:do_build"
 
 IMAGE_CMD_rpi-sdimg_append() {
     # Modifying the name of the kernel on VFAT

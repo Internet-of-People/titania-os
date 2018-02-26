@@ -1,0 +1,11 @@
+[Unit]
+Description=Grow SD data partition
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/datafs-grow-partition.sh
+RemainAfterExit=yes
+
+[Install]
+RequiredBy=datafs.mount

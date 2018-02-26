@@ -10,3 +10,8 @@ tmpfs                /var/volatile        tmpfs      defaults              0  0
 # VFAT partition
 /dev/mmcblk0p1       /boot          auto       defaults  0  0
 
+# datafs
+/dev/mmcblk0p4       /datafs            auto       defaults  0  0
+
+# Binding mounts
+/datafs/docker       /var/lib/docker    auto       bind      0  0

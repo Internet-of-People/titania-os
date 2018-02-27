@@ -1,4 +1,5 @@
 PACKAGES += "${PN}-iop"
+SYSTEMD_PACKAGES += "${PN}-iop"
 
 SRC_URI += "file://iop-ps.service   \
             file://iop-can.service  \

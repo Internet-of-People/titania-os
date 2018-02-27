@@ -1,0 +1,10 @@
+[Unit]
+Description=Docker image pre-installation
+Requires=docker.service
+After=docker.service
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/image_preinstall.sh %i
+RemainAfterExit=yes

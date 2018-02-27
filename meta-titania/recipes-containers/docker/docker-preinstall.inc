@@ -11,7 +11,6 @@ DOCKER_IMAGE_PREINSTALL ?= ""
 
 DOCKER_PREINSTALL_DIR ?= "/docker/preinstall"
 FILES_${PN}-preinstall = "${DOCKER_PREINSTALL_DIR}/*"
-SYSTEMD_SERVICE_${PN}-preinstall = "preinstall-docker-images.service"
 
 # We need those on the host for the download-frozen-image.sh script
 DEPENDS += "curl-native jq-native ca-certificates-native"

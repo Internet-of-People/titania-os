@@ -18,7 +18,7 @@
                   <div :id="getLegendId(legend)" class='display-inline-flex label-div-chart cursor-pointer' v-on:click="toggleSeriesChart('perc',legend)">
                     <div class='legend-color margin-right-4'></div>
                     <div class='label-text-chart'>{{legend}}</div>
-                    <div v-for="val in getMax(legend)"class='display-inline-flex metrics-labels' :key="val">
+                    <div v-for="val in getMax(legend)" class='display-inline-flex metrics-labels' :key="val">
                       <div>{{val}}</div>
                     </div>
                   </div>
@@ -39,7 +39,7 @@
                   <div :id="getLegendId(legend)" class='display-inline-flex label-div-chart cursor-pointer' v-on:click="toggleSeriesChart('mem',legend)">
                     <div class='legend-color margin-right-4'></div>
                     <div class='label-text-chart'>{{legend}}</div>
-                    <div v-for="val in getMaxMeM(legend)"class='display-inline-flex metrics-labels' :key="val">
+                    <div v-for="val in getMaxMeM(legend)" class='display-inline-flex metrics-labels' :key="val">
                       <div>{{val}}</div>
                     </div>
                   </div>
@@ -60,7 +60,7 @@
                   <div :id="getLegendId(legend)" class='display-inline-flex label-div-chart cursor-pointer' v-on:click="toggleSeriesChart('io',legend)">
                     <div class='legend-color margin-right-4'></div>
                     <div class='label-text-chart'>{{legend}}</div>
-                    <div v-for="val in getMaxIO(legend)"class='display-inline-flex metrics-labels' :key="val">
+                    <div v-for="val in getMaxIO(legend)" class='display-inline-flex metrics-labels' :key="val">
                       <div>{{val}}</div>
                     </div>
                   </div>

@@ -11,7 +11,7 @@ Vue.use(VueLocalStorage)
 
 const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.2.3:8000' // dev pi
+// const apiRoot = 'http://192.168.0.109:8000' // dev pi
 
 const store = new Vuex.Store({
   state: {
@@ -24,7 +24,8 @@ const store = new Vuex.Store({
       wifi_aps: [],
       wifi_aps_current: '',
       wifi_encrpt: 'WPA (default)',
-      tabname: 'config'
+      tabname: 'config',
+      enableConfigure: false
     },
     currentPage: 'dashboard',
     series: [],
@@ -61,17 +62,15 @@ const store = new Vuex.Store({
       state.schema = response.body.version_info
     },
     'GET_CREDS': function (state, response) {
-      if (response.body.length === 0) {
-        router.push('/configure')
-        state.currentPage = 'configure'
-      } else {
+      // console.log(response.body.configState)
+      if (response.body.configState) {
         router.push('/login')
         state.currentPage = 'login'
-        Vue.ls.set('boxname', response.body[0].boxname)
+        // Vue.ls.set('boxname', response.body[0].boxname)
+      } else {
+        router.push('/configure')
+        state.currentPage = 'configure'
       }
-    },
-    'TOGGLE_CONFIGURATION': function (state) {
-      state.configuration.enableConfigure = !state.configuration.enableConfigure
     },
     'GET_ALL_APS': function (state, response) {
       // response.body = []
@@ -262,9 +261,6 @@ const store = new Vuex.Store({
         .then((response) => store.commit('LOGIN', response))
         .catch((error) => store.commit('API_FAIL', error))
       // write code to check session id, store it in backend
-    },
-    toggleConfigForm (state) {
-      store.commit('TOGGLE_CONFIGURATION')
     },
     getAllAPs (state) {
       var getAllAPs = {

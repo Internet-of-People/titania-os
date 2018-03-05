@@ -8,8 +8,8 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
 
-from .models import BoxDetails
-from .serializers import BoxDetailsSerializer
+# from .models import BoxDetails
+# from .serializers import BoxDetailsSerializer
 
 import common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd
 
@@ -58,10 +58,28 @@ def get_allAPs():
     #         wifi_aps.append(ap.Ssid)
     # return wifi_aps
 
+def get_ifconfigured():
+    # get count of the number of docker users
+    ps = subprocess.Popen('getent group | grep docker | awk -F \'[,:]\' \'{ print NF - 3 }\'', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
+    usercount = int(ps)
+    # if no docker users have been set yet, go to configure
+    if usercount == 0:
+        return False
+    else:
+        return True
+
+
+def set_boxname(boxname):
+    # setting hostname, this will change the mask from titania.local
+    subprocess.call(['hostnamectl','set-hostname',boxname])
+
+    # restart avahi and llnrd
+    subprocess.call(['systemctl','restart','avahi-daemon'])
+
 def add_user(username, password):
     # create a random sal for the user and encrypt password with sha512
     encPass = crypt.crypt(password,crypt.mksalt(crypt.METHOD_SHA512))
-    #subprocess escapes the username stopping code injection
+    # subprocess escapes the username stopping code injection
     subprocess.call(['useradd','-G','docker,wheel','-p',encPass,username])
     
 def add_newWifiConn(wifiname, wifiencrypt, wifipass):
@@ -103,6 +121,16 @@ def add_newWifiConn(wifiname, wifiencrypt, wifipass):
                         "wep_tx_keyidx": "0"
                     },
                 }
+        else:
+            params = {
+                    "802-11-wireless": {
+                        "security": "open-wifi",
+                    },
+                    "open-wifi": {
+                        "key-mgmt": "none",
+                    }
+                }
+
     conn = nm.AddAndActivateConnection(params, wlan0, currentwifi)        
 
 def delete_WifiConn(wifiap):
@@ -154,9 +182,10 @@ def handle_config(request):
             schema = get_osversion()
             return JsonResponse({"version_info":schema}, safe=False)
         elif action == 'getIfConfigured':
-            queryset = BoxDetails.objects.all()
-            serializer = BoxDetailsSerializer(queryset, many=True)
-            return JsonResponse(serializer.data, safe=False)
+            configured = get_ifconfigured()
+            # queryset = BoxDetails.objects.all()
+            # serializer = BoxDetailsSerializer(queryset, many=True)
+            return JsonResponse({"configState":configured}, safe=False)
         # elif action == 'loadDependencies':
         #     print(action)
         #     queryset = RegisteredServices.objects.all()
@@ -172,8 +201,9 @@ def handle_config(request):
             password = request.POST.get("password")
             print(username)
             add_user(username,password)
-            setBoxName = BoxDetails(boxname=boxname)
-            setBoxName.save()
+            set_boxname(boxname)
+            # setBoxName = BoxDetails(boxname=boxname)
+            # setBoxName.save()
             # connect to wifi ap user selected
             wifi_pass = request.POST.get("wifi_password")
             wifi_name = request.POST.get("wifi_ap")
@@ -223,7 +253,7 @@ def handle_config(request):
             cursor = con.cursor()
             cursor.execute(common.Q_DASHBOARD_CARDS)
             rows = cursor.fetchall()
-            print(rows)
+            # print(rows)
             return JsonResponse(rows, safe=False)
         elif action == 'getDashboardChart':
             print(action)
@@ -231,12 +261,12 @@ def handle_config(request):
             cursor = con.cursor()
             cursor.execute(common.Q_GET_CONTAINER_ID)
             rows = cursor.fetchall()
-            print(rows)
+            # print(rows)
             finalset = []
             for row in rows:
                 cursor.execute(common.Q_GET_DASHBOARD_CHART,[row[0],])
                 datasets = cursor.fetchall()
-                print(datasets)
+                # print(datasets)
                 data = {'container_name' : row[1], 'data': datasets}
                 finalset.append(data)
             return JsonResponse(finalset, safe=False)
@@ -246,7 +276,7 @@ def handle_config(request):
             cursor = con.cursor()
             cursor.execute(common.Q_GET_DOCKER_OVERVIEW)
             rows = cursor.fetchall()
-            print(rows)
+            # print(rows)
             finalset = []
             for row in rows:
                 data = {'state': row[0], 'container_id': row[1], 'name': row[2],
@@ -261,7 +291,7 @@ def handle_config(request):
             cursor = con.cursor()
             cursor.execute(common.Q_GET_CONTAINER_ID)
             rows = cursor.fetchall()
-            print(rows)
+            # print(rows)
             finalset = []
             datasets_io = []
             datasets_mem = []
@@ -352,7 +382,6 @@ def handle_config(request):
             wifi_aps = get_allAPs()
             return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'adduser', 'endpoint': username}], safe=False)
         elif action == 'addWifi':
-            print('1')
             # connect to wifi ap user selected
             wifi_pass = request.POST.get("wifi_password")
             wifi_name = request.POST.get("wifi_ap")
@@ -361,13 +390,11 @@ def handle_config(request):
             if len(wifi_name) > 0:
                 add_newWifiConn(wifi_name,wifi_encrpt,wifi_pass)
             fetchusers = ''
-            print('5')
             print(fetchusers)
             fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
             print(fetchusers)
             # sample ps 
             # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
-            print('4')
             userlist = fetchusers.split(':')[3].split(',')
             configuredwifi = get_allconfiguredwifi()
             print(configuredwifi)
@@ -399,15 +426,14 @@ def handle_config(request):
             configuredwifi = get_allconfiguredwifi()
             wifi_aps = get_allAPs()
             return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'editwifi', 'endpoint': wifi_name}], safe=False)
-        print('69')
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):
     return render(request, 'index.html')
 
-class BoxDetailsViewSet(viewsets.ModelViewSet):
-    queryset = BoxDetails.objects.all()
-    serializer_class = BoxDetailsSerializer
+# class BoxDetailsViewSet(viewsets.ModelViewSet):
+#     queryset = BoxDetails.objects.all()
+#     serializer_class = BoxDetailsSerializer
 
 # class RegisteredServicesViewSet(viewsets.ModelViewSet):
 #     queryset = RegisteredServices.objects.all()

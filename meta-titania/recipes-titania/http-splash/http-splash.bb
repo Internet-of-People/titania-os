@@ -6,6 +6,7 @@ SRC_URI = "file://gplv3.md \
            file://http-splash.socket \
            file://http_splash.sh \
            file://http-splash.html \
+           file://stop-http-splash.conf \
           "
 
 LIC_FILES_CHKSUM = "file://${WORKDIR}/gplv3.md;md5=f149fa3bc39a974fe62c04649f34883a"
@@ -16,6 +17,7 @@ FILES_${PN} = "${bindir}/http_splash.sh \
                ${systemd_unitdir}/system/http-splash@.service \
                ${systemd_unitdir}/system/http-splash.socket \
                ${datadir}/http-splash/http-splash.html \
+               ${sysconfdir}/systemd/system/nginx.service.d/stop-http-splash.conf \
               "
 
 SYSTEMD_SERVICE_${PN} = "http-splash@.service"
@@ -29,4 +31,7 @@ do_install() {
     install -d ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/http-splash@.service ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/http-splash.socket ${D}${systemd_unitdir}/system
+
+    install -d ${D}${sysconfdir}/systemd/system/nginx.service.d
+    install -m -644 ${WORKDIR}/stop-http-splash.conf ${D}${sysconfdir}/systemd/system/nginx.service.d
 }

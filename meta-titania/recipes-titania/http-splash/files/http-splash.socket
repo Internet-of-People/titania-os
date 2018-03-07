@@ -1,9 +1,6 @@
 [Unit]
 Description=Boot time HTTP socket
-# Making sure this is stopped when nginx runs, 
-# but not vice versa
 Before=nginx.service
-Conflicts=nginx.service
 
 [Socket]
 ListenStream=80

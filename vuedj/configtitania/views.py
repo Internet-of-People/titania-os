@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from importlib import import_module
+from django.conf import settings
+
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
@@ -12,6 +15,9 @@ from rest_framework.decorators import list_route
 # from .serializers import BoxDetailsSerializer
 
 import common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd
+
+# get Session store from settings
+SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 # fetch network AP details
 nm = NetworkManager.NetworkManager
@@ -167,6 +173,7 @@ def handle_config(request):
     """ 
     if request.method == 'POST':
         action = request.POST.get("_action")
+        print(action)
         ## Added in rc_v2 for addon support
         ## Will be replaced by dApps Hub
         # if action == 'registerService':
@@ -195,7 +202,6 @@ def handle_config(request):
             wifi_aps = get_allAPs()
             return JsonResponse(wifi_aps, safe=False)
         elif action == 'saveUserDetails':
-            print(action)
             boxname = request.POST.get("boxname")
             username = request.POST.get("username")
             password = request.POST.get("password")
@@ -237,16 +243,16 @@ def handle_config(request):
             except KeyError:
                 output = "User '%s' not found" % username
             if len(output) == 0:
-                return JsonResponse({"username":username}, safe=False)
+                s = SessionStore()
+                s.create()
+                print(s.session_key)
+                return JsonResponse({"username":username,"session_key":s.session_key}, safe=False)
             else:
                 return JsonResponse(output, safe=False)
         elif action == 'logout':
             print(action)
             username = request.POST.get("username")
-            print(username+' ')
-            queryset = User.objects.all().first()
-            if username == queryset.username:
-                return JsonResponse({"STATUS":"SUCCESS", "username":queryset.username}, safe=False)
+            return JsonResponse({"STATUS":"SUCCESS", "username":username}, safe=False)
         elif action == 'getDashboardCards':
             print(action)
             con = sqlite3.connect("dashboard.sqlite3")

@@ -2,11 +2,11 @@
 # TODO: generalize maybe?
 [Unit]
 Description=Internet of People Profile Server
-After=network_info.service
+After=network-info.service
 After=image-preinstall@libertaria_iop-ps_latest.service
 Wants=image-preinstall@libertaria_iop-ps_latest.service
-Wants=forward_port@16987.service
-Wants=forward_port@16988.service
+Wants=forward-port@16987-tcp.service
+Wants=forward-port@16988-tcp.service
 
 [Service]
 TimeoutStartSec=0

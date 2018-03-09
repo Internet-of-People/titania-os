@@ -2,13 +2,13 @@
 # TODO: generalize maybe?
 [Unit]
 Description=Internet of People Content Addressing Network Server
-After=network_info.service
+After=network-info.service
 After=image-preinstall@libertaria_iop-can_latest.service
 Wants=image-preinstall@libertaria_iop-can_latest.service
-Wants=forward_port@14001.service
-Wants=forward_port@14002.service
-Wants=forward_port@15001.service
-Wants=forward_port@18080.service
+Wants=forward-port@14001-tcp.service
+Wants=forward-port@14002-tcp.service
+Wants=forward-port@15001-tcp.service
+Wants=forward-port@18080-tcp.service
 
 [Service]
 TimeoutStartSec=0

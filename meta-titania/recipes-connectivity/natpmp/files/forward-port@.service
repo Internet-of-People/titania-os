@@ -1,0 +1,21 @@
+# TODO: monitor router restarts
+# TODO: periodically refresh 
+
+# Unit tempate argument is in the form 
+# PORT/proto, e.g. 80/tcp, 53/udp
+# Systemd escaping rules however make it
+# PORT-proto format for actual calls
+# The unescaped form is retained for descripting
+# as an esthetical feature
+
+[Unit]
+Description=Port forwarding for %I
+Requires=NetworkManager-wait-online.service
+After=NetworkManager-wait-online.service
+
+[Service]
+Restart=on-failure
+RemainAfterExit=true
+ExecStart=/usr/bin/forward_port.sh start %i
+ExecStop=/usr/bin/forward_port.sh stop %i
+

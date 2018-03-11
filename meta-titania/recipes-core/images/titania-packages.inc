@@ -1,5 +1,5 @@
 # Titania own software
-IMAGE_INSTALL += "vuedj datafs-resizer"
+IMAGE_INSTALL += "vuedj datafs-resizer http-splash"
 
 IMAGE_INSTALL += "sudo networkmanager avahi-daemon llmnrd zram systemd-analyze swupdate"
 

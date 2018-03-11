@@ -1,0 +1,10 @@
+[Unit]
+Description=Boot time HTTP socket
+Before=nginx.service
+
+[Socket]
+ListenStream=80
+Accept=yes
+
+[Install]
+WantedBy=sockets.target

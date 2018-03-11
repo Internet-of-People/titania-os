@@ -28,7 +28,7 @@ inherit systemd
 SYSTEMD_SERVICE_${PN} = "${TITANIA_UX_BACKEND}.service ${TITANIA_UX_MONITOR}.service"
 
 # TODO: maybe find a more sophisticated place instead of /srv/?
-FILES_${PN} += "/srv/vuedj/"
+FILES_${PN} += "/srv/vuedj/ ${sysconfdir}/*"
 
 do_install() {
     # cp is out of place here but works for now until we go Rust
@@ -41,4 +41,8 @@ do_install() {
     install -d ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/${TITANIA_UX_BACKEND}.service ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/${TITANIA_UX_MONITOR}.service ${D}${systemd_unitdir}/system
+
+    # Track version
+    install -d ${D}${sysconfdir}
+    echo 'UX_ID="'${SRCREV}'"' > ${D}${sysconfdir}/titania-ux-version
 }

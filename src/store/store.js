@@ -11,7 +11,7 @@ Vue.use(VueLocalStorage)
 
 const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.0.109:8000' // dev pi
+// const apiRoot = 'http://192.168.0.105:8000' // dev pi
 
 const store = new Vuex.Store({
   state: {

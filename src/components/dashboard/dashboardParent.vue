@@ -40,6 +40,22 @@ export default {
       this.$store.dispatch('getDashboardCards')
       this.$store.dispatch('getDashboardChart')
     }
+  },
+  updated: function () {
+    var that = this
+    setTimeout(function(){
+      if (that.$route.params.setSession && !that.$session.exists()) {
+        that.$store.dispatch('getDashboardCards')
+        that.$store.dispatch('getDashboardChart')
+        that.$session.start()
+      } else if (!that.$session.exists()) {
+        that.$router.push('/login')
+        that.$store.state.currentPage = 'login'
+      } else {
+        that.$store.dispatch('getDashboardCards')
+        that.$store.dispatch('getDashboardChart')
+      }
+    } , 30000)  
   }
 }
 </script>

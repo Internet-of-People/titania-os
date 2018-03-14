@@ -121,6 +121,10 @@ a{
   outline: none;
 }
 
+.link-text{
+  color: $brand-link;
+}
+
 .config-input-field{
   margin-left: 0px;
   background: none;
@@ -133,7 +137,7 @@ a{
   border-bottom: 1px solid #ADADAD;
 }
 
-input:not(.box-name-field):not(.config-input-field){
+input:not(.box-name-field):not(.config-input-field):not(.popup-input){
   margin-left: 20px;
   margin-bottom: 16px;
   background-color: white;
@@ -192,6 +196,74 @@ input:not(.box-name-field):not(.config-input-field){
   }
 }
 
+.button-secondary {
+  @extend .cursor-pointer;
+  min-width: 90px;
+  padding: 8px 16px;
+  background-color: white;
+  color: black;
+  border: 0px solid rgba(0, 0, 0, 0.3);
+  outline: none;
+  height: 46px;
+  border-radius: 0px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+  width: 140px;
+  &:hover {
+    border-color: $brand-divider;
+  }
+}
+
+.popup-browser-primary{
+  @extend .cursor-pointer;
+  padding: 8px 16px;
+  width: 80px;
+  background-color: $titania-dark;
+  color: white;
+  outline: none; 
+  border-radius: 0px;
+  // box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
+  &:hover {
+    background-color: $titania-dark;
+    border-color: $titania-dark;
+  }
+}
+
+.popup-browser-secondary{
+  @extend .cursor-pointer;
+  width: 80px;
+  padding: 8px 16px;
+  background-color: white;
+  color: black;
+  outline: none; 
+  border:none;
+  border-radius: 0px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3)
+}
+
+.popup-input{
+  background-color: white;
+  display: inline-block;
+  height: 28px;
+  width: 200px;
+  border: none;
+  padding: 0 12px;
+  outline: none;
+  // border-bottom: 1px solid #ADADAD;
+}
+
+.popup-actions{
+  display: block;
+  margin: 0 45px;
+}
+
+.popup-browser-drawer{
+  background-color: white;
+}
+
+.margin-left-16{
+  margin-left: 16px;
+}
+
 .padding-right-20{
   padding-right: 20px;
 }
@@ -241,6 +313,39 @@ input:not(.box-name-field):not(.config-input-field){
   width: 400px;
   overflow-y: auto;
   margin: auto;
+}
+
+.popup-window{
+  position: fixed;
+  background-color: $brand-inverse;
+  right: 25%;
+  left: 25%;
+  top: 16px;
+  bottom: 16px;
+  z-index: 98;
+  box-shadow: 0 0 30px 2px #B5B5B5;
+  height: 335px;
+  width: 430px;
+  overflow-y: auto;
+  margin: auto;
+  color: $brand-label;
+}
+
+.popup-content{
+  width: 338px;
+  height: 200px;
+  background-color: $brand-highlight;
+  margin: 45px auto 20px;
+}
+
+.popup-hint-text{
+  @extend .col-10;
+  margin: auto;
+  color: $brand-label;
+}
+
+.margin-bottom-4{
+  margin-bottom: 4px;
 }
 
 .padding-20{

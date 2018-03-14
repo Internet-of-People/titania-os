@@ -1,25 +1,34 @@
 <template>
-  <div v-bind:class="{ marginLeft40: !getFooterClass()}" class="footer-wrapper col-12">
-    <div class='float-left cursor-default desktop-footer-essentials'>
-      <span class='titania_version'>{{this.$store.state.schema}}</span>
-      <span class='copyright'>&copy;&nbsp; {{new Date().getFullYear()}} Libertaria</span>
-      <span id='registeredto' class='registeredto hide' v-bind:class="{show : !getFooterClass()}">Logged in as: <span>{{username}}</span></span>
+  <div>
+    <div v-bind:class="{ marginLeft40: !getFooterClass()}" class="footer-wrapper col-12">
+      <div class='float-left cursor-default desktop-footer-essentials'>
+        <span class='titania_version'>{{this.$store.state.schema}}</span>
+        <span class='copyright'>&copy;&nbsp; {{new Date().getFullYear()}} Libertaria</span>
+        <span id='registeredto' class='registeredto hide' v-bind:class="{show : !getFooterClass()}">Logged in as: <span>{{username}}</span></span>
+      </div>
+      <div class='float-right footer-links padding-right-20'>
+        <span class="padding-right-20 white-paper-footer"><a href="https://drive.google.com/file/d/11xDyBFACJYxrDQY4YNdiBqF8UFhgvpT9/view" target="_blank">White Paper</a></span>
+        <span class="padding-right-20 feedback-footer"><a id="titania_feedback" :href="getmailhref()">Feedback</a></span>
+        <span class="padding-right-20 update-version-elem"><a id="update_version" @click="toggleUpdatePopup()">Update Version</a></span>
+      </div>
     </div>
-    <div class='float-right footer-links padding-right-20'>
-      <span class="padding-right-20 white-paper-footer"><a href="https://drive.google.com/file/d/11xDyBFACJYxrDQY4YNdiBqF8UFhgvpT9/view" target="_blank">White Paper</a></span>
-      <span class="padding-right-20 feedback-footer"><a id="titania_feedback" :href="getmailhref()">Feedback</a></span>
-    </div>
+    <updateWindow v-if="updateState"/>
+    <div class="fadeout" v-if="updateState" @click="toggleUpdatePopup()"></div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import VueLocalStorage from 'vue-ls'
+import updateWindow from '@/components/common/updateWindow'
 
 Vue.use(VueLocalStorage)
 
 export default {
   name: 'footerParent',
+  components: {
+    updateWindow
+  },
   computed: {
     username: {
       get: function () {
@@ -27,6 +36,14 @@ export default {
           return true
         }
         return Vue.ls.get('user')
+      }
+    },
+    updateState: {
+      get: function () {
+        return this.$store.state.updateState 
+      },
+      set: function (newstate) {
+        this.$store.state.updateState = newstate
       }
     }
   },
@@ -38,6 +55,9 @@ export default {
     getmailhref () {
       var feedbackEmail = 'info@iop-ventures.com'
       return 'mailto:' + feedbackEmail + '?subject=Feedback on ' + this.$store.state.schema
+    },
+    toggleUpdatePopup () {
+      this.updateState = !this.updateState
     }
   }
 }

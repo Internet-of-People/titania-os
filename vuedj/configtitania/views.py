@@ -17,7 +17,7 @@ import common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd
 nm = NetworkManager.NetworkManager
 wlans = [d for d in nm.Devices if isinstance(d, NetworkManager.Wireless)]
 
-def get_osversion():
+def get_builddetails():
     """
     PRETTY_NAME of your Titania os (in lowercase).
     """
@@ -25,7 +25,9 @@ def get_osversion():
         osfilecontent = f.read().split("\n")
         # $PRETTY_NAME is at the 5th position
         version = osfilecontent[4].split('=')[1].strip('\"')
-        return version
+        build_id = osfilecontent[5].split('=')[1].strip('\"')
+        ux_id = osfilecontent[6].split('=')[1].strip('\"')
+        return version, build_id, ux_id
 
 def get_allconfiguredwifi():
     """
@@ -179,8 +181,8 @@ def handle_config(request):
         #     setServiceDetails = RegisteredServices.objects.get_or_create(name=request_name,address=request_address,icon=request_icon)
         #     return JsonResponse({"STATUS":"SUCCESS"}, safe=False)   
         if action == 'getSchema':
-            schema = get_osversion()
-            return JsonResponse({"version_info":schema}, safe=False)
+            version, build_id, ux_id = get_builddetails()
+            return JsonResponse({"version":version, "build_id":build_id, "ux_id":ux_id}, safe=False)
         elif action == 'getIfConfigured':
             configured = get_ifconfigured()
             # queryset = BoxDetails.objects.all()

@@ -16,6 +16,8 @@ const apiRoot = '/api' // deployment
 const store = new Vuex.Store({
   state: {
     schema: '',
+    build_id: '',
+    ux_id: '',
     credentials: {
       username: '',
       password: ''
@@ -59,7 +61,9 @@ const store = new Vuex.Store({
     // returned by the Promise.
     // The mutations are in charge of updating the client state.
     'SET_SCHEMA': function (state, response) {
-      state.schema = response.body.version_info
+      state.schema = response.body.version
+      state.build_id = response.body.build_id
+      state.ux_id = response.body.ux_id
     },
     'GET_CREDS': function (state, response) {
       // console.log(response.body.configState)

@@ -137,7 +137,7 @@ a{
   border-bottom: 1px solid #ADADAD;
 }
 
-input:not(.box-name-field):not(.config-input-field):not(.popup-input){
+input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup-input-drawer):not(.popup-checkbox){
   margin-left: 20px;
   margin-bottom: 16px;
   background-color: white;
@@ -228,6 +228,25 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input){
   }
 }
 
+.popup-browser-primary-big{
+  @extend .cursor-pointer;
+  padding: 8px 16px;
+  width: 140px;
+  background-color: $titania-dark;
+  color: white;
+  outline: none; 
+  border-radius: 0px;
+  &:hover {
+    background-color: $titania-dark;
+    border-color: $titania-dark;
+  }
+}
+
+.err-update-img{
+  width: 72px;
+  height: 72px;
+}
+
 .popup-browser-secondary{
   @extend .cursor-pointer;
   width: 80px;
@@ -243,12 +262,10 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input){
 .popup-input{
   background-color: white;
   display: inline-block;
-  height: 28px;
-  width: 200px;
+  width: 280px;
   border: none;
-  padding: 0 12px;
+  padding: 6px 12px;
   outline: none;
-  // border-bottom: 1px solid #ADADAD;
 }
 
 .popup-actions{
@@ -285,6 +302,18 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input){
 
 .padding-top-bottom-16{
   padding: 16px 0px;
+}
+
+.padding-top-16{
+  padding-top: 16px;
+}
+
+.padding-top-8{
+  padding: 8px;
+}
+
+.padding-top-bottom-8{
+  padding: 8px 0;
 }
 
 .padding-left-16{
@@ -362,6 +391,10 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input){
 
 .header-fontsize {
   font-size: 16px !important;
+}
+
+.header-fontsize-larger{
+  font-size: 20px !important;
 }
 
 .form-error{

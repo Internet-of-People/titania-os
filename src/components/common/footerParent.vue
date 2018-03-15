@@ -9,11 +9,13 @@
       <div class='float-right footer-links padding-right-20'>
         <span class="padding-right-20 white-paper-footer"><a href="https://drive.google.com/file/d/11xDyBFACJYxrDQY4YNdiBqF8UFhgvpT9/view" target="_blank">White Paper</a></span>
         <span class="padding-right-20 feedback-footer"><a id="titania_feedback" :href="getmailhref()">Feedback</a></span>
-        <span class="padding-right-20 update-version-elem"><a id="update_version" @click="toggleUpdatePopup()">Update Version</a></span>
+        <span v-if="updateState == 'initial'" class="padding-right-20 update-version-elem"><a id="update_version" @click="toggleUpdatePopup()">Update Version</a></span>
+        <span v-else-if="updateState == 'success'" class="padding-right-20 update-version-elem"><a id="update_version">Reboot to apply</a></span>
+        <span v-else class="padding-right-20 update-version-elem"><a id="update_version">Updating</a></span>
       </div>
     </div>
-    <updateWindow v-if="updateState"/>
-    <div class="fadeout" v-if="updateState" @click="toggleUpdatePopup()"></div>
+    <updateWindow v-if="showupdatepopup" :update-status="updateState"/>
+    <div class="fadeout" v-if="showupdatepopup" @click="toggleUpdatePopup()"></div>
   </div>
 </template>
 
@@ -38,6 +40,14 @@ export default {
         return Vue.ls.get('user')
       }
     },
+    showupdatepopup: {
+      get: function () {
+        return this.$store.state.showupdatepopup 
+      },
+      set: function (newstate) {
+        this.$store.state.showupdatepopup = newstate
+      }
+    },
     updateState: {
       get: function () {
         return this.$store.state.updateState 
@@ -57,7 +67,7 @@ export default {
       return 'mailto:' + feedbackEmail + '?subject=Feedback on ' + this.$store.state.schema
     },
     toggleUpdatePopup () {
-      this.updateState = !this.updateState
+      this.showupdatepopup = !this.showupdatepopup
     }
   }
 }

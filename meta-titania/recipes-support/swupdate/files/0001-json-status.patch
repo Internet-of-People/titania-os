@@ -37,7 +37,7 @@ index 16a111a..deb865d 100644
 +
 +	/* formating the json */
 +	/* TODO: escaping of %s! */
-+	snprintf(json, 8192, "{'magic':%d,'status':'%s','dwl_percent':%d,'nsteps':%d,'cur_step':%d,'cur_percent':%d,'cur_image':'%s','hnd_name':'%s','source':'%s','info':'%s'}",
++	snprintf(json, 8192, "{\"magic\":%d,\"status\":\"%s\",\"dwl_percent\":%d,\"nsteps\":%d,\"cur_step\":%d,\"cur_percent\":%d,\"cur_image\":\"%s\",\"hnd_name\":\"%s\",\"source\":\"%s\",\"info\":\"%s\"}",
 +		prbar->msg.magic, status_txt[prbar->msg.status], prbar->msg.dwl_percent, prbar->msg.nsteps, prbar->msg.cur_step, prbar->msg.cur_percent, prbar->msg.cur_image, prbar->msg.hnd_name, source_txt[prbar->msg.source], info);
  
  	SIMPLEQ_FOREACH_SAFE(conn, &prbar->conns, next, tmp) {

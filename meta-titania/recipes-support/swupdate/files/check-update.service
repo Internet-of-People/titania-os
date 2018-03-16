@@ -3,7 +3,7 @@ Description=Check for successful update
 After=multi-user.target
 
 [Service]
-ExecStart=/sbin/update_check.sh
+ExecStart=/sbin/check_update.sh
 Type=simple
 
 [Install]

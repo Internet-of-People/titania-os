@@ -3,7 +3,8 @@ SRC_URI += "file://after-everything.target \
             file://check-update.service \
             file://defconfig \
             file://check_update.sh \
-            file://update_system.sh"
+            file://update_system.sh \
+            file://0001-json-status.patch"
 
 # TODO: we probably don't care but ideally we should honor the config file 
 # and check if CONFIG_UBOOT is set

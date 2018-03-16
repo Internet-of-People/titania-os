@@ -1,0 +1,64 @@
+diff --git a/corelib/progress_thread.c b/corelib/progress_thread.c
+index 16a111a..deb865d 100644
+--- a/corelib/progress_thread.c
++++ b/corelib/progress_thread.c
+@@ -1,6 +1,7 @@
+ /*
+  * (C) Copyright 2016
+  * Stefano Babic, DENX Software Engineering, sbabic@denx.de.
++ * Oleksiy Protas, IoP Ventures LLC, elfy@ecognize.me.
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU General Public License as
+@@ -74,10 +75,35 @@ static void send_progress_msg(void)
+ 	void *buf;
+ 	size_t count;
+ 	ssize_t n;
++	char json[8192]; /* should be enough */
++	char info[2048]; /* info null terminated */
++	const char* status_txt[] = { "idle",
++								 "start",
++								 "run",
++								 "success",
++								 "failure",
++								 "download",
++								 "done",
++								 "subprocess" };
++	const char* source_txt[] = { "unknown",
++								 "webserver",
++								 "surcatta",
++								 "downloader",
++								 "local" };
++
++	/* Preparing info */
++    /* TODO: paranoia checks */
++	memcpy(info, prbar->msg.info, prbar->msg.infolen);
++	info[prbar->msg.infolen] = 0;
++
++	/* formating the json */
++	/* TODO: escaping of %s! */
++	snprintf(json, 8192, "{'magic':%d,'status':'%s','dwl_percent':%d,'nsteps':%d,'cur_step':%d,'cur_percent':%d,'cur_image':'%s','hnd_name':'%s','source':'%s','info':'%s'}",
++		prbar->msg.magic, status_txt[prbar->msg.status], prbar->msg.dwl_percent, prbar->msg.nsteps, prbar->msg.cur_step, prbar->msg.cur_percent, prbar->msg.cur_image, prbar->msg.hnd_name, source_txt[prbar->msg.source], info);
+ 
+ 	SIMPLEQ_FOREACH_SAFE(conn, &prbar->conns, next, tmp) {
+-		buf = &prbar->msg;
+-		count = sizeof(prbar->msg);
++		buf = json;
++		count = strnlen(json, 8192);
+ 		while (count > 0) {
+ 			n = send(conn->sockfd, buf, count, MSG_NOSIGNAL);
+ 			if (n <= 0) {
+@@ -91,6 +117,13 @@ static void send_progress_msg(void)
+ 			count -= (size_t)n;
+ 			buf = (char*)buf + n;
+ 		}
++
++		/* Removing the client */
++		TRACE("Closing the connection.");
++		close(conn->sockfd);
++		SIMPLEQ_REMOVE(&prbar->conns, conn,
++			       	progress_conn, next);
++		free(conn);
+ 	}
+ }
+ 

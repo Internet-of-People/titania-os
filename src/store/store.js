@@ -54,7 +54,8 @@ const store = new Vuex.Store({
     },
     sidebarAddons: [],
     services: false,
-    encrypt_modes: ['WPA (default)', 'Open', 'WEP']
+    encrypt_modes: ['WPA (default)', 'Open', 'WEP'],
+    hashPopupState: false
   },
   mutations: {
     // Keep in mind that response is an HTTP response

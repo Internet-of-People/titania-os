@@ -35,7 +35,7 @@
   width: 75%;
 }
 
-.col-10 {
+.col-10, .popup-hint-text {
   width: 83.33%;
 }
 
@@ -215,6 +215,10 @@ input:not(.box-name-field):not(.config-input-field) {
   padding-left: 16px;
 }
 
+.titania_version:hover {
+  color: #0067C5;
+}
+
 .input_c {
   width: 400px;
   height: 32px;
@@ -239,6 +243,61 @@ input:not(.box-name-field):not(.config-input-field) {
   margin: auto;
 }
 
+.popup-window-hash {
+  position: fixed;
+  background-color: #FFFFFF;
+  right: 25%;
+  left: 25%;
+  top: 16px;
+  bottom: 16px;
+  z-index: 98;
+  box-shadow: 0 0 30px 2px #B5B5B5;
+  height: 376px;
+  width: 430px;
+  overflow-y: auto;
+  margin: auto;
+  color: #646A73;
+}
+
+.popup-content-hash {
+  width: 338px;
+  height: 286px;
+  background-color: #F0F0F0;
+  margin: 45px auto 20px;
+}
+
+.popup-hint-text {
+  margin: auto;
+  color: #646A73;
+}
+
+.hash-id-div {
+  margin: 8px 16px;
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #DADADA;
+}
+
+.popup-browser-primary-copy {
+  width: 120px;
+  background-color: #8b6787;
+  color: white;
+  outline: none;
+  border-radius: 0px;
+}
+.popup-browser-primary-copy:hover {
+  background-color: #8b6787;
+  border-color: #8b6787;
+}
+.popup-browser-primary-copy img {
+  width: 40px;
+  height: 40px;
+}
+
+.padding-top-bottom-12 {
+  padding: 12px 0;
+}
+
 .padding-20 {
   padding: 20px;
 }
@@ -260,7 +319,7 @@ input:not(.box-name-field):not(.config-input-field) {
   color: #C82506;
 }
 
-.cursor-pointer, .button-primary, .configure-add-options-menu span:not(.form-error), .config-headers, .details, .cursorPointer, .settings-options {
+.cursor-pointer, .button-primary, .hash-id-div, .popup-browser-primary-copy, .configure-add-options-menu span:not(.form-error), .config-headers, .details, .cursorPointer, .settings-options {
   cursor: pointer;
 }
 
@@ -1714,6 +1773,8 @@ div.highlightedFilter {
     border-left: none;
   }
   .menu-page-wrapper .logout-menu {
+    right: 20px;
+    width: 80px;
     display: block;
     position: fixed;
     bottom: 130px;
@@ -1860,6 +1921,8 @@ div.highlightedFilter {
     display: block !important;
     position: fixed;
     bottom: 270px;
+    right: 20px;
+    width: 80px;
     text-align: right;
     cursor: pointer;
   }
@@ -1886,7 +1949,7 @@ div.highlightedFilter {
     padding: 42px 40px;
     font-size: 40px;
   }
-  .user-row .col-1.float-right.cursor-pointer, .user-row .col-1.float-right.button-primary, .user-row .configure-add-options-menu span.col-1.float-right:not(.form-error), .configure-add-options-menu .user-row span.col-1.float-right:not(.form-error), .user-row .col-1.float-right.config-headers, .user-row .col-1.float-right.details, .user-row .col-1.float-right.cursorPointer, .user-row .col-1.float-right.settings-options {
+  .user-row .col-1.float-right.cursor-pointer, .user-row .col-1.float-right.button-primary, .user-row .col-1.float-right.hash-id-div, .user-row .col-1.float-right.popup-browser-primary-copy, .user-row .configure-add-options-menu span.col-1.float-right:not(.form-error), .configure-add-options-menu .user-row span.col-1.float-right:not(.form-error), .user-row .col-1.float-right.config-headers, .user-row .col-1.float-right.details, .user-row .col-1.float-right.cursorPointer, .user-row .col-1.float-right.settings-options {
     width: 15%;
   }
 
@@ -1915,5 +1978,44 @@ div.highlightedFilter {
   }
   .settings-page .save-config {
     margin: 50px !important;
+  }
+
+  .popup-window-hash {
+    height: 524px;
+    width: 620px;
+  }
+  .popup-window-hash .popup-content-hash {
+    width: 528px;
+    height: 440px;
+  }
+  .popup-window-hash .header-fontsize {
+    font-size: 36px !important;
+  }
+  .popup-window-hash .padding-top-bottom-16 {
+    padding: 20px 0;
+  }
+  .popup-window-hash .large-fontsize {
+    font-size: 32px;
+  }
+  .popup-window-hash .hash-id-div {
+    width: 460px;
+    font-size: 28px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .popup-window-hash .col-12 {
+    padding: 8px 0;
+  }
+  .popup-window-hash .popup-browser-primary-copy {
+    width: 220px;
+  }
+  .popup-window-hash .popup-browser-primary-copy img {
+    width: 80px;
+    height: 80px;
+  }
+  .popup-window-hash .popup-browser-primary-copy .padding-top-bottom-12 {
+    padding: 32px 0;
+    font-size: 24px;
   }
 }

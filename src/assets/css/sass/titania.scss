@@ -219,6 +219,12 @@ input:not(.box-name-field):not(.config-input-field){
   padding-left: 16px;
 }
 
+.titania_version{
+  &:hover{
+    color: $brand-link;
+  }
+}
+
 .input_c{
   width: 400px;
   height: 32px;
@@ -242,6 +248,67 @@ input:not(.box-name-field):not(.config-input-field){
   overflow-y: auto;
   margin: auto;
 }
+
+
+.popup-window-hash{
+  position: fixed;
+  background-color: $brand-inverse;
+  right: 25%;
+  left: 25%;
+  top: 16px;
+  bottom: 16px;
+  z-index: 98;
+  box-shadow: 0 0 30px 2px #B5B5B5;
+  height: 376px;
+  width: 430px;
+  overflow-y: auto;
+  margin: auto;
+  color: $brand-label;
+}
+
+.popup-content-hash{
+  width: 338px;
+  height: 286px;
+  background-color: $brand-highlight;
+  margin: 45px auto 20px;
+}
+
+.popup-hint-text{
+  @extend .col-10;
+  margin: auto;
+  color: $brand-label;
+}
+
+.hash-id-div{
+  @extend .cursor-pointer;
+  margin: 8px 16px;
+  padding: 12px;
+  text-align: left;
+  border: 1px solid $brand-divider;
+}
+
+.popup-browser-primary-copy{
+  @extend .cursor-pointer;
+  // padding: 8px 16px;
+  width: 120px;
+  background-color: $titania-dark;
+  color: white;
+  outline: none; 
+  border-radius: 0px;
+  &:hover {
+    background-color: $titania-dark;
+    border-color: $titania-dark;
+  }
+  img{
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.padding-top-bottom-12{
+  padding: 12px 0;
+}
+
 
 .padding-20{
   padding: 20px;
@@ -1715,6 +1782,8 @@ div.highlightedFilter{
       border-left: none;
     }
     .logout-menu{
+      right: 20px;
+      width: 80px;
       display: block;
       position: fixed;
       bottom: 130px;
@@ -1849,6 +1918,8 @@ div.highlightedFilter{
     display: block !important;
     position: fixed;
     bottom: 270px;
+    right: 20px;
+    width: 80px;
     text-align: right;
     cursor: pointer;
   }
@@ -1900,5 +1971,45 @@ div.highlightedFilter{
     .save-config{
       margin: 50px !important;
     }
+  }
+
+  .popup-window-hash{
+    height: 524px;
+    width: 620px;
+    .popup-content-hash{
+      width: 528px;
+      height: 440px;
+    }
+    .header-fontsize{
+      font-size: 36px !important;
+    }
+    .padding-top-bottom-16{
+      padding: 20px 0;
+    }
+    .large-fontsize{
+      font-size: 32px;
+    }
+    .hash-id-div{
+      width: 460px;
+      font-size: 28px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .col-12{
+      padding: 8px 0;
+    }
+    .popup-browser-primary-copy{
+      width: 220px;
+      img{
+        width: 80px;
+        height: 80px;
+      }
+      .padding-top-bottom-12{
+        padding: 32px 0;
+        font-size: 24px;
+      }
+    }
+    
   }
 }

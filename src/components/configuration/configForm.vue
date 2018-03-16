@@ -98,7 +98,6 @@ export default {
         // if (this.editProp) {
         //   return this.editWifiapProp
         // }
-        console.log(this.$store.state.configuration)
         return this.$store.state.configuration.wifi_encrpt
       },
       set: function (encyptmode) {

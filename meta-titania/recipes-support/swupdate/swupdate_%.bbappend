@@ -1,11 +1,12 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-SRC_URI += "file://after-everything.target \
+SRC_URI += "file://0001-unlink-UDS-after-use.patch \
+            file://0002-http-style-progress.patch \
+            file://after-everything.target \
             file://check-update.service \
             file://swupdate@.service \
             file://defconfig \
             file://check_update.sh \
-            file://update_system.sh \
-            file://0001-json-status.patch"
+            file://update_system.sh"
 
 # TODO: we probably don't care but ideally we should honor the config file 
 # and check if CONFIG_UBOOT is set

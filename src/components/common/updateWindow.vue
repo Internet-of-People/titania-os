@@ -8,9 +8,7 @@
       <div class="display-block padding-top-bottom-16 margin-top-20">
         <div class="display-block cursor-default float-left margin-bottom-4 margin-left-16">Select file</div>
         <div class="display-inline-block popup-browser-drawer">
-          <input class="popup-input-drawer popup-input cursor-pointer outline-none regular-fontsize" value="text" type="file" aria-required="true">
-          <!-- <button >Browse</button> -->
-          <!-- <input class="popup-input regular-fontsize" placeholder="No file selected"/> -->
+          <input id="updateInput" class="popup-input-drawer popup-input cursor-pointer outline-none regular-fontsize" value="text" type="file" aria-required="true">
         </div>
       </div>
     </div>
@@ -33,18 +31,60 @@
       </div>
     </div>
     <div class="popup-actions">
-      <button class="float-left popup-browser-secondary cursor-pointer outline-none regular-fontsize">Close</button>
-      <button v-if="updateStatus == 'initial'" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Update</button>
+      <button @click="closePopup()" class="float-left popup-browser-secondary cursor-pointer outline-none regular-fontsize">Close</button>
+      <button v-if="updateStatus == 'initial'" @click="updateOS()" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Update</button>
       <button v-else-if="updateStatus == 'success'" class="popup-browser-primary-big float-right cursor-pointer outline-none regular-fontsize">Reboot System</button>
       <button v-else-if="updateStatus == 'failure'" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Retry</button>
     </div>    
   </div>
 </template>
-
 <script>
 
+import Vue from 'vue'
 export default {
   name: 'updateWindow',
-  props: ["updateStatus"]
+  props: ['updateStatus', 'whenApplied'],
+  computed: {
+    showupdatepopup: {
+      get: function () {
+        return this.$store.state.showupdatepopup 
+      },
+      set: function (newstate) {
+        this.$store.state.showupdatepopup = newstate
+      }
+    }
+  },
+  methods: {
+    updateOS: function () {
+      var updateDiv = document.getElementById('updateInput')
+      if (updateDiv.files.length > 0) {
+        this.$store.dispatch('updateOSImage')
+        this.closePopup()
+      } else {
+        Vue.toast('Please select the update file', {
+          id: 'my-toast',
+          className: ['toast-warning'],
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          duration: 4000,
+          mode: 'queue'
+        })
+      }    
+    },
+    closePopup: function () {
+      this.showupdatepopup = !this.showupdatepopup
+    },
+    keyup: function () {
+      if (event.which === 27 && $('.popup-window').length === 1) {
+        this.closePopup() // on esc press
+      }
+    }
+  },
+  created: function () {
+    window.addEventListener('keyup', this.keyup)
+  },
+  unmounted: function () {
+    window.removeEventListener('keyup', this.keyup)
+  }
 }
 </script>

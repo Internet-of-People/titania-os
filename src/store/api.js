@@ -15,6 +15,14 @@ export default {
     return Vue.http.post(url, request, {emulateJSON: true})
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
+  },
+  postWithUpload (url, request) {
+    return Vue.http.post(url, request,{
+      emulateJSON: true,
+      headers: {
+          'Content-Type': 'multipart/form-data'
+      }
+   })
   }
   // ,
   // patch (url, request) {

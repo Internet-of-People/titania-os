@@ -54,7 +54,7 @@ const store = new Vuex.Store({
     services: false,
     encrypt_modes: ['WPA (default)', 'Open', 'WEP'],
     showupdatepopup: false,
-    updateState: 'failure'
+    updateState: 'initial' /**States: initial, update, success, failure */
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -218,6 +218,9 @@ const store = new Vuex.Store({
       state.configuration.wifi_aps = response.body[0].allwifiaps
       state.configuration.wifi_aps_current = response.body[0].allwifiaps[0][0]
       state.settings.getform = false
+    },
+    'UPDATE_OS': function (state, response) {
+      console.log('Wow, update chal gya')
     }
     // 'RECORD_ADDONS': function (state, response) {
     //   state.sidebarAddons = response.body
@@ -375,6 +378,17 @@ const store = new Vuex.Store({
       return api.post(apiRoot + '/index.html', editrequest)
       .then((response) => store.commit('REFRESH_LIST', response))
       .catch((error) => store.commit('API_FAIL', error))
+    },
+    updateOSImage (state) {
+      var formData = new FormData()
+      var updateDiv = document.getElementById('updateInput')
+      formData.append('file', updateDiv.files[0],updateDiv.files[0].name)
+      formData.append('_action', 'updateOSImage')
+      
+      return api.postWithUpload(apiRoot + '/index.html', formData)
+      .then((response) => store.commit('UPDATE_OS', response))
+      .catch((error) => store.commit('API_FAIL', error))
+      console.log(updateDiv.files[0])
     }
   }
 })

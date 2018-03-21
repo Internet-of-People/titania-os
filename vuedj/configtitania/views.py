@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.conf import settings
 
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
@@ -11,7 +14,7 @@ from rest_framework.decorators import list_route
 # from .models import BoxDetails
 # from .serializers import BoxDetailsSerializer
 
-import common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd
+import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd
 
 # fetch network AP details
 nm = NetworkManager.NetworkManager
@@ -426,6 +429,15 @@ def handle_config(request):
             configuredwifi = get_allconfiguredwifi()
             wifi_aps = get_allAPs()
             return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'editwifi', 'endpoint': wifi_name}], safe=False)
+        elif action == 'updateOSImage':
+            print(action)
+            print(request)
+            file_obj = request.FILES['file']
+            print(file_obj)
+            data = request.FILES['file']
+            path = default_storage.save(data.name, ContentFile(data.read()))
+            tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+            return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

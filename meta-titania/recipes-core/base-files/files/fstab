@@ -15,3 +15,4 @@ tmpfs                /var/volatile        tmpfs      defaults              0  0
 
 # Binding mounts
 /datafs/titania/docker       /var/lib/docker    auto       bind      0  0
+/datafs/titania/home         /home              auto       bind      0  0

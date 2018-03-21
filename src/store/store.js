@@ -54,7 +54,8 @@ const store = new Vuex.Store({
     services: false,
     encrypt_modes: ['WPA (default)', 'Open', 'WEP'],
     showupdatepopup: false,
-    updateState: 'initial' /**States: initial, update, success, failure */
+    updateState: 'initial', /**States: initial, update, success, failure */
+    updateData: {}
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -219,25 +220,12 @@ const store = new Vuex.Store({
       state.configuration.wifi_aps_current = response.body[0].allwifiaps[0][0]
       state.settings.getform = false
     },
-    'UPDATE_OS': function (state, response) {
-      console.log('Wow, update chal gya')
+    'UPDATE_STATUS': function (state, response) {
+      state.updateState = response.body[0].STATUS
+      // add perc status in case of updating here
     }
-    // 'RECORD_ADDONS': function (state, response) {
-    //   state.sidebarAddons = response.body
-    //   // state.sidebarAddons = [{'id': 1, 'name': 'HelloWorld', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'},
-    //   // {'id': 2, 'name': 'iopwallet', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'}]
-    // }
   },
   actions: {
-    // loadDependencies (state) {
-    //   var loadDependencies = {
-    //     _action: 'loadDependencies'
-    //   }
-    //   return api.post(apiRoot + '/index.html', loadDependencies)
-    //   .then(function (response) {
-    //     store.commit('RECORD_ADDONS', response)
-    //   }).catch((error) => store.commit('API_FAIL', error))
-    // },
     initApp (state) {
       var getSchema = {
         _action: 'getSchema'
@@ -246,6 +234,7 @@ const store = new Vuex.Store({
         .then(function (response) {
           store.commit('SET_SCHEMA', response)
           store.dispatch('getCreds')
+          store.dispatch('getUpdateStatus')
         }).catch((error) => store.commit('API_FAIL', error))
     },
     getCreds (state) {
@@ -386,9 +375,18 @@ const store = new Vuex.Store({
       formData.append('_action', 'updateOSImage')
       
       return api.postWithUpload(apiRoot + '/index.html', formData)
-      .then((response) => store.commit('UPDATE_OS', response))
-      .catch((error) => store.commit('API_FAIL', error))
+      .then(function (response) {
+        store.commit('UPDATE_OS', response)
+      }).catch((error) => store.commit('API_FAIL', error))
       console.log(updateDiv.files[0])
+    },
+    getUpdateStatus (state) {
+      var updatestatus = {
+        _action: 'getUpdateStatus'
+      }
+      return api.post(apiRoot + '/index.html', updatestatus)
+      .then((response) => store.commit('UPDATE_STATUS', response))
+      .catch((error) => store.commit('API_FAIL', error))
     }
   }
 })

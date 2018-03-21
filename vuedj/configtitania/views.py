@@ -14,7 +14,7 @@ from rest_framework.decorators import list_route
 # from .models import BoxDetails
 # from .serializers import BoxDetailsSerializer
 
-import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd
+import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd, socket, json
 
 # fetch network AP details
 nm = NetworkManager.NetworkManager
@@ -70,6 +70,20 @@ def get_ifconfigured():
         return False
     else:
         return True
+
+def get_updatestatus():
+    try:
+        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        sock.connect("/tmp/swupdateprog")
+        data = json.loads(sock.recv(8192, socket.MSG_WAITALL).decode('ascii'))
+        sock.close()
+        print(data)
+        return 'updating', data
+    except FileNotFoundError:
+        print("No socket, either update is not started or has finished")
+        return 'initial', {}
+    except ConnectionRefusedError:
+        return 'failure', {}
 
 
 def set_boxname(boxname):
@@ -431,13 +445,20 @@ def handle_config(request):
             return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'editwifi', 'endpoint': wifi_name}], safe=False)
         elif action == 'updateOSImage':
             print(action)
-            print(request)
-            file_obj = request.FILES['file']
-            print(file_obj)
             data = request.FILES['file']
             path = default_storage.save(data.name, ContentFile(data.read()))
             tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+            file_path = settings.MEDIA_ROOT + data.name
+            # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
+            update_cmd = 'systemctl start swupdate@$(systemd-escape -p {}).service'.format(file_path)
+            print(update_cmd)
+            subprocess.call(update_cmd)
             return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
+        elif action == 'getUpdateStatus':
+            print(action)
+            status, data = get_updatestatus()
+            # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
+            return JsonResponse({'STATUS':status,'data':data}, safe=False)
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

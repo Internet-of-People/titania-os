@@ -71,7 +71,18 @@ def get_ifconfigured():
     else:
         return True
 
+# logic to determine update status
+#
+# systemctl is-active update-process->|__ active -> get Perc of update 'updating'
+#                                     |__inactive (systemctl status parsing)|__ success 'success'
+#                                                                           |__ failure 'failure'
+#                                                                           |__ has not started 'initial'
 def get_updatestatus():
+    # TO DO: add systemctl checks
+    # systemctl is-active <UNIT> that's one option, 
+    # as to parsing systemctl status you can look for Active: string and
+    #  it will contain the same, then skip everything until an empty line and
+    #  what's below is log. you can set -n to control how much log lines you want
     try:
         sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         sock.connect("/tmp/swupdateprog")

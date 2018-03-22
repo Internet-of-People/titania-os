@@ -55,7 +55,8 @@ const store = new Vuex.Store({
     encrypt_modes: ['WPA (default)', 'Open', 'WEP'],
     showupdatepopup: false,
     updateState: 'initial', /**States: initial, update, success, failure */
-    updateData: {}
+    updateData: {},
+    updateimagefilename: ''
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -223,6 +224,9 @@ const store = new Vuex.Store({
     'UPDATE_STATUS': function (state, response) {
       state.updateState = response.body[0].STATUS
       // add perc status in case of updating here
+    },
+    'SET_IMAGE_NAME': function (state, imagename) {
+      state.updateimagefilename = imagename
     }
   },
   actions: {
@@ -373,7 +377,8 @@ const store = new Vuex.Store({
       var updateDiv = document.getElementById('updateInput')
       formData.append('file', updateDiv.files[0],updateDiv.files[0].name)
       formData.append('_action', 'updateOSImage')
-      
+      store.commit('SET_IMAGE_NAME', updateDiv.files[0].name)
+
       return api.postWithUpload(apiRoot + '/index.html', formData)
       .then(function (response) {
         store.commit('UPDATE_OS', response)
@@ -384,9 +389,11 @@ const store = new Vuex.Store({
       var updatestatus = {
         _action: 'getUpdateStatus'
       }
-      return api.post(apiRoot + '/index.html', updatestatus)
-      .then((response) => store.commit('UPDATE_STATUS', response))
-      .catch((error) => store.commit('API_FAIL', error))
+      if (state.updateimagefilename.length > 0) {
+        return api.post(apiRoot + '/index.html', updatestatus)
+        .then((response) => store.commit('UPDATE_STATUS', response))
+        .catch((error) => store.commit('API_FAIL', error))
+      }
     }
   }
 })

@@ -13,6 +13,15 @@ tmpfs                /var/volatile        tmpfs      defaults              0  0
 # datafs
 /dev/mmcblk0p4       /datafs            auto       defaults  0  0
 
+
 # Binding mounts
-/datafs/titania/docker       /var/lib/docker    auto       bind      0  0
-/datafs/titania/home         /home              auto       bind      0  0
+/datafs/titania/docker              /var/lib/docker    auto       bind      0  0
+/datafs/titania/home                /home              auto       bind      0  0
+
+# TODO: make it a generator
+/datafs/titania/config/etc/shadow   /etc/shadow        auto       bind,x-systemd.requires=datafs.mount,x-systemd.requires=mirror@etc-shadow.service 0 0
+/datafs/titania/config/etc/group   /etc/group        auto       bind,x-systemd.requires=mirror@etc-group.service 0 0
+/datafs/titania/config/etc/passwd   /etc/passwd        auto       bind,x-systemd.requires=mirror@etc-passwd.service 0 0
+/datafs/titania/config/etc/hostname   /etc/hostname        auto       bind,x-systemd.requires=mirror@etc-hostname.service 0 0
+/datafs/titania/config/etc/dropbear /etc/dropbear      auto       bind,x-systemd.requires=mirror@etc-dropbear.service 0 0
+/datafs/titania/config/etc/NetworkManager/system-connections  /etc/NetworkManager/system-connections        auto       bind,x-systemd.requires=mirror@etc-NetworkManager-system\x2dconnections.service 0 0

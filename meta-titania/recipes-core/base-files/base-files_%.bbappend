@@ -1,7 +1,9 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += "file://titania.ascii \
             file://fstab \
-            file://0001-sbin-for-not-root-user.patch;patchdir=${WORKDIR}"
+            file://0001-sbin-for-not-root-user.patch;patchdir=${WORKDIR} \
+            file://mirror.sh \
+            file://mirror@.service"
 
 hostname = "titania"
 
@@ -26,4 +28,11 @@ do_install_append() {
     # TODO: verify if it's safe to remove
     install -d ${D}/datafs
     install -d ${D}/home
+
+    # TODO: this doesn't belong to this package! Please move
+    # TODO: hardcoded systemd path
+    install -d ${D}${bindir}
+    install -d ${D}/lib/systemd/system
+    install -m 0644 ${WORKDIR}/mirror@.service ${D}/lib/systemd/system
+    install -m 0755 ${WORKDIR}/mirror.sh ${D}${bindir}
 }

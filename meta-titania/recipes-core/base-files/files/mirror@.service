@@ -1,0 +1,11 @@
+[Unit]
+Description=Ensuring bind source for %f
+DefaultDependencies=no
+RequiresMountsFor=/datafs
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mirror.sh %f
+# TODO: Stop on umount?
+# RemainAfterExit=yes
+

@@ -11,6 +11,7 @@ require titania-packages.inc
 require user-setup.inc
 require clean-logs.inc
 require sync-clock.inc
+require persistent.inc
 
 # TODO: maybe separate in a dedicated include for more board support
 # - issues: currently based directly on meta-raspberrypi

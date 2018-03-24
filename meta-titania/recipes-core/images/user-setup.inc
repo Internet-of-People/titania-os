@@ -1,3 +1,5 @@
+# TODO: remove /etc/passwd- etc
+
 # Add custom groups
 inherit extrausers
 EXTRA_USERS_PARAMS += "groupadd wheel;"

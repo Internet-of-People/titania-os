@@ -4,3 +4,4 @@ Description=System update from %f
 [Service]
 ExecStartPre=/usr/bin/test ! -e /tmp/swupdateprog
 ExecStart=/sbin/update_system.sh %f
+RemainAfterExit=yes

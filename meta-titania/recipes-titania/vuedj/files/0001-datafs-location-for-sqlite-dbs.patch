@@ -1,0 +1,100 @@
+From 6a754687d8adb27d0292e85f9cf89ca8589daae4 Mon Sep 17 00:00:00 2001
+From: Oleksiy Protas <elfy@ecognize.me>
+Date: Tue, 27 Mar 2018 02:47:22 +0200
+Subject: [PATCH] /datafs/ location for sqlite dbs
+
+Needed in order to make them persistent and avoid overcomplicating the system with symlinks and bind mounts
+---
+ vuedj/configtitania/views.py | 13 ++++++++-----
+ vuedj/monit_dashboard.py     |  2 +-
+ vuedj/vuedj/settings.py      |  2 +-
+ 3 files changed, 10 insertions(+), 7 deletions(-)
+
+diff --git a/vuedj/configtitania/views.py b/vuedj/configtitania/views.py
+index e9224e6..d166eed 100644
+--- a/vuedj/configtitania/views.py
++++ b/vuedj/configtitania/views.py
+@@ -13,6 +13,9 @@ from .serializers import BoxDetailsSerializer, RegisteredServicesSerializer
+ 
+ import common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd
+ 
++# Dashboard sqlite file location
++dashboard_db = "/datafs/titania/dashboard.sqlite3"
++
+ # fetch network AP details
+ nm = NetworkManager.NetworkManager
+ wlans = [d for d in nm.Devices if isinstance(d, NetworkManager.Wireless)]
+@@ -207,7 +210,7 @@ def handle_config(request):
+                 return JsonResponse({"STATUS":"SUCCESS", "username":queryset.username}, safe=False)
+         elif action == 'getDashboardCards':
+             print(action)
+-            con = sqlite3.connect("dashboard.sqlite3")
++            con = sqlite3.connect(dashboard_db)
+             cursor = con.cursor()
+             cursor.execute(common.Q_DASHBOARD_CARDS)
+             rows = cursor.fetchall()
+@@ -215,7 +218,7 @@ def handle_config(request):
+             return JsonResponse(rows, safe=False)
+         elif action == 'getDashboardChart':
+             print(action)
+-            con = sqlite3.connect("dashboard.sqlite3")
++            con = sqlite3.connect(dashboard_db)
+             cursor = con.cursor()
+             cursor.execute(common.Q_GET_CONTAINER_ID)
+             rows = cursor.fetchall()
+@@ -230,7 +233,7 @@ def handle_config(request):
+             return JsonResponse(finalset, safe=False)
+         elif action == 'getDockerOverview':
+             print(action)
+-            con = sqlite3.connect("dashboard.sqlite3")
++            con = sqlite3.connect(dashboard_db)
+             cursor = con.cursor()
+             cursor.execute(common.Q_GET_DOCKER_OVERVIEW)
+             rows = cursor.fetchall()
+@@ -245,7 +248,7 @@ def handle_config(request):
+             return JsonResponse(finalset, safe=False)
+         elif action == 'getContainerStats':
+             print(action)
+-            con = sqlite3.connect("dashboard.sqlite3")
++            con = sqlite3.connect(dashboard_db)
+             cursor = con.cursor()
+             cursor.execute(common.Q_GET_CONTAINER_ID)
+             rows = cursor.fetchall()
+@@ -289,7 +292,7 @@ def handle_config(request):
+             return JsonResponse(rows, safe=False)
+         elif action == 'getContainerTop':
+             print(action)
+-            con = sqlite3.connect("dashboard.sqlite3")
++            con = sqlite3.connect(dashboard_db)
+             cursor = con.cursor()
+             cursor.execute(common.Q_GET_CONTAINER_ID)
+             rows = cursor.fetchall()
+diff --git a/vuedj/monit_dashboard.py b/vuedj/monit_dashboard.py
+index 9993d59..0082168 100644
+--- a/vuedj/monit_dashboard.py
++++ b/vuedj/monit_dashboard.py
+@@ -1,7 +1,7 @@
+ import subprocess, sched, time, sqlite3, common, signal, sys
+ 
+ # Creates or opens a file called dashboard with a SQLite3 DB
+-db = sqlite3.connect('dashboard.sqlite3')
++db = sqlite3.connect('/datafs/titania/dashboard.sqlite3')
+ 
+ # Get a cursor object
+ cursor = db.cursor()
+diff --git a/vuedj/vuedj/settings.py b/vuedj/vuedj/settings.py
+index 28229f9..26d731c 100644
+--- a/vuedj/vuedj/settings.py
++++ b/vuedj/vuedj/settings.py
+@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'vuedj.wsgi.application'
+ DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
++        'NAME': os.path.join(BASE_DIR, '/datafs/titania/db.sqlite3'),
+     }
+ }
+ 
+-- 
+2.15.1
+

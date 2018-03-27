@@ -6,7 +6,8 @@ TITANIA_UX_MONITOR = "monit-dashboard"
 SRC_URI = "git://git@gitlab.libertaria.community:2200/titania/ux-titania.git;protocol=ssh \
            file://${TITANIA_UX_BACKEND}.service \
            file://${TITANIA_UX_MONITOR}.service \
-           file://start_${TITANIA_UX_BACKEND}.sh"
+           file://start_${TITANIA_UX_BACKEND}.sh \
+           file://0001-datafs-location-for-sqlite-dbs.patch"
 # TODO: override only for git versions, not in the base recipe
 S = "${WORKDIR}/git"
 

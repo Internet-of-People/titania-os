@@ -1,5 +1,5 @@
 # Titania own software
-IMAGE_INSTALL += "vuedj datafs-resizer http-splash"
+IMAGE_INSTALL += "ux-titania datafs-resizer http-splash"
 
 IMAGE_INSTALL += "sudo zram systemd-analyze"
 

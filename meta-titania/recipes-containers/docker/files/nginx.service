@@ -2,7 +2,7 @@
 # TODO: generalize maybe?
 [Unit]
 Description=Libertaria containerized Nginx
-After=vuedj.service
+After=ux-titania.service
 After=image-preinstall@libertaria_nginx_armv7.service
 Wants=image-preinstall@libertaria_nginx_armv7.service
 Requires=docker.service
@@ -10,7 +10,7 @@ Requires=docker.service
 [Service]
 TimeoutStartSec=0
 Restart=always
-ExecStartPre=-/usr/bin/docker create --name %p -v /srv/vuedj/dist/:/usr/html -p 80:80 libertaria/nginx:armv7
+ExecStartPre=-/usr/bin/docker create --name %p -v /srv/ux-titania/dist/:/usr/html -p 80:80 libertaria/nginx:armv7
 ExecStart=/usr/bin/docker start -a %p
 
 [Install]

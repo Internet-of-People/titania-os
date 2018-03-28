@@ -1,3 +1,4 @@
 require ux-titania.inc
 
-SRCREV = "9edcc58b3e6fa66937ed60f20b3fe63a649e4784"
+SRCREV = "935ee8a9c2fafe74ee5ba6839dc79b4fae4a6c32"
+UX_BRANCH = "25-upgrades-ux-and-functionality"

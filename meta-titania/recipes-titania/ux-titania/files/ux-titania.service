@@ -8,7 +8,7 @@ Description=Titania monitoring service back-end
 [Service]
 Restart=on-failure
 WorkingDirectory=/srv/ux-titania
-ExecStart=/srv/ux-titania/ux_backend.sh
+ExecStart=/srv/ux-titania/start_ux-titania.sh
 
 [Install]
 WantedBy=multi-user.target

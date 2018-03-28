@@ -227,6 +227,9 @@ const store = new Vuex.Store({
     },
     'SET_IMAGE_NAME': function (state, imagename) {
       state.updateimagefilename = imagename
+    },
+    'SET_INITIAL_UPDATE_STATUS': function (state) {
+      state.updateState = 'initial'
     }
   },
   actions: {
@@ -393,6 +396,8 @@ const store = new Vuex.Store({
         return api.post(apiRoot + '/index.html', updatestatus)
         .then((response) => store.commit('UPDATE_STATUS', response))
         .catch((error) => store.commit('API_FAIL', error))
+      } else {
+        store.commit('SET_INITIAL_UPDATE_STATUS', response)
       }
     }
   }

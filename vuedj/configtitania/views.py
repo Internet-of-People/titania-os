@@ -16,6 +16,8 @@ from rest_framework.decorators import list_route
 
 import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd, socket, json
 
+dashboard_db = "/datafs/titania/dashboard.sqlite3"
+
 # fetch network AP details
 nm = NetworkManager.NetworkManager
 wlans = [d for d in nm.Devices if isinstance(d, NetworkManager.Wireless)]
@@ -77,6 +79,44 @@ def get_ifconfigured():
 #                                     |__inactive (systemctl status parsing)|__ success 'success'
 #                                                                           |__ failure 'failure'
 #                                                                           |__ has not started 'initial'
+
+# initial
+# # systemctl status swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
+# ● swupdate@tmp-titania\x2darm\x2drpi\x2dv0.0\x2d152\x2dg3668500.swu.service - System update from /tmp/titania-arm-rpi-v0.0-152-g3668500.swu
+#    Loaded: loaded (/lib/systemd/system/swupdate@.service; static; vendor preset: enabled)
+#    Active: inactive (dead)
+
+# failure
+# [[0;1;31m●[[0m swupdate@home-pooja-titania\x2darm\x2drpi\x2dv0.0\x2d152\x2dg3668500.swu.service - System update from /home/pooja/titania-arm-rpi-v0.0-152-g3668500.swu
+#    Loaded: loaded (/lib/systemd/system/swupdate@.service; static; vendor preset: enabled)
+#    Active: [[0;1;31mfailed[[0m (Result: exit-code) since Sat 2018-03-24 20:00:01 UTC; 10s ago
+#   Process: 6236 ExecStartPre=/usr/bin/test ! -e /tmp/swupdateprog [[0;1;31m(code=exited, status=1/FAILURE)[[0m
+
+# Mar 24 20:00:01 titania systemd[1]: Starting System update from /home/pooja/titania-arm-rpi-v0.0-152-g3668500.swu...
+# Mar 24 20:00:01 titania systemd[1]: [[0;1;39mswupdate@home-pooja-titania\x2darm\x2drpi\x2dv0.0\x2d152\x2dg3668500.swu.service: Control process exited, code=exited status=1[[0m
+# Mar 24 20:00:01 titania systemd[1]: [[0;1;31mFailed to start System update from /home/pooja/titania-arm-rpi-v0.0-152-g3668500.swu.[[0m
+# Mar 24 20:00:01 titania systemd[1]: [[0;1;39mswupdate@home-pooja-titania\x2darm\x2drpi\x2dv0.0\x2d152\x2dg3668500.swu.service: Unit entered failed state.[[0m
+# Mar 24 20:00:01 titania systemd[1]: [[0;1;39mswupdate@home-pooja-titania\x2darm\x2drpi\x2dv0.0\x2d152\x2dg3668500.swu.service: Failed with result 'exit-code'.[[0m
+
+# success
+# [[0;1;32m●[[0m swupdate@tmp-titania\x2darm\x2drpi\x2dv0.0\x2d163\x2dgd5efe66.swu.service - System update from /tmp/titania-arm-rpi-v0.0-163-gd5efe66.swu
+#    Loaded: loaded (/lib/systemd/system/swupdate@.service; static; vendor preset: enabled)
+#    Active: [[0;1;32mactive (exited)[[0m since Tue 2018-03-27 05:29:57 UTC; 49s ago
+#   Process: 3188 ExecStart=/sbin/update_system.sh %f (code=exited, status=0/SUCCESS)
+#   Process: 3179 ExecStartPre=/usr/bin/test ! -e /tmp/swupdateprog (code=exited, status=0/SUCCESS)
+#  Main PID: 3188 (code=exited, status=0/SUCCESS)
+
+# Mar 27 05:29:58 cow update_system.sh[3188]:         filename uImage-raspberrypi3.bin
+# Mar 27 05:29:58 cow update_system.sh[3188]:         size 4575512
+# Mar 27 05:29:58 cow update_system.sh[3188]:         REQUIRED
+# Mar 27 05:29:58 cow update_system.sh[3188]: [NOTIFY] : SWUPDATE running :  [install_single_image] : Found installer for stream uImage-raspberrypi3.bin rawfile
+# Mar 27 05:29:58 cow update_system.sh[3188]: [NOTIFY] : SWUPDATE running :  [install_raw_file] : Installing file uImage-raspberrypi3.bin on /boot/uImage_b
+# Mar 27 05:29:58 cow update_system.sh[3188]: [NOTIFY] : SWUPDATE running :  [install_single_image] : Found installer for stream rpi-titania-image-raspberrypi3.ext4.gz raw
+# Mar 27 05:30:42 cow update_system.sh[3188]: [NOTIFY] : SWUPDATE running :  [update_bootloader_env] : Updating bootloader environment
+# Mar 27 05:30:42 cow update_system.sh[3188]: Software updated successfully
+# Mar 27 05:30:42 cow update_system.sh[3188]: Please reboot the device to start the new software
+# Mar 27 05:30:42 cow update_system.sh[3188]: [NOTIFY] : SWUPDATE successful !
+
 def get_updatestatus():
     # TO DO: add systemctl checks
     # systemctl is-active <UNIT> that's one option, 
@@ -277,7 +317,7 @@ def handle_config(request):
                 return JsonResponse({"STATUS":"SUCCESS", "username":queryset.username}, safe=False)
         elif action == 'getDashboardCards':
             print(action)
-            con = sqlite3.connect("dashboard.sqlite3")
+            con = sqlite3.connect(dashboard_db)
             cursor = con.cursor()
             cursor.execute(common.Q_DASHBOARD_CARDS)
             rows = cursor.fetchall()
@@ -285,7 +325,7 @@ def handle_config(request):
             return JsonResponse(rows, safe=False)
         elif action == 'getDashboardChart':
             print(action)
-            con = sqlite3.connect("dashboard.sqlite3")
+            con = sqlite3.connect(dashboard_db)
             cursor = con.cursor()
             cursor.execute(common.Q_GET_CONTAINER_ID)
             rows = cursor.fetchall()
@@ -300,7 +340,7 @@ def handle_config(request):
             return JsonResponse(finalset, safe=False)
         elif action == 'getDockerOverview':
             print(action)
-            con = sqlite3.connect("dashboard.sqlite3")
+            con = sqlite3.connect(dashboard_db)
             cursor = con.cursor()
             cursor.execute(common.Q_GET_DOCKER_OVERVIEW)
             rows = cursor.fetchall()
@@ -315,7 +355,7 @@ def handle_config(request):
             return JsonResponse(finalset, safe=False)
         elif action == 'getContainerStats':
             print(action)
-            con = sqlite3.connect("dashboard.sqlite3")
+            con = sqlite3.connect(dashboard_db)
             cursor = con.cursor()
             cursor.execute(common.Q_GET_CONTAINER_ID)
             rows = cursor.fetchall()
@@ -359,7 +399,7 @@ def handle_config(request):
             return JsonResponse(rows, safe=False)
         elif action == 'getContainerTop':
             print(action)
-            con = sqlite3.connect("dashboard.sqlite3")
+            con = sqlite3.connect(dashboard_db)
             cursor = con.cursor()
             cursor.execute(common.Q_GET_CONTAINER_ID)
             rows = cursor.fetchall()
@@ -462,6 +502,9 @@ def handle_config(request):
             file_path = settings.MEDIA_ROOT + data.name
             # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
             update_cmd = 'systemctl start swupdate@$(systemd-escape -p {}).service'.format(file_path)
+
+            subprocess.Popen(['systemctl','start','swupdate@$(systemd-escape','-p',file_path,').service'])
+
             print(update_cmd)
             subprocess.call(update_cmd)
             return JsonResponse({'STATUS':'SUCCESS'}, safe=False)

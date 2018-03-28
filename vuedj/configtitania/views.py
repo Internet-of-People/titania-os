@@ -65,77 +65,62 @@ def get_allAPs():
 
 def get_ifconfigured():
     # get count of the number of docker users
-    ps = subprocess.Popen('getent group | grep docker | awk -F \'[,:]\' \'{ print NF - 3 }\'', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
-    usercount = int(ps)
+    # docker:x:992:
+    ps = subprocess.Popen('getent group | grep docker', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
+    # remove /n
+    output_string = ps.split('\n')[0]
+    # get users
+    users_list = output_string.split(':')[3]
     # if no docker users have been set yet, go to configure
-    if usercount == 0:
+    if len(users_list) == 0:
         return False
     else:
         return True
 
 # logic to determine update status
 #
-# systemctl is-active update-process->|__ active -> get Perc of update 'updating'
-#                                     |__inactive (systemctl status parsing)|__ success 'success'
-#                                                                           |__ failure 'failure'
-#                                                                           |__ has not started 'initial'
+# systemctl is-active update-process->|__ active -> get Perc of update 'updating'/ success / failure
+#                                     |__inactive (systemctl status parsing) __ has not started 'initial'
 
-# initial
-# # systemctl status swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
-# ● swupdate@tmp-titania\x2darm\x2drpi\x2dv0.0\x2d152\x2dg3668500.swu.service - System update from /tmp/titania-arm-rpi-v0.0-152-g3668500.swu
-#    Loaded: loaded (/lib/systemd/system/swupdate@.service; static; vendor preset: enabled)
-#    Active: inactive (dead)
+# systemctl status parsing logic
+# - initial state: inactive (dead)
+# - success state: active (exited)
+# - failure: active (exited) (Result: exit-code)
 
-# failure
-# [[0;1;31m●[[0m swupdate@home-pooja-titania\x2darm\x2drpi\x2dv0.0\x2d152\x2dg3668500.swu.service - System update from /home/pooja/titania-arm-rpi-v0.0-152-g3668500.swu
-#    Loaded: loaded (/lib/systemd/system/swupdate@.service; static; vendor preset: enabled)
-#    Active: [[0;1;31mfailed[[0m (Result: exit-code) since Sat 2018-03-24 20:00:01 UTC; 10s ago
-#   Process: 6236 ExecStartPre=/usr/bin/test ! -e /tmp/swupdateprog [[0;1;31m(code=exited, status=1/FAILURE)[[0m
-
-# Mar 24 20:00:01 titania systemd[1]: Starting System update from /home/pooja/titania-arm-rpi-v0.0-152-g3668500.swu...
-# Mar 24 20:00:01 titania systemd[1]: [[0;1;39mswupdate@home-pooja-titania\x2darm\x2drpi\x2dv0.0\x2d152\x2dg3668500.swu.service: Control process exited, code=exited status=1[[0m
-# Mar 24 20:00:01 titania systemd[1]: [[0;1;31mFailed to start System update from /home/pooja/titania-arm-rpi-v0.0-152-g3668500.swu.[[0m
-# Mar 24 20:00:01 titania systemd[1]: [[0;1;39mswupdate@home-pooja-titania\x2darm\x2drpi\x2dv0.0\x2d152\x2dg3668500.swu.service: Unit entered failed state.[[0m
-# Mar 24 20:00:01 titania systemd[1]: [[0;1;39mswupdate@home-pooja-titania\x2darm\x2drpi\x2dv0.0\x2d152\x2dg3668500.swu.service: Failed with result 'exit-code'.[[0m
-
-# success
-# [[0;1;32m●[[0m swupdate@tmp-titania\x2darm\x2drpi\x2dv0.0\x2d163\x2dgd5efe66.swu.service - System update from /tmp/titania-arm-rpi-v0.0-163-gd5efe66.swu
-#    Loaded: loaded (/lib/systemd/system/swupdate@.service; static; vendor preset: enabled)
-#    Active: [[0;1;32mactive (exited)[[0m since Tue 2018-03-27 05:29:57 UTC; 49s ago
-#   Process: 3188 ExecStart=/sbin/update_system.sh %f (code=exited, status=0/SUCCESS)
-#   Process: 3179 ExecStartPre=/usr/bin/test ! -e /tmp/swupdateprog (code=exited, status=0/SUCCESS)
-#  Main PID: 3188 (code=exited, status=0/SUCCESS)
-
-# Mar 27 05:29:58 cow update_system.sh[3188]:         filename uImage-raspberrypi3.bin
-# Mar 27 05:29:58 cow update_system.sh[3188]:         size 4575512
-# Mar 27 05:29:58 cow update_system.sh[3188]:         REQUIRED
-# Mar 27 05:29:58 cow update_system.sh[3188]: [NOTIFY] : SWUPDATE running :  [install_single_image] : Found installer for stream uImage-raspberrypi3.bin rawfile
-# Mar 27 05:29:58 cow update_system.sh[3188]: [NOTIFY] : SWUPDATE running :  [install_raw_file] : Installing file uImage-raspberrypi3.bin on /boot/uImage_b
-# Mar 27 05:29:58 cow update_system.sh[3188]: [NOTIFY] : SWUPDATE running :  [install_single_image] : Found installer for stream rpi-titania-image-raspberrypi3.ext4.gz raw
-# Mar 27 05:30:42 cow update_system.sh[3188]: [NOTIFY] : SWUPDATE running :  [update_bootloader_env] : Updating bootloader environment
-# Mar 27 05:30:42 cow update_system.sh[3188]: Software updated successfully
-# Mar 27 05:30:42 cow update_system.sh[3188]: Please reboot the device to start the new software
-# Mar 27 05:30:42 cow update_system.sh[3188]: [NOTIFY] : SWUPDATE successful !
-
-def get_updatestatus():
-    # TO DO: add systemctl checks
-    # systemctl is-active <UNIT> that's one option, 
-    # as to parsing systemctl status you can look for Active: string and
-    #  it will contain the same, then skip everything until an empty line and
-    #  what's below is log. you can set -n to control how much log lines you want
-    try:
-        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        sock.connect("/tmp/swupdateprog")
-        data = json.loads(sock.recv(8192, socket.MSG_WAITALL).decode('ascii'))
-        sock.close()
-        print(data)
-        return 'updating', data
-    except FileNotFoundError:
-        print("No socket, either update is not started or has finished")
-        return 'initial', {}
-    except ConnectionRefusedError:
-        return 'failure', {}
-
+def get_updatestatus(service_name):
+    print("1")
+    print(service_name)
+    data = {}
+    is_activecall = 'systemctl is-active {}'.format(service_name)
+    service_status = 'systemctl status {}'.format(service_name)
+    state = subprocess.Popen(is_activecall, shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')[0]
+    print(state)
+    if state == 'inactive':
+        print("Update not started yet")
+        return 'initial', data
+    elif state == 'active':
+        print("Success/Failure/In Progress")
+        status = subprocess.Popen(service_status, shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')[2]
+        # '   Active: active (exited) since Wed 2018-03-28 18:46:01 UTC; 3h 35min ago'
+        if 'active' in status and '(exited)' in status:
+            if 'exit-code' in status:
+                return 'failure', {}
+            else:
+                return 'success', {}
+        elif 'active' in status:
+            # for in progress
+            try:
+                sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                sock.connect("/tmp/swupdateprog")
+                data = json.loads(sock.recv(8192, socket.MSG_WAITALL).decode('ascii'))
+                sock.close()
+                print(data)
+                return 'updating', data
+            except FileNotFoundError:
+                print("No socket, either update is not started or has finished")
+                return 'initial', data
+            except ConnectionRefusedError:
+                return 'failure', data
 
 def set_boxname(boxname):
     # setting hostname, this will change the mask from titania.local
@@ -497,22 +482,28 @@ def handle_config(request):
         elif action == 'updateOSImage':
             print(action)
             data = request.FILES['file']
+            # save file from persistent store to /tmp
             path = default_storage.save(data.name, ContentFile(data.read()))
             tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+            # update call
             file_path = settings.MEDIA_ROOT + data.name
             # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
             update_cmd = 'systemctl start swupdate@$(systemd-escape -p {}).service'.format(file_path)
-
-            subprocess.Popen(['systemctl','start','swupdate@$(systemd-escape','-p',file_path,').service'])
-
             print(update_cmd)
-            subprocess.call(update_cmd)
+            os.system(update_cmd)
             return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
         elif action == 'getUpdateStatus':
             print(action)
-            status, data = get_updatestatus()
+            image_name = request.POST.get("image_name")
+            file_path = settings.MEDIA_ROOT + image_name
+            update_service = 'swupdate@$(systemd-escape -p {}).service'.format(file_path)
+            status, data = get_updatestatus(update_service)
             # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
             return JsonResponse({'STATUS':status,'data':data}, safe=False)
+        elif action == 'rebootSystem':
+            print(action)
+            os.system('/sbin/shutdown -r now')
+            return JsonResponse({'STATUS':'SUCCESS'}, safe=False)   
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

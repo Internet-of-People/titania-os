@@ -11,7 +11,7 @@
         <span class="padding-right-20 feedback-footer"><a id="titania_feedback" :href="getmailhref()">Feedback</a></span>
         <span v-if="!getFooterClass()">
           <span v-if="updateState == 'initial'" class="padding-right-20 update-version-elem"><a id="update_version" @click="toggleUpdatePopup()">Update Version</a></span>
-          <span v-else-if="updateState == 'success'" class="padding-right-20 update-version-elem"><a id="update_version">Reboot to apply</a></span>
+          <span v-else-if="updateState == 'success'" class="padding-right-20 update-version-elem"><a id="update_version" @click="rebootSystem()">Reboot to apply</a></span>
           <span v-else class="padding-right-20 update-version-elem"><a id="update_version">Updating</a></span>
         </span>
       </div>
@@ -70,6 +70,9 @@ export default {
     },
     toggleUpdatePopup () {
       this.showupdatepopup = !this.showupdatepopup
+    },
+    rebootSystem () {
+      this.$store.dispatch('rebootSystem')
     }
   }
 }

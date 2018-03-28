@@ -11,7 +11,9 @@ Vue.use(VueLocalStorage)
 
 // const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-const apiRoot = 'http://192.168.0.105:8000' // dev pi
+const apiRoot = 'http://192.168.2.4:8000' // dev pi
+
+const local_store = Vue.ls
 
 const store = new Vuex.Store({
   state: {
@@ -55,8 +57,7 @@ const store = new Vuex.Store({
     encrypt_modes: ['WPA (default)', 'Open', 'WEP'],
     showupdatepopup: false,
     updateState: 'initial', /**States: initial, update, success, failure */
-    updateData: {},
-    updateimagefilename: ''
+    updateData: {}
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -70,7 +71,6 @@ const store = new Vuex.Store({
       if (response.body.configState) {
         router.push('/login')
         state.currentPage = 'login'
-        // Vue.ls.set('boxname', response.body[0].boxname)
       } else {
         router.push('/configure')
         state.currentPage = 'configure'
@@ -110,7 +110,7 @@ const store = new Vuex.Store({
         router.push({name: 'dashboard', params: { setSession: true }})
         state.currentPage = 'dashboard'
         state.credentials.username = response.body.username
-        Vue.ls.set('user', state.credentials.username)
+        local_store.set('user', state.credentials.username)
       } else {
         Vue.toast(response.body, {
           id: 'my-toast',
@@ -163,7 +163,7 @@ const store = new Vuex.Store({
           location.reload()
         }, 8000)
       }
-      console.error(error.status)
+      console.error(error)
     },
     'SET_CURRENT_PAGE': function (state, pageName) {
       state.currentPage = pageName
@@ -222,11 +222,12 @@ const store = new Vuex.Store({
       state.settings.getform = false
     },
     'UPDATE_STATUS': function (state, response) {
-      state.updateState = response.body[0].STATUS
+      state.updateState = response.body.STATUS
       // add perc status in case of updating here
     },
-    'SET_IMAGE_NAME': function (state, imagename) {
-      state.updateimagefilename = imagename
+    'SET_UPDATE_INIT': function (state, imagename) {
+      local_store.set('update_img', imagename)
+      state.updateState = 'updating'
     },
     'SET_INITIAL_UPDATE_STATUS': function (state) {
       state.updateState = 'initial'
@@ -378,27 +379,36 @@ const store = new Vuex.Store({
     updateOSImage (state) {
       var formData = new FormData()
       var updateDiv = document.getElementById('updateInput')
-      formData.append('file', updateDiv.files[0],updateDiv.files[0].name)
+      var update_img = updateDiv.files[0]
+      formData.append('file', update_img, update_img.name)
       formData.append('_action', 'updateOSImage')
-      store.commit('SET_IMAGE_NAME', updateDiv.files[0].name)
-
+      store.commit('SET_UPDATE_INIT', update_img.name)
+      
       return api.postWithUpload(apiRoot + '/index.html', formData)
       .then(function (response) {
-        store.commit('UPDATE_OS', response)
+        store.dispatch('getUpdateStatus')
       }).catch((error) => store.commit('API_FAIL', error))
-      console.log(updateDiv.files[0])
     },
     getUpdateStatus (state) {
       var updatestatus = {
         _action: 'getUpdateStatus'
       }
-      if (state.updateimagefilename.length > 0) {
+      var update_img = local_store.get('update_img')?local_store.get('update_img'):""
+      if (update_img.length > 0) {
+        updatestatus.image_name = update_img
         return api.post(apiRoot + '/index.html', updatestatus)
         .then((response) => store.commit('UPDATE_STATUS', response))
         .catch((error) => store.commit('API_FAIL', error))
       } else {
-        store.commit('SET_INITIAL_UPDATE_STATUS', response)
+        store.commit('SET_INITIAL_UPDATE_STATUS', {})
       }
+    },
+    rebootSystem (state) {
+      var rebootSystem = {
+        _action: 'rebootSystem'
+      }
+      return api.post(apiRoot + '/index.html', rebootSystem)
+        .catch((error) => store.commit('API_FAIL', error))
     }
   }
 })

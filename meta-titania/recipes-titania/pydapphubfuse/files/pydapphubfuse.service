@@ -1,0 +1,11 @@
+[Unit]
+Description=dApp Hub FUSE bridge
+
+[Service]
+WorkingDirectory=/srv/pydapphubfuse
+# TODO: remainafterexit
+# TODO: issue daemon-reload
+ExecStart=/srv/pydapphubfuse/pydapphubfuse.py apps.json /run/systemd/system
+
+[Install]
+WantedBy=multi-user.target

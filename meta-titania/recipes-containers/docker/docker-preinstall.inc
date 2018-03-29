@@ -45,9 +45,10 @@ do_install_append() {
         BLACK_MAGIC='[.[0].Config,(.[0].Layers | map(.[0:64]) | .[] )] | .[]'
         HASHFILES=$(jq --raw-output "$BLACK_MAGIC" < $IMAGE_DIR/manifest.json)
 
-        # Using gzip to gain a first boot speed tradeoff over small size benefit
-        tar -czC $IMAGE_DIR \
-            -f ${D}${DOCKER_PREINSTALL_DIR}/${IMAGE_SAFE_FILENAME}.tar.gz \
+        # Not using compression to speed the boot up
+        # Whole SD card image is compressed afterwards
+        tar -cC $IMAGE_DIR \
+            -f ${D}${DOCKER_PREINSTALL_DIR}/${IMAGE_SAFE_FILENAME}.tar \
             $HASHFILES manifest.json repositories
     done
 }

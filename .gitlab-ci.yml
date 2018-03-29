@@ -7,6 +7,7 @@ variables:
   BITBAKEDIR: '$CI_PROJECT_DIR/bitbake'
   IMAGE_DIR: '$CI_PROJECT_DIR/build/tmp-glibc/deploy/images'
   VERSION: 'git describe --long'
+  SHA_HASH: 'git rev-parse HEAD'
 
 # TODO:
 # add stages:
@@ -40,6 +41,7 @@ bitbake:
     - echo 'DL_DIR = "${TOPDIR}/downloads"' >> ./conf/local.conf
     - echo 'TMPDIR = "${TOPDIR}/tmp"' >> ./conf/local.conf
     - echo 'DISTRO = "titania"' >> ./conf/local.conf
+    - echo 'BUILD_ID = "'$(eval $SHA_HASH)'"' >> ./conf/local.conf
   artifacts:
     paths:
       - build

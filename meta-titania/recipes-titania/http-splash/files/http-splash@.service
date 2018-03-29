@@ -1,0 +1,12 @@
+[Unit]
+Description=Pre-nginx HTTP splash screen
+Requires=http-splash.socket
+After=avahi.service llmnrd.service network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/http_splash.sh
+
+[Install]
+WantedBy=multi-user.target
+Also=http-splash.socket

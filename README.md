@@ -29,6 +29,9 @@ bitbake-layers add-layer ../meta-titania
 # Select Titania distro TODO: more elegant way?
 echo 'DISTRO = "titania"' >> conf/local.conf
 
+# Select target machine
+echo 'MACHINE = "raspberrypi3"' >> conf/local.conf
+
 # Compile the thing
 bitbake rpi-titania-image
 ```

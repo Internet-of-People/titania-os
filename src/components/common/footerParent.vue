@@ -11,22 +11,43 @@
         <span class="padding-right-20 feedback-footer"><a id="titania_feedback" :href="getmailhref()">Feedback</a></span>
       </div>
     </div>
+    <div>
+      <div>
+        <span v-if="!getFooterClass()">
+          <span v-if="updateState == 'initial'" class="padding-right-20 update-version-elem">
+            <a id="update_version" @click="toggleUpdatePopup()">Update Version</a>
+          </span>
+          <span v-else-if="updateState == 'success'" class="reboot-screen padding-right-20 update-version-elem">
+            <a id="update_version" @click="rebootSystem()">Reboot to apply</a>
+          </span>
+          <span id="myBar" v-else-if="updateState == 'failure'"  class="reboot-screen padding-right-20 update-version-elem">
+            <a id="update_version" @click="setupUpdateAgain()">Warning! Try again</a>
+          </span>
+          <span id="myBar" v-else class="padding-right-20 update-version-elem">
+            <a id="update_version">Updating {{getPercofUpdate()}}</a>
+          </span>
+        </span>
+      </div>
+    </div>
     <hashPopup v-if="hashPopupState"/>
     <div class="fadeout" v-if="hashPopupState" @click="getHashDetails()"></div>
+    <updateWindow v-if="showupdatepopup" :update-status="updateState"/>
+    <div class="fadeout" v-if="showupdatepopup" @click="toggleUpdatePopup()"></div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import VueLocalStorage from 'vue-ls'
-import hashPopup from '@/components/common/hashPopup.vue'
+import updateWindow from '@/components/common/updateWindow'
 
 Vue.use(VueLocalStorage)
 
 export default {
   name: 'footerParent',
   components: {
-    hashPopup
+    hashPopup,
+    updateWindow
   },
   computed: {
     username: {
@@ -44,6 +65,22 @@ export default {
       set: function (newstate) {
         this.$store.state.hashPopupState = newstate
       }
+    },
+    showupdatepopup: {
+      get: function () {
+        return this.$store.state.showupdatepopup 
+      },
+      set: function (newstate) {
+        this.$store.state.showupdatepopup = newstate
+      }
+    },
+    updateState: {
+      get: function () {
+        return this.$store.state.updateState 
+      },
+      set: function (newstate) {
+        this.$store.state.updateState = newstate
+      }
     }
   },
   methods: {
@@ -57,6 +94,26 @@ export default {
     },
     getHashDetails () {
       this.hashPopupState = !this.hashPopupState
+    },
+    toggleUpdatePopup () {
+      this.showupdatepopup = !this.showupdatepopup
+    },
+    rebootSystem () {
+      this.$store.dispatch('rebootSystem')
+    },
+    getPercofUpdate () {
+      var perc = this.$store.state.updateData.cur_percent ? this.$store.state.updateData.cur_percent : null
+      var elem = document.getElementById("myBar")
+      if (perc) {
+          elem.style.width = perc + '%'
+          return perc + '%'
+      } else {
+          return ''
+      }
+    },
+    setupUpdateAgain () {
+      this.updateState = 'initial'
+      this.toggleUpdatePopup()
     }
   }
 }

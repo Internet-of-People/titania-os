@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.conf import settings
 
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
@@ -11,7 +14,9 @@ from rest_framework.decorators import list_route
 # from .models import BoxDetails
 # from .serializers import BoxDetailsSerializer
 
-import common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd
+import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd, socket, json
+
+dashboard_db = "/datafs/titania/dashboard.sqlite3"
 
 # fetch network AP details
 nm = NetworkManager.NetworkManager
@@ -62,14 +67,66 @@ def get_allAPs():
 
 def get_ifconfigured():
     # get count of the number of docker users
-    ps = subprocess.Popen('getent group | grep docker | awk -F \'[,:]\' \'{ print NF - 3 }\'', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
-    usercount = int(ps)
+    # docker:x:992:
+    ps = subprocess.Popen('getent group | grep docker', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
+    # remove /n
+    output_string = ps.split('\n')[0]
+    # get users
+    users_list = output_string.split(':')[3]
     # if no docker users have been set yet, go to configure
-    if usercount == 0:
+    if len(users_list) == 0:
         return False
     else:
         return True
 
+# logic to determine update status
+#
+# systemctl is-active update-process->|__ active -> get Perc of update 'updating'/ success / failure
+#                                     |__inactive (systemctl status parsing) __ has not started 'initial'
+
+# systemctl status parsing logic
+# - initial state: inactive (dead)
+# - success state: active (exited)
+# - failure: active (exited) (Result: exit-code)
+
+def get_updatestatus(service_name):
+    print(service_name)
+    data = {}
+    is_activecall = 'systemctl is-active {}'.format(service_name)
+    service_status = 'systemctl status {}'.format(service_name)
+    state = subprocess.Popen(is_activecall, shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')[0]
+    print(state)
+    if state == 'inactive':
+        print("Update not started yet")
+        return 'initial', data
+    elif state == 'active':
+        print("Success/Failure/In Progress")
+        status = subprocess.Popen(service_status, shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')[2]
+        # '   Active: active (exited) since Wed 2018-03-28 18:46:01 UTC; 3h 35min ago'
+        if 'active' in status and '(exited)' in status:
+            if 'exit-code' in status:
+                return 'failure', {}
+            else:
+                return 'success', {}
+        elif 'active' in status:
+            # for in progress
+            try:
+                sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                sock.connect("/tmp/swupdateprog")
+                data = json.loads(sock.recv(8192, socket.MSG_WAITALL).decode('ascii'))
+                sock.close()
+                print(data)
+                return 'updating', data
+            except FileNotFoundError:
+                print("No socket, either update is not started or has finished")
+                return 'initial', data
+            except ConnectionRefusedError:
+                return 'failure', data
+    elif state == 'failed':
+        return 'failure', {}
+    else:
+        return 'initial', data
+        
 
 def set_boxname(boxname):
     # setting hostname, this will change the mask from titania.local
@@ -251,7 +308,7 @@ def handle_config(request):
                 return JsonResponse({"STATUS":"SUCCESS", "username":queryset.username}, safe=False)
         elif action == 'getDashboardCards':
             print(action)
-            con = sqlite3.connect("dashboard.sqlite3")
+            con = sqlite3.connect(dashboard_db)
             cursor = con.cursor()
             cursor.execute(common.Q_DASHBOARD_CARDS)
             rows = cursor.fetchall()
@@ -259,7 +316,7 @@ def handle_config(request):
             return JsonResponse(rows, safe=False)
         elif action == 'getDashboardChart':
             print(action)
-            con = sqlite3.connect("dashboard.sqlite3")
+            con = sqlite3.connect(dashboard_db)
             cursor = con.cursor()
             cursor.execute(common.Q_GET_CONTAINER_ID)
             rows = cursor.fetchall()
@@ -274,7 +331,7 @@ def handle_config(request):
             return JsonResponse(finalset, safe=False)
         elif action == 'getDockerOverview':
             print(action)
-            con = sqlite3.connect("dashboard.sqlite3")
+            con = sqlite3.connect(dashboard_db)
             cursor = con.cursor()
             cursor.execute(common.Q_GET_DOCKER_OVERVIEW)
             rows = cursor.fetchall()
@@ -289,7 +346,7 @@ def handle_config(request):
             return JsonResponse(finalset, safe=False)
         elif action == 'getContainerStats':
             print(action)
-            con = sqlite3.connect("dashboard.sqlite3")
+            con = sqlite3.connect(dashboard_db)
             cursor = con.cursor()
             cursor.execute(common.Q_GET_CONTAINER_ID)
             rows = cursor.fetchall()
@@ -333,7 +390,7 @@ def handle_config(request):
             return JsonResponse(rows, safe=False)
         elif action == 'getContainerTop':
             print(action)
-            con = sqlite3.connect("dashboard.sqlite3")
+            con = sqlite3.connect(dashboard_db)
             cursor = con.cursor()
             cursor.execute(common.Q_GET_CONTAINER_ID)
             rows = cursor.fetchall()
@@ -428,6 +485,31 @@ def handle_config(request):
             configuredwifi = get_allconfiguredwifi()
             wifi_aps = get_allAPs()
             return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'editwifi', 'endpoint': wifi_name}], safe=False)
+        elif action == 'updateOSImage':
+            print(action)
+            data = request.FILES['file']
+            # save file from persistent store to /tmp
+            path = default_storage.save(data.name, ContentFile(data.read()))
+            tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+            # update call
+            file_path = settings.MEDIA_ROOT + data.name
+            # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
+            update_cmd = 'systemctl start swupdate@$(systemd-escape -p {}).service'.format(file_path)
+            print(update_cmd)
+            os.system(update_cmd)
+            return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
+        elif action == 'getUpdateStatus':
+            print(action)
+            image_name = request.POST.get("image_name")
+            file_path = settings.MEDIA_ROOT + image_name
+            update_service = 'swupdate@$(systemd-escape -p {}).service'.format(file_path)
+            status, data = get_updatestatus(update_service)
+            # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
+            return JsonResponse({'STATUS':status,'data':data}, safe=False)
+        elif action == 'rebootSystem':
+            print(action)
+            os.system('/sbin/shutdown -r now')
+            return JsonResponse({'STATUS':'SUCCESS'}, safe=False)   
         return JsonResponse(serializer.errors, status=400)
 
 def index(request):

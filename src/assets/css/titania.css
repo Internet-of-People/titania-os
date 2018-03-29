@@ -119,6 +119,10 @@ a {
   outline: none;
 }
 
+.link-text {
+  color: #0067C5;
+}
+
 .config-input-field {
   margin-left: 0px;
   background: none;
@@ -130,7 +134,7 @@ a {
   border-bottom: 1px solid #ADADAD;
 }
 
-input:not(.box-name-field):not(.config-input-field) {
+input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup-input-drawer):not(.popup-checkbox) {
   margin-left: 20px;
   margin-bottom: 16px;
   background-color: white;
@@ -188,6 +192,86 @@ input:not(.box-name-field):not(.config-input-field) {
   border-color: #8b6787;
 }
 
+.button-secondary {
+  min-width: 90px;
+  padding: 8px 16px;
+  background-color: white;
+  color: black;
+  border: 0px solid rgba(0, 0, 0, 0.3);
+  outline: none;
+  height: 46px;
+  border-radius: 0px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+  width: 140px;
+}
+.button-secondary:hover {
+  border-color: #DADADA;
+}
+
+.popup-browser-primary {
+  padding: 8px 16px;
+  width: 80px;
+  background-color: #8b6787;
+  color: white;
+  outline: none;
+  border-radius: 0px;
+}
+.popup-browser-primary:hover {
+  background-color: #8b6787;
+  border-color: #8b6787;
+}
+
+.popup-browser-primary-big {
+  padding: 8px 16px;
+  width: 140px;
+  background-color: #8b6787;
+  color: white;
+  outline: none;
+  border-radius: 0px;
+}
+.popup-browser-primary-big:hover {
+  background-color: #8b6787;
+  border-color: #8b6787;
+}
+
+.err-update-img {
+  width: 72px;
+  height: 72px;
+}
+
+.popup-browser-secondary {
+  width: 80px;
+  padding: 8px 16px;
+  background-color: white;
+  color: black;
+  outline: none;
+  border: none;
+  border-radius: 0px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+}
+
+.popup-input {
+  background-color: white;
+  display: inline-block;
+  width: 280px;
+  border: none;
+  padding: 6px 12px;
+  outline: none;
+}
+
+.popup-actions {
+  display: block;
+  margin: 0 45px;
+}
+
+.popup-browser-drawer {
+  background-color: white;
+}
+
+.margin-left-16 {
+  margin-left: 16px;
+}
+
 .padding-right-20 {
   padding-right: 20px;
 }
@@ -202,13 +286,25 @@ input:not(.box-name-field):not(.config-input-field) {
   height: -webkit-fill-available;
 }
 
-.display-inline-flex, .center-aligned-slider-body, .displayInlineFlex {
+.display-inline-flex, .center-aligned-slider-body, .displayInlineFlex, .footer-links {
   display: inline-flex !important;
   display: -ms-inline-flexbox !important;
 }
 
 .padding-top-bottom-16 {
   padding: 16px 0px;
+}
+
+.padding-top-16 {
+  padding-top: 16px;
+}
+
+.padding-top-8 {
+  padding: 8px;
+}
+
+.padding-top-bottom-8 {
+  padding: 8px 0;
 }
 
 .padding-left-16 {
@@ -243,6 +339,29 @@ input:not(.box-name-field):not(.config-input-field) {
   margin: auto;
 }
 
+.popup-window {
+  position: fixed;
+  background-color: #FFFFFF;
+  right: 25%;
+  left: 25%;
+  top: 16px;
+  bottom: 16px;
+  z-index: 98;
+  box-shadow: 0 0 30px 2px #B5B5B5;
+  height: 335px;
+  width: 430px;
+  overflow-y: auto;
+  margin: auto;
+  color: #646A73;
+}
+
+.popup-content {
+  width: 338px;
+  height: 200px;
+  background-color: #F0F0F0;
+  margin: 45px auto 20px;
+}
+
 .popup-window-hash {
   position: fixed;
   background-color: #FFFFFF;
@@ -262,6 +381,13 @@ input:not(.box-name-field):not(.config-input-field) {
 .popup-content-hash {
   width: 338px;
   height: 286px;
+  background-color: #F0F0F0;
+  margin: 45px auto 20px;
+}
+
+.popup-content {
+  width: 338px;
+  height: 200px;
   background-color: #F0F0F0;
   margin: 45px auto 20px;
 }
@@ -298,6 +424,10 @@ input:not(.box-name-field):not(.config-input-field) {
   padding: 12px 0;
 }
 
+.margin-bottom-4 {
+  margin-bottom: 4px;
+}
+
 .padding-20 {
   padding: 20px;
 }
@@ -314,12 +444,16 @@ input:not(.box-name-field):not(.config-input-field) {
   font-size: 16px !important;
 }
 
+.header-fontsize-larger {
+  font-size: 20px !important;
+}
+
 .form-error {
   font-size: 16px;
   color: #C82506;
 }
 
-.cursor-pointer, .button-primary, .hash-id-div, .popup-browser-primary-copy, .configure-add-options-menu span:not(.form-error), .config-headers, .details, .cursorPointer, .settings-options {
+.cursor-pointer, .button-primary, .button-secondary, .popup-browser-primary, .popup-browser-primary-big, .popup-browser-secondary, .hash-id-div, .popup-browser-primary-copy, .configure-add-options-menu span:not(.form-error), .config-headers, .details, .cursorPointer, .settings-options {
   cursor: pointer;
 }
 
@@ -971,12 +1105,16 @@ div.highlightedFilter {
   bottom: 0px;
   left: 0px;
   color: #53585F;
-  padding: 6px 16px;
-  height: 18px;
+  padding: 0px 16px;
+  height: 32px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   display: inline-block;
   z-index: 100;
   background-color: white;
+}
+
+.desktop-footer-essentials {
+  padding: 8px 0;
 }
 
 .copyright {
@@ -990,8 +1128,28 @@ div.highlightedFilter {
   padding-left: 5px;
 }
 
-.footer-links > span:hover {
+.footer-links {
+  height: 32px;
+}
+.footer-links span {
+  padding: 8px 10px;
+}
+.footer-links span:hover {
   color: #0067C5;
+}
+
+#myBar {
+  background-color: rgba(255, 0, 0, 0.2);
+  height: 32px;
+  position: relative;
+}
+
+.reboot-screen {
+  background-color: #DADADA;
+}
+
+#update_version {
+  z-index: 2;
 }
 
 .settings-tab {
@@ -1723,7 +1881,7 @@ div.highlightedFilter {
     font-size: 20px !important;
   }
 
-  .some-class .display-inline-flex, .some-class .center-aligned-slider-body, .some-class .displayInlineFlex {
+  .some-class .display-inline-flex, .some-class .center-aligned-slider-body, .some-class .displayInlineFlex, .some-class .footer-links {
     display: block !important;
   }
 
@@ -1949,7 +2107,7 @@ div.highlightedFilter {
     padding: 42px 40px;
     font-size: 40px;
   }
-  .user-row .col-1.float-right.cursor-pointer, .user-row .col-1.float-right.button-primary, .user-row .col-1.float-right.hash-id-div, .user-row .col-1.float-right.popup-browser-primary-copy, .user-row .configure-add-options-menu span.col-1.float-right:not(.form-error), .configure-add-options-menu .user-row span.col-1.float-right:not(.form-error), .user-row .col-1.float-right.config-headers, .user-row .col-1.float-right.details, .user-row .col-1.float-right.cursorPointer, .user-row .col-1.float-right.settings-options {
+  .user-row .col-1.float-right.cursor-pointer, .user-row .col-1.float-right.button-primary, .user-row .col-1.float-right.button-secondary, .user-row .col-1.float-right.popup-browser-primary, .user-row .col-1.float-right.popup-browser-primary-big, .user-row .col-1.float-right.popup-browser-secondary, .user-row .col-1.float-right.hash-id-div, .user-row .col-1.float-right.popup-browser-primary-copy, .user-row .configure-add-options-menu span.col-1.float-right:not(.form-error), .configure-add-options-menu .user-row span.col-1.float-right:not(.form-error), .user-row .col-1.float-right.config-headers, .user-row .col-1.float-right.details, .user-row .col-1.float-right.cursorPointer, .user-row .col-1.float-right.settings-options {
     width: 15%;
   }
 

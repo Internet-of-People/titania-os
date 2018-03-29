@@ -4,6 +4,7 @@ import VueSession from 'vue-session'
 import api from './api.js'
 import router from '../router'
 import VueLocalStorage from 'vue-ls'
+import { isNull } from 'util';
 
 Vue.use(Vuex)
 Vue.use(VueSession)
@@ -11,7 +12,9 @@ Vue.use(VueLocalStorage)
 
 const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.0.105:8000' // dev pi
+// const apiRoot = 'http://192.168.2.4:8000' // dev pi
+
+const local_store = Vue.ls
 
 const store = new Vuex.Store({
   state: {
@@ -55,7 +58,10 @@ const store = new Vuex.Store({
     sidebarAddons: [],
     services: false,
     encrypt_modes: ['WPA (default)', 'Open', 'WEP'],
-    hashPopupState: false
+    hashPopupState: false,
+    showupdatepopup: false,
+    updateState: 'initial', /**States: initial, updating, success, failure */
+    updateData: {}
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -71,7 +77,6 @@ const store = new Vuex.Store({
       if (response.body.configState) {
         router.push('/login')
         state.currentPage = 'login'
-        // Vue.ls.set('boxname', response.body[0].boxname)
       } else {
         router.push('/configure')
         state.currentPage = 'configure'
@@ -111,7 +116,7 @@ const store = new Vuex.Store({
         router.push({name: 'dashboard', params: { setSession: true }})
         state.currentPage = 'dashboard'
         state.credentials.username = response.body.username
-        Vue.ls.set('user', state.credentials.username)
+        local_store.set('user', state.credentials.username)
       } else {
         Vue.toast(response.body, {
           id: 'my-toast',
@@ -164,7 +169,7 @@ const store = new Vuex.Store({
           location.reload()
         }, 8000)
       }
-      console.error(error.status)
+      console.error(error)
     },
     'SET_CURRENT_PAGE': function (state, pageName) {
       state.currentPage = pageName
@@ -221,23 +226,36 @@ const store = new Vuex.Store({
       state.configuration.wifi_aps = response.body[0].allwifiaps
       state.configuration.wifi_aps_current = response.body[0].allwifiaps[0][0]
       state.settings.getform = false
+    },
+    'UPDATE_STATUS': function (state, response) {
+      state.updateState = response.body.STATUS
+      if (state.updateState == 'updating') {
+        state.updateData = response.body.data
+        setTimeout(function () {
+          store.dispatch('getUpdateStatus')
+        }, 4000)
+      } else if (state.updateState == 'success' || state.updateState == 'failure') {
+        var popup = local_store.get('update_popup')?local_store.get('update_popup'):null
+        if (isNull(popup)) {
+          local_store.set('update_popup', true)
+          state.showupdatepopup = true
+        }
+        state.updateData = {}
+      } else {
+        state.updateData = {}
+      }
+    },
+    'SET_UPDATE_INIT': function (state, imagename) {
+      local_store.set('update_img', imagename)
+      state.updateState = 'updating'
+    },
+    'SET_INITIAL_UPDATE_STATUS': function (state) {
+      state.updateState = 'initial'
+      local_store.remove('update_popup')
+      local_store.remove('update_img')
     }
-    // 'RECORD_ADDONS': function (state, response) {
-    //   state.sidebarAddons = response.body
-    //   // state.sidebarAddons = [{'id': 1, 'name': 'HelloWorld', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'},
-    //   // {'id': 2, 'name': 'iopwallet', 'address': 'http://192.168.2.5:3000', 'icon': 'willsupply'}]
-    // }
   },
   actions: {
-    // loadDependencies (state) {
-    //   var loadDependencies = {
-    //     _action: 'loadDependencies'
-    //   }
-    //   return api.post(apiRoot + '/index.html', loadDependencies)
-    //   .then(function (response) {
-    //     store.commit('RECORD_ADDONS', response)
-    //   }).catch((error) => store.commit('API_FAIL', error))
-    // },
     initApp (state) {
       var getSchema = {
         _action: 'getSchema'
@@ -246,6 +264,7 @@ const store = new Vuex.Store({
         .then(function (response) {
           store.commit('SET_SCHEMA', response)
           store.dispatch('getCreds')
+          store.dispatch('getUpdateStatus')
         }).catch((error) => store.commit('API_FAIL', error))
     },
     getCreds (state) {
@@ -378,6 +397,44 @@ const store = new Vuex.Store({
       return api.post(apiRoot + '/index.html', editrequest)
       .then((response) => store.commit('REFRESH_LIST', response))
       .catch((error) => store.commit('API_FAIL', error))
+    },
+    updateOSImage (state) {
+      var formData = new FormData()
+      var updateDiv = document.getElementById('updateInput')
+      var update_img = updateDiv.files[0]
+      formData.append('file', update_img, update_img.name)
+      formData.append('_action', 'updateOSImage')
+      store.commit('SET_UPDATE_INIT', update_img.name)
+      
+      return api.postWithUpload(apiRoot + '/index.html', formData)
+      .then(function (response) {
+        store.dispatch('getUpdateStatus')
+      }).catch((error) => store.commit('API_FAIL', error))
+    },
+    getUpdateStatus (state) {
+      var updatestatus = {
+        _action: 'getUpdateStatus'
+      }
+      var update_img = local_store.get('update_img')?local_store.get('update_img'):""
+      if (update_img.length > 0) {
+        updatestatus.image_name = update_img
+        return api.post(apiRoot + '/index.html', updatestatus)
+        .then((response) => store.commit('UPDATE_STATUS', response))
+        .catch((error) => store.commit('API_FAIL', error))
+      } else {
+        store.commit('SET_INITIAL_UPDATE_STATUS', {})
+      }
+    },
+    rebootSystem (state) {
+      var rebootSystem = {
+        _action: 'rebootSystem'
+      }
+      store.commit('SET_INITIAL_UPDATE_STATUS', {})
+      return api.post(apiRoot + '/index.html', rebootSystem)
+        .catch((error) => store.commit('API_FAIL', error))
+    },
+    retryUpdate (state) {
+      store.commit('SET_INITIAL_UPDATE_STATUS', {})
     }
   }
 })

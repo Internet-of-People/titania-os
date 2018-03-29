@@ -121,6 +121,10 @@ a{
   outline: none;
 }
 
+.link-text{
+  color: $brand-link;
+}
+
 .config-input-field{
   margin-left: 0px;
   background: none;
@@ -133,7 +137,7 @@ a{
   border-bottom: 1px solid #ADADAD;
 }
 
-input:not(.box-name-field):not(.config-input-field){
+input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup-input-drawer):not(.popup-checkbox){
   margin-left: 20px;
   margin-bottom: 16px;
   background-color: white;
@@ -192,6 +196,91 @@ input:not(.box-name-field):not(.config-input-field){
   }
 }
 
+.button-secondary {
+  @extend .cursor-pointer;
+  min-width: 90px;
+  padding: 8px 16px;
+  background-color: white;
+  color: black;
+  border: 0px solid rgba(0, 0, 0, 0.3);
+  outline: none;
+  height: 46px;
+  border-radius: 0px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+  width: 140px;
+  &:hover {
+    border-color: $brand-divider;
+  }
+}
+
+.popup-browser-primary{
+  @extend .cursor-pointer;
+  padding: 8px 16px;
+  width: 80px;
+  background-color: $titania-dark;
+  color: white;
+  outline: none; 
+  border-radius: 0px;
+  // box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
+  &:hover {
+    background-color: $titania-dark;
+    border-color: $titania-dark;
+  }
+}
+
+.popup-browser-primary-big{
+  @extend .cursor-pointer;
+  padding: 8px 16px;
+  width: 140px;
+  background-color: $titania-dark;
+  color: white;
+  outline: none; 
+  border-radius: 0px;
+  &:hover {
+    background-color: $titania-dark;
+    border-color: $titania-dark;
+  }
+}
+
+.err-update-img{
+  width: 72px;
+  height: 72px;
+}
+
+.popup-browser-secondary{
+  @extend .cursor-pointer;
+  width: 80px;
+  padding: 8px 16px;
+  background-color: white;
+  color: black;
+  outline: none; 
+  border:none;
+  border-radius: 0px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3)
+}
+
+.popup-input{
+  background-color: white;
+  display: inline-block;
+  width: 280px;
+  border: none;
+  padding: 6px 12px;
+  outline: none;
+}
+
+.popup-actions{
+  display: block;
+  margin: 0 45px;
+}
+
+.popup-browser-drawer{
+  background-color: white;
+}
+
+.margin-left-16{
+  margin-left: 16px;
+}
+
 .padding-right-20{
   padding-right: 20px;
 }
@@ -213,6 +302,18 @@ input:not(.box-name-field):not(.config-input-field){
 
 .padding-top-bottom-16{
   padding: 16px 0px;
+}
+
+.padding-top-16{
+  padding-top: 16px;
+}
+
+.padding-top-8{
+  padding: 8px;
+}
+
+.padding-top-bottom-8{
+  padding: 8px 0;
 }
 
 .padding-left-16{
@@ -249,6 +350,28 @@ input:not(.box-name-field):not(.config-input-field){
   margin: auto;
 }
 
+.popup-window{
+  position: fixed;
+  background-color: $brand-inverse;
+  right: 25%;
+  left: 25%;
+  top: 16px;
+  bottom: 16px;
+  z-index: 98;
+  box-shadow: 0 0 30px 2px #B5B5B5;
+  height: 335px;
+  width: 430px;
+  overflow-y: auto;
+  margin: auto;
+  color: $brand-label;
+}
+
+.popup-content{
+  width: 338px;
+  height: 200px;
+  background-color: $brand-highlight;
+  margin: 45px auto 20px;
+}
 
 .popup-window-hash{
   position: fixed;
@@ -269,6 +392,13 @@ input:not(.box-name-field):not(.config-input-field){
 .popup-content-hash{
   width: 338px;
   height: 286px;
+  background-color: $brand-highlight;
+  margin: 45px auto 20px;
+}
+
+.popup-content{
+  width: 338px;
+  height: 200px;
   background-color: $brand-highlight;
   margin: 45px auto 20px;
 }
@@ -310,6 +440,10 @@ input:not(.box-name-field):not(.config-input-field){
 }
 
 
+.margin-bottom-4{
+  margin-bottom: 4px;
+}
+
 .padding-20{
   padding: 20px;
 }
@@ -324,6 +458,10 @@ input:not(.box-name-field):not(.config-input-field){
 
 .header-fontsize {
   font-size: 16px !important;
+}
+
+.header-fontsize-larger{
+  font-size: 20px !important;
 }
 
 .form-error{
@@ -1034,13 +1172,18 @@ div.highlightedFilter{
   bottom: 0px;
   left: 0px;
   color: #53585F;
-  padding: 6px 16px;
-  height: 18px;
+  padding: 0px 16px;
+  height: 32px;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.20);
   display: inline-block;
   z-index: 100;
   background-color: white;
 }
+
+.desktop-footer-essentials{
+  padding: 8px 0;
+}
+
 .copyright {
   border-left: 1px solid #f2f2f2;
   padding-left: 5px;
@@ -1050,9 +1193,31 @@ div.highlightedFilter{
   border-left: 1px solid #f2f2f2;
   padding-left: 5px;
 }
-.footer-links > span:hover {
-  color: #0067C5;
+.footer-links {
+  @extend .display-inline-flex;
+  height: 32px;
+  span {
+    padding: 8px 10px;
+    &:hover{
+      color: #0067C5;
+    }
+  }
 }
+
+#myBar{
+  background-color: rgba(255, 0, 0, 0.2);
+  height: 32px;
+  position: relative;
+}
+
+.reboot-screen{
+  background-color: $brand-divider;
+}
+
+#update_version{
+  z-index: 2;
+}
+
 .settings-tab{
   position: absolute;
   bottom: 20px;

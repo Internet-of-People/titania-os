@@ -1,7 +1,7 @@
 import subprocess, sched, time, sqlite3, common, signal, sys
 
 # Creates or opens a file called dashboard with a SQLite3 DB
-db = sqlite3.connect('dashboard.sqlite3')
+db = sqlite3.connect('/datafs/titania/dashboard.sqlite3')
 
 # Get a cursor object
 cursor = db.cursor()

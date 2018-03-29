@@ -88,7 +88,6 @@ def get_ifconfigured():
 # - failure: active (exited) (Result: exit-code)
 
 def get_updatestatus(service_name):
-    print("1")
     print(service_name)
     data = {}
     is_activecall = 'systemctl is-active {}'.format(service_name)
@@ -121,6 +120,11 @@ def get_updatestatus(service_name):
                 return 'initial', data
             except ConnectionRefusedError:
                 return 'failure', data
+    elif state == 'failed':
+        return 'failure', {}
+    else:
+        return 'initial', data
+        
 
 def set_boxname(boxname):
     # setting hostname, this will change the mask from titania.local

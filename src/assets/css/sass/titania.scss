@@ -1105,13 +1105,18 @@ div.highlightedFilter{
   bottom: 0px;
   left: 0px;
   color: #53585F;
-  padding: 6px 16px;
-  height: 18px;
+  padding: 0px 16px;
+  height: 32px;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.20);
   display: inline-block;
   z-index: 100;
   background-color: white;
 }
+
+.desktop-footer-essentials{
+  padding: 8px 0;
+}
+
 .copyright {
   border-left: 1px solid #f2f2f2;
   padding-left: 5px;
@@ -1121,9 +1126,31 @@ div.highlightedFilter{
   border-left: 1px solid #f2f2f2;
   padding-left: 5px;
 }
-.footer-links > span:hover {
-  color: #0067C5;
+.footer-links {
+  @extend .display-inline-flex;
+  height: 32px;
+  span {
+    padding: 8px 10px;
+    &:hover{
+      color: #0067C5;
+    }
+  }
 }
+
+#myBar{
+  background-color: rgba(255, 0, 0, 0.2);
+  height: 32px;
+  position: relative;
+}
+
+.reboot-screen{
+  background-color: $brand-divider;
+}
+
+#update_version{
+  z-index: 2;
+}
+
 .settings-tab{
   position: absolute;
   bottom: 20px;

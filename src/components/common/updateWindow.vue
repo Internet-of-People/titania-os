@@ -33,8 +33,8 @@
     <div class="popup-actions">
       <button @click="closePopup()" class="float-left popup-browser-secondary cursor-pointer outline-none regular-fontsize">Close</button>
       <button v-if="updateStatus == 'initial'" @click="updateOS()" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Update</button>
-      <button v-else-if="updateStatus == 'success'" class="popup-browser-primary-big float-right cursor-pointer outline-none regular-fontsize">Reboot System</button>
-      <button v-else-if="updateStatus == 'failure'" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Retry</button>
+      <button v-else-if="updateStatus == 'success'"  @click="rebootOS()" class="popup-browser-primary-big float-right cursor-pointer outline-none regular-fontsize">Reboot System</button>
+      <button v-else-if="updateStatus == 'failure'" @click="retryupdate()" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Retry</button>
     </div>    
   </div>
 </template>
@@ -70,6 +70,13 @@ export default {
           mode: 'queue'
         })
       }    
+    },
+    retryupdate: function () {
+      this.$store.dispatch('retryUpdate')
+    },
+    rebootOS: function () {
+      this.$store.dispatch('rebootSystem')
+      this.closePopup()
     },
     closePopup: function () {
       this.showupdatepopup = !this.showupdatepopup

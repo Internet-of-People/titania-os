@@ -4,14 +4,15 @@ import VueSession from 'vue-session'
 import api from './api.js'
 import router from '../router'
 import VueLocalStorage from 'vue-ls'
+import { isNull } from 'util';
 
 Vue.use(Vuex)
 Vue.use(VueSession)
 Vue.use(VueLocalStorage)
 
-// const apiRoot = '/api' // deployment
+const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-const apiRoot = 'http://192.168.2.4:8000' // dev pi
+// const apiRoot = 'http://192.168.2.4:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -56,7 +57,7 @@ const store = new Vuex.Store({
     services: false,
     encrypt_modes: ['WPA (default)', 'Open', 'WEP'],
     showupdatepopup: false,
-    updateState: 'initial', /**States: initial, update, success, failure */
+    updateState: 'initial', /**States: initial, updating, success, failure */
     updateData: {}
   },
   mutations: {
@@ -223,7 +224,21 @@ const store = new Vuex.Store({
     },
     'UPDATE_STATUS': function (state, response) {
       state.updateState = response.body.STATUS
-      // add perc status in case of updating here
+      if (state.updateState == 'updating') {
+        state.updateData = response.body.data
+        setTimeout(function () {
+          store.dispatch('getUpdateStatus')
+        }, 4000)
+      } else if (state.updateState == 'success' || state.updateState == 'failure') {
+        var popup = local_store.get('update_popup')?local_store.get('update_popup'):null
+        if (isNull(popup)) {
+          local_store.set('update_popup', true)
+          state.showupdatepopup = true
+        }
+        state.updateData = {}
+      } else {
+        state.updateData = {}
+      }
     },
     'SET_UPDATE_INIT': function (state, imagename) {
       local_store.set('update_img', imagename)
@@ -231,6 +246,8 @@ const store = new Vuex.Store({
     },
     'SET_INITIAL_UPDATE_STATUS': function (state) {
       state.updateState = 'initial'
+      local_store.remove('update_popup')
+      local_store.remove('update_img')
     }
   },
   actions: {
@@ -407,8 +424,12 @@ const store = new Vuex.Store({
       var rebootSystem = {
         _action: 'rebootSystem'
       }
+      store.commit('SET_INITIAL_UPDATE_STATUS', {})
       return api.post(apiRoot + '/index.html', rebootSystem)
         .catch((error) => store.commit('API_FAIL', error))
+    },
+    retryUpdate (state) {
+      store.commit('SET_INITIAL_UPDATE_STATUS', {})
     }
   }
 })

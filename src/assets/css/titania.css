@@ -286,7 +286,7 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
   height: -webkit-fill-available;
 }
 
-.display-inline-flex, .center-aligned-slider-body, .displayInlineFlex {
+.display-inline-flex, .center-aligned-slider-body, .displayInlineFlex, .footer-links {
   display: inline-flex !important;
   display: -ms-inline-flexbox !important;
 }
@@ -1044,12 +1044,16 @@ div.highlightedFilter {
   bottom: 0px;
   left: 0px;
   color: #53585F;
-  padding: 6px 16px;
-  height: 18px;
+  padding: 0px 16px;
+  height: 32px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   display: inline-block;
   z-index: 100;
   background-color: white;
+}
+
+.desktop-footer-essentials {
+  padding: 8px 0;
 }
 
 .copyright {
@@ -1063,8 +1067,28 @@ div.highlightedFilter {
   padding-left: 5px;
 }
 
-.footer-links > span:hover {
+.footer-links {
+  height: 32px;
+}
+.footer-links span {
+  padding: 8px 10px;
+}
+.footer-links span:hover {
   color: #0067C5;
+}
+
+#myBar {
+  background-color: rgba(255, 0, 0, 0.2);
+  height: 32px;
+  position: relative;
+}
+
+.reboot-screen {
+  background-color: #DADADA;
+}
+
+#update_version {
+  z-index: 2;
 }
 
 .settings-tab {
@@ -1796,7 +1820,7 @@ div.highlightedFilter {
     font-size: 20px !important;
   }
 
-  .some-class .display-inline-flex, .some-class .center-aligned-slider-body, .some-class .displayInlineFlex {
+  .some-class .display-inline-flex, .some-class .center-aligned-slider-body, .some-class .displayInlineFlex, .some-class .footer-links {
     display: block !important;
   }
 

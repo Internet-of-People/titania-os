@@ -42,6 +42,11 @@ export default {
       this.$store.dispatch('getContainerStats')
       this.$store.state.currentPage = 'stats'
     }
+  },
+  updated: function() {
+    setTimeout(function(){
+      this.$store.dispatch('getContainerStats')
+    }, 10000)
   }
 }
 </script>

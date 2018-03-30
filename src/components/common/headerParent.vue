@@ -68,11 +68,11 @@ export default {
         this.$router.push('/menu')
       }
       this.$store.state.menu = !this.$store.state.menu
-    },
-    showServices () {
-      // console.log(this)
-      // this.services = !this.services
     }
+    // showServices () {
+    //   console.log(this)
+    //   this.services = !this.services
+    // }
   },
   mounted: function () {
     // console.log(Vue.ls.get('user'))

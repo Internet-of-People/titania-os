@@ -9,10 +9,6 @@
       <div class='float-right footer-links padding-right-20'>
         <span class="padding-right-20 white-paper-footer"><a href="https://drive.google.com/file/d/11xDyBFACJYxrDQY4YNdiBqF8UFhgvpT9/view" target="_blank">White Paper</a></span>
         <span class="padding-right-20 feedback-footer"><a id="titania_feedback" :href="getmailhref()">Feedback</a></span>
-      </div>
-    </div>
-    <div>
-      <div>
         <span v-if="!getFooterClass()">
           <span v-if="updateState == 'initial'" class="padding-right-20 update-version-elem">
             <a id="update_version" @click="toggleUpdatePopup()">Update Version</a>
@@ -28,6 +24,8 @@
           </span>
         </span>
       </div>
+      </div>
+      <div>
     </div>
     <hashPopup v-if="hashPopupState"/>
     <div class="fadeout" v-if="hashPopupState" @click="getHashDetails()"></div>
@@ -40,6 +38,7 @@
 import Vue from 'vue'
 import VueLocalStorage from 'vue-ls'
 import updateWindow from '@/components/common/updateWindow'
+import hashPopup from '@/components/common/hashPopup'
 
 Vue.use(VueLocalStorage)
 

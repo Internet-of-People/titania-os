@@ -17,6 +17,7 @@ from rest_framework.decorators import list_route
 import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd, socket, json, re
 
 dashboard_db = "/datafs/titania/dashboard.sqlite3"
+dapps_store = json.load(open('dapps_store.json'))
 
 # fetch network AP details
 nm = NetworkManager.NetworkManager
@@ -507,6 +508,9 @@ def handle_config(request):
                 print(action)
                 os.system('/sbin/shutdown -r now')
                 return JsonResponse({'STATUS':'SUCCESS'}, safe=False)   
+            elif action == 'fetchAlladApps':
+                print(action)
+                return JsonResponse({'STATUS':'SUCCESS','dapps_store':dapps_store}, safe=False)   
     return JsonResponse({'STATUS':'FAILURE'}, safe=False)   
 
 def index(request):

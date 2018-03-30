@@ -2,8 +2,8 @@
     <div>
         <sidebarParent></sidebarParent>
         <headerParent :name-prop="page"></headerParent>
-        <pageLoader v-if="false"></pageLoader>
-        <dappsHubContent/>
+        <pageLoader v-if="if_loading"></pageLoader>
+        <dappsHubContent :load-apps="!if_loading"/>
     </div>
 </template>
 
@@ -18,6 +18,11 @@ export default {
   computed: {
     page () {
       return 'DAPPS HUB'
+    },
+    if_loading: {
+      get: function () {
+        return this.$store.state.dappsjson.length == 0
+      }     
     }
   },
   components: {
@@ -25,6 +30,19 @@ export default {
     headerParent,
     pageLoader,
     dappsHubContent
+  },
+  mounted: function () {
+    if (this.$route.params.setSession) {
+      this.$session.start()
+      this.$store.dispatch('fetchAlladApps')
+      this.$store.state.currentPage = 'dappshub'
+    } else if (!this.$session.exists()) {
+      this.$router.push('/login')
+      this.$store.state.currentPage = 'login'
+    } else {
+      this.$store.dispatch('fetchAlladApps')
+      this.$store.state.currentPage = 'dappshub'
+    }
   }
 }
 </script>

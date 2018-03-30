@@ -10,7 +10,7 @@ Vue.use(Vuex)
 Vue.use(VueSession)
 Vue.use(VueLocalStorage)
 
-// const apiRoot = '/api' // deployment
+const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
 // const apiRoot = 'http://192.168.2.4:8000' // dev pi
 
@@ -58,11 +58,7 @@ const store = new Vuex.Store({
     sidebarAddons: [],
     services: false,
     encrypt_modes: ['WPA (default)', 'Open', 'WEP'],
-    dappsjson: [{
-      'name': 'IOP CAN',
-      'description': 'Internet Of People Content Address Network',
-      'logo': 'https://raw.githubusercontent.com/Internet-of-People/iop-resources/master/logo/v2/logo_iop.png'
-    }],
+    dappsjson: [],
     hashPopupState: false,
     showupdatepopup: false,
     updateState: 'initial', /**States: initial, updating, success, failure */
@@ -258,6 +254,9 @@ const store = new Vuex.Store({
       state.updateState = 'initial'
       local_store.remove('update_popup')
       local_store.remove('update_img')
+    },
+    'INIT_DAPP_STORE': function (state, response) {
+      state.dappsjson = response.body.dapps_store
     }
   },
   actions: {
@@ -440,6 +439,14 @@ const store = new Vuex.Store({
     },
     retryUpdate (state) {
       store.commit('SET_INITIAL_UPDATE_STATUS', {})
+    },
+    fetchAlladApps (state) {
+      var fetchAlladApps = {
+        _action: 'fetchAlladApps'
+      }
+      return api.post(apiRoot + '/index.html', fetchAlladApps)
+      .then((response) => store.commit('INIT_DAPP_STORE', response))
+      .catch((error) => store.commit('API_FAIL', error))
     }
   }
 })

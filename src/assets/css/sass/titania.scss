@@ -1612,6 +1612,7 @@ div.highlightedFilter{
 
 .hub-parent-block{
   div.dapps-category{
+    @extend .display-inline-flex, .float-left;
     color: $titania-darker;
     display: block;
     height: 100px;

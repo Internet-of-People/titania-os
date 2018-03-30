@@ -1,12 +1,12 @@
 <template>
     <div class="col-12 settings-container hub-parent-block">
-       <div v-for="item in dappscategories" :key="item" class="dapps-category">
-         {{item}}
-         <div class="dapp-component">
+       <div v-for="item in dappscategories" :key="item.category" class="dapps-category">
+         {{item.name}}
+         <div v-if="loadApps && item.category == dapp.category" v-for="(dapp,index) in dappsjson" :key="index" class="dapp-component">
            <img class="dapps-settings float-right" src="../../assets/images/settings-gray.svg"/>
-           <img class="dapps-logo" :src="dappsjson[0].logo"/>
+           <img class="dapps-logo" :src="dapp.logo"/>
            <div>
-             {{dappsjson[0].name}}
+             {{dapp.name}}
            </div>
          </div>
        </div>
@@ -16,14 +16,16 @@
 <script>
 export default {
   name: 'dappsHubContent',
+  props: ['loadApps'],
   computed: {
     dappscategories: {
       get: function () {
-        return ['HELPER DAPPS', 'IOP STACK', 'COMMUNITY DEV APPS']
+        return [{"name":"HELPER DAPPS","category":"helper"}, {"name":"IOP STACK","category":"iop-stack"}, {"name":"COMMUNITY DEV APPS","category":"community"}]
       }
     },
     dappsjson: {
       get: function () {
+        debugger
         return this.$store.state.dappsjson
       }
     }

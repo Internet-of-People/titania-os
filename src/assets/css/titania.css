@@ -104,7 +104,7 @@ body {
   font-weight: 400;
 }
 
-.float-left, .form-field-block {
+.float-left, .form-field-block, .hub-parent-block div.dapps-category {
   float: left;
 }
 
@@ -286,7 +286,7 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
   height: -webkit-fill-available;
 }
 
-.display-inline-flex, .center-aligned-slider-body, .displayInlineFlex, .footer-links {
+.display-inline-flex, .center-aligned-slider-body, .displayInlineFlex, .footer-links, .hub-parent-block div.dapps-category {
   display: inline-flex !important;
   display: -ms-inline-flexbox !important;
 }
@@ -1902,7 +1902,7 @@ div.highlightedFilter {
     font-size: 20px !important;
   }
 
-  .some-class .display-inline-flex, .some-class .center-aligned-slider-body, .some-class .displayInlineFlex, .some-class .footer-links {
+  .some-class .display-inline-flex, .some-class .center-aligned-slider-body, .some-class .displayInlineFlex, .some-class .footer-links, .some-class .hub-parent-block div.dapps-category, .hub-parent-block .some-class div.dapps-category {
     display: block !important;
   }
 

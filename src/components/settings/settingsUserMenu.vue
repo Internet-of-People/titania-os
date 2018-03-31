@@ -62,7 +62,7 @@ export default {
   methods: {
     deleteuser: function (username) {
       var deleterequest = {}
-      deleterequest.user = username
+      deleterequest.username = username
       // add wait cursor
       $('body').css('cursor', 'progress')
       $('.del-user').css('cursor', 'wait')

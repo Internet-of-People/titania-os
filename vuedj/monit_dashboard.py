@@ -1,7 +1,7 @@
 import subprocess, sched, time, sqlite3, common, signal, sys
 
 # Creates or opens a file called dashboard with a SQLite3 DB
-db = sqlite3.connect('dashboard.sqlite3')
+db = sqlite3.connect('/datafs/titania/dashboard.sqlite3')
 
 # Get a cursor object
 cursor = db.cursor()
@@ -17,8 +17,8 @@ try:
     cursor.execute(common.Q_CREATE_DOCKER_MASTER)
     cursor.execute(common.Q_CREATE_DOCKER_CONTENT)
     cursor.execute(common.Q_CREATE_DOCKER_OVERVIEW)
-except sqlite3.Error as err:
-    print('Error %s', er)
+except sqlite3.Error as er:
+    print('Error', er)
 db.commit()
 
 data_collection = 30
@@ -43,48 +43,49 @@ def convert_to_bytes(input):
 
 def monit_routine(s):
     # Maintainance loop 
-    cursor.execute(common.Q_EXTRACT_OLD_SYSTEM_DATA)
-    cursor.execute(common.Q_AGGREGATE_OLD_SYSTEM_DATA)
-    cursor.execute(common.Q_PURGE_OLD_SYSTEM_DATA)
-    cursor.execute(common.Q_INSERT_AGGREGATE_SYSTEM_DATA)
-    cursor.execute(common.Q_EXTRACT_OLD_DOCKER_DATA)
-    cursor.execute(common.Q_AGGREGATE_OLD_DOCKER_DATA)
-    cursor.execute(common.Q_PURGE_OLD_DOCKER_DATA)
-    cursor.execute(common.Q_INSERT_AGGREGATE_DOCKER_DATA)
+    for x in common.AGGREGATES:
+        cursor.execute(common.Q_EXTRACT_OLD_SYSTEM_DATA, [x])
+        cursor.execute(common.Q_AGGREGATE_OLD_SYSTEM_DATA)
+        cursor.execute(common.Q_PURGE_OLD_SYSTEM_DATA, [x])
+        cursor.execute(common.Q_INSERT_AGGREGATE_SYSTEM_DATA)
+        cursor.execute(common.Q_EXTRACT_OLD_DOCKER_DATA, [x])
+        cursor.execute(common.Q_AGGREGATE_OLD_DOCKER_DATA)
+        cursor.execute(common.Q_PURGE_OLD_DOCKER_DATA, [x])
+        cursor.execute(common.Q_INSERT_AGGREGATE_DOCKER_DATA)
+        db.commit()
     # for x in common.Q_TEMP_TABLES:
     #     print(x)
     #     print(common.Q_DROP_TABLE)
     #     cursor.execute(common.Q_DROP_TABLE, [x])
-    db.commit()
 
     # start system level collection
     # total dApps
-    p = subprocess.check_output(common.CMD_TOTAL_DAPPS, shell=True)
+    p = subprocess.check_output(common.CMD_TOTAL_DAPPS, shell=True, timeout=10)
     cursor.execute(common.Q_INSERT_SYSTEM_CONTENT,[common.TOTAL_DAPPS, p])
     db.commit()
 
     # status of stopped dApps
     # link >> https://docs.docker.com/engine/reference/commandline/ps/#filtering
-    p = subprocess.check_output(common.CMD_STOPPED_DAPPS, shell=True)
+    p = subprocess.check_output(common.CMD_STOPPED_DAPPS, shell=True, timeout=10)
     cursor.execute(common.Q_INSERT_SYSTEM_CONTENT,[common.STOPPED_DAPPS, p])
     db.commit()
 
     # uptime
-    p = subprocess.check_output(common.CMD_UPTIME, shell=True)
+    p = subprocess.check_output(common.CMD_UPTIME, shell=True, timeout=10)
     p = p.decode("utf-8")
     p = p.split(' ')
     cursor.execute(common.Q_INSERT_SYSTEM_CONTENT,[common.UPTIME, p[0]])
     db.commit()
 
     # threads
-    p = subprocess.check_output(common.CMD_THREADS, shell=True)
+    p = subprocess.check_output(common.CMD_THREADS, shell=True, timeout=10)
     cursor.execute(common.Q_INSERT_SYSTEM_CONTENT,[common.THREADS, p])
     db.commit()
     # end system level collection
 
     # start container level monitoring - currently works for CPU Usage
     # docker info, id, image and name
-    p = subprocess.check_output(common.CMD_DOCKER_MASTER, shell=True)
+    p = subprocess.check_output(common.CMD_DOCKER_MASTER, shell=True, timeout=10)
     p = p.decode("utf-8")
     p = p.split('\n')
     lenofoutput = len(p)
@@ -93,7 +94,7 @@ def monit_routine(s):
         cursor.execute(common.Q_INSERT_DOCKER_MASTER,[y[0], y[1], y[2]])
         db.commit()
     # cpu usage docker wise
-    p = subprocess.check_output(common.CMD_DOCKER_STATS, shell=True)
+    p = subprocess.check_output(common.CMD_DOCKER_STATS, shell=True, timeout=10)
     p = p.decode("utf-8")
     p = p.split('\n')
     lenofoutput = len(p)
@@ -128,7 +129,7 @@ def monit_routine(s):
     cursor.execute(common.Q_CLEAR_DOCKER_OVERVIEW)
     db.commit()
     #for running
-    p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW_RUNNING, shell=True)
+    p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW_RUNNING, shell=True, timeout=10)
     p = p.decode("utf-8")
     p = p.split("\n")
     lenofoutput = len(p)
@@ -137,7 +138,7 @@ def monit_routine(s):
         cursor.execute(common.Q_INSERT_DOCKER_OVERVIEW_RUNNING,y)
         db.commit()
     #for paused
-    p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW_PAUSED, shell=True)
+    p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW_PAUSED, shell=True, timeout=10)
     p = p.decode("utf-8")
     p = p.split("\n")
     lenofoutput = len(p)
@@ -145,7 +146,7 @@ def monit_routine(s):
         cursor.execute(common.Q_INSERT_DOCKER_OVERVIEW_PAUSED,y)
         db.commit()
     #for exited
-    p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW_EXITED, shell=True)
+    p = subprocess.check_output(common.CMD_DOCKER_OVERVIEW_EXITED, shell=True, timeout=10)
     p = p.decode("utf-8")
     p = p.split("\n")
     lenofoutput = len(p)

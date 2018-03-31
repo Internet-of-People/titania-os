@@ -103,10 +103,12 @@ Q_GET_CONTAINER_STATS = ('SELECT a.[collection_timestamp] * 1000,  a.[value] '
 # insert into content_docker
 # select * from temp2
 
+# Run the same logic for multiple aggregations
+
 
 Q_EXTRACT_OLD_SYSTEM_DATA = ('CREATE TEMPORARY TABLE IF NOT EXISTS system_temp AS'
                             ' SELECT * FROM [content_system]'
-                            ' WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',\'-1 week\')')
+                            ' WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',?)')
 
 Q_AGGREGATE_OLD_SYSTEM_DATA = ('CREATE TEMPORARY TABLE IF NOT EXISTS [system_temp2] AS'
                             ' SELECT [counter_id], max([value]) as [value] , [collection_timestamp]'
@@ -114,14 +116,14 @@ Q_AGGREGATE_OLD_SYSTEM_DATA = ('CREATE TEMPORARY TABLE IF NOT EXISTS [system_tem
                             ' GROUP BY [counter_id], date([collection_timestamp], \'unixepoch\')')                            
 
 Q_PURGE_OLD_SYSTEM_DATA = ('DELETE FROM [content_system]'
-                        'WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',\'-1 week\')')
+                        'WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',?)')
 
 Q_INSERT_AGGREGATE_SYSTEM_DATA = ('INSERT OR REPLACE INTO [content_system] '
                                     ' SELECT * FROM [system_temp2]')
 
 Q_EXTRACT_OLD_DOCKER_DATA = ('CREATE TEMPORARY TABLE IF NOT EXISTS [docker_temp] AS'
                             ' SELECT * FROM [content_docker]'
-                            ' WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',\'-1 week\')')
+                            ' WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',?)')
 
 Q_AGGREGATE_OLD_DOCKER_DATA = ('CREATE TEMPORARY TABLE IF NOT EXISTS  [docker_temp2] AS'
                             ' SELECT [counter_id], [container_id], max([value]) as [value] , [collection_timestamp]'
@@ -129,7 +131,7 @@ Q_AGGREGATE_OLD_DOCKER_DATA = ('CREATE TEMPORARY TABLE IF NOT EXISTS  [docker_te
                             ' GROUP BY [container_id], [counter_id], date([collection_timestamp], \'unixepoch\')')                            
 
 Q_PURGE_OLD_DOCKER_DATA = ('DELETE FROM [content_docker]'
-                        'WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',\'-1 week\')')
+                        'WHERE DATETIME([collection_timestamp],\'unixepoch\') < DATETIME(\'now\',?)')
 
 Q_INSERT_AGGREGATE_DOCKER_DATA = ('INSERT OR REPLACE INTO [content_docker] '
                                     ' SELECT * FROM [docker_temp2]')
@@ -192,3 +194,7 @@ CMD_DOCKER_STATS = "docker stats --no-stream --format '{{.Container}}\t{{.CPUPer
 CMD_DOCKER_OVERVIEW_RUNNING = "docker ps -a --filter status=running --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
 CMD_DOCKER_OVERVIEW_PAUSED = "docker ps -a --filter status=paused --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
 CMD_DOCKER_OVERVIEW_EXITED = "docker ps -a --filter status=exited --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.RunningFor}}\t{{.Command}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
+
+
+"""AGGREGATION INTERVALS"""
+AGGREGATES = ['-1 week','-4 days','-1 day','-12 hour','-6 hours','-3 hours','-1 hour']

@@ -21,7 +21,10 @@
         <div class='registration-text'>Logged in as:<div class='registered-user'>{{username}}</div></div>
         <div class='registration-text'>Box name:<div class='registered-user'>{{boxname}}</div></div>
         <div class='versioning-info'>
-            <span class='titania_version'>{{this.$store.state.schema}}<br/></span>
+            <span class='titania_version'>
+              <a @click="getHashDetails()">{{this.$store.state.schema}}</a>
+            </span>
+            <br/>
             <span class='copyright'>Copyright {{new Date().getFullYear()}} Libertaria</span>  
         </div>
         <div @click="tabSwitch('settings')" class='settings-menu'>
@@ -72,6 +75,14 @@ export default {
       set: function (page) {
         this.$store.state.currentPage = page
       }
+    },
+    hashPopupState: {
+      get: function () {
+        return this.$store.state.hashPopupState
+      },
+      set: function (newstate) {
+        this.$store.state.hashPopupState = newstate
+      }
     }
   },
   components: {
@@ -95,6 +106,9 @@ export default {
         this.$store.dispatch('switchDrilldown', tabname)
         this.currentPage = tabname
       }
+    },
+    getHashDetails () {
+      this.hashPopupState = !this.hashPopupState
     }
   }
 }

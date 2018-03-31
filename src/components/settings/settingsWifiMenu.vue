@@ -78,7 +78,7 @@ export default {
     },
     deletewifi: function (wifiap) {
       var deleterequest = {}
-      deleterequest.wifi = wifiap
+      deleterequest.wifi_ap = wifiap
       // add wait cursor
       $('body').css('cursor', 'progress')
       $('.del-wifi').css('cursor', 'wait')

@@ -1,8 +1,19 @@
 [Unit]
-Description=Generic dApp runnner service
 Wants=network.target
+Wants=network-info.service
 After=docker.service
 
 [Service]
 Restart=always
-ExecStart=/usr/bin/dapp-runner.sh %I
+
+# Try to preinstall the image
+# Note if importing failed the file will still be deleted!
+# TODO: discuss if this is expected behavour
+ExecStartPre=/opt/titania/bin/dapp_prepare.sh ${DAPP_DOCKER_IMAGE_FILE} \
+	%i \
+	$DAPP_DOCKER_PORTS \
+	$DAPP_DOCKER_ENV \
+    ${DAPP_DOCKER_IMAGE}
+
+# Run the container and attach for journal
+ExecStart=/usr/bin/docker start -a -i %i

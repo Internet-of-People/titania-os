@@ -4,7 +4,7 @@ IMAGE_INSTALL += "vuedj datafs-resizer http-splash"
 IMAGE_INSTALL += "sudo networkmanager avahi-daemon llmnrd zram systemd-analyze swupdate"
 
 # Docker
-IMAGE_INSTALL += "docker docker-dapp docker-iop"
+IMAGE_INSTALL += "docker docker-dapp"
 
 # TODO: replace with IPv6 or something eventually
 IMAGE_INSTALL += "natpmp"

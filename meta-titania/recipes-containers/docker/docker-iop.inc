@@ -1,16 +1,11 @@
 PACKAGES += "${PN}-iop"
 SYSTEMD_PACKAGES += "${PN}-iop"
 
-SRC_URI += "file://iop-ps.service   \
-            file://iop-can.service  \
-            file://iop-loc.service  \
-            "
+RDEPENDS_${PN}-dapp += "${PN}-dapp"
 
-FILES_${PN}-iop = "${systemd_unitdir}/system/iop-*.service"
-
-SYSTEMD_SERVICE_${PN}-iop = "iop-ps.service     \
-                             iop-can.service    \
-                             iop-loc.service"
+SYSTEMD_SERVICE_${PN}-iop = "dapp@iopps.service     \
+                             dapp@iopcan.service    \
+                             dapp@ioploc.service"
 
 # Add IoP images to preinstall list
 DOCKER_IMAGE_PREINSTALL += "    \
@@ -18,9 +13,3 @@ DOCKER_IMAGE_PREINSTALL += "    \
     libertaria/iop-loc:latest   \
     libertaria/iop-ps:latest    \
     "
-
-do_install_append() {
-    install -d ${D}${systemd_unitdir}/system
-
-    install -m 0644 ${WORKDIR}/iop-*.service ${D}${systemd_unitdir}/system
-}

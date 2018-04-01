@@ -1,32 +1,24 @@
 PACKAGES += "${PN}-dapp"
 SYSTEMD_PACKAGES += "${PN}-dapp"
 
-SRC_URI += "file://dapp@.service    \
-            file://dapp-runner.sh   \ 
-            file://nginx.service    \
-            file://image-preinstall@.service \
-            file://image_preinstall.sh"
+RDEPENDS_${PN}-dapp += "pydapphubfuse"
 
-# TODO: does it make sense to ship nginx as part of this package or put it somewhere else rather?
-FILES_${PN}-dapp = "${bindir}/dapp-runner.sh                                    \
-                    ${bindir}/image_preinstall.sh                               \
-                    ${systemd_unitdir}/system/dapp@.service                     \
-                    ${systemd_unitdir}/system/image-preinstall@.service         \
-                    ${systemd_unitdir}/system/nginx.service"
-SYSTEMD_SERVICE_${PN}-dapp = "nginx.service"
+# TODO: move dapp_prepare.sh logic inside systemd
+SRC_URI += "file://dapp@.service \
+            file://dapp_prepare.sh"
+
+# TODO: how exactly do we ship nginx?
+# Drop-in directory for JSON maybe
+FILES_${PN}-dapp = "${systemd_unitdir}/system/dapp@.service /opt/titania/*"
+SYSTEMD_SERVICE_${PN}-dapp = "dapp@nginx.service"
 
 DOCKER_IMAGE_PREINSTALL += "libertaria/nginx:armv7"
 
 do_install_append() {
     install -d ${D}${systemd_unitdir}/system
-    install -d ${D}${bindir}
-    
-    install -d ${D}${bindir}
-    install -m 755 ${WORKDIR}/dapp-runner.sh ${D}${bindir}
-    install -m 755 ${WORKDIR}/image_preinstall.sh ${D}${bindir}
-
     install -m 0644 ${WORKDIR}/dapp@.service ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/image-preinstall@.service ${D}${systemd_unitdir}/system
 
-    install -m 0644 ${WORKDIR}/nginx.service ${D}${systemd_unitdir}/system
+    # TODO: variable for that
+    install -d ${D}/opt/titania/bin
+    install -m 0755 ${WORKDIR}/dapp_prepare.sh ${D}/opt/titania/bin
 }

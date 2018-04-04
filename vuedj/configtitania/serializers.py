@@ -1,7 +1,7 @@
-# from .models import BoxDetails
-# from rest_framework import serializers
+from .models import SessionDetails
+from rest_framework import serializers
 
-# class BoxDetailsSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = BoxDetails
-#         fields = '__all__'
+class SessionDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SessionDetails
+        fields = '__all__'

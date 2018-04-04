@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueSession from 'vue-session'
+import VueLocalStorage from 'vue-ls'
 import api from './api.js'
 import router from '../router'
-import VueLocalStorage from 'vue-ls'
 import { isNull } from 'util';
 
 Vue.use(Vuex)
@@ -104,6 +104,7 @@ const store = new Vuex.Store({
       $('#login_submit').css('cursor', 'pointer')
       // applying response set
       if (response.body.username) {
+        console.log(response.body.session_key)
         Vue.toast('Login successful', {
           id: 'my-toast',
           className: ['toast-success'],
@@ -117,6 +118,7 @@ const store = new Vuex.Store({
         state.currentPage = 'dashboard'
         state.credentials.username = response.body.username
         local_store.set('user', state.credentials.username)
+        local_store.set('session_key_'+state.credentials.username, response.body.session_key)
       } else {
         Vue.toast(response.body, {
           id: 'my-toast',
@@ -168,8 +170,14 @@ const store = new Vuex.Store({
         setTimeout(function () {
           location.reload()
         }, 8000)
+      } else if (error.status === 302) {
+        var user = local_store.get('user')
+        local_store.remove('system_key'+user)
+        local_store.remove('user')
+        router.push('/login')
+        state.currentPage = 'login'
+        state.credentials.username = ''
       }
-      console.error(error)
     },
     'SET_CURRENT_PAGE': function (state, pageName) {
       state.currentPage = pageName
@@ -305,7 +313,7 @@ const store = new Vuex.Store({
         _action: 'logout',
         username: credentials.username
       }
-      return api.post(apiRoot + '/index.html', logout)
+      return api.postWithSession(apiRoot + '/index.html', logout)
         .then((response) => store.commit('LOGOUT', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
@@ -313,7 +321,7 @@ const store = new Vuex.Store({
       var dashboardcards = {
         _action: 'getDashboardCards'
       }
-      return api.post(apiRoot + '/index.html', dashboardcards)
+      return api.postWithSession(apiRoot + '/index.html', dashboardcards)
         .then((response) => store.commit('DASHBOARD_DETAILS', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
@@ -321,7 +329,7 @@ const store = new Vuex.Store({
       var dashboardchart = {
         _action: 'getDashboardChart'
       }
-      return api.post(apiRoot + '/index.html', dashboardchart)
+      return api.postWithSession(apiRoot + '/index.html', dashboardchart)
         .then((response) => store.commit('DASHBOARD_CHART_INIT', response))
         .catch((error) => store.commit('API_FAIL', error))
     },
@@ -332,7 +340,7 @@ const store = new Vuex.Store({
       var dockeroverview = {
         _action: 'getDockerOverview'
       }
-      return api.post(apiRoot + '/index.html', dockeroverview)
+      return api.postWithSession(apiRoot + '/index.html', dockeroverview)
       .then((response) => store.commit('DOCKER_OVERVIEW', response))
       .catch((error) => store.commit('API_FAIL', error))
     },
@@ -340,7 +348,7 @@ const store = new Vuex.Store({
       var getStats = {
         _action: 'getContainerStats'
       }
-      return api.post(apiRoot + '/index.html', getStats)
+      return api.postWithSession(apiRoot + '/index.html', getStats)
       .then((response) => store.commit('DOCKER_STATS', response))
       .catch((error) => store.commit('API_FAIL', error))
     },
@@ -348,7 +356,7 @@ const store = new Vuex.Store({
       var threads = {
         _action: 'getThreads'
       }
-      return api.post(apiRoot + '/index.html', threads)
+      return api.postWithSession(apiRoot + '/index.html', threads)
       .then((response) => store.commit('DOCKER_THREADS', response))
       .catch((error) => store.commit('API_FAIL', error))
     },
@@ -356,7 +364,7 @@ const store = new Vuex.Store({
       var containerthreads = {
         _action: 'getContainerTop'
       }
-      return api.post(apiRoot + '/index.html', containerthreads)
+      return api.postWithSession(apiRoot + '/index.html', containerthreads)
       .then((response) => store.commit('CONTAINER_THREADS', response))
       .catch((error) => store.commit('API_FAIL', error))
     },
@@ -364,37 +372,37 @@ const store = new Vuex.Store({
       var settings = {
         _action: 'getSettings'
       }
-      return api.post(apiRoot + '/index.html', settings)
+      return api.postWithSession(apiRoot + '/index.html', settings)
       .then((response) => store.commit('SETTINGS', response))
       .catch((error) => store.commit('API_FAIL', error))
     },
     deleteUser (state, deleterequest) {
       deleterequest._action = 'deleteUser'
-      return api.post(apiRoot + '/index.html', deleterequest)
+      return api.postWithSession(apiRoot + '/index.html', deleterequest)
       .then((response) => store.commit('REFRESH_LIST', response))
       .catch((error) => store.commit('API_FAIL', error))
     },
     addNewUser (state, configdetails) {
       configdetails._action = 'addNewUser'
-      return api.post(apiRoot + '/index.html', configdetails)
+      return api.postWithSession(apiRoot + '/index.html', configdetails)
       .then((response) => store.commit('REFRESH_LIST', response))
       .catch((error) => store.commit('API_FAIL', error))
     },
     addWifi (state, configdetails) {
       configdetails._action = 'addWifi'
-      return api.post(apiRoot + '/index.html', configdetails)
+      return api.postWithSession(apiRoot + '/index.html', configdetails)
       .then((response) => store.commit('REFRESH_LIST', response))
       .catch((error) => store.commit('API_FAIL', error))
     },
     deleteWifi (state, deleterequest) {
       deleterequest._action = 'deleteWifi'
-      return api.post(apiRoot + '/index.html', deleterequest)
+      return api.postWithSession(apiRoot + '/index.html', deleterequest)
       .then((response) => store.commit('REFRESH_LIST', response))
       .catch((error) => store.commit('API_FAIL', error))
     },
     editWifi (state, editrequest) {
       editrequest._action = 'editWifi'
-      return api.post(apiRoot + '/index.html', editrequest)
+      return api.postWithSession(apiRoot + '/index.html', editrequest)
       .then((response) => store.commit('REFRESH_LIST', response))
       .catch((error) => store.commit('API_FAIL', error))
     },
@@ -406,7 +414,7 @@ const store = new Vuex.Store({
       formData.append('_action', 'updateOSImage')
       store.commit('SET_UPDATE_INIT', update_img.name)
       
-      return api.postWithUpload(apiRoot + '/index.html', formData)
+      return api.postWithSessionAndUpload(apiRoot + '/index.html', formData)
       .then(function (response) {
         store.dispatch('getUpdateStatus')
       }).catch((error) => store.commit('API_FAIL', error))
@@ -418,7 +426,7 @@ const store = new Vuex.Store({
       var update_img = local_store.get('update_img')?local_store.get('update_img'):""
       if (update_img.length > 0) {
         updatestatus.image_name = update_img
-        return api.post(apiRoot + '/index.html', updatestatus)
+        return api.postWithSession(apiRoot + '/index.html', updatestatus)
         .then((response) => store.commit('UPDATE_STATUS', response))
         .catch((error) => store.commit('API_FAIL', error))
       } else {
@@ -430,7 +438,7 @@ const store = new Vuex.Store({
         _action: 'rebootSystem'
       }
       store.commit('SET_INITIAL_UPDATE_STATUS', {})
-      return api.post(apiRoot + '/index.html', rebootSystem)
+      return api.postWithSession(apiRoot + '/index.html', rebootSystem)
         .catch((error) => store.commit('API_FAIL', error))
     },
     retryUpdate (state) {

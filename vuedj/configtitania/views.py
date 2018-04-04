@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.contrib.sessions.middleware import SessionMiddleware
 from django.conf import settings
 
 from importlib import import_module
@@ -14,11 +15,12 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
 
-# from .models import BoxDetails
-# from .serializers import BoxDetailsSerializer
+from .models import SessionDetails
+from .serializers import SessionDetailsSerializer
 
 import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd, socket, json, re
 
+# dashboard db
 dashboard_db = "/datafs/titania/dashboard.sqlite3"
 
 # get Session store from settings
@@ -27,6 +29,14 @@ SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 # fetch network AP details
 nm = NetworkManager.NetworkManager
 wlans = [d for d in nm.Devices if isinstance(d, NetworkManager.Wireless)]
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 def get_builddetails():
     """
@@ -133,6 +143,13 @@ def get_updatestatus(service_name):
     else:
         return 'initial', data
         
+def validate_session(request):
+    session_key = request.POST.get("session_key")
+    try:
+        key_exists = SessionDetails.objects.get(session_key=session_key)
+    except (SessionDetails.DoesNotExist):
+        return False
+    return True
 
 def validate_input(inputstring):
     while not re.match("^[a-zA-Z0-9_]*$", inputstring) and len(inputstring) > 0:
@@ -237,7 +254,11 @@ def edit_WifiConn(wifiname, wifipass):
             },
         }
     conn = nm.AddAndActivateConnection(params, wlan0, currentwifi) 
-    return       
+    return     
+
+# delete all session entries on startup
+def reset_sessions_on_startup():
+    initSessions = SessionDetails.objects.all().delete()
 
 @csrf_exempt
 def handle_config(request):
@@ -299,231 +320,239 @@ def handle_config(request):
                     except KeyError:
                         output = "User '%s' not found" % username
                     if len(output) == 0:
-                        return JsonResponse({"username":username}, safe=False)
+                        # insert session code here
+                        if not request.session.exists(request.session.session_key):
+                            request.session.create() 
+                            print(request.session.session_key)
+                            print(get_client_ip(request))
+                            setSessionRow = SessionDetails(session_key=request.session.session_key,username=username,client_ip=get_client_ip(request))
+                            setSessionRow.save()
+                        return JsonResponse({"username":username, "session_key": request.session.session_key}, safe=False)
                     else:
                         return JsonResponse(output, safe=False)
-            elif action == 'logout':
-                print(action)
-                username = request.POST.get("username")
-                if validate_input(username):
-                    return JsonResponse({"STATUS":"SUCCESS", "username":username}, safe=False)
-            elif action == 'getDashboardCards':
-                print(action)
-                con = sqlite3.connect(dashboard_db)
-                cursor = con.cursor()
-                cursor.execute(common.Q_DASHBOARD_CARDS)
-                rows = cursor.fetchall()
-                return JsonResponse(rows, safe=False)
-            elif action == 'getDashboardChart':
-                print(action)
-                con = sqlite3.connect(dashboard_db)
-                cursor = con.cursor()
-                cursor.execute(common.Q_GET_CONTAINER_ID)
-                rows = cursor.fetchall()
-                finalset = []
-                for row in rows:
-                    cursor.execute(common.Q_GET_DASHBOARD_CHART,[row[0],])
-                    datasets = cursor.fetchall()
-                    # print(datasets)
-                    data = {'container_name' : row[1], 'data': datasets}
-                    finalset.append(data)
-                return JsonResponse(finalset, safe=False)
-            elif action == 'getDockerOverview':
-                print(action)
-                con = sqlite3.connect(dashboard_db)
-                cursor = con.cursor()
-                cursor.execute(common.Q_GET_DOCKER_OVERVIEW)
-                rows = cursor.fetchall()
-                # print(rows)
-                finalset = []
-                for row in rows:
-                    data = {'state': row[0], 'container_id': row[1], 'name': row[2],
-                            'image': row[3], 'running_for': row[4],
-                            'command': row[5], 'ports': row[6],
-                            'status': row[7], 'networks': row[8]}
-                    finalset.append(data)
-                return JsonResponse(finalset, safe=False)
-            elif action == 'getContainerStats':
-                print(action)
-                con = sqlite3.connect(dashboard_db)
-                cursor = con.cursor()
-                cursor.execute(common.Q_GET_CONTAINER_ID)
-                rows = cursor.fetchall()
-                # print(rows)
-                finalset = []
-                datasets_io = []
-                datasets_mem = []
-                datasets_perc = []
-                for row in rows:
+            if validate_session(request):
+                if action == 'logout':
+                    print(action)
+                    username = request.POST.get("username")
+                    if validate_input(username):
+                        # delete loop for session id
+                        deleteSessionRows = SessionDetails.objects.filter(username=username).delete()
+                        deleteSessionRows.save()
+                        return JsonResponse({"STATUS":"SUCCESS", "username":username}, safe=False)
+                elif action == 'getDashboardCards':
+                    print(action)
+                    con = sqlite3.connect(dashboard_db)
+                    cursor = con.cursor()
+                    cursor.execute(common.Q_DASHBOARD_CARDS)
+                    rows = cursor.fetchall()
+                    return JsonResponse(rows, safe=False)
+                elif action == 'getDashboardChart':
+                    print(action)
+                    con = sqlite3.connect(dashboard_db)
+                    cursor = con.cursor()
+                    cursor.execute(common.Q_GET_CONTAINER_ID)
+                    rows = cursor.fetchall()
+                    finalset = []
+                    for row in rows:
+                        cursor.execute(common.Q_GET_DASHBOARD_CHART,[row[0],])
+                        datasets = cursor.fetchall()
+                        # print(datasets)
+                        data = {'container_name' : row[1], 'data': datasets}
+                        finalset.append(data)
+                    return JsonResponse(finalset, safe=False)
+                elif action == 'getDockerOverview':
+                    print(action)
+                    con = sqlite3.connect(dashboard_db)
+                    cursor = con.cursor()
+                    cursor.execute(common.Q_GET_DOCKER_OVERVIEW)
+                    rows = cursor.fetchall()
+                    # print(rows)
+                    finalset = []
+                    for row in rows:
+                        data = {'state': row[0], 'container_id': row[1], 'name': row[2],
+                                'image': row[3], 'running_for': row[4],
+                                'command': row[5], 'ports': row[6],
+                                'status': row[7], 'networks': row[8]}
+                        finalset.append(data)
+                    return JsonResponse(finalset, safe=False)
+                elif action == 'getContainerStats':
+                    print(action)
+                    con = sqlite3.connect(dashboard_db)
+                    cursor = con.cursor()
+                    cursor.execute(common.Q_GET_CONTAINER_ID)
+                    rows = cursor.fetchall()
+                    # print(rows)
+                    finalset = []
                     datasets_io = []
                     datasets_mem = []
                     datasets_perc = []
-                    # values with % appended to them
-                    for iter in range(0,2):
-                        cursor.execute(common.Q_GET_CONTAINER_STATS_CPU,[row[0],iter+1])
-                        counter_val = cursor.fetchall()
-                        datasets_perc.append(counter_val)
-                    # values w/o % appended to them
-                    for iter in range(2,4):
-                        cursor.execute(common.Q_GET_CONTAINER_STATS,[row[0],iter+1])
-                        counter_val = cursor.fetchall()
-                        datasets_mem.append(counter_val)
-                    # values w/o % appended to them
-                    for iter in range(4,8):
-                        cursor.execute(common.Q_GET_CONTAINER_STATS,[row[0],iter+1])
-                        counter_val = cursor.fetchall()
-                        datasets_io.append(counter_val)
-                    data = {'container_id': row[0], 'container_name' : row[1], 'data_io': datasets_io, 'data_mem': datasets_mem, 'data_perc': datasets_perc}
-                    finalset.append(data)
-                return JsonResponse(finalset, safe=False)
-            elif action == 'getThreads':
-                rows = []
-                ps = subprocess.Popen(['top', '-b','-n','1'], stdout=subprocess.PIPE).communicate()[0]
-                processes = ps.decode().split('\n')
-                # this specifies the number of splits, so the splitted lines
-                # will have (nfields+1) elements
-                nfields = len(processes[0].split()) - 1
-                for row in processes[4:]:
-                    rows.append(row.split(None, nfields))
-                return JsonResponse(rows, safe=False)
-            elif action == 'getContainerTop':
-                print(action)
-                con = sqlite3.connect(dashboard_db)
-                cursor = con.cursor()
-                cursor.execute(common.Q_GET_CONTAINER_ID)
-                rows = cursor.fetchall()
-                resultset = []
-                for i in rows:
-                    data = {}
-                    datasets = []
-                    ps = subprocess.Popen(['docker', 'top',i[0]], stdout=subprocess.PIPE).communicate()[0]
+                    for row in rows:
+                        datasets_io = []
+                        datasets_mem = []
+                        datasets_perc = []
+                        # values with % appended to them
+                        for iter in range(0,2):
+                            cursor.execute(common.Q_GET_CONTAINER_STATS_CPU,[row[0],iter+1])
+                            counter_val = cursor.fetchall()
+                            datasets_perc.append(counter_val)
+                        # values w/o % appended to them
+                        for iter in range(2,4):
+                            cursor.execute(common.Q_GET_CONTAINER_STATS,[row[0],iter+1])
+                            counter_val = cursor.fetchall()
+                            datasets_mem.append(counter_val)
+                        # values w/o % appended to them
+                        for iter in range(4,8):
+                            cursor.execute(common.Q_GET_CONTAINER_STATS,[row[0],iter+1])
+                            counter_val = cursor.fetchall()
+                            datasets_io.append(counter_val)
+                        data = {'container_id': row[0], 'container_name' : row[1], 'data_io': datasets_io, 'data_mem': datasets_mem, 'data_perc': datasets_perc}
+                        finalset.append(data)
+                    return JsonResponse(finalset, safe=False)
+                elif action == 'getThreads':
+                    rows = []
+                    ps = subprocess.Popen(['top', '-b','-n','1'], stdout=subprocess.PIPE).communicate()[0]
                     processes = ps.decode().split('\n')
                     # this specifies the number of splits, so the splitted lines
                     # will have (nfields+1) elements
                     nfields = len(processes[0].split()) - 1
-                    for p in processes[1:]:
-                        datasets.append(p.split(None, nfields))
-                    data = {'container_id': i[0], 'container_name' : i[1], 'data': datasets}
-                    resultset.append(data)
-                return JsonResponse(resultset, safe=False)
-            elif action == 'getSettings':
-                print(action)
-                ps = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
-                # sample ps 
-                # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
-                userlist = ps.split(':')[3].split(',')
-                configuredwifi = get_allconfiguredwifi()
-                wifi_aps = get_allAPs()
-                return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps}], safe=False)
-            elif action == 'deleteUser':
-                print(action)
-                username = request.POST.get("username")
-                if validate_input(username):
-                    ps = subprocess.Popen(['userdel', username], stdout=subprocess.PIPE).communicate()
-                    fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
+                    for row in processes[4:]:
+                        rows.append(row.split(None, nfields))
+                    return JsonResponse(rows, safe=False)
+                elif action == 'getContainerTop':
+                    print(action)
+                    con = sqlite3.connect(dashboard_db)
+                    cursor = con.cursor()
+                    cursor.execute(common.Q_GET_CONTAINER_ID)
+                    rows = cursor.fetchall()
+                    resultset = []
+                    for i in rows:
+                        data = {}
+                        datasets = []
+                        ps = subprocess.Popen(['docker', 'top',i[0]], stdout=subprocess.PIPE).communicate()[0]
+                        processes = ps.decode().split('\n')
+                        # this specifies the number of splits, so the splitted lines
+                        # will have (nfields+1) elements
+                        nfields = len(processes[0].split()) - 1
+                        for p in processes[1:]:
+                            datasets.append(p.split(None, nfields))
+                        data = {'container_id': i[0], 'container_name' : i[1], 'data': datasets}
+                        resultset.append(data)
+                    return JsonResponse(resultset, safe=False)
+                elif action == 'getSettings':
+                    print(action)
+                    ps = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
                     # sample ps 
                     # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
-                    userlist = fetchusers.split(':')[3].split(',')
+                    userlist = ps.split(':')[3].split(',')
                     configuredwifi = get_allconfiguredwifi()
                     wifi_aps = get_allAPs()
-                    return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'deleteuser', 'endpoint': username}], safe=False)
-            elif action == 'addNewUser':
-                print(action)
-                username = request.POST.get("username")
-                password = request.POST.get("password")
-                if validate_input(username) and validate_input(password):
-                    add_user(username,password)
-                    fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
-                    # sample ps 
-                    # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
-                    userlist = fetchusers.split(':')[3].split(',')
-                    configuredwifi = get_allconfiguredwifi()
-                    wifi_aps = get_allAPs()
-                    return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'adduser', 'endpoint': username}], safe=False)
-            elif action == 'addWifi':
-                # connect to wifi ap user selected
-                wifi_pass = request.POST.get("wifi_password")
-                wifi_name = request.POST.get("wifi_ap")
-                wifi_encrpt = request.POST.get("wifi_encrpt")
-                if validate_input(wifi_pass) and validate_input(wifi_name) and validate_input(wifi_encrpt):
-                    if len(wifi_name) > 0:
-                        add_newWifiConn(wifi_name,wifi_encrpt,wifi_pass)
-                    fetchusers = ''
-                    fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
-                    print(fetchusers)
-                    # sample ps 
-                    # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
-                    userlist = fetchusers.split(':')[3].split(',')
-                    configuredwifi = get_allconfiguredwifi()
-                    print(configuredwifi)
-                    wifi_aps = get_allAPs()
-                    print(wifi_aps)
-                    return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'addwifi', 'endpoint': wifi_name}], safe=False)
-            elif action == 'deleteWifi':
-                print(action)
-                # connect to wifi ap user selected
-                wifi_name = request.POST.get("wifi_ap")
-                if validate_input(wifi_name):
-                    delete_WifiConn(wifi_name)
-                    fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
-                    # sample ps 
-                    # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
-                    userlist = fetchusers.split(':')[3].split(',')
-                    configuredwifi = get_allconfiguredwifi()
-                    wifi_aps = get_allAPs()
-                    return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'deletewifi', 'endpoint': wifi_name}], safe=False)
-            elif action == 'editWifi':
-                print(action)
-                # connect to wifi ap user selected
-                wifi_name = request.POST.get("wifi_ap")
-                wifi_pass = request.POST.get("wifi_password")
-                if validate_input(wifi_name) and validate_input(wifi_pass):
-                    edit_WifiConn(wifi_name,wifi_pass)
-                    fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
-                    # sample ps 
-                    # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
-                    userlist = fetchusers.split(':')[3].split(',')
-                    configuredwifi = get_allconfiguredwifi()
-                    wifi_aps = get_allAPs()
-                    return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'editwifi', 'endpoint': wifi_name}], safe=False)
-            elif action == 'updateOSImage':
-                print(action)
-                data = request.FILES['file']
-                if data:
-                    # save file from persistent store to /tmp
-                    path = default_storage.save(data.name, ContentFile(data.read()))
-                    tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-                    # update call
-                    file_path = settings.MEDIA_ROOT + data.name
-                    # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
-                    update_cmd = 'systemctl start swupdate@$(systemd-escape -p {}).service'.format(file_path)
-                    print(update_cmd)
-                    os.system(update_cmd)
-                    return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
-            elif action == 'getUpdateStatus':
-                print(action)
-                image_name = request.POST.get("image_name")
-                if validate_filename(image_name):
-                    file_path = settings.MEDIA_ROOT + image_name
-                    update_service = 'swupdate@$(systemd-escape -p {}).service'.format(file_path)
-                    status, data = get_updatestatus(update_service)
-                    # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
-                    return JsonResponse({'STATUS':status,'data':data}, safe=False)
-            elif action == 'rebootSystem':
-                print(action)
-                os.system('/sbin/shutdown -r now')
-                return JsonResponse({'STATUS':'SUCCESS'}, safe=False)   
+                    return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps}], safe=False)
+                elif action == 'deleteUser':
+                    print(action)
+                    username = request.POST.get("username")
+                    if validate_input(username):
+                        ps = subprocess.Popen(['userdel', username], stdout=subprocess.PIPE).communicate()
+                        fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
+                        # sample ps 
+                        # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+                        userlist = fetchusers.split(':')[3].split(',')
+                        configuredwifi = get_allconfiguredwifi()
+                        wifi_aps = get_allAPs()
+                        return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'deleteuser', 'endpoint': username}], safe=False)
+                elif action == 'addNewUser':
+                    print(action)
+                    username = request.POST.get("username")
+                    password = request.POST.get("password")
+                    if validate_input(username) and validate_input(password):
+                        add_user(username,password)
+                        fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
+                        # sample ps 
+                        # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+                        userlist = fetchusers.split(':')[3].split(',')
+                        configuredwifi = get_allconfiguredwifi()
+                        wifi_aps = get_allAPs()
+                        return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'adduser', 'endpoint': username}], safe=False)
+                elif action == 'addWifi':
+                    # connect to wifi ap user selected
+                    wifi_pass = request.POST.get("wifi_password")
+                    wifi_name = request.POST.get("wifi_ap")
+                    wifi_encrpt = request.POST.get("wifi_encrpt")
+                    if validate_input(wifi_pass) and validate_input(wifi_name) and validate_input(wifi_encrpt):
+                        if len(wifi_name) > 0:
+                            add_newWifiConn(wifi_name,wifi_encrpt,wifi_pass)
+                        fetchusers = ''
+                        fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
+                        print(fetchusers)
+                        # sample ps 
+                        # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+                        userlist = fetchusers.split(':')[3].split(',')
+                        configuredwifi = get_allconfiguredwifi()
+                        print(configuredwifi)
+                        wifi_aps = get_allAPs()
+                        print(wifi_aps)
+                        return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'addwifi', 'endpoint': wifi_name}], safe=False)
+                elif action == 'deleteWifi':
+                    print(action)
+                    # connect to wifi ap user selected
+                    wifi_name = request.POST.get("wifi_ap")
+                    if validate_input(wifi_name):
+                        delete_WifiConn(wifi_name)
+                        fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
+                        # sample ps 
+                        # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+                        userlist = fetchusers.split(':')[3].split(',')
+                        configuredwifi = get_allconfiguredwifi()
+                        wifi_aps = get_allAPs()
+                        return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'deletewifi', 'endpoint': wifi_name}], safe=False)
+                elif action == 'editWifi':
+                    print(action)
+                    # connect to wifi ap user selected
+                    wifi_name = request.POST.get("wifi_ap")
+                    wifi_pass = request.POST.get("wifi_password")
+                    if validate_input(wifi_name) and validate_input(wifi_pass):
+                        edit_WifiConn(wifi_name,wifi_pass)
+                        fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
+                        # sample ps 
+                        # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+                        userlist = fetchusers.split(':')[3].split(',')
+                        configuredwifi = get_allconfiguredwifi()
+                        wifi_aps = get_allAPs()
+                        return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'editwifi', 'endpoint': wifi_name}], safe=False)
+                elif action == 'updateOSImage':
+                    print(action)
+                    data = request.FILES['file']
+                    if data:
+                        # save file from persistent store to /tmp
+                        path = default_storage.save(data.name, ContentFile(data.read()))
+                        tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+                        # update call
+                        file_path = settings.MEDIA_ROOT + data.name
+                        # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
+                        update_cmd = 'systemctl start swupdate@$(systemd-escape -p {}).service'.format(file_path)
+                        print(update_cmd)
+                        os.system(update_cmd)
+                        return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
+                elif action == 'getUpdateStatus':
+                    print(action)
+                    image_name = request.POST.get("image_name")
+                    if validate_filename(image_name):
+                        file_path = settings.MEDIA_ROOT + image_name
+                        update_service = 'swupdate@$(systemd-escape -p {}).service'.format(file_path)
+                        status, data = get_updatestatus(update_service)
+                        # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
+                        return JsonResponse({'STATUS':status,'data':data}, safe=False)
+                elif action == 'rebootSystem':
+                    print(action)
+                    os.system('/sbin/shutdown -r now')
+                    return JsonResponse({'STATUS':'SUCCESS'}, safe=False)  
+                return JsonResponse({'STATUS':'FAILURE'}, safe=False)
+            else:
+                return JsonResponse({'STATUS':'REDIRECT'}, status=302)
     return JsonResponse({'STATUS':'FAILURE'}, safe=False)   
 
 def index(request):
     return render(request, 'index.html')
 
-# class BoxDetailsViewSet(viewsets.ModelViewSet):
-#     queryset = BoxDetails.objects.all()
-#     serializer_class = BoxDetailsSerializer
-
-# class RegisteredServicesViewSet(viewsets.ModelViewSet):
-#     queryset = RegisteredServices.objects.all()
-#     serializer_class = RegisteredServicesSerializer    
-
-
+class SessionDetailsViewSet(viewsets.ModelViewSet):
+    queryset = SessionDetails.objects.all()
+    serializer_class = SessionDetailsSerializer

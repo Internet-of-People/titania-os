@@ -23,6 +23,8 @@ router = routers.SimpleRouter()
 # router.register(r'user', views.UserViewSet)
 # router.register(r'schema', views.SchemaViewSet)
 
+views.reset_sessions_on_startup()
+
 urlpatterns = [
     url(r'^$', views.index, name='home'),
     url(r'^index.html$', views.handle_config),

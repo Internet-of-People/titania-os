@@ -860,6 +860,17 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "Ch1V":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('sidebarParent'),_vm._v(" "),_c('headerParent',{attrs:{"name-prop":_vm.page}}),_vm._v(" "),_c('div',{staticClass:"stats-page"},[_c('div',[_c('containerMainContent')],1)]),_vm._v(" "),(this.$store.state.dockerstats.length === 0)?_c('pageLoader'):_vm._e()],1)}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
 /***/ "CmtP":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1470,17 +1481,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_1_vue
   }
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("7t+N")))
-
-/***/ }),
-
-/***/ "GR07":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('sidebarParent'),_vm._v(" "),_c('headerParent',{attrs:{"name-prop":_vm.page}}),_vm._v(" "),_c('div',{staticClass:"stats-page"},[_c('div',[_c('containerMainContent')],1)]),_vm._v(" "),(this.$store.state.dockerstats.length === 0)?_c('pageLoader'):_vm._e()],1)}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -4605,7 +4605,7 @@ module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGlu
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_containerParent_vue__ = __webpack_require__("zquj");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_edec5836_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_containerParent_vue__ = __webpack_require__("GR07");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4572b8b6_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_containerParent_vue__ = __webpack_require__("Ch1V");
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
 
@@ -4622,7 +4622,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_containerParent_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_edec5836_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_containerParent_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4572b8b6_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_containerParent_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -4688,8 +4688,9 @@ var Component = normalizeComponent(
     }
   },
   updated: function () {
+    var that = this;
     setTimeout(function () {
-      this.$store.dispatch('getContainerStats');
+      that.$store.dispatch('getContainerStats');
     }, 10000);
   }
 });
@@ -4697,4 +4698,4 @@ var Component = normalizeComponent(
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.37bbebb889b48cc695af.js.map
+//# sourceMappingURL=app.15da3d73fc089ef5538c.js.map

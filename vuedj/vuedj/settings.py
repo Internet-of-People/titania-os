@@ -72,6 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'vuedj.wsgi.application'
 
+MEDIA_ROOT = '/tmp/'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -121,8 +122,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-
-MEDIA_ROOT = '/tmp/'
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

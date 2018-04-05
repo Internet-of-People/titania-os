@@ -44,8 +44,9 @@ export default {
     }
   },
   updated: function() {
+    var that = this
     setTimeout(function(){
-      this.$store.dispatch('getContainerStats')
+      that.$store.dispatch('getContainerStats')
     }, 10000)
   }
 }

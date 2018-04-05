@@ -258,7 +258,10 @@ def edit_WifiConn(wifiname, wifipass):
 
 # delete all session entries on startup
 def reset_sessions_on_startup():
-    initSessions = SessionDetails.objects.all().delete()
+    try:
+        initSessions = SessionDetails.objects.all().delete()
+    except:
+        print('Initial Startup')  
 
 @csrf_exempt
 def handle_config(request):

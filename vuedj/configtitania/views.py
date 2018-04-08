@@ -550,6 +550,9 @@ def handle_config(request):
                     os.system('/sbin/shutdown -r now')
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)  
                 return JsonResponse({'STATUS':'FAILURE'}, safe=False)
+            elif action == 'getUpdateStatus':
+                # TO DO, come up with bettr soln to handle this call output
+                return JsonResponse({'STATUS':'FAILURE'}, safe=False)
             else:
                 return JsonResponse({'STATUS':'REDIRECT'}, status=302)
     return JsonResponse({'STATUS':'FAILURE'}, safe=False)   

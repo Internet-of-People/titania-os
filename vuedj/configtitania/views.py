@@ -110,6 +110,7 @@ def get_updatestatus(service_name):
     data = {}
     is_activecall = 'systemctl is-active {}'.format(service_name)
     service_status = 'systemctl status {}'.format(service_name)
+    print(is_activecall)
     state = subprocess.Popen(is_activecall, shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')[0]
     print(state)
     if state == 'inactive':
@@ -159,11 +160,8 @@ def validate_input(inputstring):
         return True
 
 def validate_filename(filename):
-    while not re.match("^[a-z0-9_.@()-]+\.swu$", filename) and len(filename) > 0:
-        print ("This uses beyond alphanumeric data with extension swu")
-        return False
-    else:
-        return True
+    print("validate_filename")
+    return True
 
 def set_boxname(boxname):
     # setting hostname, this will change the mask from titania.local
@@ -524,6 +522,7 @@ def handle_config(request):
                 elif action == 'updateOSImage':
                     print(action)
                     data = request.FILES['file']
+                    print(data)
                     if data:
                         # save file from persistent store to /tmp
                         path = default_storage.save(data.name, ContentFile(data.read()))
@@ -538,12 +537,14 @@ def handle_config(request):
                 elif action == 'getUpdateStatus':
                     print(action)
                     image_name = request.POST.get("image_name")
-                    if validate_filename(image_name):
-                        file_path = settings.MEDIA_ROOT + image_name
-                        update_service = 'swupdate@$(systemd-escape -p {}).service'.format(file_path)
-                        status, data = get_updatestatus(update_service)
-                        # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
-                        return JsonResponse({'STATUS':status,'data':data}, safe=False)
+                    file_path = settings.MEDIA_ROOT + image_name
+                    print(action)
+                    update_service = 'swupdate@$(systemd-escape -p {}).service'.format(file_path)
+                    status, data = get_updatestatus(update_service)
+                    print(status)
+                    print(data)
+                    # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
+                    return JsonResponse({'STATUS':status,'data':data}, safe=False)
                 elif action == 'rebootSystem':
                     print(action)
                     os.system('/sbin/shutdown -r now')

@@ -142,7 +142,7 @@ export default {
     }
   },
   mounted: function () {
-    this.updateCredits()
+   this.updateCredits()
   },
   components: {
     dashboardCard

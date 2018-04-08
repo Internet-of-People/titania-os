@@ -12,7 +12,7 @@ Vue.use(VueLocalStorage)
 
 const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.2.4:8000' // dev pi
+// const apiRoot = 'http://192.168.2.5:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -104,7 +104,7 @@ const store = new Vuex.Store({
       $('#login_submit').css('cursor', 'pointer')
       // applying response set
       if (response.body.username) {
-        console.log(response.body.session_key)
+        // console.log(response.body.session_key)
         Vue.toast('Login successful', {
           id: 'my-toast',
           className: ['toast-success'],
@@ -164,9 +164,9 @@ const store = new Vuex.Store({
     },
     // Note that we added one more for logging out errors.
     'API_FAIL': function (state, error) {
-      state.currentPage = 'landingpage'
-      router.push('/landingpage')
       if (error.status === 0 || error.status === 502) {
+        state.currentPage = 'landingpage'
+        router.push('/landingpage')
         setTimeout(function () {
           location.reload()
         }, 8000)
@@ -174,9 +174,12 @@ const store = new Vuex.Store({
         var user = local_store.get('user')
         local_store.remove('system_key'+user)
         local_store.remove('user')
-        router.push('/login')
-        state.currentPage = 'login'
-        state.credentials.username = ''
+        if (state.currentPage != 'login') {
+          router.push({name: 'login', params: { deletesession: true }})
+          state.currentPage = 'login'
+          state.credentials.username = ''
+          state.credentials.password = ''
+        }
       }
     },
     'SET_CURRENT_PAGE': function (state, pageName) {
@@ -410,8 +413,11 @@ const store = new Vuex.Store({
       var formData = new FormData()
       var updateDiv = document.getElementById('updateInput')
       var update_img = updateDiv.files[0]
+      var user = local_store.get('user')
+      var session_key = local_store.get('session_key_'+user)
       formData.append('file', update_img, update_img.name)
       formData.append('_action', 'updateOSImage')
+      formData.append('session_key', session_key)
       store.commit('SET_UPDATE_INIT', update_img.name)
       
       return api.postWithSessionAndUpload(apiRoot + '/index.html', formData)

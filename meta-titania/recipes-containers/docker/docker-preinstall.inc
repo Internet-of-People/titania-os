@@ -10,7 +10,7 @@ SRC_URI += "file://download-frozen-image-v2.sh"
 DOCKER_IMAGE_PREINSTALL ?= ""
 
 DOCKER_PREINSTALL_DIR ?= "/docker/preinstall"
-FILES_${PN}-preinstall = "${DOCKER_PREINSTALL_DIR}/*"
+FILES_${PN}-preinstall = "${DOCKER_PREINSTALL_DIR}/* /dapp/*"
 
 # We need those on the host for the download-frozen-image.sh script
 DEPENDS += "curl-native jq-native ca-certificates-native"
@@ -51,4 +51,11 @@ do_install_append() {
             -f ${D}${DOCKER_PREINSTALL_DIR}/${IMAGE_SAFE_FILENAME}.tar \
             $HASHFILES manifest.json repositories
     done
+
+    # Linking rootfs directory on datafs so that nginx can function correctly
+    # TODO: possibly not the best place to have it, separate in other package
+    # TODO: hardcode!
+    # NOTE: the dapp name might change
+    install -d ${D}/dapp/world.libertaria.nginx/usr
+    ln -s /srv/vuedj/dist ${D}/dapp/world.libertaria.nginx/usr/html
 }

@@ -5,6 +5,13 @@ After=docker.service
 
 [Service]
 Restart=always
+# Prevent timeouting on image preload
+# TODO: this logic has to be streamlined with dApp SDK
+TimeoutStartSec=20min
+
+# TODO: ugly hack, remove asap
+ExecStartPre=-/bin/mkdir -p $DAPP_CHOWN_PATHS
+ExecStartPre=/bin/chown $DAPP_CHOWN_UID $DAPP_CHOWN_PATHS
 
 # Try to preinstall the image
 # Note if importing failed the file will still be deleted!
@@ -13,6 +20,7 @@ ExecStartPre=/opt/titania/bin/dapp_prepare.sh ${DAPP_DOCKER_IMAGE_FILE} \
 	%i \
 	$DAPP_DOCKER_PORTS \
 	$DAPP_DOCKER_ENV \
+    $DAPP_DOCKER_VOLUMES \
     ${DAPP_DOCKER_IMAGE}
 
 # Run the container and attach for journal

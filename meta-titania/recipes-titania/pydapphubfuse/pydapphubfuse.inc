@@ -15,13 +15,14 @@ inherit systemd
 SYSTEMD_SERVICE_${PN} = "pydapphubfuse.service"
 
 # TODO: maybe find a more sophisticated place instead of /srv/?
-FILES_${PN} += "/srv/pydapphubfuse/"
+FILES_${PN} += "/opt/titania/"
 
 do_install() {
     # cp is out of place here but works for now until we go Rust
-    install -d ${D}/srv/pydapphubfuse
-    install -m 0755 ${S}/pydapphubfuse.py ${D}/srv/pydapphubfuse/
-    install -m 0644 ${S}/apps.json ${D}/srv/pydapphubfuse/
+    install -d ${D}/opt/titania/bin
+    install -d ${D}/opt/titania/share
+    install -m 0755 ${S}/pydapphubfuse.py ${D}/opt/titania/bin
+    install -m 0644 ${S}/apps.json ${D}/opt/titania/share
 
     install -d ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/pydapphubfuse.service ${D}${systemd_unitdir}/system

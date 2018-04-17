@@ -34,11 +34,15 @@ export default {
     }
   },
   beforeCreate: function () {
+    if (this.$route.params && this.$route.params.deletesession) {
+      this.$session.destroy()
+    }
     if (this.$session.exists()) {
       this.$router.push('/')
     }
   },
   beforeDestory: function () {
+    this.$session.destory()
     this.$session.start()
   },
   methods: {

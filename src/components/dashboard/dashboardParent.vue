@@ -15,6 +15,8 @@ import headerParent from '@/components/common/headerParent'
 import dashboardMainContent from '@/components/dashboard/dashboardMainContent'
 import pageLoader from '@/components/common/pageLoader'
 
+var refreshtimeout = null
+
 export default {
   name: 'dashboard',
   computed: {
@@ -28,34 +30,34 @@ export default {
     dashboardMainContent,
     pageLoader
   },
-  mounted: function () {
-    if (this.$route.params.setSession && !this.$session.exists()) {
-      this.$store.dispatch('getDashboardCards')
-      this.$store.dispatch('getDashboardChart')
-      this.$session.start()
-    } else if (!this.$session.exists()) {
-      this.$router.push('/login')
-      this.$store.state.currentPage = 'login'
-    } else {
-      this.$store.dispatch('getDashboardCards')
-      this.$store.dispatch('getDashboardChart')
+  methods: {
+    onMount: function () {
+      if(this.$store.state.currentPage === 'dashboard'){
+        if (this.$route.params.setSession && !this.$session.exists()) {
+          this.$store.dispatch('getDashboardCards')
+          this.$store.dispatch('getDashboardChart')
+          this.$session.start()
+        } else if (!this.$session.exists()) {
+          this.$router.push('/login')
+          this.$store.state.currentPage = 'login'
+        } else {
+          this.$store.dispatch('getDashboardCards')
+          this.$store.dispatch('getDashboardChart')
+        }
+      }
     }
+  },
+  mounted: function () {
+     this.onMount()
   },
   updated: function () {
     var that = this
-    setTimeout(function(){
-      if (that.$route.params.setSession && !that.$session.exists()) {
-        that.$store.dispatch('getDashboardCards')
-        that.$store.dispatch('getDashboardChart')
-        that.$session.start()
-      } else if (!that.$session.exists()) {
-        that.$router.push('/login')
-        that.$store.state.currentPage = 'login'
-      } else {
-        that.$store.dispatch('getDashboardCards')
-        that.$store.dispatch('getDashboardChart')
-      }
+    refreshtimeout = setTimeout(function(){
+      that.onMount()
     } , 30000)  
+  },
+  destroyed: function () {
+    clearTimeout(refreshtimeout)
   }
 }
 </script>

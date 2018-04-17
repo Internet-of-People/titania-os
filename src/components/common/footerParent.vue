@@ -9,7 +9,7 @@
       <div class='float-right footer-links padding-right-20'>
         <span class="padding-right-20 white-paper-footer"><a href="https://drive.google.com/file/d/11xDyBFACJYxrDQY4YNdiBqF8UFhgvpT9/view" target="_blank">White Paper</a></span>
         <span class="padding-right-20 feedback-footer"><a id="titania_feedback" :href="getmailhref()">Feedback</a></span>
-        <span v-if="!getFooterClass()">
+        <span v-if="this.$store.state.currentPage !== 'login' && this.$store.state.currentPage !== 'configure' && this.$store.state.currentPage !== 'landingpage'">
           <span v-if="updateState == 'initial'" class="padding-right-20 update-version-elem">
             <a id="update_version" @click="toggleUpdatePopup()">Update Version</a>
           </span>

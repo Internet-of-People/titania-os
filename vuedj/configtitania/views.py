@@ -22,7 +22,8 @@ import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spw
 
 # dashboard db
 dashboard_db = "/datafs/titania/dashboard.sqlite3"
-dapps_store = json.load(open('dapps_store.json'))
+dapps_store_json = "/opt/titania/share/apps.json"
+dapps_store = json.load(open(dapps_store_json))
 
 # get Session store from settings
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore

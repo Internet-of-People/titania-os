@@ -13,5 +13,10 @@ tmpfs                /var/volatile        tmpfs      defaults              0  0
 # datafs
 /dev/mmcblk0p4       /datafs            auto       defaults  0  0
 
+
 # Binding mounts
-/datafs/docker       /var/lib/docker    auto       bind      0  0
+/datafs/titania/docker              /var/lib/docker    auto       bind      0  0
+/datafs/titania/home                /home              auto       bind      0  0
+
+# TODO: customize mirror script
+/datafs/titania/config/etc/rw   	/etc/rw        auto       bind,x-systemd.requires=datafs.mount,x-systemd.requires=mirror@etc-rw.service 0 0

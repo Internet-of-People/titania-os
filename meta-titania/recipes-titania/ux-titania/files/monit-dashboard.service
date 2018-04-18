@@ -5,7 +5,7 @@ Description=Titania monitoring service back-end, Docker piping
 
 [Service]
 Restart=on-failure
-WorkingDirectory=/srv/vuedj
+WorkingDirectory=/srv/ux-titania
 ExecStart=/usr/bin/python3 monit_dashboard.py
 
 [Install]

@@ -2,33 +2,40 @@
 # TODO: preprocess to remove whitespace/comments
 # TODO: label the partitions and select by label?
 
-# Check if it was a failed run
+# Defaulting active root to "a"
+if test "${active_root}" != "a" -a "${active_root}" != "b"; then
+    setenv active_root "a"
+fi
+
+# TODO: what if both trial run and after_update are set???
+
+# Indicate we need to swap the root 
+if env exists after_update; then
+    echo "Update detected, tracking the next boot"
+    setenv after_update
+    setenv trial_run 1
+# if it was a trial run and the flag is still on, clear it
+elif env exists trial_run; then
+    echo "Previous trial run failed, reverting to previous version"
+    setenv trial_run
+fi
+
+# Commit the changes so var
+saveenv
+
+# Swap roots for trial run
 if env exists trial_run; then
-    echo "Previous trial run failed, reverting active partitions"
     if test "${active_root}" = "a"; then
         setenv active_root "b"
     else
         setenv active_root "a"
     fi
-    setenv trial_run
-    saveenv
-# Check if we are just after update
-elif env exists after_update; then
-    echo "Update detected, tracking the next boot"
-    
-    setenv after_update
-    setenv trial_run 1
-    saveenv
 fi
 
 # Picking the version to run
 if test "${active_root}" = "b"; then
     setenv rootpart "3"
-else # Not "b" is interpreted as "a" and corrected
-    if test "${active_root}" != "a"; then
-        setenv active_root "a"
-        saveenv
-    fi
+else
     setenv rootpart "2"
 fi
 

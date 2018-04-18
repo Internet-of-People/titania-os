@@ -1,0 +1,29 @@
+diff --git a/include/libbb.h b/include/libbb.h
+index a8ceb44..d046875 100644
+--- a/include/libbb.h
++++ b/include/libbb.h
+@@ -117,19 +117,11 @@
+ #ifdef DMALLOC
+ # include <dmalloc.h>
+ #endif
+-/* Just in case libc doesn't define some of these... */
+-#ifndef _PATH_PASSWD
+-#define _PATH_PASSWD  "/etc/passwd"
+-#endif
+-#ifndef _PATH_GROUP
+-#define _PATH_GROUP   "/etc/group"
+-#endif
+-#ifndef _PATH_SHADOW
+-#define _PATH_SHADOW  "/etc/shadow"
+-#endif
+-#ifndef _PATH_GSHADOW
+-#define _PATH_GSHADOW "/etc/gshadow"
+-#endif
++/* Forcing values different from libc to make use or read/write directory */
++#define _PATH_PASSWD  "/etc/rw/passwd"
++#define _PATH_GROUP   "/etc/rw/group"
++#define _PATH_SHADOW  "/etc/rw/shadow"
++#define _PATH_GSHADOW "/etc/rw/gshadow"
+ #if defined __FreeBSD__ || defined __OpenBSD__
+ # include <netinet/in.h>
+ # include <arpa/inet.h>

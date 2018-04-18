@@ -12,3 +12,9 @@ echo "Trial run detected"
 # TODO: can we depend on all of them in systemd?
 
 fw_setenv trial_run
+
+if test "$(fw_printenv -n active_root)" = "a"; then
+    fw_setenv active_root "b"
+else
+    fw_setenv active_root "a"
+fi

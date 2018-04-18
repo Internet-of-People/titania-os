@@ -1,7 +1,13 @@
 # Titania own software
-IMAGE_INSTALL += "vuedj datafs-resizer http-splash"
+IMAGE_INSTALL += "ux-titania datafs-resizer http-splash"
 
-IMAGE_INSTALL += "sudo networkmanager avahi-daemon llmnrd zram systemd-analyze swupdate"
+IMAGE_INSTALL += "sudo zram systemd-analyze"
+
+# Network and discovery
+IMAGE_INSTALL += "networkmanager avahi-daemon llmnrd"
+
+# SWupdate
+IMAGE_INSTALL += "swupdate"
 
 # Docker
 IMAGE_INSTALL += "docker docker-dapp"

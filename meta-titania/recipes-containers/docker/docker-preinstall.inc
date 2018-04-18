@@ -9,7 +9,7 @@ SRC_URI += "file://download-frozen-image-v2.sh"
 # The runners are in docker-dapp package because this one isn't pulled in by the main image
 DOCKER_IMAGE_PREINSTALL ?= ""
 
-DOCKER_PREINSTALL_DIR ?= "/docker/preinstall"
+DOCKER_PREINSTALL_DIR ?= "/titania/docker/preinstall"
 FILES_${PN}-preinstall = "${DOCKER_PREINSTALL_DIR}/* /dapp/*"
 
 # We need those on the host for the download-frozen-image.sh script

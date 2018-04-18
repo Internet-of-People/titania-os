@@ -1,0 +1,32 @@
+diff --git a/lib/defines.h b/lib/defines.h
+index 62bd73e..d5b7579 100644
+--- a/lib/defines.h
++++ b/lib/defines.h
+@@ -298,22 +298,12 @@ char *strchr (), *strrchr (), *strtok ();
+ #define STRFCPY(A,B) \
+ 	(strncpy((A), (B), sizeof(A) - 1), (A)[sizeof(A) - 1] = '\0')
+ 
+-#ifndef PASSWD_FILE
+-#define PASSWD_FILE "/etc/passwd"
+-#endif
+-
+-#ifndef GROUP_FILE
+-#define GROUP_FILE "/etc/group"
+-#endif
+-
+-#ifndef SHADOW_FILE
+-#define SHADOW_FILE "/etc/shadow"
+-#endif
+-
++/* Forcing values different from libc to make use or read/write directory */
++#define PASSWD_FILE "/etc/rw/passwd"
++#define GROUP_FILE "/etc/rw/group"
++#define SHADOW_FILE "/etc/rw/shadow"
+ #ifdef SHADOWGRP
+-#ifndef SGROUP_FILE
+-#define SGROUP_FILE "/etc/gshadow"
+-#endif
++#define SGROUP_FILE "/etc/rw/gshadow"
+ #endif
+ 
+ #ifndef NULL

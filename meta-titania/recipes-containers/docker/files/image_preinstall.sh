@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # TODO: figure out the exact extension with wildcards
-IMAGE="/datafs/docker/preinstall/$1.tar"
+IMAGE="/datafs/titania/docker/preinstall/$1.tar"
 
 if test -f "$IMAGE" ; then
     echo "Loading $IMAGE into docker"

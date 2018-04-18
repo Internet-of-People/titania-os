@@ -1,0 +1,207 @@
+diff --git a/corelib/progress_thread.c b/corelib/progress_thread.c
+index 16a111a..5146766 100644
+--- a/corelib/progress_thread.c
++++ b/corelib/progress_thread.c
+@@ -42,13 +42,6 @@
+ #include "network_interface.h"
+ #include <progress.h>
+ 
+-struct progress_conn {
+-	SIMPLEQ_ENTRY(progress_conn) next;
+-	int sockfd;
+-};
+-
+-SIMPLEQ_HEAD(connections, progress_conn);
+-
+ /*
+  * Structure contains data regarding
+  * current installation
+@@ -57,9 +50,9 @@ struct swupdate_progress {
+ 	struct progress_msg msg;
+ 	char *current_image;
+ 	const handler *curhnd;
+-	struct connections conns;
+ 	pthread_mutex_t lock;
+ 	bool step_running;
++	char json[8192]; /* should be enough */
+ };
+ static struct swupdate_progress progress;
+ 
+@@ -67,31 +60,45 @@ static struct swupdate_progress progress;
+  * This must be called after acquiring the mutex
+  * for the progress structure
+  */
+-static void send_progress_msg(void)
++static void generate_progress_json(void)
+ {
+-	struct progress_conn *conn, *tmp;
+-	struct swupdate_progress *prbar = &progress;
+-	void *buf;
+-	size_t count;
+-	ssize_t n;
+-
+-	SIMPLEQ_FOREACH_SAFE(conn, &prbar->conns, next, tmp) {
+-		buf = &prbar->msg;
+-		count = sizeof(prbar->msg);
+-		while (count > 0) {
+-			n = send(conn->sockfd, buf, count, MSG_NOSIGNAL);
+-			if (n <= 0) {
+-				TRACE("A progress client disappeared, removing it.");
+-				close(conn->sockfd);
+-				SIMPLEQ_REMOVE(&prbar->conns, conn,
+-					       	progress_conn, next);
+-				free(conn);
+-				break;
+-			}
+-			count -= (size_t)n;
+-			buf = (char*)buf + n;
+-		}
+-	}
++	static const char* status_txt[] = { "idle",
++								 		"start",
++								 		"run",
++								 		"success",
++								 		"failure",
++								 		"download",
++								 		"done",
++								 		"subprocess" };
++	static const char* source_txt[] = { "unknown",
++								 		"webserver",
++								 		"suricatta",
++								 		"downloader",
++								 		"local" };
++
++	/* TODO: escaping of %s! */
++	snprintf(progress.json, 8192, "{"
++			"\"magic\":%d,"
++			"\"status\":\"%s\","
++			"\"dwl_percent\":%d,"
++			"\"nsteps\":%d,"
++			"\"cur_step\":%d,"
++			"\"cur_percent\":%d,"
++			"\"cur_image\":\"%s\","
++			"\"hnd_name\":\"%s\","
++			"\"source\":\"%s\","
++			"\"info\":\"%s\""
++			"}",
++		progress.msg.magic,
++		status_txt[progress.msg.status],
++		progress.msg.dwl_percent,
++		progress.msg.nsteps,
++		progress.msg.cur_step,
++		progress.msg.cur_percent,
++		progress.msg.cur_image,
++		progress.msg.hnd_name,
++		source_txt[progress.msg.source],
++		progress.msg.info);
+ }
+ 
+ void swupdate_progress_init(unsigned int nsteps) {
+@@ -104,7 +111,7 @@ void swupdate_progress_init(unsigned int nsteps) {
+ 	prbar->msg.cur_percent = 0;
+ 	prbar->msg.infolen = get_install_info(&prbar->msg.source, prbar->msg.info,
+ 						sizeof(prbar->msg.info));
+-	send_progress_msg();
++	generate_progress_json();
+ 	/* Info is just an event, reset it after sending */
+ 	prbar->msg.infolen = 0;
+ 	pthread_mutex_unlock(&prbar->lock);
+@@ -116,7 +123,7 @@ void swupdate_progress_update(unsigned int perc)
+ 	pthread_mutex_lock(&prbar->lock);
+ 	if (perc != prbar->msg.cur_percent && prbar->step_running) {
+ 		prbar->msg.cur_percent = perc;
+-		send_progress_msg();
++		generate_progress_json();
+ 	}
+ 	pthread_mutex_unlock(&prbar->lock);
+ }
+@@ -130,7 +137,7 @@ void swupdate_progress_inc_step(char *image)
+ 	strncpy(prbar->msg.cur_image, image, sizeof(prbar->msg.cur_image));
+ 	prbar->step_running = true;
+ 	prbar->msg.status = RUN;
+-	send_progress_msg();
++	generate_progress_json();
+ 	pthread_mutex_unlock(&prbar->lock);
+ }
+ 
+@@ -140,6 +147,7 @@ void swupdate_progress_step_completed(void)
+ 	pthread_mutex_lock(&prbar->lock);
+ 	prbar->step_running = false;
+ 	prbar->msg.status = IDLE;
++	generate_progress_json();
+ 	pthread_mutex_unlock(&prbar->lock);
+ }
+ 
+@@ -149,7 +157,7 @@ void swupdate_progress_end(RECOVERY_STATUS status)
+ 	pthread_mutex_lock(&prbar->lock);
+ 	prbar->step_running = false;
+ 	prbar->msg.status = status;
+-	send_progress_msg();
++	generate_progress_json();
+ 	pthread_mutex_unlock(&prbar->lock);
+ }
+ 
+@@ -161,7 +169,7 @@ void swupdate_progress_info(RECOVERY_STATUS status, int cause, const char *info)
+ 			cause, info);
+ 	prbar->msg.infolen = strlen(prbar->msg.info);
+ 	prbar->msg.status = status;
+-	send_progress_msg();
++	generate_progress_json();
+ 	/* Info is just an event, reset it after sending */
+ 	prbar->msg.infolen = 0;
+ 	pthread_mutex_unlock(&prbar->lock);
+@@ -177,7 +185,7 @@ void swupdate_progress_done(const char *info)
+ 	}
+ 	prbar->step_running = false;
+ 	prbar->msg.status = DONE;
+-	send_progress_msg();
++	generate_progress_json();
+ 	prbar->msg.infolen = 0;
+ 	pthread_mutex_unlock(&prbar->lock);
+ }
+@@ -188,10 +196,11 @@ void *progress_bar_thread (void __attribute__ ((__unused__)) *data)
+ 	socklen_t clilen;
+ 	struct sockaddr_un cliaddr;
+ 	struct swupdate_progress *prbar = &progress;
+-	struct progress_conn *conn;
++	void *buf;
++	size_t count;
++	ssize_t n;
+ 
+ 	pthread_mutex_init(&prbar->lock, NULL);
+-	SIMPLEQ_INIT(&prbar->conns);
+ 
+ 	/* Initialize and bind to UDS */
+ 	listen = listener_create(SOCKET_PROGRESS_PATH, SOCK_STREAM);
+@@ -212,16 +221,23 @@ void *progress_bar_thread (void __attribute__ ((__unused__)) *data)
+ 		}
+ 
+ 		/*
+-		 * Save the new connection to be handled by the progress thread
++		 * Serve the JSON to the new connection and close it
+ 		 */
+-		conn = (struct progress_conn *)calloc(1, sizeof(*conn));
+-		if (!conn) {
+-			ERROR("Out of memory, skipping...");
+-			continue;
+-		}
+-		conn->sockfd = connfd;
+ 		pthread_mutex_lock(&prbar->lock);
+-		SIMPLEQ_INSERT_TAIL(&prbar->conns, conn, next);
++		buf = prbar->json;
++		count = strnlen(prbar->json, 8192);
++		while (count > 0) {
++			n = send(connfd, buf, count, MSG_NOSIGNAL);
++			if (n <= 0) {
++				TRACE("A progress client disappeared prematurely.");
++				break;
++			}
++			count -= (size_t)n;
++			buf = (char*)buf + n;
++		}
++
++		TRACE("Sent JSON progress report.");
++		close(connfd);
+ 		pthread_mutex_unlock(&prbar->lock);
+ 	} while(1);
+ }

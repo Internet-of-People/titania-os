@@ -10,6 +10,9 @@ SRC_URI += "file://dapp@.service \
 # TODO: how exactly do we ship nginx?
 # Drop-in directory for JSON maybe
 FILES_${PN}-dapp = "${systemd_unitdir}/system/dapp@.service /opt/titania/*"
+
+# TODO: doesn't work with templates
+# TODO: solution temporarily included in docker-iop
 SYSTEMD_SERVICE_${PN}-dapp = "dapp@nginx.service"
 
 DOCKER_IMAGE_PREINSTALL += "libertaria/nginx:armv7"

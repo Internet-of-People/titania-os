@@ -19,6 +19,3 @@
 [submodule "meta-swupdate"]
 	path = meta-swupdate
 	url = https://github.com/sbabic/meta-swupdate.git
-[submodule "doc"]
-	path = doc
-	url = ../yocto-titania.wiki.git

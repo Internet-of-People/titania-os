@@ -1612,7 +1612,7 @@ div.highlightedFilter{
 
 .hub-parent-block{
   div.dapps-category{
-    @extend .display-inline-flex, .float-left;
+    @extend .display-inline-flex, .float-left, .col-12 ;
     color: $titania-darker;
     display: block;
     height: 100px;
@@ -1632,6 +1632,44 @@ div.highlightedFilter{
   height: 80px;
   width: 80px;
   padding: 16px;
+}
+
+.dapps-block{
+  padding: 24px;
+}
+
+.dapp-popup-logo{
+  height: 40px;
+  width: 40px;
+}
+
+.dapp-popup-name{
+  padding: 12px;
+}
+
+.dapp-popup-header-block{
+  @extend .display-inline-flex ;
+  padding: 16px;
+  border-bottom: 1px solid $titania-dark;
+  float: left;
+  width: 398px;
+  background-color: $brand-highlight;
+}
+
+.dapps-popup-action-items{
+  position: absolute;
+  right: 20px;
+}
+
+.dapps-popup-desc{
+  div{
+    @extend .display-inline-flex ;
+    width: 398px;
+    padding: 0 24px;
+  }
+  div.sans-serif-bold{
+    padding: 24px 24px 12px;
+  }
 }
 
 /*

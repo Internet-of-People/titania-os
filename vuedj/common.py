@@ -198,3 +198,6 @@ CMD_DOCKER_OVERVIEW_EXITED = "docker ps -a --filter status=exited --format '{{.I
 
 """AGGREGATION INTERVALS"""
 AGGREGATES = ['-1 week','-4 days','-1 day','-12 hour','-6 hours','-3 hours','-1 hour']
+
+"""dAPP HUB"""
+ACTIVE_SERVICES = "ls /etc/systemd/system/multi-user.target.wants/dapp@*.service"

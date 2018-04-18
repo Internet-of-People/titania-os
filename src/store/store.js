@@ -12,7 +12,7 @@ Vue.use(VueLocalStorage)
 
 // const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-const apiRoot = 'http://192.168.2.4:8000' // dev pi
+const apiRoot = 'http://192.168.2.2:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -62,7 +62,10 @@ const store = new Vuex.Store({
     hashPopupState: false,
     showupdatepopup: false,
     updateState: 'initial', /**States: initial, updating, success, failure */
-    updateData: {}
+    updateData: {},
+    dappsFilter: 'AVAILABLE',
+    showdappdetail: false,
+    activedapp: {}
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -454,11 +457,11 @@ const store = new Vuex.Store({
     retryUpdate (state) {
       store.commit('SET_INITIAL_UPDATE_STATUS', {})
     },
-    fetchAlladApps (state) {
-      var fetchAlladApps = {
-        _action: 'fetchAlladApps'
+    fetchAlldApps (state) {
+      var fetchAlldApps = {
+        _action: 'fetchAlldApps'
       }
-      return api.postWithSession(apiRoot + '/index.html', fetchAlladApps)
+      return api.postWithSession(apiRoot + '/index.html', fetchAlldApps)
       .then((response) => store.commit('INIT_DAPP_STORE', response))
       .catch((error) => store.commit('API_FAIL', error))
     }

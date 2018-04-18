@@ -34,13 +34,13 @@ export default {
   mounted: function () {
     if (this.$route.params.setSession) {
       this.$session.start()
-      this.$store.dispatch('fetchAlladApps')
+      this.$store.dispatch('fetchAlldApps')
       this.$store.state.currentPage = 'dappshub'
     } else if (!this.$session.exists()) {
       this.$router.push('/login')
       this.$store.state.currentPage = 'login'
     } else {
-      this.$store.dispatch('fetchAlladApps')
+      this.$store.dispatch('fetchAlldApps')
       this.$store.state.currentPage = 'dappshub'
     }
   }

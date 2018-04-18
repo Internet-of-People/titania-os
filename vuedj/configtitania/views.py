@@ -145,6 +145,25 @@ def get_updatestatus(service_name):
         return 'failure', {}
     else:
         return 'initial', data
+
+def get_dappsdetails():
+    active_service_list = []
+    dapps_list = list(dapps_store)
+    # ls /etc/systemd/system/multi-user.target.wants/dapp@*.service
+    active_services_output = subprocess.Popen(common.ACTIVE_SERVICES,shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')
+    for row in active_services_output:
+        name = row.split('/')
+        if len(name) > 1:
+            active_service_list.append(name[5])
+    for dapp in dapps_list:
+        print(dapp["id"])
+        service = 'dapp@{}.service'.format(dapp["id"])
+        print(service)
+        if service in active_service_list:
+            dapp["is_active"] = '1'
+        else:
+            dapp["is_active"] = '0'
+    return dapps_list
         
 def validate_session(request):
     session_key = request.POST.get("session_key")
@@ -521,9 +540,10 @@ def handle_config(request):
                         configuredwifi = get_allconfiguredwifi()
                         wifi_aps = get_allAPs()
                         return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'editwifi', 'endpoint': wifi_name}], safe=False)
-                elif action == 'fetchAlladApps':
+                elif action == 'fetchAlldApps':
                     print(action)
-                    return JsonResponse({'STATUS':'SUCCESS','dapps_store':dapps_store}, safe=False)
+                    dapps_list = get_dappsdetails()
+                    return JsonResponse({'STATUS':'SUCCESS','dapps_store':dapps_list}, safe=False)
                 elif action == 'updateOSImage':
                     print(action)
                     data = request.FILES['file']

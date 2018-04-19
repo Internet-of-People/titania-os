@@ -1565,12 +1565,21 @@ div.highlightedFilter {
   height: 50px;
 }
 .hub-parent-block div.dapps-category img.dapps-settings {
-  height: 20px;
+  height: 18px;
+  position: relative;
+  bottom: 28px;
+  left: 16px;
+}
+.hub-parent-block div.dapps-category .dropdown-config {
+  position: relative;
+  left: 80px;
+  overflow-y: auto;
+  width: 100px;
+  top: -63px;
 }
 
 .dapp-component {
   height: 80px;
-  width: 80px;
   padding: 16px;
 }
 

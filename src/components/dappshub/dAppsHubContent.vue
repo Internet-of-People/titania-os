@@ -12,11 +12,17 @@
           <div>{{item.name}}</div>
           <div v-if="loadApps && item.category == dapp.tags && filterCheck(dapp.is_active)" 
                 v-for="(dapp,index) in dappsjson" :key="index" 
-                @click="getAppDetails(dapp)" class="dapp-component cursor-pointer">
-            <img class="dapps-logo" :src="dapp.logo"/>
+                class="dapp-component cursor-pointer">
+            <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(dapp)"/>
+            <img class="dapps-settings" src="../../assets/images/ic-options.png" @click="openOptionsMenu(dapp)"/>
             <div>
               {{dapp.name}}
             </div>
+            <ul :id="dapp.name.replace(' ','_')" class='dropdown-config hide' >
+                <li v-for="item in dappsoptions" :key="item" class="float-left  cursor-pointer col-11 selected" >
+                  <span class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{item}}</span>
+                </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -38,6 +44,11 @@ export default {
     dappsstateactions: {
       get: function () {
         return ["AVAILABLE", "INSTALLED", "DISABLED"]
+      }
+    },
+    dappsoptions: {
+      get: function () {
+        return ["Install", "Disable", "Remove"]
       }
     },
     dappsFilter: {
@@ -95,6 +106,10 @@ export default {
       } else {
         this.activedapp = {}
       }
+    },
+    openOptionsMenu: function (dapp) {
+      var dropdownid = dapp.name.replace(' ','_')
+      $('#'+dropdownid).removeClass('hide')
     }
   }
 }

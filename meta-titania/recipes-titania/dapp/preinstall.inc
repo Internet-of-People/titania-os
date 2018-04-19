@@ -1,8 +1,8 @@
-PACKAGES += "docker-preinstall"
+PACKAGES += "${PN}-preinstall"
 
 # Backport of the contrib file from modern Docker (Moby) codebase
 # TODO: send a patch upstream
-# TODO: upgrade docker eventually
+# TODO: upgrade docker eventually and use the file from Docker package?
 SRC_URI += "file://download-frozen-image-v2.sh"
 
 # Preinstalled images for datafs
@@ -10,7 +10,9 @@ SRC_URI += "file://download-frozen-image-v2.sh"
 DOCKER_IMAGE_PREINSTALL ?= ""
 
 DOCKER_PREINSTALL_DIR ?= "/titania/docker/preinstall"
-FILES_${PN}-preinstall = "${DOCKER_PREINSTALL_DIR}/* /dapp/*"
+DAPP_LOCAL_DIR ?= "/dapp"
+UX_LOCATION ?= "/srv/ux-titania"
+FILES_${PN}-preinstall = "${DOCKER_PREINSTALL_DIR}/* ${DAPP_LOCAL_DIR}/*"
 
 # We need those on the host for the download-frozen-image.sh script
 DEPENDS += "curl-native jq-native ca-certificates-native"
@@ -56,6 +58,6 @@ do_install_append() {
     # TODO: possibly not the best place to have it, separate in other package
     # TODO: hardcode!
     # NOTE: the dapp name might change
-    install -d ${D}/dapp/world.libertaria.nginx/usr
-    ln -s /srv/vuedj/dist ${D}/dapp/world.libertaria.nginx/usr/html
+    install -d ${D}${DAPP_LOCAL_DIR}/world.libertaria.nginx/usr
+    ln -s ${UX_LOCATION}/dist ${D}${DAPP_LOCAL_DIR}/world.libertaria.nginx/usr/html
 }

@@ -1,5 +1,12 @@
 [Unit]
 Description=dApp Hub FUSE bridge
+# Starting before docker allows pydapphubfuse to start 
+# properly and create the drop-ins before dapp@ serives
+# are run. There is a possibility of race condition
+# TODO: instead of this, fork and use other means to signal 
+# that the service is in started state when all the dropins 
+# are there
+Before=docker.service
 
 [Service]
 WorkingDirectory=/opt/titania/share

@@ -1,6 +1,13 @@
 [Unit]
 Wants=network.target
 Wants=network-info.service
+
+# Abort if either docker or dapphub fails
+# This is excessive because pydapphubfuse
+# already starts before docker
+Requires=pydapphubfuse.service
+After=pydapphubfuse.service
+Requires=docker.service
 After=docker.service
 
 [Service]
@@ -9,13 +16,14 @@ Restart=always
 # TODO: this logic has to be streamlined with dApp SDK
 TimeoutStartSec=20min
 
+# Prevent starting up rogue containers not in apps.json
+ExecStartPre=/usr/bin/test -n ${DAPP_DOCKER_IMAGE}
+
 # TODO: ugly hack, remove asap
 ExecStartPre=-/bin/mkdir -p $DAPP_CHOWN_PATHS
 ExecStartPre=/bin/chown $DAPP_CHOWN_UID $DAPP_CHOWN_PATHS
 
 # Try to preinstall the image
-# Note if importing failed the file will still be deleted!
-# TODO: discuss if this is expected behavour
 ExecStartPre=/opt/titania/bin/dapp_prepare.sh ${DAPP_DOCKER_IMAGE_FILE} \
 	%i \
 	$DAPP_DOCKER_PORTS \
@@ -25,3 +33,7 @@ ExecStartPre=/opt/titania/bin/dapp_prepare.sh ${DAPP_DOCKER_IMAGE_FILE} \
 
 # Run the container and attach for journal
 ExecStart=/usr/bin/docker start -a -i %i
+ExecStop=/usr/bin/docker stop %i
+
+[Install]
+WantedBy=multi-user.target

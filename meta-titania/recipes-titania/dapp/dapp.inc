@@ -1,7 +1,4 @@
-PACKAGES += "${PN}-dapp"
-SYSTEMD_PACKAGES += "${PN}-dapp"
-
-RDEPENDS_${PN}-dapp += "pydapphubfuse"
+RDEPENDS_${PN} += "pydapphubfuse"
 
 # TODO: move dapp_prepare.sh logic inside systemd
 SRC_URI += "file://dapp@.service \
@@ -9,11 +6,13 @@ SRC_URI += "file://dapp@.service \
 
 # TODO: how exactly do we ship nginx?
 # Drop-in directory for JSON maybe
-FILES_${PN}-dapp = "${systemd_unitdir}/system/dapp@.service /opt/titania/*"
+FILES_${PN} = "${systemd_unitdir}/system/dapp@.service /opt/titania/*"
 
-# TODO: doesn't work with templates
-# TODO: solution temporarily included in docker-iop
-SYSTEMD_SERVICE_${PN}-dapp = "dapp@nginx.service"
+# SystemD recipe doesn't know how to parse things with multiple dots
+# openembedded-core `master` branch has the correct code. 
+# They get replaced in a ROOTFS_POSTPROCESS command (see rpi-titania-image)
+# TODO: Either backport or upgrade branch (painful!), remove this hack
+SYSTEMD_SERVICE_${PN} = "dapp@world,libertaria,nginx.service"
 
 DOCKER_IMAGE_PREINSTALL += "libertaria/nginx:armv7"
 

@@ -1,5 +1,5 @@
 SUMMARY = "Data Partition image"
-IMAGE_INSTALL = "docker-preinstall base-files-datafs"
+IMAGE_INSTALL = "dapp-preinstall base-files-datafs"
 IMAGE_LINGUAS = ""
 PACKAGE_INSTALL = "${IMAGE_INSTALL}"
 # We only need ext4, nothing else

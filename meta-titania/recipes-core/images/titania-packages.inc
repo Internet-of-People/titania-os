@@ -10,7 +10,7 @@ IMAGE_INSTALL += "networkmanager avahi-daemon llmnrd"
 IMAGE_INSTALL += "swupdate"
 
 # Docker
-IMAGE_INSTALL += "docker docker-dapp"
+IMAGE_INSTALL += "docker dapp"
 
 # TODO: replace with IPv6 or something eventually
 IMAGE_INSTALL += "natpmp"

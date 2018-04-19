@@ -3,10 +3,8 @@ Wants=network.target
 Wants=network-info.service
 
 # Abort if either docker or dapphub fails
-# This is excessive because pydapphubfuse
-# already starts before docker
-Requires=pydapphubfuse.service
-After=pydapphubfuse.service
+Requires=pydapphubfuse-reload.service
+After=pydapphubfuse-reload.service
 Requires=docker.service
 After=docker.service
 
@@ -20,8 +18,9 @@ TimeoutStartSec=20min
 ExecStartPre=/usr/bin/test -n ${DAPP_DOCKER_IMAGE}
 
 # TODO: ugly hack, remove asap
+# Both allowed to fail currently to play nicely with other dapps
 ExecStartPre=-/bin/mkdir -p $DAPP_CHOWN_PATHS
-ExecStartPre=/bin/chown $DAPP_CHOWN_UID $DAPP_CHOWN_PATHS
+ExecStartPre=-/bin/chown $DAPP_CHOWN_UID $DAPP_CHOWN_PATHS
 
 # Try to preinstall the image
 ExecStartPre=/opt/titania/bin/dapp_prepare.sh ${DAPP_DOCKER_IMAGE_FILE} \

@@ -1,6 +1,7 @@
 # TODO: replace with HTTPS link when we go public
 SRC_URI = "git://git@gitlab.libertaria.community:2200/titania/pydapphubfuse.git;protocol=ssh \
-           file://pydapphubfuse.service"
+           file://pydapphubfuse.service \
+           file://pydapphubfuse-reload.service"
 # TODO: override only for git versions, not in the base recipe
 S = "${WORKDIR}/git"
 
@@ -12,7 +13,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e11ab5963417f9fd40fe04c3cf8c6f74"
 
 inherit systemd
 
-SYSTEMD_SERVICE_${PN} = "pydapphubfuse.service"
+# TODO: make latter a .target, use ExecStartPost etc.
+SYSTEMD_SERVICE_${PN} = "pydapphubfuse.service pydapphubfuse-reload.service"
 
 # TODO: maybe find a more sophisticated place instead of /srv/?
 FILES_${PN} += "/opt/titania/"
@@ -26,4 +28,5 @@ do_install() {
 
     install -d ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/pydapphubfuse.service ${D}${systemd_unitdir}/system
+    install -m 0644 ${WORKDIR}/pydapphubfuse-reload.service ${D}${systemd_unitdir}/system
 }

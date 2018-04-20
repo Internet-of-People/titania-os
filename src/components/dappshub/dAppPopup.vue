@@ -3,8 +3,11 @@
         <div class="dapp-popup-header-block">
            <img class="dapp-popup-logo" :src="dappDetails.logo"/>
            <div class="dapp-popup-name">{{dappDetails.name}}</div>
-           <div class="dapps-popup-action-items">
-               <button class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Disable</button>
+           <div v-if="activeCategory!='helper'" class="dapps-popup-action-items">
+               <button v-if="dappDetails.is_active == '-1'" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Download</button>
+               <button v-if="dappDetails.is_active == '0'" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Enable</button>
+               <button v-if="dappDetails.is_active == '1'" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Disable</button>
+               <button v-if="dappDetails.is_active != '-1'" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Remove</button>
            </div>
         </div>
         <div class="dapps-popup-desc">
@@ -17,7 +20,7 @@
 <script>
 export default {
   name: 'dAppPopup',
-  props: ['dappDetails']
+  props: ['dappDetails','activeCategory']
 }
 </script>
 

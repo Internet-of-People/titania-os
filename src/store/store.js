@@ -65,7 +65,8 @@ const store = new Vuex.Store({
     updateData: {},
     dappsFilter: 'AVAILABLE',
     showdappdetail: false,
-    activedapp: {}
+    activedapp: {},
+    activecategory: 'helper'
   },
   mutations: {
     // Keep in mind that response is an HTTP response

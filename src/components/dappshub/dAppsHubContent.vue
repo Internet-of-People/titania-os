@@ -13,21 +13,21 @@
           <div v-if="loadApps && item.category == dapp.tags && filterCheck(dapp.is_active)" 
                 v-for="(dapp,index) in dappsjson" :key="index" 
                 class="dapp-component cursor-pointer">
-            <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(dapp)"/>
-            <img class="dapps-settings" src="../../assets/images/ic-options.png" @click="openOptionsMenu(dapp)"/>
+            <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>
+            <img v-if="item.category != 'helper'" class="dapps-settings" src="../../assets/images/ic-options.png" @click="openOptionsMenu(dapp)"/>
             <div>
               {{dapp.name}}
             </div>
             <ul :id="dapp.name.replace(' ','_')" class='dropdown-config hide' >
-                <li v-for="item in dappsoptions" :key="item" class="float-left  cursor-pointer col-11 selected" >
-                  <span class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{item}}</span>
+                <li v-for="option in getdAppOptions(item.category, dapp)" :key="option" class="float-left  cursor-pointer col-11 selected" >
+                  <span class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{option}}</span>
                 </li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-    <dAppPopup v-if="showdappdetail" :dapp-details="activedapp"/>
+    <dAppPopup v-if="showdappdetail" :dapp-details="activedapp" :active-category="activecategory"/>
     <div class="fadeout" v-if="showdappdetail" @click="getAppDetails()"></div>
   </div>
 </template>
@@ -47,7 +47,7 @@ export default {
       }
     },
     dappsoptions: {
-      get: function () {
+      get: function (action) {
         return ["Install", "Disable", "Remove"]
       }
     },
@@ -84,6 +84,14 @@ export default {
       set: function (value) {
         this.$store.state.activedapp = value
       }
+    },
+    activecategory: {
+      get: function () {
+        return this.$store.state.activecategory
+      },
+      set: function (value) {
+        this.$store.state.activecategory = value
+      }
     }
   },
   methods: {
@@ -99,10 +107,11 @@ export default {
       }
       return ret
     },
-    getAppDetails: function (dapp) {
+    getAppDetails: function (category, dapp) {
       this.showdappdetail = !this.showdappdetail
       if (dapp) {
         this.activedapp = dapp
+        this.activecategory = category
       } else {
         this.activedapp = {}
       }
@@ -111,6 +120,19 @@ export default {
       var dropdownid = dapp.name.replace(' ','_')
       $('.dropdown-config').addClass('hide')
       $('#'+dropdownid).removeClass('hide')
+    },
+    getdAppOptions: function (category, dapp) {
+      if (category == 'helper') {
+        return []
+      } else {
+        if (dapp.is_active == -1) {
+          return ['Download']
+        } else if (dapp.is_active == '0') {
+          return ['Enable', 'Remove']
+        } else {
+          return ['Disable', 'Remove']
+        }
+      }
     }
   }
 }

@@ -149,20 +149,32 @@ def get_updatestatus(service_name):
 def get_dappsdetails():
     active_service_list = []
     dapps_list = list(dapps_store)
+    # downloaded images
+    # docker images
+    downld_service_list = subprocess.Popen(common.DOWNLOADED_SERVICES,shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')
+    print(downld_service_list)
+    # TO DO replace with systemctl-isenabled
+    # active services
     # ls /etc/systemd/system/multi-user.target.wants/dapp@*.service
     active_services_output = subprocess.Popen(common.ACTIVE_SERVICES,shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')
     for row in active_services_output:
         name = row.split('/')
         if len(name) > 1:
-            active_service_list.append(name[5])
+            active_service_list.append(name[5])   
     for dapp in dapps_list:
         print(dapp["id"])
+        service_repo = dapp["image"]
         service = 'dapp@{}.service'.format(dapp["id"])
         print(service)
         if service in active_service_list:
-            dapp["is_active"] = '1'
+            # downloaded and enabled
+            dapp["is_active"] = common.SERVICE_ENABLED
+        elif service_repo in downld_service_list: 
+            # downloaded but not enabled
+            dapp["is_active"] = common.SERVICE_DISABLED
         else:
-            dapp["is_active"] = '0'
+            # not downloaded
+            dapp["is_active"] = common.SERVICE_NOT_DOWNLOADED    
     return dapps_list
         
 def validate_session(request):

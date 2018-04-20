@@ -109,6 +109,7 @@ export default {
     },
     openOptionsMenu: function (dapp) {
       var dropdownid = dapp.name.replace(' ','_')
+      $('.dropdown-config').addClass('hide')
       $('#'+dropdownid).removeClass('hide')
     }
   }

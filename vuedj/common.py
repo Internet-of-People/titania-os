@@ -201,3 +201,7 @@ AGGREGATES = ['-1 week','-4 days','-1 day','-12 hour','-6 hours','-3 hours','-1 
 
 """dAPP HUB"""
 ACTIVE_SERVICES = "ls /etc/systemd/system/multi-user.target.wants/dapp@*.service"
+DOWNLOADED_SERVICES = "docker images --format '{{.Repository}}:{{.Tag}}'"
+SERVICE_ENABLED = 1
+SERVICE_DISABLED = 0
+SERVICE_NOT_DOWNLOADED = -1

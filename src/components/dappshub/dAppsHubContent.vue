@@ -14,12 +14,12 @@
                 v-for="(dapp,index) in dappsjson" :key="index" 
                 class="dapp-component cursor-pointer">
             <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>
-            <img v-if="item.category != 'helper'" class="dapps-settings" src="../../assets/images/ic-options.png" @click="openOptionsMenu(dapp)"/>
+            <img class="dapps-settings" src="../../assets/images/ic-options.png" @click="openOptionsMenu(dapp)"/>
             <div>
               {{dapp.name}}
             </div>
             <ul :id="dapp.name.replace(' ','_')" class='dropdown-config hide' >
-                <li v-for="option in getdAppOptions(item.category, dapp)" :key="option" class="float-left  cursor-pointer col-11 selected" >
+                <li v-for="option in getdAppOptions(item.category, dapp)" :key="option" class="float-left  cursor-pointer col-11 selected" @click="optionAction(option, dapp)">
                   <span class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{option}}</span>
                 </li>
             </ul>
@@ -123,15 +123,32 @@ export default {
     },
     getdAppOptions: function (category, dapp) {
       if (category == 'helper') {
-        return []
+        return ['Details']
       } else {
         if (dapp.is_active == -1) {
-          return ['Download']
+          return ['Download', 'Details']
         } else if (dapp.is_active == '0') {
-          return ['Enable', 'Remove']
+          return ['Enable', 'Remove', 'Details']
         } else {
-          return ['Disable', 'Remove']
+          return ['Disable', 'Remove', 'Details']
         }
+      }
+    },
+    optionAction: function(option, dapp) {
+      $('.dropdown-config').addClass('hide')
+      console.log(option)
+      console.log(dapp)
+      if (option === 'Details') {
+        this.getAppDetails(option, dapp)
+      } else if (option == 'Enable') {
+        //  systemctl enable dapp@...
+        // systemctl start dapp@..
+      } else if (option == 'Disable') {
+        // systemctl disable dapp@..
+        // systemctl stop dapp@...  
+      } else if (option == 'Remove') {
+        // docker rm <container name>
+        // docker rmi <image name> 
       }
     }
   }

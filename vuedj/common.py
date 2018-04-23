@@ -200,7 +200,7 @@ CMD_DOCKER_OVERVIEW_EXITED = "docker ps -a --filter status=exited --format '{{.I
 AGGREGATES = ['-1 week','-4 days','-1 day','-12 hour','-6 hours','-3 hours','-1 hour']
 
 """dAPP HUB"""
-ACTIVE_SERVICES = "ls /etc/systemd/system/multi-user.target.wants/dapp@*.service"
+IS_ACTIVE_SERVICE = "systemctl is-enabled dapp@{}.service"
 DOWNLOADED_SERVICES = "docker images --format '{{.Repository}}:{{.Tag}}'"
 SERVICE_ENABLED = 1
 SERVICE_DISABLED = 0

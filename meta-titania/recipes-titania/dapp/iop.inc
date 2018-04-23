@@ -1,7 +1,7 @@
 # See dapp.inc for explanation on why it's "," instead of "."
-SYSTEMD_SERVICE_${PN} += "dapp@iop,global,iop,ps.service     \
-                          dapp@iop,global,iop,can.service    \
-                          dapp@iop,global,iop,loc.service"
+SYSTEMD_SERVICE_${PN} += "dapp@global,iop,ps.service     \
+                          dapp@global,iop,can.service    \
+                          dapp@global,iop,loc.service"
 
 # Add IoP images to preinstall list
 DOCKER_IMAGE_PREINSTALL += "    \

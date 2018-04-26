@@ -1222,7 +1222,7 @@ div.highlightedFilter {
 }
 
 .center-aligned {
-  margin: 10% 25%;
+  margin: 10% 20%;
 }
 
 .margin-20-center {
@@ -1636,6 +1636,13 @@ div.highlightedFilter {
     height: 100%;
   }
 
+  .landing-background {
+    margin: auto !important;
+  }
+  .landing-background .large-fontsize {
+    font-size: 32px;
+  }
+
   .logo-icon, .logo-icon-config {
     margin: auto;
     width: 690px;
@@ -1663,6 +1670,7 @@ div.highlightedFilter {
 
   .footer-wrapper {
     height: 100px;
+    width: 100%;
   }
   .footer-wrapper .desktop-footer-essentials {
     display: none !important;
@@ -1673,6 +1681,7 @@ div.highlightedFilter {
   }
   .footer-wrapper .white-paper-footer {
     float: left;
+    width: 50%;
     font-size: 42px;
     padding: 25px;
   }

@@ -8,8 +8,8 @@
       </div>
       <div class='float-right footer-links padding-right-20'>
         <span class="padding-right-20 white-paper-footer"><a href="https://drive.google.com/file/d/11xDyBFACJYxrDQY4YNdiBqF8UFhgvpT9/view" target="_blank">White Paper</a></span>
-        <span class="padding-right-20 feedback-footer"><a id="titania_feedback" :href="getmailhref()">Feedback</a></span>
-        <span v-if="this.$store.state.currentPage !== 'login' && this.$store.state.currentPage !== 'configure' && this.$store.state.currentPage !== 'landingpage'">
+        <span v-if="this.$store.state.currentPage == 'login' || this.$store.state.currentPage == 'configure' || this.$store.state.currentPage == 'landingpage'" class="padding-right-20 feedback-footer"><a id="titania_feedback" :href="getmailhref()">Feedback</a></span>
+        <span v-else>
           <span v-if="updateState == 'initial'" class="padding-right-20 update-version-elem">
             <a id="update_version" @click="toggleUpdatePopup()">Update Version</a>
           </span>
@@ -17,7 +17,7 @@
             <a id="update_version" @click="rebootSystem()">Reboot to apply</a>
           </span>
           <span id="myBar" v-else-if="updateState == 'failure'"  class="reboot-screen padding-right-20 update-version-elem">
-            <a id="update_version" @click="setupUpdateAgain()">Warning! Try again</a>
+            <a id="update_version" @click="setupUpdateAgain()">Try again</a>
           </span>
           <span id="myBar" v-else class="padding-right-20 update-version-elem">
             <a id="update_version">Updating {{getPercofUpdate()}}</a>
@@ -67,7 +67,7 @@ export default {
     },
     showupdatepopup: {
       get: function () {
-        return this.$store.state.showupdatepopup 
+        return this.$store.state.showupdatepopup
       },
       set: function (newstate) {
         this.$store.state.showupdatepopup = newstate
@@ -75,7 +75,7 @@ export default {
     },
     updateState: {
       get: function () {
-        return this.$store.state.updateState 
+        return this.$store.state.updateState
       },
       set: function (newstate) {
         this.$store.state.updateState = newstate

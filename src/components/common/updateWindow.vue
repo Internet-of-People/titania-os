@@ -6,7 +6,7 @@
         <div class="popup-hint-text regular-fontsize">Download the update file from our <a class="link-text" target="_blank" href="https://discordapp.com/invite/gsRKp6T">Discord</a> channel</div>
       </div>
       <div class="display-block padding-top-bottom-16 margin-top-20">
-        <div class="display-block cursor-default float-left margin-bottom-4 margin-left-16">Select file</div>
+        <div class="display-block cursor-default select-file-tag float-left margin-bottom-4 margin-left-16">Select file</div>
         <div class="display-inline-block popup-browser-drawer">
           <input id="updateInput" class="popup-input-drawer popup-input cursor-pointer outline-none regular-fontsize" value="text" type="file" aria-required="true">
         </div>
@@ -15,7 +15,7 @@
     <div v-else-if="updateStatus == 'success'" class="popup-content">
       <div class="cursor-default">
           <div class="header-fontsize-larger sans-serif-bold padding-top-16">UPDATE COMPLETE</div>
-          <img class="padding-top-bottom-8" src="../../assets/images/img-message-success.svg">
+          <img class="padding-top-bottom-8 success-update-img" src="../../assets/images/img-message-success.svg">
           <div class="popup-hint-text regular-fontsize">Your update finished successfully.</div>
       </div>
     </div>

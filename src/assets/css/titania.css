@@ -355,13 +355,6 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
   color: #646A73;
 }
 
-.popup-content {
-  width: 338px;
-  height: 200px;
-  background-color: #F0F0F0;
-  margin: 45px auto 20px;
-}
-
 .popup-window-hash {
   position: fixed;
   background-color: #FFFFFF;
@@ -1679,6 +1672,11 @@ div.highlightedFilter {
     float: left;
     width: 100%;
   }
+  .footer-wrapper .footer-links span span {
+    float: right;
+    font-size: 42px;
+    padding: 20px 55px;
+  }
   .footer-wrapper .white-paper-footer {
     float: left;
     width: 50%;
@@ -1686,6 +1684,7 @@ div.highlightedFilter {
     padding: 25px;
   }
   .footer-wrapper .feedback-footer {
+    display: none;
     float: right;
     font-size: 42px;
     padding: 25px 55px;
@@ -2207,6 +2206,62 @@ div.highlightedFilter {
   }
   .settings-page .save-config {
     margin: 50px !important;
+  }
+
+  .popup-window {
+    height: 75%;
+    width: 80%;
+    right: 10%;
+    left: 10%;
+    background-color: #F0F0F0;
+  }
+  .popup-window .popup-content {
+    width: 100%;
+    height: 70%;
+  }
+  .popup-window .popup-content .header-fontsize-larger {
+    font-size: 56px !important;
+  }
+  .popup-window .popup-content .err-update-img, .popup-window .popup-content .success-update-img {
+    width: 250px;
+    height: 250px;
+    padding: 12% 0 !important;
+  }
+  .popup-window .popup-content .popup-hint-text {
+    margin: 7%;
+    font-size: 36px;
+    line-height: 52px;
+  }
+  .popup-window .popup-content .select-file-tag {
+    margin: 64px auto;
+    width: 100%;
+    font-size: 36px;
+  }
+  .popup-window .popup-content .popup-checkbox {
+    height: 36px;
+    width: 36px;
+  }
+  .popup-window .popup-content .padding-top-bottom-8 {
+    padding: 8px 0;
+    font-size: 40px;
+  }
+  .popup-window .popup-content .popup-browser-drawer {
+    width: 80%;
+  }
+  .popup-window .popup-content .popup-browser-drawer .popup-input {
+    width: 100%;
+  }
+  .popup-window .popup-browser-secondary, .popup-window .popup-browser-primary {
+    width: 40%;
+    padding: 5%;
+    font-size: 36px;
+    margin: 20px;
+  }
+  .popup-window .popup-browser-primary-big {
+    width: 45%;
+    padding: 5%;
+    font-size: 36px;
+    margin: 20px;
   }
 
   .popup-window-hash {

@@ -558,6 +558,30 @@ def handle_config(request):
                     print(action)
                     dapps_list = get_dappsdetails()
                     return JsonResponse({'STATUS':'SUCCESS','dapps_store':dapps_list}, safe=False)
+                elif action == 'disableDapp':
+                    print(action)
+                    dappid = request.POST.get("id")
+                    service = 'systemctl disable dapp@{}.service; systemctl stop dapp@{}.service'.format(dappid,dappid)
+                    os.system(service)
+                    return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
+                elif action == 'enableDapp':
+                    print(action)
+                    dappid = request.POST.get("id")
+                    service = 'systemctl enable dapp@{}.service; systemctl start dapp@{}.service'.format(dappid,dappid)
+                    os.system(service)
+                    return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
+                elif action == 'removeDapp':
+                    print(action)
+                    # docker rm <container name>
+                    # docker rmi <image name> 
+                    image = request.POST.get("image")
+                    container_name = image
+                    image_name = image.split(':')[0]
+                    print(container_name, image)
+                    service = 'docker rm {}; docker rmi {}'.format(image_name,container_name)
+                    print(service)
+                    os.system(service)
+                    return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
                 elif action == 'updateOSImage':
                     print(action)
                     data = request.FILES['file']

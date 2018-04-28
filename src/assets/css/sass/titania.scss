@@ -833,8 +833,7 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
 }
 
 .dapps-table{
-  display: contents;
-  border-collapse: collapse;
+  border-collapse: inherit;
   thead tr td{
     color: #4D4E4C;
     font-size: 16px;
@@ -1615,13 +1614,14 @@ div.highlightedFilter{
     img.dapps-logo{
       height: 50px;
       width: 50px;
-      border: 1px solid;
+      // border: 1px solid;
     }
     img.dapps-settings{
       height: 18px;
       position: relative;
-      bottom: 28px;
-      left: 16px;
+      bottom: 8px;
+      // left: 16px;
+      padding: 10px 6px 20px 6px;
     }
     .dropdown-config{
       position: relative;

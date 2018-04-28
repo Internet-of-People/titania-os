@@ -786,8 +786,7 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
 }
 
 .dapps-table {
-  display: contents;
-  border-collapse: collapse;
+  border-collapse: inherit;
 }
 .dapps-table thead tr td {
   color: #4D4E4C;
@@ -1556,13 +1555,12 @@ div.highlightedFilter {
 .hub-parent-block div.dapps-category img.dapps-logo {
   height: 50px;
   width: 50px;
-  border: 1px solid;
 }
 .hub-parent-block div.dapps-category img.dapps-settings {
   height: 18px;
   position: relative;
-  bottom: 28px;
-  left: 16px;
+  bottom: 8px;
+  padding: 10px 6px 20px 6px;
 }
 .hub-parent-block div.dapps-category .dropdown-config {
   position: relative;

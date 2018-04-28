@@ -108,6 +108,7 @@ export default {
       return ret
     },
     getAppDetails: function (category, dapp) {
+      $('.dropdown-config').addClass('hide')
       this.showdappdetail = !this.showdappdetail
       if (dapp) {
         this.activedapp = dapp
@@ -130,25 +131,24 @@ export default {
         } else if (dapp.is_active == '0') {
           return ['Enable', 'Remove', 'Details']
         } else {
-          return ['Disable', 'Remove', 'Details']
+          return ['Disable', 'Details']
         }
       }
     },
     optionAction: function(option, dapp) {
       $('.dropdown-config').addClass('hide')
-      console.log(option)
-      console.log(dapp)
       if (option === 'Details') {
         this.getAppDetails(option, dapp)
       } else if (option == 'Enable') {
-        //  systemctl enable dapp@...
-        // systemctl start dapp@..
-      } else if (option == 'Disable') {
-        // systemctl disable dapp@..
-        // systemctl stop dapp@...  
+        this.$store.dispatch('enableDapp',dapp.id) 
+      } else if (option == 'Disable') {        
+        this.$store.dispatch('disableDapp',dapp.id) 
       } else if (option == 'Remove') {
         // docker rm <container name>
-        // docker rmi <image name> 
+        // docker rmi <image name>
+        this.$store.dispatch('removeDapp',dapp.image) 
+      } else if (option == 'Download') {
+        // docker pull <container name>
       }
     }
   }

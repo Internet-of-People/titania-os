@@ -12,7 +12,7 @@ Vue.use(VueLocalStorage)
 
 // const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-const apiRoot = 'http://192.168.2.2:8000' // dev pi
+const apiRoot = 'http://192.168.1.79:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -465,6 +465,36 @@ const store = new Vuex.Store({
       return api.postWithSession(apiRoot + '/index.html', fetchAlldApps)
       .then((response) => store.commit('INIT_DAPP_STORE', response))
       .catch((error) => store.commit('API_FAIL', error))
+    },
+    disableDapp(state, dappid) {
+      var disableDapp = {
+        _action: 'disableDapp'
+      }
+      disableDapp.id = dappid
+      return api.postWithSession(apiRoot + '/index.html', disableDapp)
+      .then(function (response) {
+        store.dispatch('fetchAlldApps')
+      }).catch((error) => store.commit('API_FAIL', error))
+    },
+    enableDapp(state, dappid) {
+      var enableDapp = {
+        _action: 'enableDapp'
+      }
+      enableDapp.id = dappid
+      return api.postWithSession(apiRoot + '/index.html', enableDapp)
+      .then(function (response) {
+        store.dispatch('fetchAlldApps')
+      }).catch((error) => store.commit('API_FAIL', error))
+    },
+    removeDapp(state, dappimage) {
+      var removeDapp = {
+        _action: 'removeDapp'
+      }
+      removeDapp.image = dappimage
+      return api.postWithSession(apiRoot + '/index.html', removeDapp)
+      .then(function (response) {
+        store.dispatch('fetchAlldApps')
+      }).catch((error) => store.commit('API_FAIL', error))
     }
   }
 })

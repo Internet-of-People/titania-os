@@ -7,7 +7,7 @@
             <div @click="setFilter('all')" v-bind:class="{highlightedFilter: getSelectedFilter('all')}">SYSTEM THREADS</div>
             <div @click="setFilter('container')" v-bind:class="{highlightedFilter: getSelectedFilter('container')}">CONTAINER-LEVEL THREADS</div>
         </div>
-        <div class='details' @click="getDetails()">{{details}}</div>
+        <div class='details' v-if="getSelectedFilter('all')" @click="getDetails()">{{details}}</div>
         <div>
             <threadsAll :detail-prop="details" v-if="getSelectedFilter('all')" ></threadsAll>
             <threadsContainer :detail-prop="details" v-else ></threadsContainer>

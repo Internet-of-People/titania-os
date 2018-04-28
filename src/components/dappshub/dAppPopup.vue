@@ -7,7 +7,7 @@
                <button v-if="dappDetails.is_active == '-1'" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Download</button>
                <button v-if="dappDetails.is_active == '0'" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Enable</button>
                <button v-if="dappDetails.is_active == '1'" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Disable</button>
-               <button v-if="dappDetails.is_active != '-1'" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Remove</button>
+               <button v-if="dappDetails.is_active == '0'" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Remove</button>
            </div>
         </div>
         <div class="dapps-popup-desc">

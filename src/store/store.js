@@ -10,9 +10,9 @@ Vue.use(Vuex)
 Vue.use(VueSession)
 Vue.use(VueLocalStorage)
 
-const apiRoot = '/api' // deployment
+// const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.1.79:8000' // dev pi
+const apiRoot = 'http://192.168.1.79:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -486,12 +486,24 @@ const store = new Vuex.Store({
         store.dispatch('fetchAlldApps')
       }).catch((error) => store.commit('API_FAIL', error))
     },
-    removeDapp(state, dappimage) {
+    removeDapp(state, dapp) {
       var removeDapp = {
         _action: 'removeDapp'
       }
-      removeDapp.image = dappimage
+      removeDapp.id = dapp.id
+      removeDapp.image = dapp.image
       return api.postWithSession(apiRoot + '/index.html', removeDapp)
+      .then(function (response) {
+        store.dispatch('fetchAlldApps')
+      }).catch((error) => store.commit('API_FAIL', error))
+    },
+    downloadDapp(state, dapp) {
+      var downloadDapp = {
+        _action: 'downloadDapp'
+      }
+      downloadDapp.id = dapp.id
+      downloadDapp.image = dapp.image
+      return api.postWithSession(apiRoot + '/index.html', downloadDapp)
       .then(function (response) {
         store.dispatch('fetchAlldApps')
       }).catch((error) => store.commit('API_FAIL', error))

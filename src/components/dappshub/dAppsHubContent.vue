@@ -128,10 +128,18 @@ export default {
       } else {
         if (dapp.is_active == -1) {
           return ['Download', 'Details']
-        } else if (dapp.is_active == '0') {
-          return ['Enable', 'Remove', 'Details']
-        } else {
-          return ['Disable', 'Details']
+        } else if (category == 'community') {
+            if (dapp.is_active == '0') {
+              return ['Enable', 'Remove', 'Details']
+            } else {
+              return ['Disable', 'Details']
+            }
+        } else{
+            if (dapp.is_active == '0') {
+              return ['Enable', 'Details']
+            } else {
+              return ['Disable', 'Details']
+            }
         }
       }
     },
@@ -140,15 +148,14 @@ export default {
       if (option === 'Details') {
         this.getAppDetails(option, dapp)
       } else if (option == 'Enable') {
-        this.$store.dispatch('enableDapp',dapp.id) 
+        this.$store.dispatch('enableDapp', dapp.id) 
       } else if (option == 'Disable') {        
-        this.$store.dispatch('disableDapp',dapp.id) 
+        this.$store.dispatch('disableDapp', dapp.id) 
       } else if (option == 'Remove') {
-        // docker rm <container name>
-        // docker rmi <image name>
-        this.$store.dispatch('removeDapp',dapp.image) 
+        this.$store.dispatch('removeDapp', dapp) 
       } else if (option == 'Download') {
         // docker pull <container name>
+        this.$store.dispatch('downloadDapp', dapp)
       }
     }
   }

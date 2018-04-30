@@ -572,13 +572,19 @@ def handle_config(request):
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
                 elif action == 'removeDapp':
                     print(action)
-                    # docker rm <container name>
-                    # docker rmi <image name> 
+                    # docker rm world.libertaria.nginx 
+                    # docker rmi libertaria/nginx:armv7 
+                    dappid = request.POST.get("id")
                     image = request.POST.get("image")
-                    container_name = image
-                    image_name = image.split(':')[0]
-                    print(container_name, image)
-                    service = 'docker rm {}; docker rmi {}'.format(image_name,container_name)
+                    service = 'docker rm {}; docker rmi {}'.format(dappid,image)
+                    print(service)
+                    os.system(service)
+                    return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
+                elif action == 'downloadDapp':
+                    print(action)
+                    # docker pull <image>
+                    image = request.POST.get("image")
+                    service = 'docker pull {}'.format(image)
                     print(service)
                     os.system(service)
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)

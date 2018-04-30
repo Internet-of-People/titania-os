@@ -1,4 +1,4 @@
 require ux-titania.inc
 
-SRCREV = "a5043f380053936bb8dd31ff2d954e2cc2b2865f"
-UX_BRANCH = "30-general-responsiveness-fixes"
+SRCREV = "f6d6b8399befe5ce734cb413c557e8d837e79b5d"
+UX_BRANCH = "24-dapps-hub-ux"

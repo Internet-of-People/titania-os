@@ -2,11 +2,14 @@ RDEPENDS_${PN} += "pydapphubfuse"
 
 # TODO: move dapp_prepare.sh logic inside systemd
 SRC_URI += "file://dapp@.service \
-            file://dapp_prepare.sh"
+            file://dapp_prepare.sh \
+            file://dapp_register.sh \
+            file://nginx-reload-support.conf \
+            file://nginx-custom-paths.conf"
 
 # TODO: how exactly do we ship nginx?
 # Drop-in directory for JSON maybe
-FILES_${PN} = "${systemd_unitdir}/system/dapp@.service /opt/titania/*"
+FILES_${PN} = "${systemd_unitdir}/system/dapp@.service /opt/titania/* ${sysconfdir}/systemd/*"
 
 # SystemD recipe doesn't know how to parse things with multiple dots
 # openembedded-core `master` branch has the correct code. 
@@ -14,13 +17,20 @@ FILES_${PN} = "${systemd_unitdir}/system/dapp@.service /opt/titania/*"
 # TODO: Either backport or upgrade branch (painful!), remove this hack
 SYSTEMD_SERVICE_${PN} = "dapp@world,libertaria,nginx.service"
 
-DOCKER_IMAGE_PREINSTALL += "libertaria/nginx:armv7"
+NGINX_SERVICE="dapp@world.libertaria.nginx"
+
+DOCKER_IMAGE_PREINSTALL += "libertaria/nginx:dapp_test"
 
 do_install_append() {
     install -d ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/dapp@.service ${D}${systemd_unitdir}/system
 
+    install -d ${D}${sysconfdir}/systemd/system/${NGINX_SERVICE}.service.d
+    install -m 0644 ${WORKDIR}/nginx-reload-support.conf ${D}${sysconfdir}/systemd/system/${NGINX_SERVICE}.service.d
+    install -m 0644 ${WORKDIR}/nginx-custom-paths.conf ${D}${sysconfdir}/systemd/system/${NGINX_SERVICE}.service.d
+
     # TODO: variable for that
     install -d ${D}/opt/titania/bin
     install -m 0755 ${WORKDIR}/dapp_prepare.sh ${D}/opt/titania/bin
+    install -m 0755 ${WORKDIR}/dapp_register.sh ${D}/opt/titania/bin
 }

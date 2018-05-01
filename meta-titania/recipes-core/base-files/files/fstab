@@ -7,6 +7,9 @@ devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
 tmpfs                /run                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
 tmpfs                /var/volatile        tmpfs      defaults              0  0
 
+# Runtime dapp nginx drop-ins
+tmpfs                /run/dapp.conf.d                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
+
 # VFAT partition
 /dev/mmcblk0p1       /boot          auto       defaults  0  0
 

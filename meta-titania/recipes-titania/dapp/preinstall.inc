@@ -11,7 +11,6 @@ DOCKER_IMAGE_PREINSTALL ?= ""
 
 DOCKER_PREINSTALL_DIR ?= "/titania/docker/preinstall"
 DAPP_LOCAL_DIR ?= "/dapp"
-UX_LOCATION ?= "/srv/ux-titania"
 FILES_${PN}-preinstall = "${DOCKER_PREINSTALL_DIR}/* ${DAPP_LOCAL_DIR}/*"
 
 # We need those on the host for the download-frozen-image.sh script
@@ -53,11 +52,4 @@ do_install_append() {
             -f ${D}${DOCKER_PREINSTALL_DIR}/${IMAGE_SAFE_FILENAME}.tar \
             $HASHFILES manifest.json repositories
     done
-
-    # Linking rootfs directory on datafs so that nginx can function correctly
-    # TODO: possibly not the best place to have it, separate in other package
-    # TODO: hardcode!
-    # NOTE: the dapp name might change
-    install -d ${D}${DAPP_LOCAL_DIR}/world.libertaria.nginx/usr
-    ln -s ${UX_LOCATION}/dist ${D}${DAPP_LOCAL_DIR}/world.libertaria.nginx/usr/html
 }

@@ -1,3 +1,3 @@
 require pydapphubfuse.inc
 
-SRCREV = "eba6506cb7998e23be3abdb5895ab50582a62ae9"
+SRCREV = "c2b4cfb294f7bbb700645f1cde5f64a65fd9616c"

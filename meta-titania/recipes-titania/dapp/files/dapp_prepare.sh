@@ -12,7 +12,8 @@ fi
 
 # If there is no container, create
 if ! docker inspect "$DAPP_DOCKER_CONTAINER_NAME" >/dev/null 2>&1; then
-	docker create --name "$DAPP_DOCKER_CONTAINER_NAME" \
+    # -it needed for global.iop.ps TODO: standardize
+	docker create -it --name "$DAPP_DOCKER_CONTAINER_NAME" \
     --env-file /run/network_info.env \
     $*
 fi

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="col-12 settings-container hub-parent-block">
+    <div class="col-12 store-container hub-parent-block">
       <div v-for="action in dappsstateactions" :key="action" class="float-left display-inline-flex threads-filter cursor-pointer" @click="changedAppFilter(action)">
         <div v-if="dappsFilter === action" class="highlightedFilter">
           {{action}}
@@ -9,20 +9,22 @@
       </div>
       <div class="dapps-block">
         <div v-for="item in dappscategories" :key="item.category" class="dapps-category">
-          <div>{{item.name}}</div>
-          <div v-if="loadApps && item.category == dapp.tags && filterCheck(dapp.is_active)" 
-                v-for="(dapp,index) in dappsjson" :key="index" 
-                class="dapp-component cursor-pointer">
-            <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>
-            <img class="dapps-settings" src="../../assets/images/ic-options.png" @click="openOptionsMenu(dapp)"/>
-            <div>
-              {{dapp.name}}
+          <div class="dapp-label">{{item.name}}</div>
+          <div class="dapp-block display-inline-flex">
+            <div v-if="loadApps && item.category == dapp.tags && filterCheck(dapp.is_active)" 
+                  v-for="(dapp,index) in dappsjson" :key="index" 
+                  class="dapp-component cursor-pointer">
+              <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>
+              <img class="dapps-settings" src="../../assets/images/ic-options.png" @click="openOptionsMenu(dapp)"/>
+              <div>
+                {{dapp.name}}
+              </div>
+              <ul :id="dapp.name.replace(' ','_')" class='dropdown-config hide' >
+                  <li v-for="option in getdAppOptions(item.category, dapp)" :key="option" class="float-left  cursor-pointer col-11 selected" @click="optionAction(option, dapp)">
+                    <span class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{option}}</span>
+                  </li>
+              </ul>
             </div>
-            <ul :id="dapp.name.replace(' ','_')" class='dropdown-config hide' >
-                <li v-for="option in getdAppOptions(item.category, dapp)" :key="option" class="float-left  cursor-pointer col-11 selected" @click="optionAction(option, dapp)">
-                  <span class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{option}}</span>
-                </li>
-            </ul>
           </div>
         </div>
       </div>
@@ -61,7 +63,7 @@ export default {
     },
     dappscategories: {
       get: function () {
-        return [{"name":"HELPER DAPPS","category":"helper"}, {"name":"IOP STACK","category":"core"}, {"name":"COMMUNITY DEV APPS","category":"community"}]
+        return [{"name":"HELPER DAPPS","category":"helper"}, {"name":"IOP STACK","category":"core"}, {"name":"COMMUNITY DAPPS","category":"community"}]
       }
     },
     dappsjson: {

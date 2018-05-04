@@ -10,9 +10,9 @@ Vue.use(Vuex)
 Vue.use(VueSession)
 Vue.use(VueLocalStorage)
 
-const apiRoot = '/api' // deployment
+// const apiRoot = '/api' // deploymentx
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.1.79:8000' // dev pi
+const apiRoot = 'http://192.168.1.55:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -115,7 +115,7 @@ const store = new Vuex.Store({
           className: ['toast-success'],
           horizontalPosition: 'right',
           verticalPosition: 'bottom',
-          duration: 2000,
+          duration: 100000,
           mode: 'queue',
           transition: 'my-transition'
         })

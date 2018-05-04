@@ -43,7 +43,7 @@
   width: 91.66%;
 }
 
-.col-12, .hub-parent-block div.dapps-category {
+.col-12, .hub-parent-block .dapps-category {
   width: 100%;
 }
 
@@ -104,7 +104,7 @@ body {
   font-weight: 400;
 }
 
-.float-left, .form-field-block, .hub-parent-block div.dapps-category {
+.float-left, .form-field-block, .store-container, .hub-parent-block .dapps-category {
   float: left;
 }
 
@@ -286,7 +286,7 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
   height: -webkit-fill-available;
 }
 
-.display-inline-flex, .center-aligned-slider-body, .displayInlineFlex, .footer-links, .hub-parent-block div.dapps-category, .dapp-popup-header-block, .dapps-popup-desc div {
+.display-inline-flex, .center-aligned-slider-body, .displayInlineFlex, .footer-links, .hub-parent-block .dapps-category, .dapp-popup-header-block, .dapps-popup-desc div {
   display: inline-flex !important;
   display: -ms-inline-flexbox !important;
 }
@@ -740,11 +740,11 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
 }
 
 .toast-success {
-  background-color: #00882B;
+  background-color: #00882B !important;
 }
 
 .toast-warning {
-  background-color: #C82506;
+  background-color: #C82506 !important;
 }
 
 #my-toast {
@@ -930,7 +930,7 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
 }
 
 .threads-filter {
-  margin-left: 40px;
+  margin-left: 24px;
   margin-top: 10px;
 }
 .threads-filter div {
@@ -1171,11 +1171,20 @@ div.highlightedFilter {
 .settings-container {
   display: inline-block;
   width: 600px;
-  height: 500px;
   overflow-y: auto;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   opacity: .6;
   margin: 24px 40px;
+  background-color: white;
+}
+
+.store-container {
+  display: inline-block;
+  width: 600px;
+  overflow-y: auto;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  opacity: .6;
+  margin: 24px 80px;
   background-color: white;
 }
 
@@ -1545,24 +1554,31 @@ div.highlightedFilter {
   opacity: 1;
 }
 
-.hub-parent-block div.dapps-category {
+.hub-parent-block .dapp-label {
+  position: absolute;
+}
+.hub-parent-block .dapp-block {
+  padding: 12px 0 0 0;
+}
+.hub-parent-block .dapps-category {
   color: #554151;
   display: block;
   border-bottom: 1px solid #f2f2f2;
   text-align: left;
   padding: 20px 24px;
+  width: -webkit-fill-available;
 }
-.hub-parent-block div.dapps-category img.dapps-logo {
+.hub-parent-block .dapps-category img.dapps-logo {
   height: 50px;
   width: 50px;
 }
-.hub-parent-block div.dapps-category img.dapps-settings {
+.hub-parent-block .dapps-category img.dapps-settings {
   height: 18px;
   position: relative;
   bottom: 8px;
   padding: 10px 6px 20px 6px;
 }
-.hub-parent-block div.dapps-category .dropdown-config {
+.hub-parent-block .dapps-category .dropdown-config {
   position: relative;
   left: 80px;
   overflow-y: auto;
@@ -1949,7 +1965,7 @@ div.highlightedFilter {
     font-size: 20px !important;
   }
 
-  .some-class .display-inline-flex, .some-class .center-aligned-slider-body, .some-class .displayInlineFlex, .some-class .footer-links, .some-class .hub-parent-block div.dapps-category, .hub-parent-block .some-class div.dapps-category, .some-class .dapp-popup-header-block, .some-class .dapps-popup-desc div, .dapps-popup-desc .some-class div {
+  .some-class .display-inline-flex, .some-class .center-aligned-slider-body, .some-class .displayInlineFlex, .some-class .footer-links, .some-class .hub-parent-block .dapps-category, .hub-parent-block .some-class .dapps-category, .some-class .dapp-popup-header-block, .some-class .dapps-popup-desc div, .dapps-popup-desc .some-class div {
     display: block !important;
   }
 
@@ -2098,7 +2114,7 @@ div.highlightedFilter {
     margin-left: 40px;
     position: absolute;
     margin-top: 133px;
-    height: 554px;
+    height: 74%;
     /* margin-right: 57px; */
     overflow-y: auto;
   }
@@ -2286,7 +2302,7 @@ div.highlightedFilter {
     white-space: nowrap;
     overflow: hidden;
   }
-  .popup-window-hash .col-12, .popup-window-hash .hub-parent-block div.dapps-category, .hub-parent-block .popup-window-hash div.dapps-category {
+  .popup-window-hash .col-12, .popup-window-hash .hub-parent-block .dapps-category, .hub-parent-block .popup-window-hash .dapps-category {
     padding: 8px 0;
   }
   .popup-window-hash .popup-browser-primary-copy {

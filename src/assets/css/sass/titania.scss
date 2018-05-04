@@ -760,11 +760,11 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
 }
 
 .toast-success{
-  background-color: $brand-stable;
+  background-color: $brand-stable !important;
 }
 
 .toast-warning{
-  background-color: $brand-critical;
+  background-color: $brand-critical !important;
 }
 
 .displayInlineFlex{
@@ -979,7 +979,7 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
 }
 
 .threads-filter{
-  margin-left: 40px;
+  margin-left: 24px;
   margin-top: 10px;
   // border: 1px solid;
   div{
@@ -1234,11 +1234,21 @@ div.highlightedFilter{
 .settings-container{
   display: inline-block;
   width: 600px;
-  height: 500px;
+  // height: 500px;
   overflow-y: auto;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.20);
   opacity: .6;
   margin: 24px 40px;
+  background-color: white;
+}
+.store-container{
+  @extend .float-left ;
+  display: inline-block;
+  width: 600px;
+  overflow-y: auto;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.20);
+  opacity: .6;
+  margin: 24px 80px;
   background-color: white;
 }
 .settings-page{
@@ -1603,7 +1613,13 @@ div.highlightedFilter{
 }
 
 .hub-parent-block{
-  div.dapps-category{
+  .dapp-label{
+    position: absolute;
+  }
+  .dapp-block{
+    padding: 12px 0 0 0;
+  }
+  .dapps-category{
     @extend .display-inline-flex, .float-left, .col-12 ;
     color: $titania-darker;
     display: block;
@@ -1611,6 +1627,7 @@ div.highlightedFilter{
     border-bottom: 1px solid #f2f2f2;
     text-align: left;
     padding: 20px 24px;
+    width: -webkit-fill-available;
     img.dapps-logo{
       height: 50px;
       width: 50px;
@@ -2125,7 +2142,7 @@ div.highlightedFilter{
     margin-left: 40px;
     position: absolute;
     margin-top: 133px;
-    height: 554px;
+    height: 74%;
     /* margin-right: 57px; */
     overflow-y: auto;
   }

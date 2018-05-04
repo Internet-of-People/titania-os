@@ -8,15 +8,19 @@
         </div>
         <div @click="tabSwitch('dappsconsole')">
             <img src="../../assets/images/icon-boxes-b.svg"/>
-            <div>dApps Console</div>
+            <div>Console</div>
         </div>
         <div @click="tabSwitch('stats')">
             <img src="../../assets/images/icon-server-b.svg"/>
-            <div>dApps Stats</div>
+            <div>Stats</div>
         </div>
         <div @click="tabSwitch('threads')">
             <img src="../../assets/images/icon-thread-b.svg"/>
             <div>Threads</div>
+        </div>
+        <div @click="tabSwitch('dappshub')">
+            <img src="../../assets/images/icon-hub-b.svg"/>
+            <div>Hub</div>
         </div>
         <div class='registration-text'>Logged in as:<div class='registered-user'>{{username}}</div></div>
         <div class='registration-text'>Box name:<div class='registered-user'>{{boxname}}</div></div>

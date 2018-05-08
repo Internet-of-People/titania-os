@@ -584,8 +584,12 @@ def handle_config(request):
                     print(action)
                     # docker pull <image>
                     image = request.POST.get("image")
+                    dappid = request.POST.get("id")
                     service = 'docker pull {}'.format(image)
                     print(service)
+                    os.system(service)
+                    # docker enable
+                    service = 'systemctl enable dapp@{}.service; systemctl start dapp@{}.service'.format(dappid,dappid)
                     os.system(service)
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
                 elif action == 'updateOSImage':

@@ -167,8 +167,11 @@ def get_dappsdetails():
             # downloaded but not enabled
             dapp["is_active"] = common.SERVICE_DISABLED
         else:
-            # not downloaded
-            dapp["is_active"] = common.SERVICE_NOT_DOWNLOADED    
+            # not downloaded / downloading
+            if check_ifservicedownloading(dapp["id"]):
+                dapp["is_active"] = common.SERVICE_DOWNLOADING
+            else:
+                dapp["is_active"] = common.SERVICE_NOT_DOWNLOADED    
     return dapps_list
         
 def check_ifserviceenabled(dappid):
@@ -177,6 +180,21 @@ def check_ifserviceenabled(dappid):
     if is_enabled == "enabled":
         return True
     else:
+        return False
+
+def check_ifservicedownloading(dappid):
+    print("control here")
+    is_downloading_service = common.IS_SERVICE_DOWNLOADING.format(dappid)
+    print(is_downloading_service)
+    download_status = subprocess.Popen(is_downloading_service,shell=True,stdout=subprocess.PIPE).communicate()[0]
+    # download_stat_str = str(download_status, 'utf-8')
+    print(download_status)
+    print(download_status.find(b"dapp_pull"))
+    if download_status.find(b"\(dapp_pull.sh\)") != -1:
+        print("its downloading")
+        return True
+    else:
+        print("its NOT downloading")
         return False
 
 def validate_session(request):
@@ -585,12 +603,8 @@ def handle_config(request):
                     # docker pull <image>
                     image = request.POST.get("image")
                     dappid = request.POST.get("id")
-                    service = 'docker pull {}'.format(image)
-                    print(service)
-                    os.system(service)
-                    # docker enable
-                    service = 'systemctl enable dapp@{}.service; systemctl start dapp@{}.service'.format(dappid,dappid)
-                    os.system(service)
+                    service = 'docker pull {}; systemctl enable dapp@{}.service; systemctl start dapp@{}.service'.format(image,dappid,dappid)
+                    ps = subprocess.Popen(service,shell=True,stdout=subprocess.PIPE)
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
                 elif action == 'updateOSImage':
                     print(action)

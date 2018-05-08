@@ -29,6 +29,7 @@
             <div v-if="loadApps && item.category == dapp.tags && filterCheck(dapp.is_active)" 
                   v-for="(dapp,index) in dappsjson" :key="index" 
                   class="dapp-component cursor-pointer">
+              <div class="downloading-label" v-if="dapp.is_active == 2">Downloading</div>
               <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>
               <img class="dapps-settings" src="../../assets/images/ic-options.png" @click="openOptionsMenu(dapp)"/>
               <div class="dapp-name">

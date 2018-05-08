@@ -202,6 +202,8 @@ AGGREGATES = ['-1 week','-4 days','-1 day','-12 hour','-6 hours','-3 hours','-1 
 """dAPP HUB"""
 IS_ACTIVE_SERVICE = "systemctl is-enabled dapp@{}.service"
 DOWNLOADED_SERVICES = "docker images --format '{{.Repository}}:{{.Tag}}'"
+IS_SERVICE_DOWNLOADING = "systemctl status dapp@{} --no-pager"
 SERVICE_ENABLED = 1
 SERVICE_DISABLED = 0
 SERVICE_NOT_DOWNLOADED = -1
+SERVICE_DOWNLOADING = 2

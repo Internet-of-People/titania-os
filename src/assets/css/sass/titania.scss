@@ -856,6 +856,13 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
   }
 }
 
+.downloading-label{
+  margin: 3px;
+  width: 80px;
+  padding: 2px;
+  background-color: $titania-darker;
+  color: white;
+}
 .state-dapps{
   width: 14px;
   position: relative;
@@ -2417,5 +2424,10 @@ div.highlightedFilter{
       font-size: 46px;
       line-height: 64px;
     }
+  }
+  .downloading-label{
+    width: 200px;
+    padding: 4px;
+    font-size: 32px;
   }
 }

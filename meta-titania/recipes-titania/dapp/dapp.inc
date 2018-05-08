@@ -4,6 +4,8 @@ RDEPENDS_${PN} += "pydapphubfuse"
 SRC_URI += "file://dapp@.service \
             file://dapp_prepare.sh \
             file://dapp_register.sh \
+            file://dapp_pull.sh \
+            file://dapp_load.sh \
             file://nginx-reload-support.conf \
             file://nginx-custom-paths.conf"
 
@@ -31,6 +33,5 @@ do_install_append() {
 
     # TODO: variable for that
     install -d ${D}/opt/titania/bin
-    install -m 0755 ${WORKDIR}/dapp_prepare.sh ${D}/opt/titania/bin
-    install -m 0755 ${WORKDIR}/dapp_register.sh ${D}/opt/titania/bin
+    install -m 0755 ${WORKDIR}/dapp_*.sh ${D}/opt/titania/bin
 }

@@ -3,7 +3,7 @@
         <sidebarParent></sidebarParent>
         <headerParent :name-prop="page"></headerParent>
         <pageLoader v-if="if_loading"></pageLoader>
-        <dappsHubContent :load-apps="!if_loading"/>
+        <dappsHubContent v-if="!if_loading" :load-apps="!if_loading"/>
     </div>
 </template>
 

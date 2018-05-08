@@ -286,7 +286,7 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
   height: -webkit-fill-available;
 }
 
-.display-inline-flex, .center-aligned-slider-body, .displayInlineFlex, .footer-links, .hub-parent-block .dapps-category, .dapp-popup-header-block, .dapps-popup-desc div {
+.display-inline-flex, .center-aligned-slider-body, .displayInlineFlex, .footer-links, .hub-parent-block .dapps-category, .dapp-info-block, .dapp-popup-header-block, .dapps-popup-desc div {
   display: inline-flex !important;
   display: -ms-inline-flexbox !important;
 }
@@ -743,6 +743,10 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
   background-color: #00882B !important;
 }
 
+.toast-info {
+  background-color: #34428B !important;
+}
+
 .toast-warning {
   background-color: #C82506 !important;
 }
@@ -939,9 +943,9 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
 }
 
 div.highlightedFilter {
-  color: #8b6787;
+  color: #554151;
   cursor: pointer;
-  border-bottom: 1px solid #8b6787;
+  border-bottom: 1px solid #554151;
 }
 
 .threads-wrapper {
@@ -1252,6 +1256,12 @@ div.highlightedFilter {
   background-size: contain;
   /* contains the image */
   background-color: #f2f2f2;
+}
+
+.loader-mini {
+  position: relative;
+  left: 24px;
+  top: 16px;
 }
 
 .loader {
@@ -1615,8 +1625,10 @@ div.highlightedFilter {
 }
 
 .dapps-popup-desc div {
-  width: 398px;
+  width: 382px;
   padding: 0 24px;
+  text-align: justify;
+  line-height: 18px;
 }
 .dapps-popup-desc div.sans-serif-bold, .dapps-popup-desc div.container-holder {
   padding: 24px 24px 12px;
@@ -1965,7 +1977,7 @@ div.highlightedFilter {
     font-size: 20px !important;
   }
 
-  .some-class .display-inline-flex, .some-class .center-aligned-slider-body, .some-class .displayInlineFlex, .some-class .footer-links, .some-class .hub-parent-block .dapps-category, .hub-parent-block .some-class .dapps-category, .some-class .dapp-popup-header-block, .some-class .dapps-popup-desc div, .dapps-popup-desc .some-class div {
+  .some-class .display-inline-flex, .some-class .center-aligned-slider-body, .some-class .displayInlineFlex, .some-class .footer-links, .some-class .hub-parent-block .dapps-category, .hub-parent-block .some-class .dapps-category, .some-class .dapp-info-block, .some-class .dapp-popup-header-block, .some-class .dapps-popup-desc div, .dapps-popup-desc .some-class div {
     display: block !important;
   }
 
@@ -2315,5 +2327,79 @@ div.highlightedFilter {
   .popup-window-hash .popup-browser-primary-copy .padding-top-bottom-12 {
     padding: 32px 0;
     font-size: 24px;
+  }
+
+  .store-container {
+    width: 80% !important;
+    margin: auto 10%;
+    box-shadow: none;
+  }
+  .store-container .threads-filter {
+    position: inherit;
+    padding: 24px 24px 24px 0;
+    font-size: 40px;
+  }
+  .store-container .dapps-category {
+    border: 1px solid #d8d8d8;
+    text-align: left;
+    padding: 62px 44px 80px;
+  }
+  .store-container .dapps-category .dapp-label {
+    font-size: 36px;
+  }
+  .store-container .dapps-category .dapp-component {
+    height: 140px;
+    width: 180px;
+    padding: 64px 16px 32px 16px;
+  }
+  .store-container .dapps-category img.dapps-logo {
+    height: 140px;
+    width: 140px;
+  }
+  .store-container .dapps-category .dapps-settings {
+    display: none;
+  }
+  .store-container .dapps-category div.dapp-name {
+    padding-top: 16px;
+    font-size: 35px;
+    text-align: center;
+  }
+
+  .dapp-popup-header-block {
+    display: block !important;
+    width: 100%;
+    padding: 0px;
+  }
+  .dapp-popup-header-block .dapp-info-block {
+    display: inline-flex;
+    float: left;
+    position: relative;
+    left: -170px;
+  }
+  .dapp-popup-header-block .dapp-popup-logo {
+    padding: 40px;
+    height: 100px;
+    width: 100px;
+  }
+  .dapp-popup-header-block .dapp-popup-name {
+    font-size: 52px;
+    padding: 60px 0;
+  }
+  .dapp-popup-header-block .dapps-popup-action-items {
+    position: inherit;
+    right: 0;
+  }
+  .dapp-popup-header-block .dapps-popup-action-items .popup-browser-primary {
+    width: 222px;
+    padding: 38px;
+    margin: 0 35px 35px 64px;
+  }
+
+  .dapps-popup-desc div {
+    width: inherit;
+    padding: 24px 60px !important;
+    text-align: justify;
+    font-size: 46px;
+    line-height: 64px;
   }
 }

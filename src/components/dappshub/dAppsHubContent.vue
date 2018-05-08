@@ -7,8 +7,23 @@
         </div>
         <div v-else>{{action}}</div>
       </div>
+      <div id="hub-loader" class="hide">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="loader-mini">
+                            <div class="loader-page">
+                                <div></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
       <div class="dapps-block">
-        <div v-for="item in dappscategories" :key="item.category" class="dapps-category">
+        <div v-for="item in dappscategories" v-if="getIfContainsApp(dappsFilter, item.category)" :key="item.category" class="dapps-category">
           <div class="dapp-label">{{item.name}}</div>
           <div class="dapp-block display-inline-flex">
             <div v-if="loadApps && item.category == dapp.tags && filterCheck(dapp.is_active)" 
@@ -16,7 +31,7 @@
                   class="dapp-component cursor-pointer">
               <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>
               <img class="dapps-settings" src="../../assets/images/ic-options.png" @click="openOptionsMenu(dapp)"/>
-              <div>
+              <div class="dapp-name">
                 {{dapp.name}}
               </div>
               <ul :id="dapp.name.replace(' ','_')" class='dropdown-config hide' >
@@ -29,7 +44,7 @@
         </div>
       </div>
     </div>
-    <dAppPopup v-if="showdappdetail" :dapp-details="activedapp" :active-category="activecategory"/>
+    <dAppPopup v-if="showdappdetail" :dapp-details="activedapp" :active-category="activecategory"  :dapp-action="optionAction"/>
     <div class="fadeout" v-if="showdappdetail" @click="getAppDetails()"></div>
   </div>
 </template>
@@ -146,6 +161,7 @@ export default {
       }
     },
     optionAction: function(option, dapp) {
+      this.showdappdetail = false
       $('.dropdown-config').addClass('hide')
       if (option === 'Details') {
         this.getAppDetails(option, dapp)
@@ -158,6 +174,26 @@ export default {
       } else if (option == 'Download') {
         // docker pull <container name>
         this.$store.dispatch('downloadDapp', dapp)
+      }
+    },
+    getIfContainsApp: function(filter, category) {
+      var enabled = 0, disabled = 0
+      if (filter == 'AVAILABLE') {
+        return true
+      } else if (filter == 'INSTALLED') {
+        for (var i = 0; i < this.dappsjson.length; i++) {
+          if (this.dappsjson[i].is_active == 1 && this.dappsjson[i].tags[0]==category){
+            enabled++
+          } 
+        }
+        return enabled > 0
+      } else {
+        for (var i = 0; i < this.dappsjson.length; i++) {
+          if (this.dappsjson[i].is_active == 0 && this.dappsjson[i].tags[0]==category){
+              disabled++
+          }
+        }
+        return disabled > 0
       }
     }
   }

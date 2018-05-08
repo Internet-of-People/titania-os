@@ -109,7 +109,7 @@ export default {
   data () {
     return {
       configdetails: {
-        boxname: '',
+        boxname: 'titania',
         username: '',
         password: '',
         wifi_password: '',

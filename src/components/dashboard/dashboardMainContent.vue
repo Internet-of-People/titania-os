@@ -121,8 +121,10 @@ export default {
       var series = this.$store.state.dashboardChart.series
       var seriesname = this.$store.state.dashboardChart.seriesname
       for (var i = 0; i < series.length; i++) {
-        chart.series[i].update({name: seriesname[i]}, false)
-        chart.series[i].setData(series[i])
+        if (chart) {
+          chart.series[i].update({name: seriesname[i]}, false)
+          chart.series[i].setData(series[i])
+        }
       }
     },
     toggleSeries: function (seriesVal) {

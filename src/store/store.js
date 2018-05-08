@@ -12,7 +12,7 @@ Vue.use(VueLocalStorage)
 
 // const apiRoot = '/api' // deploymentx
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-const apiRoot = 'http://192.168.1.55:8000' // dev pi
+const apiRoot = 'http://192.168.0.109:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -115,7 +115,7 @@ const store = new Vuex.Store({
           className: ['toast-success'],
           horizontalPosition: 'right',
           verticalPosition: 'bottom',
-          duration: 100000,
+          duration: 3000,
           mode: 'queue',
           transition: 'my-transition'
         })
@@ -271,7 +271,11 @@ const store = new Vuex.Store({
       local_store.remove('update_img')
     },
     'INIT_DAPP_STORE': function (state, response) {
+      state.dappsjson = []
       state.dappsjson = response.body.dapps_store
+    },
+    'SET_DAPP_LIST_NULL': function (state) {
+      state.dappsjson = []
     }
   },
   actions: {
@@ -471,8 +475,20 @@ const store = new Vuex.Store({
         _action: 'disableDapp'
       }
       disableDapp.id = dappid
+      $('#hub-loader').removeClass('hide')
+      Vue.toast('Disabling dapp and fetching updated list', {
+        id: 'my-toast',
+        className: ['toast-info'],
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+        duration: 40000,
+        mode: 'queue'
+      })
       return api.postWithSession(apiRoot + '/index.html', disableDapp)
       .then(function (response) {
+        $('#hub-loader').addClass('hide')
+        $('#my-toast').remove()
+        store.commit('SET_DAPP_LIST_NULL')
         store.dispatch('fetchAlldApps')
       }).catch((error) => store.commit('API_FAIL', error))
     },
@@ -481,8 +497,20 @@ const store = new Vuex.Store({
         _action: 'enableDapp'
       }
       enableDapp.id = dappid
+      $('#hub-loader').removeClass('hide')
+      Vue.toast('Enabling dapp and fetching updated list', {
+        id: 'my-toast',
+        className: ['toast-info'],
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+        duration: 40000,
+        mode: 'queue'
+      })
       return api.postWithSession(apiRoot + '/index.html', enableDapp)
       .then(function (response) {
+        $('#hub-loader').addClass('hide')
+        $('#my-toast').remove()
+        store.commit('SET_DAPP_LIST_NULL')
         store.dispatch('fetchAlldApps')
       }).catch((error) => store.commit('API_FAIL', error))
     },
@@ -492,8 +520,20 @@ const store = new Vuex.Store({
       }
       removeDapp.id = dapp.id
       removeDapp.image = dapp.image
+      $('#hub-loader').removeClass('hide')
+      Vue.toast('Removing dapp ' + dapp.name + ' and fetching updated list', {
+        id: 'my-toast',
+        className: ['toast-info'],
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+        duration: 40000,
+        mode: 'queue'
+      })
       return api.postWithSession(apiRoot + '/index.html', removeDapp)
       .then(function (response) {
+        $('#hub-loader').addClass('hide')
+        $('#my-toast').remove()
+        store.commit('SET_DAPP_LIST_NULL')
         store.dispatch('fetchAlldApps')
       }).catch((error) => store.commit('API_FAIL', error))
     },
@@ -503,8 +543,20 @@ const store = new Vuex.Store({
       }
       downloadDapp.id = dapp.id
       downloadDapp.image = dapp.image
+      $('#hub-loader').removeClass('hide')
+      Vue.toast('Downloading dapp ' + dapp.name + ' and fetching updated list \n This may take some time.', {
+        id: 'my-toast',
+        className: ['toast-info'],
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+        duration: 40000,
+        mode: 'queue'
+      })
       return api.postWithSession(apiRoot + '/index.html', downloadDapp)
       .then(function (response) {
+        $('#hub-loader').addClass('hide')
+        $('#my-toast').remove()
+        store.commit('SET_DAPP_LIST_NULL')
         store.dispatch('fetchAlldApps')
       }).catch((error) => store.commit('API_FAIL', error))
     }

@@ -167,8 +167,9 @@ def get_dappsdetails():
             # downloaded but not enabled
             dapp["is_active"] = common.SERVICE_DISABLED
         else:
+            print(check_ifservicedownloading(dapp["id"]))
             # not downloaded / downloading
-            if check_ifservicedownloading(dapp["id"]):
+            if check_ifservicedownloading(dapp["id"]) != "run":
                 dapp["is_active"] = common.SERVICE_DOWNLOADING
             else:
                 dapp["is_active"] = common.SERVICE_NOT_DOWNLOADED    
@@ -183,19 +184,29 @@ def check_ifserviceenabled(dappid):
         return False
 
 def check_ifservicedownloading(dappid):
-    print("control here")
-    is_downloading_service = common.IS_SERVICE_DOWNLOADING.format(dappid)
-    print(is_downloading_service)
-    download_status = subprocess.Popen(is_downloading_service,shell=True,stdout=subprocess.PIPE).communicate()[0]
-    # download_stat_str = str(download_status, 'utf-8')
-    print(download_status)
-    print(download_status.find(b"dapp_pull"))
-    if download_status.find(b"\(dapp_pull.sh\)") != -1:
-        print("its downloading")
-        return True
-    else:
-        print("its NOT downloading")
-        return False
+    # print("control here")
+    # is_downloading_service = common.IS_SERVICE_DOWNLOADING.format(dappid)
+    # print(is_downloading_service)
+    # download_status = subprocess.Popen(is_downloading_service,shell=True,stdout=subprocess.PIPE).communicate()[0]
+    # # download_stat_str = str(download_status, 'utf-8')
+    # print(download_status)
+    # print(download_status.find(b"dapp_pull"))
+    # if download_status.find(b"\(dapp_pull.sh\)") != -1:
+    #     print("its downloading")
+    #     return True
+    # else:
+    #     print("its NOT downloading")
+    #     return False
+    CMD = [ "systemctl", "status", "--no-pager", "dapp@{}".format(dappid) ]
+    print(CMD)
+    # Ideally decode to utf-8, but Titania doesn't seem to like it right now
+    for ln in subprocess.run(CMD, stdout=subprocess.PIPE).stdout.decode('ascii', 'ignore').split('\n'):
+        # TODO: you can also handle PID: XYZ (docker) for running state
+        print(ln)
+        m = re.search(r'PID: [0-9]* \(dapp_([a-z]*)\.sh\)', ln)
+        if m:
+            return m.group(1)
+    return "run"
 
 def validate_session(request):
     session_key = request.POST.get("session_key")
@@ -601,10 +612,12 @@ def handle_config(request):
                 elif action == 'downloadDapp':
                     print(action)
                     # docker pull <image>
-                    image = request.POST.get("image")
+                    # image = request.POST.get("image")
                     dappid = request.POST.get("id")
-                    service = 'docker pull {}; systemctl enable dapp@{}.service; systemctl start dapp@{}.service'.format(image,dappid,dappid)
-                    ps = subprocess.Popen(service,shell=True,stdout=subprocess.PIPE)
+                    service = 'systemctl start dapp@{}.service'.format(dappid)
+                    print(service)
+                    ps = subprocess.Popen(service,shell=True,stdout=subprocess.PIPE).communicate()[0]
+                    print(ps)
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
                 elif action == 'updateOSImage':
                     print(action)

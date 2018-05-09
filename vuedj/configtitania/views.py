@@ -184,19 +184,6 @@ def check_ifserviceenabled(dappid):
         return False
 
 def check_ifservicedownloading(dappid):
-    # print("control here")
-    # is_downloading_service = common.IS_SERVICE_DOWNLOADING.format(dappid)
-    # print(is_downloading_service)
-    # download_status = subprocess.Popen(is_downloading_service,shell=True,stdout=subprocess.PIPE).communicate()[0]
-    # # download_stat_str = str(download_status, 'utf-8')
-    # print(download_status)
-    # print(download_status.find(b"dapp_pull"))
-    # if download_status.find(b"\(dapp_pull.sh\)") != -1:
-    #     print("its downloading")
-    #     return True
-    # else:
-    #     print("its NOT downloading")
-    #     return False
     CMD = [ "systemctl", "status", "--no-pager", "dapp@{}".format(dappid) ]
     print(CMD)
     # Ideally decode to utf-8, but Titania doesn't seem to like it right now

@@ -30,11 +30,17 @@
                   v-for="(dapp,index) in dappsjson" :key="index" 
                   class="dapp-component cursor-pointer">
               <div class="downloading-label" v-if="dapp.is_active == 2">Downloading</div>
-              <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>
+              <a v-if="item.category == 'community' && dapp.is_active == 1" href="/dapp/org.navcoin.wallet" target="_blank">
+                <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>
+              </a>
+              <a v-else>
+                <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>
+              </a>
               <img class="dapps-settings" src="../../assets/images/ic-options.png" @click="openOptionsMenu(dapp)"/>
               <div class="dapp-name">
                 {{dapp.name}}
               </div>
+              
               <ul :id="dapp.name.replace(' ','_')" class='dropdown-config hide' >
                   <li v-for="option in getdAppOptions(item.category, dapp)" :key="option" class="float-left  cursor-pointer col-11 selected" @click="optionAction(option, dapp)">
                     <span class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{option}}</span>

@@ -10,8 +10,9 @@
 
 [Unit]
 Description=Port forwarding for %I
-Requires=NetworkManager-wait-online.service
-After=NetworkManager-wait-online.service
+# TODO: if we support more protocols, make it a Want rather than Require
+Requires=natpmp-support.service
+After=natpmp-support.service
 
 [Service]
 Restart=on-failure

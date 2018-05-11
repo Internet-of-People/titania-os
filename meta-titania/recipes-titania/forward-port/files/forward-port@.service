@@ -16,6 +16,6 @@ After=NetworkManager-wait-online.service
 [Service]
 Restart=on-failure
 RemainAfterExit=true
-ExecStart=/usr/bin/forward_port.sh start %i
-ExecStop=/usr/bin/forward_port.sh stop %i
+ExecStart=/opt/titania/bin/forward_port.sh start %i
+ExecStop=/opt/titania/bin/forward_port.sh stop %i
 

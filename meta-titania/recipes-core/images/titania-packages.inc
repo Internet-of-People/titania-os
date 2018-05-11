@@ -12,8 +12,8 @@ IMAGE_INSTALL += "swupdate"
 # Docker
 IMAGE_INSTALL += "docker dapp"
 
-# TODO: replace with IPv6 or something eventually
-IMAGE_INSTALL += "natpmp"
+# Network awareness and port forwards
+IMAGE_INSTALL += "network-info forward-port"
 
 # Add firmware, this is needed for WiFi on RaspberryPi
 IMAGE_INSTALL += "linux-firmware-bcm43430"

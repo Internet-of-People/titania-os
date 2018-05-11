@@ -5,7 +5,8 @@ Requires=NetworkManager-wait-online.service
 After=NetworkManager-wait-online.service
 
 [Service]
-ExecStart=/usr/bin/network_info.sh
+ExecStart=/opt/titania/bin/network_info.sh
+ExecReload=/opt/titania/bin/network_info.sh
 ExecStop=/bin/rm -f /run/network_info.env
 RemainAfterExit=true
 Type=simple

@@ -8,7 +8,6 @@ NETWORK_INFO_FILE="/run/network_info.env"
 
 # Touch the file just in case
 
-
 IPINFO=$(curl -s https://ipinfo.io)
 LOCATION=$(echo $IPINFO | grep -o '"loc": "[0-9,.-]*"' | grep -o '[0-9,.-]*')
 echo -e "Location:\t\t\t$LOCATION"

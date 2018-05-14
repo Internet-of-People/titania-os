@@ -4,6 +4,12 @@ Description=Public IP and location detection
 Requires=NetworkManager-wait-online.service
 After=NetworkManager-wait-online.service
 
+# We need the dropbear key to be generated
+# But we must not require it because it can fail
+# when the key already exists
+Wants=dropbearkey.service
+After=dropbearkey.service
+
 [Service]
 ExecStart=/opt/titania/bin/network_info.sh
 ExecReload=/opt/titania/bin/network_info.sh

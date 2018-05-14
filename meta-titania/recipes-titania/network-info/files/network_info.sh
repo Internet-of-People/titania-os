@@ -21,8 +21,16 @@ echo -e "Longitude:\t$LONGITUDE"
 EXTERNAL_IP=$(echo $IPINFO | grep -o '"ip": "[0-9.]*"' | grep -o '[0-9.]*')
 echo -e "Address seen from outside:\t$EXTERNAL_IP"
 
+
+# TODO: TYO-19, change to whatever ssl library we end up using
+HMAC="titania"
+SSH_KEY="/etc/dropbear/dropbear_rsa_host_key"
+NODEID="$(dropbearkey -y -f $SSH_KEY | sed -ne 's/^ssh-rsa \([^ ]*\).*$/\1/p' | openssl sha1 -r -hmac $HMAC | cut -d' ' -f1)"
+echo "SSH-based node ID: $NODEID"
+echo "NODEID='$NODEID'" > $NETWORK_INFO_FILE
+
 # TODO: race conditions when run in parallel a few times, do a HEREDOC or something
-echo "PUBLIC_IP='$EXTERNAL_IP'" > $NETWORK_INFO_FILE
+echo "PUBLIC_IP='$EXTERNAL_IP'" >> $NETWORK_INFO_FILE
 echo "LATITUDE='$LATITUDE'" >> $NETWORK_INFO_FILE
 echo "LONGITUDE='$LONGITUDE'" >> $NETWORK_INFO_FILE
 

@@ -27,12 +27,12 @@ HMAC="titania"
 SSH_KEY="/etc/dropbear/dropbear_rsa_host_key"
 NODEID="$(dropbearkey -y -f $SSH_KEY | sed -ne 's/^ssh-rsa \([^ ]*\).*$/\1/p' | openssl sha1 -r -hmac $HMAC | cut -d' ' -f1)"
 echo "SSH-based node ID: $NODEID"
-echo "NODEID='$NODEID'" > $NETWORK_INFO_FILE
+echo "NODEID=$NODEID" > $NETWORK_INFO_FILE
 
 # TODO: race conditions when run in parallel a few times, do a HEREDOC or something
-echo "PUBLIC_IP='$EXTERNAL_IP'" >> $NETWORK_INFO_FILE
-echo "LATITUDE='$LATITUDE'" >> $NETWORK_INFO_FILE
-echo "LONGITUDE='$LONGITUDE'" >> $NETWORK_INFO_FILE
+echo "PUBLIC_IP=$EXTERNAL_IP" >> $NETWORK_INFO_FILE
+echo "LATITUDE=$LATITUDE" >> $NETWORK_INFO_FILE
+echo "LONGITUDE=$LONGITUDE" >> $NETWORK_INFO_FILE
 
 if /sbin/ifconfig | grep -vq "addr:${EXTERNAL_IP}" ; then
     echo "We seem to be behind the router, trying NAT-PMP"
@@ -45,7 +45,7 @@ if /sbin/ifconfig | grep -vq "addr:${EXTERNAL_IP}" ; then
         echo -e "Router reported address:\t$ROUTER_IP"
     fi
 
-    echo "ROUTER_IP='$ROUTER_IP'" >> $NETWORK_INFO_FILE
+    echo "ROUTER_IP=$ROUTER_IP" >> $NETWORK_INFO_FILE
 
     if [ "$ROUTER_IP" != "$EXTERNAL_IP" ] ; then
         echo "Router's declared IP does not match the public one"

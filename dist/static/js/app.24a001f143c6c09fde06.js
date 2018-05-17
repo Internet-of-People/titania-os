@@ -4671,7 +4671,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_3_vue
 
 const apiRoot = '/api'; // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.0.109:8000' // dev pi
+// const apiRoot = 'http://192.168.42.102:8000' // dev pi
 
 const local_store = __WEBPACK_IMPORTED_MODULE_0_vue__["default"].ls;
 
@@ -4971,6 +4971,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     },
     saveConfigForm(state, configdetails) {
       configdetails._action = 'saveUserDetails';
+      configdetails.wifi_encrpt = store.state.configuration.wifi_encrpt;
       return __WEBPACK_IMPORTED_MODULE_4__api_js__["a" /* default */].post(apiRoot + '/index.html', configdetails).then(response => store.commit('SAVE_CONFIGURATION', response)).catch(error => store.commit('API_FAIL', error));
     },
     logout(state, credentials) {
@@ -5035,6 +5036,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     },
     addWifi(state, configdetails) {
       configdetails._action = 'addWifi';
+      configdetails.wifi_encrpt = store.state.configuration.wifi_encrpt;
       return __WEBPACK_IMPORTED_MODULE_4__api_js__["a" /* default */].postWithSession(apiRoot + '/index.html', configdetails).then(response => store.commit('REFRESH_LIST', response)).catch(error => store.commit('API_FAIL', error));
     },
     deleteWifi(state, deleterequest) {
@@ -5324,4 +5326,4 @@ var Component = normalizeComponent(
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.3c3eeb113616fdb21d40.js.map
+//# sourceMappingURL=app.24a001f143c6c09fde06.js.map

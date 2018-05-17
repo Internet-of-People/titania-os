@@ -188,6 +188,8 @@ CMD_UPTIME = "cat /proc/uptime"
 CMD_THREADS = "ps axms | wc -l"
 #DOCKER MASTER
 CMD_DOCKER_MASTER = "docker ps -a --format '{{.ID}}\t{{.Names}}\t{{.Image}}'"
+# VALID DOCKER CONTAINERS 
+CMD_VALID_DOCKER_ID = "docker ps -a --format '{{.ID}}'"
 #DOCKER METRICS
 CMD_DOCKER_STATS = "docker stats --no-stream --format '{{.Container}}\t{{.CPUPerc}}\t{{.MemPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}'"
 #DOCKER INFO

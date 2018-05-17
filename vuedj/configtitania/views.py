@@ -321,6 +321,9 @@ def handle_config(request):
     if request.method == 'POST':
         action = request.POST.get("_action")
         if validate_input(action):        
+            # valid containers         
+            docker_ids = subprocess.check_output(common.CMD_VALID_DOCKER_ID, shell=True, timeout=10).decode("utf-8").split('\n')
+
             if action == 'getSchema':
                 version, build_id, ux_id = get_builddetails()
                 return JsonResponse({"version":version, "build_id":build_id, "ux_id":ux_id}, safe=False)
@@ -403,14 +406,19 @@ def handle_config(request):
                     print(action)
                     con = sqlite3.connect(dashboard_db)
                     cursor = con.cursor()
-                    cursor.execute(common.Q_GET_CONTAINER_ID)
-                    rows = cursor.fetchall()
+                    # cursor.execute(common.Q_GET_CONTAINER_ID)
+                    # rows = cursor.fetchall()
+                    p = subprocess.check_output(common.CMD_DOCKER_MASTER, shell=True, timeout=10)
+                    p = p.decode("utf-8")
+                    p = p.split('\n')
+                    lenofoutput = len(p)
                     finalset = []
-                    for row in rows:
-                        cursor.execute(common.Q_GET_DASHBOARD_CHART,[row[0],])
+                    for row in range(lenofoutput-1):
+                        y = p[row].split('\t')
+                        cursor.execute(common.Q_GET_DASHBOARD_CHART,[y[0],])
                         datasets = cursor.fetchall()
                         # print(datasets)
-                        data = {'container_name' : row[1], 'data': datasets}
+                        data = {'container_name' : y[1], 'data': datasets}
                         finalset.append(data)
                     return JsonResponse(finalset, safe=False)
                 elif action == 'getDockerOverview':
@@ -422,43 +430,52 @@ def handle_config(request):
                     # print(rows)
                     finalset = []
                     for row in rows:
-                        data = {'state': row[0], 'container_id': row[1], 'name': row[2],
-                                'image': row[3], 'running_for': row[4],
-                                'command': row[5], 'ports': row[6],
-                                'status': row[7], 'networks': row[8]}
-                        finalset.append(data)
+                        if row[1] in docker_ids:
+                            data = {'state': row[0], 'container_id': row[1], 'name': row[2],
+                                    'image': row[3], 'running_for': row[4],
+                                    'command': row[5], 'ports': row[6],
+                                    'status': row[7], 'networks': row[8]}
+                            finalset.append(data)
                     return JsonResponse(finalset, safe=False)
                 elif action == 'getContainerStats':
                     print(action)
                     con = sqlite3.connect(dashboard_db)
                     cursor = con.cursor()
-                    cursor.execute(common.Q_GET_CONTAINER_ID)
-                    rows = cursor.fetchall()
+                    # cursor.execute(common.Q_GET_CONTAINER_ID)
+                    # rows = cursor.fetchall()
                     # print(rows)
+
                     finalset = []
                     datasets_io = []
                     datasets_mem = []
                     datasets_perc = []
-                    for row in rows:
+
+                    p = subprocess.check_output(common.CMD_DOCKER_MASTER, shell=True, timeout=10)
+                    p = p.decode("utf-8")
+                    p = p.split('\n')
+                    lenofoutput = len(p)
+                    finalset = []
+                    for row in range(lenofoutput-1):
+                        y = p[row].split('\t')
                         datasets_io = []
                         datasets_mem = []
                         datasets_perc = []
                         # values with % appended to them
                         for iter in range(0,2):
-                            cursor.execute(common.Q_GET_CONTAINER_STATS_CPU,[row[0],iter+1])
+                            cursor.execute(common.Q_GET_CONTAINER_STATS_CPU,[y[0],iter+1])
                             counter_val = cursor.fetchall()
                             datasets_perc.append(counter_val)
                         # values w/o % appended to them
                         for iter in range(2,4):
-                            cursor.execute(common.Q_GET_CONTAINER_STATS,[row[0],iter+1])
+                            cursor.execute(common.Q_GET_CONTAINER_STATS,[y[0],iter+1])
                             counter_val = cursor.fetchall()
                             datasets_mem.append(counter_val)
                         # values w/o % appended to them
                         for iter in range(4,8):
-                            cursor.execute(common.Q_GET_CONTAINER_STATS,[row[0],iter+1])
+                            cursor.execute(common.Q_GET_CONTAINER_STATS,[y[0],iter+1])
                             counter_val = cursor.fetchall()
                             datasets_io.append(counter_val)
-                        data = {'container_id': row[0], 'container_name' : row[1], 'data_io': datasets_io, 'data_mem': datasets_mem, 'data_perc': datasets_perc}
+                        data = {'container_id': y[0], 'container_name' : y[1], 'data_io': datasets_io, 'data_mem': datasets_mem, 'data_perc': datasets_perc}
                         finalset.append(data)
                     return JsonResponse(finalset, safe=False)
                 elif action == 'getThreads':

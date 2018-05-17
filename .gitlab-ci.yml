@@ -45,7 +45,7 @@ bitbake:
   artifacts:
     paths:
       - build
-    expire_in: 1 day
+    expire_in: 14 days
 
 # TODO: use Titania image classes here
 # TODO: make new branches start out with fresh cache

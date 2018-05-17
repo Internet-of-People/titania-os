@@ -12,7 +12,7 @@ Vue.use(VueLocalStorage)
 
 const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.0.109:8000' // dev pi
+// const apiRoot = 'http://192.168.42.102:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -319,6 +319,7 @@ const store = new Vuex.Store({
     },
     saveConfigForm (state, configdetails) {
       configdetails._action = 'saveUserDetails'
+      configdetails.wifi_encrpt = store.state.configuration.wifi_encrpt
       return api.post(apiRoot + '/index.html', configdetails)
         .then((response) => store.commit('SAVE_CONFIGURATION', response))
         .catch((error) => store.commit('API_FAIL', error))
@@ -405,6 +406,7 @@ const store = new Vuex.Store({
     },
     addWifi (state, configdetails) {
       configdetails._action = 'addWifi'
+      configdetails.wifi_encrpt = store.state.configuration.wifi_encrpt
       return api.postWithSession(apiRoot + '/index.html', configdetails)
       .then((response) => store.commit('REFRESH_LIST', response))
       .catch((error) => store.commit('API_FAIL', error))

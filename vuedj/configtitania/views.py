@@ -234,6 +234,7 @@ def add_newWifiConn(wifiname, wifiencrypt, wifipass):
         for ap in dev.AccessPoints:
             if ap.Ssid == wifiname:
                 currentwifi = ap
+    print(wifipass, wifiencrypt, wifiname)
     # params to set password
     if len(wifipass) == 0: #open wifi
         params = {
@@ -245,7 +246,7 @@ def add_newWifiConn(wifiname, wifiencrypt, wifipass):
                     }
                 }
     else: 
-        if wifiencrypt == "wpa":
+        if wifiencrypt == "WPA (default)":
             params = {
                     "802-11-wireless": {
                         "security": "802-11-wireless-security",
@@ -255,7 +256,7 @@ def add_newWifiConn(wifiname, wifiencrypt, wifipass):
                         "psk": wifipass
                     },
                 }
-        elif wifiencrypt == "wep":
+        elif wifiencrypt == "WEP":
             params = {
                     "802-11-wireless": {
                         "security": "open-wifi",
@@ -336,7 +337,7 @@ def handle_config(request):
                 boxname = request.POST.get("boxname")
                 username = request.POST.get("username")
                 password = request.POST.get("password")
-                if validate_input(boxname) and validate_input(username) and validate_input(password):
+                if validate_input(boxname) and validate_input(username):
                     add_user(username,password)
                     set_boxname(boxname)
                     wifi_pass = request.POST.get("wifi_password")
@@ -349,7 +350,7 @@ def handle_config(request):
                 print(action)
                 username = request.POST.get("username")
                 password = request.POST.get("password")
-                if validate_input(username) and validate_input(password):
+                if validate_input(username):
                     output=''
                     """Tries to authenticate a user.
                     Returns True if the authentication succeeds, else the reason
@@ -515,7 +516,7 @@ def handle_config(request):
                     print(action)
                     username = request.POST.get("username")
                     password = request.POST.get("password")
-                    if validate_input(username) and validate_input(password):
+                    if validate_input(username):
                         add_user(username,password)
                         fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
                         # sample ps 
@@ -529,20 +530,18 @@ def handle_config(request):
                     wifi_pass = request.POST.get("wifi_password")
                     wifi_name = request.POST.get("wifi_ap")
                     wifi_encrpt = request.POST.get("wifi_encrpt")
-                    if validate_input(wifi_pass) and validate_input(wifi_name) and validate_input(wifi_encrpt):
-                        if len(wifi_name) > 0:
-                            add_newWifiConn(wifi_name,wifi_encrpt,wifi_pass)
-                        fetchusers = ''
-                        fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
-                        print(fetchusers)
-                        # sample ps 
-                        # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
-                        userlist = fetchusers.split(':')[3].split(',')
-                        configuredwifi = get_allconfiguredwifi()
-                        print(configuredwifi)
-                        wifi_aps = get_allAPs()
-                        print(wifi_aps)
-                        return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'addwifi', 'endpoint': wifi_name}], safe=False)
+                    if len(wifi_name) > 0:
+                        add_newWifiConn(wifi_name,wifi_encrpt,wifi_pass)
+                    fetchusers = ''
+                    fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
+                    # sample ps 
+                    # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+                    userlist = fetchusers.split(':')[3].split(',')
+                    configuredwifi = get_allconfiguredwifi()
+                    print(configuredwifi)
+                    wifi_aps = get_allAPs()
+                    print(wifi_aps)
+                    return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'addwifi', 'endpoint': wifi_name}], safe=False)
                 elif action == 'deleteWifi':
                     print(action)
                     # connect to wifi ap user selected

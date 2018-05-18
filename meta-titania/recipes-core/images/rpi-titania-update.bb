@@ -5,7 +5,8 @@ LICENSE = "GPL-3.0"
 # https://sbabic.github.io/swupdate/building-with-yocto.html
 
 SRC_URI = "file://sw-description\
-           file://gplv3.md"
+           file://gplv3.md \
+           file://postinst_loc_data_purge.sh"
 
 LIC_FILES_CHKSUM = "file://${WORKDIR}/gplv3.md;md5=f149fa3bc39a974fe62c04649f34883a"
 

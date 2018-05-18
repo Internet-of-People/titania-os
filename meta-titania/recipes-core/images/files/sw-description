@@ -27,6 +27,12 @@ software =
                             value = "1";
                         }
                 );
+                scripts: (
+                        {
+                            filename = "postinst_loc_data_purge.sh";
+                            type = "postinstall";
+                        }
+                );
             };
 
             a : {
@@ -48,6 +54,12 @@ software =
                         {
                             name = "after_update";
                             value = "1";
+                        }
+                );
+                scripts: (
+                        {
+                            filename = "postinst_loc_data_purge.sh";
+                            type = "postinstall";
                         }
                 );
             };

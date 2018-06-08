@@ -10,7 +10,9 @@ IMAGE_INSTALL += "networkmanager avahi-daemon llmnrd"
 IMAGE_INSTALL += "swupdate"
 
 # Docker
-IMAGE_INSTALL += "docker dapp"
+# TODO: remove manifest tool when upgrading to
+# docker that the supports manifest command
+IMAGE_INSTALL += "docker dapp manifest-tool"
 
 # Network awareness and port forwards
 IMAGE_INSTALL += "network-info forward-port"

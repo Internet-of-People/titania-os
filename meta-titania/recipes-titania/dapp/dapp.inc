@@ -23,7 +23,7 @@ SYSTEMD_SERVICE_${PN} = "dapp@world,libertaria,nginx.service"
 NGINX_SERVICE="dapp@world.libertaria.nginx"
 
 # TODO: this is dapp_test tag, merge everything and streamline!
-DOCKER_IMAGE_PREINSTALL += "libertaria/nginx@sha256:b1f0883cc1e7ed829bb053b46339545bd6dbddc202d00cef0478642eb4e36850"
+DOCKER_IMAGE_PREINSTALL += "libertaria/nginx:armv7@sha256:b1f0883cc1e7ed829bb053b46339545bd6dbddc202d00cef0478642eb4e36850"
 
 do_install_append() {
     install -d ${D}${systemd_unitdir}/system

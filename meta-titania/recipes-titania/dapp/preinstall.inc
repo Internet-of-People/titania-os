@@ -28,7 +28,7 @@ do_install_append() {
 
     for image in ${DOCKER_IMAGE_PREINSTALL}; do
         # TODO: Can we make it a part of do_fetch and save to downloads?
-        IMAGE_SAFE_FILENAME=$(echo $image | tr '/:' '__')
+        IMAGE_SAFE_FILENAME=$(echo $image | tr '/:@' '___')
         IMAGE_DIR="${WORKDIR}/images/$IMAGE_SAFE_FILENAME"
         echo "Saving $image to $IMAGE_DIR."
 

@@ -36,6 +36,7 @@ export default {
         if (this.$route.params.setSession && !this.$session.exists()) {
           this.$store.dispatch('getDashboardCards')
           this.$store.dispatch('getDashboardChart')
+          this.$store.dispatch('getNatpmpStatus')
           this.$session.start()
         } else if (!this.$session.exists()) {
           this.$router.push('/login')

@@ -751,6 +751,10 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
   background-color: #C82506 !important;
 }
 
+.warn-text {
+  color: #C82506 !important;
+}
+
 #my-toast {
   bottom: 38px !important;
   right: 15px !important;

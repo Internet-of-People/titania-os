@@ -12,7 +12,7 @@ Vue.use(VueLocalStorage)
 
 const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.42.102:8000' // dev pi
+// const apiRoot = 'http://192.168.0.111:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -66,7 +66,8 @@ const store = new Vuex.Store({
     dappsFilter: 'AVAILABLE',
     showdappdetail: false,
     activedapp: {},
-    activecategory: 'helper'
+    activecategory: 'helper',
+    natpmp: 1
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -276,6 +277,9 @@ const store = new Vuex.Store({
     },
     'SET_DAPP_LIST_NULL': function (state) {
       state.dappsjson = []
+    },
+    'NATPMP_STATUS': function (state, response) {
+      state.natpmp = response.body.STATUS
     }
   },
   actions: {
@@ -288,6 +292,7 @@ const store = new Vuex.Store({
           store.commit('SET_SCHEMA', response)
           store.dispatch('getCreds')
           store.dispatch('getUpdateStatus')
+          store.dispatch('getNatpmpStatus')
         }).catch((error) => store.commit('API_FAIL', error))
     },
     getCreds (state) {
@@ -569,6 +574,14 @@ const store = new Vuex.Store({
         store.commit('SET_DAPP_LIST_NULL')
         store.dispatch('fetchAlldApps')
       }).catch((error) => store.commit('API_FAIL', error))
+    },
+    getNatpmpStatus (state) {
+      var natpmpstatus = {
+        _action: 'getNatpmpStatus'
+      }
+      return api.postWithSession(apiRoot + '/index.html', natpmpstatus)
+      .then((response) => store.commit('NATPMP_STATUS', response))
+      .catch((error) => store.commit('API_FAIL', error))
     }
   }
 })

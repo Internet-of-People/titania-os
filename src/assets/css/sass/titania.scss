@@ -771,6 +771,10 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
   background-color: $brand-critical !important;
 }
 
+.warn-text{
+  color: $brand-critical !important;
+}
+
 .displayInlineFlex{
   @extend .display-inline-flex;
 }

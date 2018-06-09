@@ -5,6 +5,8 @@
         <span class='titania_version'><a @click="getHashDetails()">{{this.$store.state.schema}}</a></span>
         <span class='copyright'>&copy;&nbsp; {{new Date().getFullYear()}} Libertaria</span>
         <span id='registeredto' class='registeredto hide' v-bind:class="{show : !getFooterClass()}">Logged in as: <span>{{username}}</span></span>
+        <span id='registeredto' class='registeredto hide warn-text' v-bind:class="{show : !getFooterClass()}">
+          <a v-if="this.$store.state.natpmp === '0'" href="https://portforward.com/router.htm" target="_blank">NATPMP: OFF</a></span>
       </div>
       <div class='float-right footer-links padding-right-20'>
         <span class="padding-right-20 white-paper-footer"><a href="https://drive.google.com/file/d/11xDyBFACJYxrDQY4YNdiBqF8UFhgvpT9/view" target="_blank">White Paper</a></span>

@@ -195,6 +195,14 @@ def check_ifservicedownloading(dappid):
             return m.group(1)
     return "run"
 
+def check_ifnatpmpenabled():
+    CMD = [ "systemctl", "is-active", "natpmp-support.service", "--no-pager" ]
+    output = subprocess.run(CMD, stdout=subprocess.PIPE).stdout.decode('ascii', 'ignore').split('\n')[0]
+    if output == 'failed':
+        return '0'
+    else:
+        return '1'
+
 def validate_session(request):
     session_key = request.POST.get("session_key")
     try:
@@ -648,6 +656,10 @@ def handle_config(request):
                     print(data)
                     # systemctl start swupdate@$(systemd-escape -p /tmp/titania-arm-rpi-v0.0-152-g3668500.swu).service
                     return JsonResponse({'STATUS':status,'data':data}, safe=False)  
+                elif action == 'getNatpmpStatus':
+                    print(action)
+                    natpmp_status = check_ifnatpmpenabled()
+                    return JsonResponse({'STATUS': natpmp_status}, safe=False)  
                 elif action == 'rebootSystem':
                         print(action)
                         os.system('/sbin/shutdown -r now')

@@ -7,6 +7,7 @@ SRC_URI += "file://dapp@.service \
             file://dapp_pull.sh \
             file://dapp_load.sh \
             file://dapp_version.sh \
+            file://dapp_update.sh \
             file://nginx-reload-support.conf \
             file://nginx-custom-paths.conf"
 

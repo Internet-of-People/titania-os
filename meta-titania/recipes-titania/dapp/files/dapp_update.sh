@@ -58,8 +58,11 @@ if test "$LATEST_VERSION" != "$IMAGE_VERSION"; then
     # May fail
     (docker tag ${BASE_IMAGE}:latest ${BASE_IMAGE}:previous 2>&1 >/dev/null) || true
     
-    docker pull ${BASE_IMAGE}@${LATEST_VERSION} 
-    docker tag ${BASE_IMAGE}@${LATEST_VERSION} ${BASE_IMAGE}:latest
+    DOCKER_IMAGE_BASE=$(grep -o '^[^@:]*'<<<$1)
+    docker pull ${BASE_IMAGE}@${LATEST_VERSION} && \
+    docker tag ${BASE_IMAGE}@${LATEST_VERSION} ${BASE_IMAGE}:latest && \
+    rm -f /var/lib/docker/preinstall/$(echo $DOCKER_IMAGE_BASE | tr '/' '_').digest
+
     stop_step "download"
 fi
 

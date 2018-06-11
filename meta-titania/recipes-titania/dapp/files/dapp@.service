@@ -26,7 +26,7 @@ ExecStartPre=-/bin/chown $DAPP_CHOWN_UID $DAPP_CHOWN_PATHS
 ExecStartPre=/opt/titania/bin/dapp_load.sh ${DAPP_DOCKER_IMAGE}
 ExecStartPre=/opt/titania/bin/dapp_pull.sh ${DAPP_DOCKER_IMAGE}
 
-# TODO: removed image spec from here, relying on dapp_version for now
+# TODO: removed image spec from here, relying on dapp_version for
 ExecStartPre=/opt/titania/bin/dapp_prepare.sh %i \
 	$DAPP_DOCKER_PORTS \
 	$DAPP_DOCKER_ENV \

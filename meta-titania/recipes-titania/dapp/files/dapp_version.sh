@@ -21,7 +21,12 @@ case "$1" in
     ;;
 
     image)
-    (docker image inspect $IMAGE_NAME --format='{{ index .RepoDigests 0 }}' 2>/dev/null | grep -o 'sha256:.*$') || echo "nil"
+    DIGEST_DIR=/var/lib/docker/preinstall
+    DIGEST_FILE="$(grep -o '^[^:@]*'<<<$IMAGE_NAME | tr '/' '_').digest"
+    # Try the image, then try a file. then fail
+    (docker image inspect $IMAGE_NAME --format='{{ index .RepoDigests 0 }}' 2>/dev/null | grep -o 'sha256:.*$') || \
+    cat $DIGEST_DIR/$DIGEST_FILE ||
+    echo "nil"
     ;;
 
     dapp)

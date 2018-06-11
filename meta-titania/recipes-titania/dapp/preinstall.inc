@@ -51,5 +51,9 @@ do_install_append() {
         tar -cC $IMAGE_DIR \
             -f ${D}${DOCKER_PREINSTALL_DIR}/${IMAGE_SAFE_FILENAME}.tar \
             $HASHFILES manifest.json repositories
+
+        # Creating a digest file as well
+        # NOTE: assuming we have a digest!
+        echo $image | grep -o 'sha256:.*$' > ${D}${DOCKER_PREINSTALL_DIR}/${IMAGE_SAFE_FILENAME}.digest
     done
 }

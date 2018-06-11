@@ -1,4 +1,5 @@
 #!/bin/sh
+
 # If there is no container, create
 if ! docker inspect "$1" >/dev/null 2>&1; then
     echo "Creating dApp container"

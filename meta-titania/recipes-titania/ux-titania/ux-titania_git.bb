@@ -1,4 +1,4 @@
 require ux-titania.inc
 
-SRCREV = "b25f00d4ca34b30b5a5b73e08d6918658c869967"
-UX_BRANCH = "develop"
+SRCREV = "a8670be34fb001513f2c1f0a3471fcac2ae37bd4"
+UX_BRANCH = "214-update-dapps-ux"

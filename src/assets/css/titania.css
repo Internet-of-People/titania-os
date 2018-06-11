@@ -815,10 +815,10 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
 
 .downloading-label {
   margin: 3px;
-  width: 80px;
   padding: 2px;
-  background-color: #554151;
+  text-align: center;
   color: white;
+  background-color: #554151;
 }
 
 .state-dapps {
@@ -1086,6 +1086,7 @@ div.highlightedFilter {
 
 .each-stat-block {
   display: inline-block !important;
+  margin-bottom: 32px;
 }
 
 .x-scrollable {

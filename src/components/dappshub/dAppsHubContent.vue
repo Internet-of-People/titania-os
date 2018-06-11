@@ -29,6 +29,7 @@
             <div v-if="loadApps && item.category == dapp.tags && filterCheck(dapp.is_active)" 
                   v-for="(dapp,index) in dappsjson" :key="index" 
                   class="dapp-component cursor-pointer">
+              <div :id="'update_'+ dapp.name.split(' ').join('_')" class="downloading-label" v-if="updatedapps.indexOf(dapp.id) !== -1" @click="optionAction('Update', dapp)">Update</div>
               <div class="downloading-label" v-if="dapp.is_active == 2">Downloading</div>
               <a v-if="item.category == 'community' && dapp.is_active == 1" href="/dapp/org.navcoin.wallet" target="_blank">
                 <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>
@@ -40,7 +41,6 @@
               <div class="dapp-name">
                 {{dapp.name}}
               </div>
-              
               <ul :id="dapp.name.replace(' ','_')" class='dropdown-config hide' >
                   <li v-for="option in getdAppOptions(item.category, dapp)" :key="option" class="float-left  cursor-pointer col-11 selected" @click="optionAction(option, dapp)">
                     <span class="float-left cursor-pointer sans-serif-bold overflow-hidden" style="width: 100%;">{{option}}</span>
@@ -116,6 +116,11 @@ export default {
       set: function (value) {
         this.$store.state.activecategory = value
       }
+    },
+    updatedapps: {
+      get: function () {
+        return this.$store.state.updatedapps
+      }
     }
   },
   methods: {
@@ -181,6 +186,9 @@ export default {
       } else if (option == 'Download') {
         // docker pull <container name>
         this.$store.dispatch('downloadDapp', dapp)
+      } else if (option == 'Update') {
+        $('#update_'+ dapp.name.split(' ').join('_')).text('Updating')
+        this.$store.dispatch('updateDapp', dapp.id)
       }
     },
     getIfContainsApp: function(filter, category) {

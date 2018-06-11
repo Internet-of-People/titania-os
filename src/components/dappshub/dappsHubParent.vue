@@ -55,7 +55,7 @@ export default {
     var that = this
     refreshtimeout = setTimeout(function(){
       that.onMount()
-    } , 15000)  
+    } , 60000)  
   },
   destroyed: function () {
     clearTimeout(refreshtimeout)

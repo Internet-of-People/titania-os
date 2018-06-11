@@ -67,7 +67,8 @@ const store = new Vuex.Store({
     showdappdetail: false,
     activedapp: {},
     activecategory: 'helper',
-    natpmp: 1
+    natpmp: 1,
+    updatedapps: []
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -280,6 +281,9 @@ const store = new Vuex.Store({
     },
     'NATPMP_STATUS': function (state, response) {
       state.natpmp = response.body.STATUS
+    },
+    'SET_UPDATE_FLAGS': function (state, response) {
+      state.updatedapps = response.body.update_list
     }
   },
   actions: {
@@ -474,7 +478,17 @@ const store = new Vuex.Store({
         _action: 'fetchAlldApps'
       }
       return api.postWithSession(apiRoot + '/index.html', fetchAlldApps)
-      .then((response) => store.commit('INIT_DAPP_STORE', response))
+      .then(function (response) {
+        store.commit('INIT_DAPP_STORE', response)
+        store.dispatch('fetchUpdatableDapps')
+      }).catch((error) => store.commit('API_FAIL', error))
+    },
+    fetchUpdatableDapps (state) {
+      var fetchUpdatableDapps = {
+        _action: 'fetchUpdatableDapps'
+      }
+      return api.postWithSession(apiRoot + '/index.html', fetchUpdatableDapps)
+      .then((response) => store.commit('SET_UPDATE_FLAGS', response))
       .catch((error) => store.commit('API_FAIL', error))
     },
     disableDapp(state, dappid) {
@@ -567,6 +581,30 @@ const store = new Vuex.Store({
         mode: 'queue'
       })
       return api.postWithSession(apiRoot + '/index.html', downloadDapp)
+      .then(function (response) {
+        $('#hub-loader').addClass('hide')
+        $('#my-toast').remove()
+        $('body').css('cursor', 'default')
+        store.commit('SET_DAPP_LIST_NULL')
+        store.dispatch('fetchAlldApps')
+      }).catch((error) => store.commit('API_FAIL', error))
+    },
+    updateDapp(state, dappid) {
+      var updateDapp = {
+        _action: 'updateDapp'
+      }
+      updateDapp.id = dappid
+      $('#hub-loader').removeClass('hide')
+      $('body').css('cursor', 'progress')
+      Vue.toast('Updating dapp and fetching updated list', {
+        id: 'my-toast',
+        className: ['toast-info'],
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+        duration: 40000,
+        mode: 'queue'
+      })
+      return api.postWithSession(apiRoot + '/index.html', updateDapp)
       .then(function (response) {
         $('#hub-loader').addClass('hide')
         $('#my-toast').remove()

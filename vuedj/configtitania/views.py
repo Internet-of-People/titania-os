@@ -161,26 +161,50 @@ def get_dappsdetails():
             # helper function, default is enabled
             dapp["is_active"] = common.SERVICE_ENABLED
         elif check_ifserviceenabled(dapp["id"]):
-            # downloaded and enabled
+            # downloaded and enabled confirmed
+            # check for update status
+            # if check_ifserviceupdateavailable(dapp["id"]):
+            #     dapp["is_active"] = common.SERVICE_UPDATE_AVAILABLE_ENABLED
+            # else:
+            #     dapp["is_active"] = common.SERVICE_ENABLED
             dapp["is_active"] = common.SERVICE_ENABLED
         elif service_repo in downld_service_list: 
             # downloaded but not enabled
+            # if check_ifserviceupdateavailable(dapp["id"]):
+            #     dapp["is_active"] = common.SERVICE_UPDATE_AVAILABLE_DISABLED
+            # else:
+            #     dapp["is_active"] = common.SERVICE_DISABLED
             dapp["is_active"] = common.SERVICE_DISABLED
         else:
-            print(check_ifservicedownloading(dapp["id"]))
             # not downloaded / downloading
             if check_ifservicedownloading(dapp["id"]) != "run":
                 dapp["is_active"] = common.SERVICE_DOWNLOADING
             else:
                 dapp["is_active"] = common.SERVICE_NOT_DOWNLOADED    
     return dapps_list
-        
+
+def get_containerswithavailableupdate():
+    dapps_list = list(dapps_store)
+    update_list = []
+    for dapp in dapps_list:
+        if check_ifserviceupdateavailable(dapp["id"]):
+            update_list.append(dapp["id"])
+    return update_list
+
 def check_ifserviceenabled(dappid):
     is_active_service = common.IS_ACTIVE_SERVICE.format(dappid)
     is_enabled = subprocess.Popen(is_active_service,shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')[0]
     if is_enabled == "enabled":
         return True
     else:
+        return False
+
+def check_ifserviceupdateavailable(dappid):
+    is_update_available = common.SERVICE_UPDATE_AVAILABLE_CHECK.format(dappid)
+    update_available = subprocess.Popen(is_update_available,shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')[0]
+    if update_available == "download":
+        return True
+    elif update_available == "latest":
         return False
 
 def check_ifservicedownloading(dappid):
@@ -598,6 +622,10 @@ def handle_config(request):
                     print(action)
                     dapps_list = get_dappsdetails()
                     return JsonResponse({'STATUS':'SUCCESS','dapps_store':dapps_list}, safe=False)
+                elif action == 'fetchUpdatableDapps':
+                    update_list = get_containerswithavailableupdate()
+                    print(update_list)
+                    return JsonResponse({'STATUS':'SUCCESS','update_list':update_list}, safe=False)
                 elif action == 'disableDapp':
                     print(action)
                     dappid = request.POST.get("id")
@@ -626,6 +654,14 @@ def handle_config(request):
                     # image = request.POST.get("image")
                     dappid = request.POST.get("id")
                     service = 'systemctl start dapp@{}.service'.format(dappid)
+                    print(service)
+                    ps = subprocess.Popen(service,shell=True,stdout=subprocess.PIPE).communicate()[0]
+                    print(ps)
+                    return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
+                elif action == 'updateDapp':
+                    print(action)
+                    dappid = request.POST.get("id")
+                    service = '/opt/titania/bin/dapp_update.sh {}'.format(dappid)
                     print(service)
                     ps = subprocess.Popen(service,shell=True,stdout=subprocess.PIPE).communicate()[0]
                     print(ps)

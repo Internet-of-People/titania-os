@@ -23,7 +23,20 @@ PATH=$PATH:/opt/titania/bin
 # Mark if we need a dry run
 if test "$2" == "-n"; then
     DRY_RUN="yes"
-fi 
+fi
+
+# TODO very naïve way, discuss a better one
+DAPP_NAME="$1"
+RUN_PREFIX="/run/dapp"
+start_step() {
+    echo "Starting operation: $1"
+    touch "${RUN_PREFIX}_${DAPP_NAME}_${1}"
+} 
+
+stop_step() {
+    echo "Finishing operation: $1"
+    rm -f "${RUN_PREFIX}_${DAPP_NAME}_${1}"
+}
 
 dry_run() {
     if test -n "$DRY_RUN"; then
@@ -32,20 +45,22 @@ dry_run() {
     fi
 }
 
-JSON_VERSION=$(dapp_version.sh hub $1)
+LATEST_VERSION=$(dapp_version.sh latest $1)
 IMAGE_VERSION=$(dapp_version.sh image $1)
 
 # We need to download
-if test "$JSON_VERSION" != "$IMAGE_VERSION"; then
+if test "$LATEST_VERSION" != "$IMAGE_VERSION"; then
     dry_run "download"
+    start_step "download"
     # TODO: what if we change the repo name?
-    BASE_IMAGE="$(dapp_version.sh base $1)"
+    BASE_IMAGE="$(dapp_version.sh base $1 | grep -o '^[^@:]*')"
 
     # May fail
     (docker tag ${BASE_IMAGE}:latest ${BASE_IMAGE}:previous 2>&1 >/dev/null) || true
     
-    docker pull ${BASE_IMAGE}@${JSON_VERSION} 
-    docker tag ${BASE_IMAGE}@${JSON_VERSION} ${BASE_IMAGE}:latest
+    docker pull ${BASE_IMAGE}@${LATEST_VERSION} 
+    docker tag ${BASE_IMAGE}@${LATEST_VERSION} ${BASE_IMAGE}:latest
+    stop_step "download"
 fi
 
 # No container yet
@@ -54,14 +69,18 @@ if ! docker inspect $1 >/dev/null 2>&1; then
     # TODO: check for broken conditions, e.g. service
     # is started, but the container is removed etc
     # Note: implicitly starts
+    start_step "create"
     systemctl start dapp@$1
+    stop_step "create"
 else
     DAPP_VERSION=$(dapp_version.sh dapp $1)
-    if test "$JSON_VERSION" != "$DAPP_VERSION"; then
+    if test "$LATEST_VERSION" != "$DAPP_VERSION"; then        
         dry_run "recreate"
+        start_step "recreate"
         systemctl stop dapp@$1
         docker rm $1
         systemctl start dapp@$1
+        stop_step "recreate"
     fi
 fi 
 

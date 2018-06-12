@@ -151,6 +151,17 @@ module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGlu
 
 /***/ }),
 
+/***/ "1/7/":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"col-12 store-container hub-parent-block"},[_vm._l((_vm.dappsstateactions),function(action){return _c('div',{key:action,staticClass:"float-left display-inline-flex threads-filter cursor-pointer",on:{"click":function($event){_vm.changedAppFilter(action)}}},[(_vm.dappsFilter === action)?_c('div',{staticClass:"highlightedFilter"},[_vm._v("\n        "+_vm._s(action)+"\n      ")]):_c('div',[_vm._v(_vm._s(action))])])}),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('div',{staticClass:"dapps-block"},_vm._l((_vm.dappscategories),function(item){return (_vm.getIfContainsApp(_vm.dappsFilter, item.category))?_c('div',{key:item.category,staticClass:"dapps-category"},[_c('div',{staticClass:"dapp-label"},[_vm._v(_vm._s(item.name))]),_vm._v(" "),_c('div',{staticClass:"dapp-block display-inline-flex"},_vm._l((_vm.dappsjson),function(dapp,index){return (_vm.loadApps && item.category == dapp.tags && _vm.filterCheck(dapp.is_active))?_c('div',{key:index,staticClass:"dapp-component cursor-pointer"},[(dapp.is_active !== -1 && dapp.is_active !== 2  && _vm.updatedapps.indexOf(dapp.id) !== -1)?_c('div',{staticClass:"downloading-label",attrs:{"id":'update_'+ dapp.name.split(' ').join('_')},on:{"click":function($event){_vm.optionAction('Update', dapp)}}},[_vm._v("Update")]):_vm._e(),_vm._v(" "),(dapp.is_active == 2)?_c('div',{staticClass:"downloading-label"},[_vm._v("Downloading")]):_vm._e(),_vm._v(" "),(item.category == 'community' && dapp.is_active == 1)?_c('a',{attrs:{"href":"/dapp/org.navcoin.wallet","target":"_blank"}},[_c('img',{staticClass:"dapps-logo",attrs:{"src":dapp.logo},on:{"click":function($event){_vm.getAppDetails(item.category,dapp)}}})]):_c('a',[_c('img',{staticClass:"dapps-logo",attrs:{"src":dapp.logo},on:{"click":function($event){_vm.getAppDetails(item.category,dapp)}}})]),_vm._v(" "),_c('img',{staticClass:"dapps-settings",attrs:{"src":__webpack_require__("/Bzs")},on:{"click":function($event){_vm.openOptionsMenu(dapp)}}}),_vm._v(" "),_c('div',{staticClass:"dapp-name"},[_vm._v("\n              "+_vm._s(dapp.name)+"\n            ")]),_vm._v(" "),_c('ul',{staticClass:"dropdown-config hide",attrs:{"id":dapp.name.replace(' ','_')}},_vm._l((_vm.getdAppOptions(item.category, dapp)),function(option){return _c('li',{key:option,staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.optionAction(option, dapp)}}},[_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(option))])])}))]):_vm._e()}))]):_vm._e()}))],2),_vm._v(" "),(_vm.showdappdetail)?_c('dAppPopup',{attrs:{"dapp-details":_vm.activedapp,"active-category":_vm.activecategory,"dapp-action":_vm.optionAction}}):_vm._e(),_vm._v(" "),(_vm.showdappdetail)?_c('div',{staticClass:"fadeout",on:{"click":function($event){_vm.getAppDetails()}}}):_vm._e()],1)}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"hide",attrs:{"id":"hub-loader"}},[_c('table',[_c('tbody',[_c('tr',[_c('td',[_c('div',{staticClass:"loader-mini"},[_c('div',{staticClass:"loader-page"},[_c('div')])])])])])])])}]
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
 /***/ "17eK":
 /***/ (function(module, exports) {
 
@@ -2284,17 +2295,6 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ "QPRU":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"col-12 store-container hub-parent-block"},[_vm._l((_vm.dappsstateactions),function(action){return _c('div',{key:action,staticClass:"float-left display-inline-flex threads-filter cursor-pointer",on:{"click":function($event){_vm.changedAppFilter(action)}}},[(_vm.dappsFilter === action)?_c('div',{staticClass:"highlightedFilter"},[_vm._v("\n        "+_vm._s(action)+"\n      ")]):_c('div',[_vm._v(_vm._s(action))])])}),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('div',{staticClass:"dapps-block"},_vm._l((_vm.dappscategories),function(item){return (_vm.getIfContainsApp(_vm.dappsFilter, item.category))?_c('div',{key:item.category,staticClass:"dapps-category"},[_c('div',{staticClass:"dapp-label"},[_vm._v(_vm._s(item.name))]),_vm._v(" "),_c('div',{staticClass:"dapp-block display-inline-flex"},_vm._l((_vm.dappsjson),function(dapp,index){return (_vm.loadApps && item.category == dapp.tags && _vm.filterCheck(dapp.is_active))?_c('div',{key:index,staticClass:"dapp-component cursor-pointer"},[(_vm.updatedapps.indexOf(dapp.id) !== -1)?_c('div',{staticClass:"downloading-label",attrs:{"id":'update_'+ dapp.name.split(' ').join('_')},on:{"click":function($event){_vm.optionAction('Update', dapp)}}},[_vm._v("Update")]):_vm._e(),_vm._v(" "),(dapp.is_active == 2)?_c('div',{staticClass:"downloading-label"},[_vm._v("Downloading")]):_vm._e(),_vm._v(" "),(item.category == 'community' && dapp.is_active == 1)?_c('a',{attrs:{"href":"/dapp/org.navcoin.wallet","target":"_blank"}},[_c('img',{staticClass:"dapps-logo",attrs:{"src":dapp.logo},on:{"click":function($event){_vm.getAppDetails(item.category,dapp)}}})]):_c('a',[_c('img',{staticClass:"dapps-logo",attrs:{"src":dapp.logo},on:{"click":function($event){_vm.getAppDetails(item.category,dapp)}}})]),_vm._v(" "),_c('img',{staticClass:"dapps-settings",attrs:{"src":__webpack_require__("/Bzs")},on:{"click":function($event){_vm.openOptionsMenu(dapp)}}}),_vm._v(" "),_c('div',{staticClass:"dapp-name"},[_vm._v("\n              "+_vm._s(dapp.name)+"\n            ")]),_vm._v(" "),_c('ul',{staticClass:"dropdown-config hide",attrs:{"id":dapp.name.replace(' ','_')}},_vm._l((_vm.getdAppOptions(item.category, dapp)),function(option){return _c('li',{key:option,staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.optionAction(option, dapp)}}},[_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(option))])])}))]):_vm._e()}))]):_vm._e()}))],2),_vm._v(" "),(_vm.showdappdetail)?_c('dAppPopup',{attrs:{"dapp-details":_vm.activedapp,"active-category":_vm.activecategory,"dapp-action":_vm.optionAction}}):_vm._e(),_vm._v(" "),(_vm.showdappdetail)?_c('div',{staticClass:"fadeout",on:{"click":function($event){_vm.getAppDetails()}}}):_vm._e()],1)}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"hide",attrs:{"id":"hub-loader"}},[_c('table',[_c('tbody',[_c('tr',[_c('td',[_c('div',{staticClass:"loader-mini"},[_c('div',{staticClass:"loader-page"},[_c('div')])])])])])])])}]
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
 /***/ "QWxd":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3747,7 +3747,6 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
           }
         },
         series: [{
-          name: 'LOC Server',
           data: [],
           color: '#3366cc',
           marker: {
@@ -3755,7 +3754,6 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
             radius: 1
           }
         }, {
-          name: 'Profile Server',
           data: [],
           color: '#dc3912',
           marker: {
@@ -3763,7 +3761,6 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
             radius: 1
           }
         }, {
-          name: 'IPFS Service',
           data: [],
           color: '#ff9900',
           marker: {
@@ -3771,9 +3768,15 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
             radius: 1
           }
         }, {
-          name: 'IoP Wallet',
           data: [],
           color: '#109618',
+          marker: {
+            symbol: 'circle',
+            radius: 1
+          }
+        }, {
+          data: [],
+          color: '#9400D3',
           marker: {
             symbol: 'circle',
             radius: 1
@@ -3818,6 +3821,17 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
   }
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("7t+N")))
+
+/***/ }),
+
+/***/ "gdPU":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dashboard-wrapper"},[_c('div',{staticClass:"display-flex"},_vm._l((_vm.series),function(serie){return _c('dashboardCard',{key:serie[0],attrs:{"test-prop":serie}})})),_vm._v(" "),_c('div',{staticClass:"some-class"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"display-inline-flex"},[_c('highcharts',{ref:"highcharts",staticClass:"chart",attrs:{"options":_vm.options}}),_vm._v(" "),_c('div',{staticClass:"legend-series"},[_c('div',{staticClass:"large-fontsize"},[_vm._v("dApps")]),_vm._v(" "),_c('div',{staticClass:"legends"},_vm._l((_vm.seriesname),function(serie){return _c('div',{key:serie,staticClass:"cursor-pointer",attrs:{"id":serie,"title":serie},on:{"click":function($event){_vm.toggleSeries(serie)}}},[_c('span',{staticClass:"padding-left-4"},[_vm._v("●")]),_vm._v("\n            "+_vm._s(serie)+"\n          ")])}))])],1)])])}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"col-12"},[_c('div',{staticClass:"float-left chart-caption sans-serif-bold"},[_vm._v("CPU USAGE")])])}]
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -4000,7 +4014,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_1_vue
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dappsHubContent_vue__ = __webpack_require__("UQ0n");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_49ae8f72_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dappsHubContent_vue__ = __webpack_require__("QPRU");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ef77f1c6_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dappsHubContent_vue__ = __webpack_require__("1/7/");
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
 
@@ -4017,7 +4031,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dappsHubContent_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_49ae8f72_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dappsHubContent_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ef77f1c6_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dappsHubContent_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -4498,7 +4512,7 @@ module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGlu
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dashboardMainContent_vue__ = __webpack_require__("g/Tz");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8e6b6d04_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dashboardMainContent_vue__ = __webpack_require__("tZ2Y");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_40f0327c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dashboardMainContent_vue__ = __webpack_require__("gdPU");
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
 
@@ -4515,7 +4529,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dashboardMainContent_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8e6b6d04_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dashboardMainContent_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_40f0327c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dashboardMainContent_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -4524,17 +4538,6 @@ var Component = normalizeComponent(
 
 /* harmony default export */ __webpack_exports__["a"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ "tZ2Y":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dashboard-wrapper"},[_c('div',{staticClass:"display-flex"},_vm._l((_vm.series),function(serie){return _c('dashboardCard',{key:serie[0],attrs:{"test-prop":serie}})})),_vm._v(" "),_c('div',{staticClass:"some-class"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"display-inline-flex"},[_c('highcharts',{ref:"highcharts",staticClass:"chart",attrs:{"options":_vm.options}}),_vm._v(" "),_c('div',{staticClass:"legend-series"},[_c('div',{staticClass:"large-fontsize"},[_vm._v("dApps")]),_vm._v(" "),_c('div',{staticClass:"legends"},_vm._l((_vm.seriesname),function(serie){return _c('div',{key:serie,staticClass:"cursor-pointer",attrs:{"id":serie,"title":serie},on:{"click":function($event){_vm.toggleSeries(serie)}}},[_c('span',{staticClass:"padding-left-4"},[_vm._v("●")]),_vm._v("\n            "+_vm._s(serie)+"\n          ")])}))])],1)])])}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"col-12"},[_c('div',{staticClass:"float-left chart-caption sans-serif-bold"},[_vm._v("CPU USAGE")])])}]
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -4682,7 +4685,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_3_vue
 
 const apiRoot = '/api'; // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.0.111:8000' // dev pi
+// const apiRoot = 'http://192.168.42.167:8000' // dev pi
 
 const local_store = __WEBPACK_IMPORTED_MODULE_0_vue__["default"].ls;
 
@@ -5384,4 +5387,4 @@ var Component = normalizeComponent(
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.1bc8d0f51d253d621591.js.map
+//# sourceMappingURL=app.70e11e1f733a951496d6.js.map

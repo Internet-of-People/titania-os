@@ -29,7 +29,7 @@
             <div v-if="loadApps && item.category == dapp.tags && filterCheck(dapp.is_active)" 
                   v-for="(dapp,index) in dappsjson" :key="index" 
                   class="dapp-component cursor-pointer">
-              <div :id="'update_'+ dapp.name.split(' ').join('_')" class="downloading-label" v-if="updatedapps.indexOf(dapp.id) !== -1" @click="optionAction('Update', dapp)">Update</div>
+              <div :id="'update_'+ dapp.name.split(' ').join('_')" class="downloading-label" v-if="dapp.is_active !== -1 && dapp.is_active !== 2  && updatedapps.indexOf(dapp.id) !== -1" @click="optionAction('Update', dapp)">Update</div>
               <div class="downloading-label" v-if="dapp.is_active == 2">Downloading</div>
               <a v-if="item.category == 'community' && dapp.is_active == 1" href="/dapp/org.navcoin.wallet" target="_blank">
                 <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>

@@ -707,7 +707,6 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
 }
 .legend-series div {
   float: left;
-  width: 110px;
   display: block;
   text-align: left;
   text-decoration: none;
@@ -733,6 +732,10 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
 
 .legend-4, .legends div:nth-child(4) span {
   color: #109618;
+}
+
+.legend-5, .legends div:nth-child(5) span {
+  color: #9400D3;
 }
 
 .margin-top-20 {
@@ -1610,8 +1613,8 @@ div.highlightedFilter {
 }
 
 .dapp-component {
-  height: 80px;
-  width: 80px;
+  height: 90px;
+  width: 90px;
   padding: 16px;
 }
 

@@ -726,7 +726,7 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
   max-width: 120px;
   div{
     float: left;
-    width: 110px;
+    // width: 110px;
     display: block;
     text-align: left;
     text-decoration: none;
@@ -753,6 +753,10 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
 
 .legend-4{
   color: #109618;
+}
+
+.legend-5{
+  color: #9400D3;
 }
 
 .margin-top-20{
@@ -823,6 +827,11 @@ input:not(.box-name-field):not(.config-input-field):not(.popup-input):not(.popup
   div:nth-child(4) {
     span{
       @extend .legend-4;
+    }
+  }
+  div:nth-child(5) {
+    span{
+      @extend .legend-5;
     }
   }
 }
@@ -1674,8 +1683,8 @@ div.highlightedFilter{
 }
 
 .dapp-component{
-  height: 80px;
-  width: 80px;
+  height: 90px;
+  width: 90px;
   padding: 16px;
 }
 

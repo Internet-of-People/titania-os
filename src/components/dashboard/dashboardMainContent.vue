@@ -80,7 +80,6 @@ export default {
           }
         },
         series: [{
-          name: 'LOC Server',
           data: [],
           color: '#3366cc',
           marker: {
@@ -88,7 +87,6 @@ export default {
             radius: 1
           }
         }, {
-          name: 'Profile Server',
           data: [],
           color: '#dc3912',
           marker: {
@@ -96,7 +94,6 @@ export default {
             radius: 1
           }
         }, {
-          name: 'IPFS Service',
           data: [],
           color: '#ff9900',
           marker: {
@@ -104,9 +101,15 @@ export default {
             radius: 1
           }
         }, {
-          name: 'IoP Wallet',
           data: [],
           color: '#109618',
+          marker: {
+            symbol: 'circle',
+            radius: 1
+          }
+        }, {
+          data: [],
+          color: '#9400D3',
           marker: {
             symbol: 'circle',
             radius: 1

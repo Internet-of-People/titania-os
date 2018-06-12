@@ -10,12 +10,13 @@
 
 [Unit]
 Description=Port forwarding for %I
-Requires=NetworkManager-wait-online.service
-After=NetworkManager-wait-online.service
+# TODO: if we support more protocols, make it a Want rather than Require
+Requires=natpmp-support.service
+After=natpmp-support.service
 
 [Service]
 Restart=on-failure
 RemainAfterExit=true
-ExecStart=/usr/bin/forward_port.sh start %i
-ExecStop=/usr/bin/forward_port.sh stop %i
+ExecStart=/opt/titania/bin/forward_port.sh start %i
+ExecStop=/opt/titania/bin/forward_port.sh stop %i
 

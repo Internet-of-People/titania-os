@@ -1,0 +1,12 @@
+[Unit]
+Description=NatPMP support detection
+Requires=NetworkManager-wait-online.service
+After=NetworkManager-wait-online.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/bin/natpmpc
+
+[Install]
+WantedBy=multi-user.target

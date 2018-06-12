@@ -6,6 +6,8 @@ SRC_URI += "file://dapp@.service \
             file://dapp_register.sh \
             file://dapp_pull.sh \
             file://dapp_load.sh \
+            file://dapp_version.sh \
+            file://dapp_update.sh \
             file://nginx-reload-support.conf \
             file://nginx-custom-paths.conf"
 
@@ -21,7 +23,8 @@ SYSTEMD_SERVICE_${PN} = "dapp@world,libertaria,nginx.service"
 
 NGINX_SERVICE="dapp@world.libertaria.nginx"
 
-DOCKER_IMAGE_PREINSTALL += "libertaria/nginx:dapp_test"
+# TODO: this is dapp_test tag, merge everything and streamline!
+DOCKER_IMAGE_PREINSTALL += "libertaria/nginx:armv7@sha256:b1f0883cc1e7ed829bb053b46339545bd6dbddc202d00cef0478642eb4e36850"
 
 do_install_append() {
     install -d ${D}${systemd_unitdir}/system

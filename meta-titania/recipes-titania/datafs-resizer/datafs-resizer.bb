@@ -26,6 +26,7 @@ do_install() {
     install -d ${D}${bindir}
     install -m 755 ${WORKDIR}/datafs-grow-partition.sh ${D}${bindir}
 
+    # TODO: /opt/titania!
     install -d ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/datafs-grow-partition.service ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/datafs-growfs.service ${D}${systemd_unitdir}/system

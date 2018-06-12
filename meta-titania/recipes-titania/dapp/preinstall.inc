@@ -28,7 +28,7 @@ do_install_append() {
 
     for image in ${DOCKER_IMAGE_PREINSTALL}; do
         # TODO: Can we make it a part of do_fetch and save to downloads?
-        IMAGE_SAFE_FILENAME=$(echo $image | tr '/:' '__')
+        IMAGE_SAFE_FILENAME=$(echo $image | grep -o '^[^@:]*' | tr '/' '_')
         IMAGE_DIR="${WORKDIR}/images/$IMAGE_SAFE_FILENAME"
         echo "Saving $image to $IMAGE_DIR."
 
@@ -51,5 +51,9 @@ do_install_append() {
         tar -cC $IMAGE_DIR \
             -f ${D}${DOCKER_PREINSTALL_DIR}/${IMAGE_SAFE_FILENAME}.tar \
             $HASHFILES manifest.json repositories
+
+        # Creating a digest file as well
+        # NOTE: assuming we have a digest!
+        echo $image | grep -o 'sha256:.*$' > ${D}${DOCKER_PREINSTALL_DIR}/${IMAGE_SAFE_FILENAME}.digest
     done
 }

@@ -20,6 +20,10 @@ IMAGE_INSTALL += "network-info forward-port"
 # Add firmware, this is needed for WiFi on RaspberryPi
 IMAGE_INSTALL += "linux-firmware-bcm43430"
 
+# Apparently this adds RPi3B+ support
+# TODO: remove/trim as part of TYO-61
+IMAGE_INSTALL += "linux-firmware-bcm43455 linux-firmware-bcm43430a1-hcd linux-firmware-bcm4345c0-hcd"
+
 # Merge UX version with main OS-release file
 append_ux_id () {
     cat ${IMAGE_ROOTFS}${sysconfdir}/titania-ux-version >> ${IMAGE_ROOTFS}${sysconfdir}/os-release

@@ -3,14 +3,15 @@
 # https://github.com/RPi-Distro/firmware-nonfree
 # https://github.com/RPi-Distro/bluez-firmware
 
-LICENSE_append_rpi = "\
-    & Firmware-cypress \
-"
+# TODO: TYO-61
+#LICENSE_append_rpi = "\
+#    & Firmware-cypress \
+#"
 
-LIC_FILES_CHKSUM_append_rpi = "\
-    file://LICENCE.cypress;md5=cbc5f665d04f741f1e006d2096236ba7 \
-"
-NO_GENERIC_LICENSE[Firmware-cypress] = "LICENCE.cypress"
+#LIC_FILES_CHKSUM_append_rpi = "\
+#    file://LICENCE.cypress;md5=cbc5f665d04f741f1e006d2096236ba7 \
+#"
+# NO_GENERIC_LICENSE[Firmware-cypress] = "LICENCE.cypress"
 
 SRC_URI_append_rpi = " \
     git://github.com/RPi-Distro/firmware-nonfree;destsuffix=raspbian-nf;name=raspbian-nf \

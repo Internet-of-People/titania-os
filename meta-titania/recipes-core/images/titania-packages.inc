@@ -22,7 +22,8 @@ IMAGE_INSTALL += "linux-firmware-bcm43430"
 
 # Apparently this adds RPi3B+ support
 # TODO: remove/trim as part of TYO-61
-IMAGE_INSTALL += "linux-firmware-bcm43455 linux-firmware-bcm43430a1-hcd linux-firmware-bcm4345c0-hcd"
+IMAGE_INSTALL += "linux-firmware-bcm43455"
+# linux-firmware-bcm43430a1-hcd linux-firmware-bcm4345c0-hcd"
 
 # Merge UX version with main OS-release file
 append_ux_id () {

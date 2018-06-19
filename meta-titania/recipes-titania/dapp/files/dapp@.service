@@ -3,8 +3,8 @@ Wants=network.target
 Wants=network-info.service
 
 # Abort if either docker or dapphub fails
-Requires=pydapphubfuse-reload.service
-After=pydapphubfuse-reload.service
+Requires=dapp-systemd-bridge-reload.service
+After=dapp-systemd-bridge-reload.service
 Requires=docker.service
 After=docker.service
 

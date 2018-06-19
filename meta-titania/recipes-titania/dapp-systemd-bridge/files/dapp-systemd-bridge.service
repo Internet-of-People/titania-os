@@ -1,6 +1,6 @@
 [Unit]
 Description=dApp Hub FUSE bridge
-# [Used to be starting before docker] allows pydapphubfuse to start 
+# [Used to be starting before docker] allows dapp-systemd-bridge to start 
 # properly and create the drop-ins before dapp@ serives
 # are run. There is a possibility of race condition
 # TODO: instead of this, fork and use other means to signal 
@@ -13,7 +13,7 @@ Description=dApp Hub FUSE bridge
 WorkingDirectory=/opt/titania/share
 # TODO: remainafterexit
 # TODO: issue daemon-reload
-ExecStart=/opt/titania/bin/pydapphubfuse.py apps.json /run/systemd/system /datafs/dapp
+ExecStart=/opt/titania/bin/dapp-systemd-bridge.py apps.json /run/systemd/system /datafs/dapp
 
 [Install]
 WantedBy=multi-user.target

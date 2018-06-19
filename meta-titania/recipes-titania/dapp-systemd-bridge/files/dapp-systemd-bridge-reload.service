@@ -1,10 +1,10 @@
 [Unit]
 Description=dApp SystemD units reload
-Requires=pydapphubfuse.service
-After=pydapphubfuse.service
+Requires=dapp-systemd-bridge.service
+After=dapp-systemd-bridge.service
 
 [Service]
-# TODO: this is ugly, make pydapphubfuse fork after setting things up
+# TODO: this is ugly, make dapp-systemd-bridge fork after setting things up
 # WARNING: this can cause races!
 ExecStart=/bin/sleep 15
 ExecStart=/bin/systemctl daemon-reload

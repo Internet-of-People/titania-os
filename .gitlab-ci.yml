@@ -42,6 +42,8 @@ bitbake:
     - echo 'TMPDIR = "${TOPDIR}/tmp"' >> ./conf/local.conf
     - echo 'DISTRO = "titania"' >> ./conf/local.conf
     - echo 'BUILD_ID = "'$(eval $SHA_HASH)'"' >> ./conf/local.conf
+    # TODO: maybe combine from the pieces
+    - echo 'TITANIA_GIT_ORIGIN = "'${TITANIA_GIT_ORIGIN}'"' >> ./conf/local.conf
   artifacts:
     paths:
       - build
@@ -57,7 +59,7 @@ raspberry:
     - echo $SSH_KEY_B64 | base64 -d | ssh-add -
     # Ensure we have the host key TODO insecure
     - mkdir ~/.ssh || true
-    - ssh-keyscan -p 2200 gitlab.libertaria.community >> ~/.ssh/known_hosts
+    - ssh-keyscan -p $GITLAB_PORT $GITLAB_HOST >> ~/.ssh/known_hosts
     - source openembedded-core/oe-init-build-env
     # Force rebuild for Docker NOTE: this produces a warning message later on
     - MACHINE="raspberrypi3" bitbake -C install dapp

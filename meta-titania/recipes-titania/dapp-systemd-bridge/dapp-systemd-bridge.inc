@@ -1,5 +1,5 @@
 # TODO: replace with HTTPS link when we go public
-SRC_URI = "git://git@gitlab.libertaria.community:2200/titania/dapp-systemd-bridge.git;protocol=ssh \
+SRC_URI = "${TITANIA_GIT_ORIGIN}/dapp-systemd-bridge.git;protocol=ssh \
            file://dapp-systemd-bridge.service \
            file://dapp-systemd-bridge-reload.service"
 # TODO: override only for git versions, not in the base recipe

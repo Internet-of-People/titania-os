@@ -9,7 +9,7 @@ S = "${WORKDIR}/git"
 RDEPENDS_${PN} = "python3-fusepy"
 
 LICENSE = "GPL-3.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=8c40fdc41c95755623d451deddccda48"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=3c8455f29fa2a7ab24cb67c8622f9c48"
 
 inherit systemd
 

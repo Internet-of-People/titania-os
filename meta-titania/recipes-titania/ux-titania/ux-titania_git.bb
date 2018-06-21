@@ -1,4 +1,4 @@
 require ux-titania.inc
 
-SRCREV = "f5f269e7aa355521f6016d4cd5da5601154b6c88"
-UX_BRANCH = "master"
+SRCREV = "7b6ce6c30d3df7c5724953377edc95ff3e4480f7"
+UX_BRANCH = "develop"

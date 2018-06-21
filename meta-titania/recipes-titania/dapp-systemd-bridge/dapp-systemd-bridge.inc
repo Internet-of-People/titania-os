@@ -1,5 +1,5 @@
 # TODO: replace with HTTPS link when we go public
-SRC_URI = "${LIBERTARIA_GIT_ORIGIN}/dapp-systemd-bridge.git;protocol=${LIBERTARIA_GIT_PROTOCOL} \
+SRC_URI = "${LIBERTARIA_GIT_ORIGIN}/titania-dapps-systemd-bridge.git;protocol=${LIBERTARIA_GIT_PROTOCOL} \
            file://dapp-systemd-bridge.service \
            file://dapp-systemd-bridge-reload.service"
 # TODO: override only for git versions, not in the base recipe

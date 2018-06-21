@@ -42,7 +42,6 @@ bitbake:
     - echo 'TMPDIR = "${TOPDIR}/tmp"' >> ./conf/local.conf
     - echo 'DISTRO = "titania"' >> ./conf/local.conf
     - echo 'BUILD_ID = "'$(eval $SHA_HASH)'"' >> ./conf/local.conf
-    # TODO: maybe combine from the pieces
     - echo 'LIBERTARIA_GIT_ORIGIN = "'${LIBERTARIA_GIT_ORIGIN}'"' >> ./conf/local.conf
   artifacts:
     paths:

@@ -43,7 +43,7 @@ bitbake:
     - echo 'DISTRO = "titania"' >> ./conf/local.conf
     - echo 'BUILD_ID = "'$(eval $SHA_HASH)'"' >> ./conf/local.conf
     # TODO: maybe combine from the pieces
-    - echo 'TITANIA_GIT_ORIGIN = "'${TITANIA_GIT_ORIGIN}'"' >> ./conf/local.conf
+    - echo 'LIBERTARIA_GIT_ORIGIN = "'${LIBERTARIA_GIT_ORIGIN}'"' >> ./conf/local.conf
   artifacts:
     paths:
       - build

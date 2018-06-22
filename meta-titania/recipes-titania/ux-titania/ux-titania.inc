@@ -21,7 +21,7 @@ RDEPENDS_${PN} = "python3-django \
                   sqlite3"
 
 LICENSE = "GPL-3.0"
-LIC_FILES_CHKSUM = "file://LICENCE.md;md5=bb3ca60759f3202f1ae42e3519cd06bc"
+LIC_FILES_CHKSUM = "file://LICENCE.md;md5=8c40fdc41c95755623d451deddccda48"
 
 inherit systemd
 

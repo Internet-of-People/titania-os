@@ -3,7 +3,7 @@ TITANIA_UX_BACKEND = "ux-titania"
 TITANIA_UX_MONITOR = "monit-dashboard"
 
 # TODO: replace with HTTPS link when we go public
-SRC_URI = "git://git@gitlab.libertaria.community:2200/titania/ux-titania.git;protocol=ssh;branch=${UX_BRANCH} \
+SRC_URI = "${LIBERTARIA_GIT_ORIGIN}/titania-ux.git;protocol=${LIBERTARIA_GIT_PROTOCOL};branch=${UX_BRANCH} \
            file://${TITANIA_UX_BACKEND}.service \
            file://${TITANIA_UX_MONITOR}.service \
            file://start_${TITANIA_UX_BACKEND}.sh"

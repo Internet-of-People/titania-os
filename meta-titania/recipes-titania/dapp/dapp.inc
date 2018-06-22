@@ -1,4 +1,4 @@
-RDEPENDS_${PN} += "pydapphubfuse"
+RDEPENDS_${PN} += "dapp-systemd-bridge"
 
 # TODO: move dapp_prepare.sh logic inside systemd
 SRC_URI += "file://dapp@.service \

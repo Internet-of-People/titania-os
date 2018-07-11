@@ -1,0 +1,22 @@
+--- a/options.h
++++ b/options.h
+94c94
+< #define DROPBEAR_3DES
+---
+> 
+103c103
+< #define DROPBEAR_ENABLE_CBC_MODE
+---
+> 
+134c134
+< #define DROPBEAR_SHA1_96_HMAC
+---
+> 
+137c137
+< #define DROPBEAR_MD5_HMAC
+---
+> 
+149c149
+< #define DROPBEAR_DSS
+---
+> 

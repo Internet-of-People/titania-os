@@ -6,19 +6,36 @@
 
 NETWORK_INFO_FILE="/run/network_info.env"
 
+# Retries before giving up
+RETRY_AMOUNT=10
+# Time in seconds to wait between each retry
+RETRY_COOLDOWN=2
+
 # Touch the file just in case
+for i in $(seq 1 $RETRY_AMOUNT); do
+    IPINFO=$(curl -s https://ipinfo.io)
+    LOCATION=$(echo $IPINFO | grep -o '"loc": "[0-9,.-]*"' | grep -o '[0-9,.-]*')
 
-IPINFO=$(curl -s https://ipinfo.io)
-LOCATION=$(echo $IPINFO | grep -o '"loc": "[0-9,.-]*"' | grep -o '[0-9,.-]*')
+
+    LATITUDE=$(echo $LOCATION | grep -o '^[0-9.-]*')
+    LONGITUDE=$(echo $LOCATION | grep -o '[0-9.-]*$')
+
+    EXTERNAL_IP=$(echo $IPINFO | grep -o '"ip": "[0-9.]*"' | grep -o '[0-9.]*')
+
+    # Check if we get everything correctly
+    if test -n "$LATITUDE" -a -n "$LONGITUDE" -a -n "$EXTERNAL_IP"; then
+        break
+    elif test $i -ge "$RETRY_AMOUNT"; then
+        echo "Can not learn the network environment"
+        exit -1
+    fi
+
+    sleep $RETRY_COOLDOWN
+done
+
 echo -e "Location:\t\t\t$LOCATION"
-
-LATITUDE=$(echo $LOCATION | grep -o '^[0-9.-]*')
-LONGITUDE=$(echo $LOCATION | grep -o '[0-9.-]*$')
-
 echo -e "Latitude:\t$LATITUDE"
 echo -e "Longitude:\t$LONGITUDE"
-
-EXTERNAL_IP=$(echo $IPINFO | grep -o '"ip": "[0-9.]*"' | grep -o '[0-9.]*')
 echo -e "Address seen from outside:\t$EXTERNAL_IP"
 
 

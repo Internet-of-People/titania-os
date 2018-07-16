@@ -12,7 +12,7 @@ Vue.use(VueLocalStorage)
 
 const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.42.167:8000' // dev pi
+// const apiRoot = 'http://192.168.0.108:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -80,7 +80,6 @@ const store = new Vuex.Store({
       state.ux_id = response.body.ux_id
     },
     'GET_CREDS': function (state, response) {
-      // console.log(response.body.configState)
       if (response.body.configState) {
         router.push('/login')
         state.currentPage = 'login'
@@ -93,6 +92,7 @@ const store = new Vuex.Store({
       // response.body = []
       state.configuration.wifi_aps = response.body
       state.configuration.wifi_aps_current = response.body[0][0]
+      router.push('/configure')
       state.currentPage = 'configure'
     },
     'SAVE_CONFIGURATION': function (state, response) {
@@ -280,7 +280,9 @@ const store = new Vuex.Store({
       state.dappsjson = []
     },
     'NATPMP_STATUS': function (state, response) {
-      state.natpmp = response.body.STATUS
+      if (response.body.STATUS != 'FAILURE') {
+        state.natpmp = response.body.STATUS
+      }
     },
     'SET_UPDATE_FLAGS': function (state, response) {
       state.updatedapps = response.body.update_list

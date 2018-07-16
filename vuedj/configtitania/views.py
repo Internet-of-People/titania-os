@@ -701,7 +701,7 @@ def handle_config(request):
                         os.system('/sbin/shutdown -r now')
                         return JsonResponse({'STATUS':'SUCCESS'}, safe=False)  
                 return JsonResponse({'STATUS':'FAILURE'}, safe=False)
-            elif action == 'getUpdateStatus':
+            elif action == 'getUpdateStatus' or action == 'getNatpmpStatus':
                 # TO DO, come up with bettr soln to handle this call output
                 return JsonResponse({'STATUS':'FAILURE'}, safe=False)
             else:

@@ -260,6 +260,9 @@ export default {
       }
       return this.testProp === undefined || this.testProp === tabname
     }
+  },
+  mounted: function () {
+    this.$store.dispatch('getAllAPs')
   }
 }
 </script>

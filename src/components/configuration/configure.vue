@@ -50,9 +50,7 @@ export default {
   },
   created: function () {
     window.addEventListener('keyup', this.submit)
-  },
-  mounted: function () {
-    this.$store.dispatch('getAllAPs')
+    this.$store.dispatch('getCreds')
   },
   unmounted: function () {
     window.removeEventListener('keyup', this.submit)

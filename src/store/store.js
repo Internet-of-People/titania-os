@@ -12,7 +12,7 @@ Vue.use(VueLocalStorage)
 
 const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.0.108:8000' // dev pi
+// const apiRoot = 'http://192.168.1.194:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -81,8 +81,10 @@ const store = new Vuex.Store({
     },
     'GET_CREDS': function (state, response) {
       if (response.body.configState) {
-        router.push('/login')
-        state.currentPage = 'login'
+        if (router.currentRoute.name == 'configure') {
+          router.push('/login')
+          state.currentPage = 'login'
+        }
       } else {
         router.push('/configure')
         state.currentPage = 'configure'

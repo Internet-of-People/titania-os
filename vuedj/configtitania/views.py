@@ -404,9 +404,9 @@ def handle_config(request):
                         if crypt.crypt(password, enc_pwd) == enc_pwd:
                             output = ''
                         else:
-                            output = "incorrect password"
+                            output = "login failed"
                     except KeyError:
-                        output = "User '%s' not found" % username
+                        output = "login failed"
                     if len(output) == 0:
                         # insert session code here
                         if not request.session.exists(request.session.session_key):

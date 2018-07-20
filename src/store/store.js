@@ -247,8 +247,12 @@ const store = new Vuex.Store({
       state.configuration.wifi_aps_current = response.body[0].allwifiaps[0][0]
       state.settings.getform = false
     },
-    'UPDATE_STATUS': function (state, response) {
+    'UPDATE_STATUS': function (state, response) { 
       state.updateState = response.body.STATUS
+      // Case of login/configure/landing refresh, where call doesnt contain the generated session key
+      if (response.body.STATUS == 'FAILURE') {
+        state.updateState = 'initial'
+      }
       if (state.updateState == 'updating') {
         state.updateData = response.body.data
         setTimeout(function () {
@@ -318,9 +322,11 @@ const store = new Vuex.Store({
         password: credentials.password
       }
       return api.post(apiRoot + '/index.html', login)
-        .then((response) => store.commit('LOGIN', response))
-        .catch((error) => store.commit('API_FAIL', error))
-      // write code to check session id, store it in backend
+        .then(function (response) {
+          store.commit('LOGIN', response)
+          store.dispatch('getUpdateStatus')
+          store.dispatch('getNatpmpStatus')
+        }).catch((error) => store.commit('API_FAIL', error))
     },
     getAllAPs (state) {
       var getAllAPs = {

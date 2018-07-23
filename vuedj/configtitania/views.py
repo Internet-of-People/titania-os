@@ -372,7 +372,6 @@ def handle_config(request):
                 boxname = request.POST.get("boxname")
                 username = request.POST.get("username")
                 password = request.POST.get("password")
-                # v1.1.0 - added check for if user has already been configured
                 if validate_input(boxname) and validate_input(username) and not get_ifconfigured():
                     add_user(username,password)
                     set_boxname(boxname)

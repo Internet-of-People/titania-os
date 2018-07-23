@@ -404,9 +404,9 @@ def handle_config(request):
                         if crypt.crypt(password, enc_pwd) == enc_pwd:
                             output = ''
                         else:
-                            output = "incorrect password"
+                            output = "login failed"
                     except KeyError:
-                        output = "User '%s' not found" % username
+                        output = "login failed"
                     if len(output) == 0:
                         # insert session code here
                         if not request.session.exists(request.session.session_key):
@@ -698,7 +698,7 @@ def handle_config(request):
                     return JsonResponse({'STATUS': natpmp_status}, safe=False)  
                 elif action == 'rebootSystem':
                         print(action)
-                        os.system('/sbin/shutdown -r now')
+                        os.system('systemd-run --on-active=1 --timer-property=AccuracySec=100ms /sbin/shutdown -r now')
                         return JsonResponse({'STATUS':'SUCCESS'}, safe=False)  
                 return JsonResponse({'STATUS':'FAILURE'}, safe=False)
             elif action == 'getUpdateStatus' or action == 'getNatpmpStatus':

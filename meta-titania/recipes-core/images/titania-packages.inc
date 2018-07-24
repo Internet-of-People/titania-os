@@ -1,7 +1,7 @@
 # Titania own software
 IMAGE_INSTALL += "ux-titania datafs-resizer http-splash"
 
-IMAGE_INSTALL += "sudo zram systemd-analyze"
+IMAGE_INSTALL += "sudo zram systemd-analyze strace"
 
 # Network and discovery
 IMAGE_INSTALL += "networkmanager avahi-daemon llmnrd"

@@ -1,6 +1,7 @@
 SRC_URI = "${LIBERTARIA_GIT_PREFIX}/titania-dapps-systemd-bridge.git;protocol=${LIBERTARIA_GIT_PROTOCOL} \
            file://dapp-systemd-bridge.service \
-           file://dapp-systemd-bridge-reload.service"
+           file://dapp-systemd-bridge-reload.service \
+           file://dapp_json_collector.py"
 # TODO: override only for git versions, not in the base recipe
 S = "${WORKDIR}/git"
 
@@ -28,4 +29,5 @@ do_install() {
     install -d ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/dapp-systemd-bridge.service ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/dapp-systemd-bridge-reload.service ${D}${systemd_unitdir}/system
+    install -m 0755 ${WORKDIR}/dapp_json_collector.py ${D}/opt/titania/bin
 }

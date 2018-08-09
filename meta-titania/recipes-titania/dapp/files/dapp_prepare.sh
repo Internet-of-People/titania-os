@@ -10,8 +10,14 @@ if ! docker inspect "$1" >/dev/null 2>&1; then
 
     echo "Full image name: ${IMAGE_SPEC}"
 
+    # Directory for exchanging static files with nginx
+    # - shared allows bind mount to propagate
+    # TODO: only on containers that have it?
+    # TODO: parametrise the path
+    EXTRA_VOLUMES="-v /run/dapp/$1:/dapp:shared"
+
     # -it needed for global.iop.ps TODO: standardize
-    docker create -it --env-file /run/network_info.env --name $* ${IMAGE_SPEC}
+    docker create -it $EXTRA_VOLUMES --env-file /run/network_info.env --name $* ${IMAGE_SPEC}
 else
     echo "dApp container already present"
 fi

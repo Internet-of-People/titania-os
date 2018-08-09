@@ -1,6 +1,7 @@
 #!/bin/bash
 # Utility to create per-dapp http(s) forwards
 # TODO: make configurable
+# TODO: /dapp directory is hardcoded
 DAPP_CONF_PATH="/run/dapp.conf.d/"
 NGINX_SERVICE="dapp@world.libertaria.nginx"
 
@@ -30,18 +31,36 @@ case $1 in
     # TODO: currently only http, add https when we have it
     cat > $DAPP_CONF_PATH/$DAPP_ID.conf <<EOF
 location /dapp/$DAPP_ID/ {
-    proxy_pass http://$IP/;
-EOF
-    cat >> $DAPP_CONF_PATH/$DAPP_ID.conf <<'EOF'
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header Host $http_host;
+    rewrite ^/dapp/$DAPP_ID(/?.*)\$ \$1 break;
+    root /dapp_assets/$DAPP_ID/;
+    try_files \$uri \$uri/ @$DAPP_ID; 
+}
+
+location @$DAPP_ID {
+    proxy_pass http://$IP;
+    proxy_set_header X-Forwarded-Proto \$scheme;
+    proxy_set_header Host \$http_host;
 }
 EOF
+
+    # Mount static files directory
+    if test -n "$3"; then
+        PID=$(docker inspect --format {{.State.Pid}} $DAPP_ID)
+        # No need to retry, should be up by now
+        if test -z "$PID"; then
+            # TODO: WARNING: a malicious app developer can mount system devices
+            # Prevent this by checking that $3 is a valid path (in next commit)
+            nsenter --target $PID --mount --uts --ipc --net --pid -- \
+                mount -o bind,ro $3 /dapp 
+        fi 
+    fi
     ;;
 
     stop)
     echo "Removing nginx drop-in config"
     rm -f $DAPP_CONF_PATH/$DAPP_ID.conf
+
+    # TODO: study if we should unmount the static directory
     ;;
 
     *)

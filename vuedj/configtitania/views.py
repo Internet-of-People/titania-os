@@ -629,13 +629,13 @@ def handle_config(request):
                 elif action == 'disableDapp':
                     print(action)
                     dappid = request.POST.get("id")
-                    service = 'systemctl disable dapp@{}.service; systemctl stop dapp@{}.service'.format(dappid,dappid)
+                    service = common.SERVICE_DISABLE.format(dappid)
                     os.system(service)
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
                 elif action == 'enableDapp':
                     print(action)
                     dappid = request.POST.get("id")
-                    service = 'systemctl enable dapp@{}.service; systemctl start dapp@{}.service'.format(dappid,dappid)
+                    service = common.SERVICE_ENABLE.format(dappid)
                     os.system(service)
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
                 elif action == 'removeDapp':
@@ -644,7 +644,7 @@ def handle_config(request):
                     # docker rmi libertaria/nginx:armv7 
                     dappid = request.POST.get("id")
                     image = request.POST.get("image")
-                    service = 'docker rm {}; docker rmi {}'.format(dappid,image)
+                    service = common.DOCKER_RM_DAPP.format(dappid,image)
                     print(service)
                     os.system(service)
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
@@ -653,7 +653,7 @@ def handle_config(request):
                     # docker pull <image>
                     # image = request.POST.get("image")
                     dappid = request.POST.get("id")
-                    service = 'systemctl start dapp@{}.service'.format(dappid)
+                    service = common.DAPP_DOWNLOAD.format(dappid)
                     print(service)
                     ps = subprocess.Popen(service,shell=True,stdout=subprocess.PIPE).communicate()[0]
                     print(ps)
@@ -661,7 +661,7 @@ def handle_config(request):
                 elif action == 'updateDapp':
                     print(action)
                     dappid = request.POST.get("id")
-                    service = '/opt/titania/bin/dapp_update.sh {}'.format(dappid)
+                    service = common.SERVICE_UPDATE.format(dappid)
                     print(service)
                     ps = subprocess.Popen(service,shell=True,stdout=subprocess.PIPE).communicate()[0]
                     print(ps)

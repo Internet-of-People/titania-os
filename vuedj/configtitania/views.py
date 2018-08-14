@@ -4,7 +4,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.contrib.sessions.middleware import SessionMiddleware
-from django.conf import settings
 
 from importlib import import_module
 from django.conf import settings
@@ -18,7 +17,7 @@ from rest_framework.decorators import list_route
 from .models import SessionDetails
 from .serializers import SessionDetailsSerializer
 
-import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd, socket, json, re
+import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd, socket, json, re, glob
 
 # dashboard db
 dashboard_db = "/datafs/titania/dashboard.sqlite3"
@@ -671,6 +670,13 @@ def handle_config(request):
                     data = request.FILES['file']
                     print(data)
                     if data:
+                        # delete existing files before downloading new swu file
+                        rm_file_regex = settings.MEDIA_ROOT + common.SWU_FILE_FORMAT
+                        for filename in glob.glob(rm_file_regex) :
+                            try:
+                                os.remove( filename )
+                            except OSError as e:  ## if failed, report it back
+                                print(e)
                         # save file from persistent store to /tmp
                         path = default_storage.save(data.name, ContentFile(data.read()))
                         tmp_file = os.path.join(settings.MEDIA_ROOT, path)

@@ -215,3 +215,6 @@ SERVICE_ENABLE = "systemctl enable dapp@{0}.service; systemctl start dapp@{0}.se
 DOCKER_RM_DAPP = "docker rm {}; docker rmi {}"
 DAPP_DOWNLOAD = "systemctl start dapp@{}.service"
 SERVICE_UPDATE = "/opt/titania/bin/dapp_update.sh {0}; systemctl enable dapp@{0}.service; systemctl start dapp@{0}.service"
+
+"""Os Update Params"""
+SWU_FILE_FORMAT = "titania-arm-rpi-*.swu"

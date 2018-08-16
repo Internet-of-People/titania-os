@@ -49,7 +49,7 @@ LATEST_VERSION=$(dapp_version.sh latest $1)
 IMAGE_VERSION=$(dapp_version.sh image $1)
 
 # We need to download
-if [ ! -z "$LATEST_VERSION" ] && [ "$LATEST_VERSION" != "$IMAGE_VERSION" ]; then
+if test ! -z "$LATEST_VERSION" -a "$LATEST_VERSION" != "$IMAGE_VERSION"; then
     dry_run "download"
     start_step "download"
     # TODO: what if we change the repo name?
@@ -77,7 +77,7 @@ if ! docker inspect $1 >/dev/null 2>&1; then
     stop_step "create"
 else
     DAPP_VERSION=$(dapp_version.sh dapp $1)
-    if [ ! -z "$LATEST_VERSION" ] && [ "$LATEST_VERSION" != "$DAPP_VERSION" ]; then
+    if test ! -z "$LATEST_VERSION" -a "$LATEST_VERSION" != "$DAPP_VERSION"; then
         dry_run "recreate"
         start_step "recreate"
         systemctl stop dapp@$1

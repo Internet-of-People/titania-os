@@ -4,7 +4,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.contrib.sessions.middleware import SessionMiddleware
-from django.conf import settings
 
 from importlib import import_module
 from django.conf import settings
@@ -18,7 +17,7 @@ from rest_framework.decorators import list_route
 from .models import SessionDetails
 from .serializers import SessionDetailsSerializer
 
-import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd, socket, json, re
+import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spwd, socket, json, re, glob
 
 # dashboard db
 dashboard_db = "/datafs/titania/dashboard.sqlite3"
@@ -629,13 +628,13 @@ def handle_config(request):
                 elif action == 'disableDapp':
                     print(action)
                     dappid = request.POST.get("id")
-                    service = 'systemctl disable dapp@{}.service; systemctl stop dapp@{}.service'.format(dappid,dappid)
+                    service = common.SERVICE_DISABLE.format(dappid)
                     os.system(service)
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
                 elif action == 'enableDapp':
                     print(action)
                     dappid = request.POST.get("id")
-                    service = 'systemctl enable dapp@{}.service; systemctl start dapp@{}.service'.format(dappid,dappid)
+                    service = common.SERVICE_ENABLE.format(dappid)
                     os.system(service)
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
                 elif action == 'removeDapp':
@@ -644,7 +643,7 @@ def handle_config(request):
                     # docker rmi libertaria/nginx:armv7 
                     dappid = request.POST.get("id")
                     image = request.POST.get("image")
-                    service = 'docker rm {}; docker rmi {}'.format(dappid,image)
+                    service = common.DOCKER_RM_DAPP.format(dappid,image)
                     print(service)
                     os.system(service)
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
@@ -653,7 +652,7 @@ def handle_config(request):
                     # docker pull <image>
                     # image = request.POST.get("image")
                     dappid = request.POST.get("id")
-                    service = 'systemctl start dapp@{}.service'.format(dappid)
+                    service = common.DAPP_DOWNLOAD.format(dappid)
                     print(service)
                     ps = subprocess.Popen(service,shell=True,stdout=subprocess.PIPE).communicate()[0]
                     print(ps)
@@ -661,7 +660,7 @@ def handle_config(request):
                 elif action == 'updateDapp':
                     print(action)
                     dappid = request.POST.get("id")
-                    service = '/opt/titania/bin/dapp_update.sh {}'.format(dappid)
+                    service = common.SERVICE_UPDATE.format(dappid)
                     print(service)
                     ps = subprocess.Popen(service,shell=True,stdout=subprocess.PIPE).communicate()[0]
                     print(ps)
@@ -671,6 +670,13 @@ def handle_config(request):
                     data = request.FILES['file']
                     print(data)
                     if data:
+                        # delete existing files before downloading new swu file
+                        rm_file_regex = settings.MEDIA_ROOT + common.SWU_FILE_FORMAT
+                        for filename in glob.glob(rm_file_regex) :
+                            try:
+                                os.remove( filename )
+                            except OSError as e:  ## if failed, report it back
+                                print(e)
                         # save file from persistent store to /tmp
                         path = default_storage.save(data.name, ContentFile(data.read()))
                         tmp_file = os.path.join(settings.MEDIA_ROOT, path)

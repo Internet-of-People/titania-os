@@ -12,7 +12,7 @@ Vue.use(VueLocalStorage)
 
 const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.1.194:8000' // dev pi
+// const apiRoot = 'http://192.168.0.103:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -81,7 +81,7 @@ const store = new Vuex.Store({
     },
     'GET_CREDS': function (state, response) {
       if (response.body.configState) {
-        if (router.currentRoute.name == 'configure') {
+        if (router.currentRoute.name == 'configure' || router.currentRoute.name == 'landingpage') {
           router.push('/login')
           state.currentPage = 'login'
         }
@@ -490,7 +490,6 @@ const store = new Vuex.Store({
       return api.postWithSession(apiRoot + '/index.html', fetchAlldApps)
       .then(function (response) {
         store.commit('INIT_DAPP_STORE', response)
-        store.dispatch('fetchUpdatableDapps')
       }).catch((error) => store.commit('API_FAIL', error))
     },
     fetchUpdatableDapps (state) {

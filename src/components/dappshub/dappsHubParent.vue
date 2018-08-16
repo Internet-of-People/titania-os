@@ -48,6 +48,9 @@ export default {
       }
     }
   },
+  created: function (){
+    this.$store.dispatch('fetchUpdatableDapps')
+  },
   mounted: function () {
     this.onMount()
   },

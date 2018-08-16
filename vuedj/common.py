@@ -210,3 +210,11 @@ SERVICE_DISABLED = 0
 SERVICE_NOT_DOWNLOADED = -1
 SERVICE_DOWNLOADING = 2
 SERVICE_UPDATE_AVAILABLE_CHECK = "/opt/titania/bin/dapp_update.sh {} -n"
+SERVICE_DISABLE = "systemctl disable dapp@{0}.service; systemctl stop dapp@{0}.service"
+SERVICE_ENABLE = "systemctl enable dapp@{0}.service; systemctl start dapp@{0}.service"
+DOCKER_RM_DAPP = "docker rm {}; docker rmi {}"
+DAPP_DOWNLOAD = "systemctl start dapp@{}.service"
+SERVICE_UPDATE = "/opt/titania/bin/dapp_update.sh {0}; systemctl enable dapp@{0}.service; systemctl start dapp@{0}.service"
+
+"""Os Update Params"""
+SWU_FILE_FORMAT = "titania-arm-rpi-*.swu"

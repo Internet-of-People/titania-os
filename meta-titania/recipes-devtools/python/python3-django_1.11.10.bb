@@ -1,2 +1,2 @@
-include recipes-devtools/python/python-django_1.11.10.bb
+include recipes-devtools/python/python-django.inc
 inherit setuptools3

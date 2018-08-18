@@ -24,17 +24,26 @@ bitbake:
   stage: setup
   script:
     - source openembedded-core/oe-init-build-env
+
+    # Should be available early with the new bitbake 1.38 since it parses everything immediately
+    # when adding a layer and would break on ux-titania & friends otherwise
+    - echo 'LIBERTARIA_GIT_ORIGIN = "'${LIBERTARIA_GIT_ORIGIN}'"' >> ./conf/local.conf
+
+    # meta-virtualisation complains when 'virtualization' DISTRO_FEATURE is not set
+    # Suppressing the warning because we only want container stuff
+    - echo 'SKIP_META_VIRT_SANITY_CHECK = "1"' >> ./conf/local.conf
+
     # # Add the layers
     - bitbake-layers add-layer ../meta-raspberrypi
-    - bitbake-layers add-layer ../meta-oe/meta-oe
-    - bitbake-layers add-layer ../meta-oe/meta-python
-    - bitbake-layers add-layer ../meta-oe/meta-filesystems
-    - bitbake-layers add-layer ../meta-oe/meta-networking
-    - bitbake-layers add-layer ../meta-oe/meta-python
-    - bitbake-layers add-layer ../meta-go
-    - bitbake-layers add-layer ../meta-virtualization
-    - bitbake-layers add-layer ../meta-swupdate
-    - bitbake-layers add-layer ../meta-titania
+      ../meta-oe/meta-oe
+      ../meta-oe/meta-python
+      ../meta-oe/meta-filesystems
+      ../meta-oe/meta-networking
+      ../meta-oe/meta-python
+      ../meta-go
+      ../meta-virtualization
+      ../meta-swupdate
+      ../meta-titania
 
     # Making sure config locations point where we want them to
     - echo 'SSTATE_DIR = "${TOPDIR}/sstate-cache"' >> ./conf/local.conf
@@ -42,7 +51,6 @@ bitbake:
     - echo 'TMPDIR = "${TOPDIR}/tmp"' >> ./conf/local.conf
     - echo 'DISTRO = "titania"' >> ./conf/local.conf
     - echo 'BUILD_ID = "'$(eval $SHA_HASH)'"' >> ./conf/local.conf
-    - echo 'LIBERTARIA_GIT_ORIGIN = "'${LIBERTARIA_GIT_ORIGIN}'"' >> ./conf/local.conf
   artifacts:
     paths:
       - build

@@ -13,9 +13,9 @@
 [submodule "meta-oe"]
 	path = meta-oe
 	url = git://git.openembedded.org/meta-openembedded
-[submodule "meta-go"]
-	path = meta-go
-	url = https://github.com/mem/oe-meta-go
 [submodule "meta-swupdate"]
 	path = meta-swupdate
 	url = https://github.com/sbabic/meta-swupdate.git
+[submodule "oe-meta-go"]
+	path = meta-go
+	url = https://github.com/libertaria-project/oe-meta-go.git

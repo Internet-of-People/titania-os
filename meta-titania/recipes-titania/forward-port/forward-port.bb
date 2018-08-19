@@ -2,7 +2,7 @@
 SUMMARY = "Service to forward ports from containers on the router"
 LICENSE = "GPL-3.0"
 
-RDEPENDS_${PN} += "natpmp"
+RDEPENDS_${PN} += "natpmp bash"
 
 SRC_URI = "file://gplv3.md \
            file://forward-port@.service \

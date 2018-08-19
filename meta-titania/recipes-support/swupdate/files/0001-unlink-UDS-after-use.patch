@@ -1,8 +1,8 @@
 diff --git a/core/swupdate.c b/core/swupdate.c
-index b01aadd..1e211a7 100644
+index e08659e..651b082 100644
 --- a/core/swupdate.c
 +++ b/core/swupdate.c
-@@ -837,5 +837,15 @@ int main(int argc, char **argv)
+@@ -927,5 +927,15 @@ int main(int argc, char **argv)
  	if (!opt_c && !opt_i)
  		pthread_join(network_daemon, NULL);
  
@@ -16,5 +16,5 @@ index b01aadd..1e211a7 100644
 +		}
 +	}
 +
- 	return EXIT_SUCCESS;
+ 	return result;
  }

@@ -15,6 +15,9 @@ SRC_URI += "file://0001-unlink-UDS-after-use.patch \
 # We need u-boot-fw-utils on Titania, not just during the build
 RDEPENDS_${PN} += "u-boot-fw-utils"
 
+# TODO: should we be sh friendly?
+RDEPENDS_${PN} += "bash"
+
 # TODO: add progress indicator service
 SYSTEMD_SERVICE_${PN} = "check-update.service after-everything.target"
 FILES_${PN} += "${base_sbindir}/check_update.sh \

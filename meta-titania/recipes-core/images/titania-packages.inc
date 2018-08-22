@@ -21,7 +21,8 @@ IMAGE_INSTALL += "network-info forward-port"
 IMAGE_INSTALL += "linux-firmware-bcm43430"
 
 # Apparently this adds RPi3B+ support
-# TODO: remove/trim as part of TYO-61
+# Commented ones are apparently bluetooth
+# Leaving them out for now
 IMAGE_INSTALL += "linux-firmware-bcm43455"
 # linux-firmware-bcm43430a1-hcd linux-firmware-bcm4345c0-hcd"
 

@@ -14,6 +14,7 @@ S = "${WORKDIR}/git"
 # TODO: we don't need sqlite in future
 RDEPENDS_${PN} = "python3-django \
                   python3-pytz \
+                  python3-misc \
                   python3-sqlite3 \
                   python3-djangorestframework \
                   python3-python-networkmanager \

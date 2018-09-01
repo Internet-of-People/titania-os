@@ -1,4 +1,4 @@
-import subprocess, sched, time, sqlite3, common, signal, sys
+import subprocess, sched, time, sqlite3, common, signal, sys, re
 
 # Creates or opens a file called dashboard with a SQLite3 DB
 db = sqlite3.connect('/datafs/titania/dashboard.sqlite3')
@@ -30,14 +30,17 @@ s = sched.scheduler(time.time, time.sleep)
 #     db.close()
 #     sys.exit(0)
 
+def split_at_num(s):
+    return re.split(r'(\d+)', s)
+
 def convert_to_bytes(input):
-    p = input.split(' ')
-    num = float(p[0])
-    if p[1] == 'kiB' or p[1] == 'kB':
+    p = split_at_num(input)
+    num = float(p[1])
+    if p[2] == 'kiB' or p[2] == 'kB':
         num = num*1000
-    elif p[1] == 'MiB' or p[1] == 'MB':
+    elif p[2] == 'MiB' or p[2] == 'MB':
         num = num*1000*1000
-    elif p[1] == 'GiB' or p[1] == 'GB':
+    elif p[2] == 'GiB' or p[2] == 'GB':
         num = num*1000*1000*1000
     return num
 

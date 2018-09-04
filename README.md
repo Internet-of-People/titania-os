@@ -13,18 +13,16 @@ export BITBAKEDIR=`pwd`/bitbake
 source openembedded-core/oe-init-build-env
 
 # Add the layers
-bitbake-layers add-layer ../meta-raspberrypi
-bitbake-layers add-layer ../meta-oe/meta-oe
-bitbake-layers add-layer ../meta-oe/meta-python
-bitbake-layers add-layer ../meta-oe/meta-filesystems
-bitbake-layers add-layer ../meta-oe/meta-networking
-bitbake-layers add-layer ../meta-go
-bitbake-layers add-layer ../meta-virtualization
-bitbake-layers add-layer ../meta-swupdate
-
-# TitaniaOS specific
 # TODO: tweak the priority
-bitbake-layers add-layer ../meta-titania
+bitbake-layers add-layer ../meta-raspberrypi \
+                         ../meta-oe/meta-oe \
+                         ../meta-oe/meta-python \
+                         ../meta-oe/meta-filesystems \
+                         ../meta-oe/meta-networking \
+                         ../meta-go \
+                         ../meta-virtualization \
+                         ../meta-swupdate \
+                         ../meta-titania
 
 # Select Titania distro TODO: more elegant way?
 echo 'DISTRO = "titania"' >> conf/local.conf

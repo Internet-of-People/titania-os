@@ -1,0 +1,12 @@
+[Unit]
+Description=SSH Key Generation
+RequiresMountsFor=/var /var/lib
+ConditionPathExists=!/etc/dropbear/dropbear_%i_host_key
+
+[Service]
+Environment="DROPBEAR_HOSTKEY_DIR=/etc/dropbear"
+EnvironmentFile=-/etc/default/dropbear
+Type=oneshot
+ExecStart=@BASE_BINDIR@/mkdir -p ${DROPBEAR_HOSTKEY_DIR}
+ExecStart=@SBINDIR@/dropbearkey -t %i -f ${DROPBEAR_HOSTKEY_DIR}/dropbear_%i_host_key
+RemainAfterExit=yes

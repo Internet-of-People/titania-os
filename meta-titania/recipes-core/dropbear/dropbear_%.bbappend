@@ -1,8 +1,16 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/dropbear:"
 
-# Set the welcome banner to /etc/issue.net
 do_install_append() {
+    # Set the welcome banner to /etc/issue.net
     echo "DROPBEAR_EXTRA_ARGS=\"-b ${sysconfdir}/issue.net\"" > ${D}${sysconfdir}/default/dropbear
+    rm ${D}${systemd_unitdir}/system/dropbearkey.service
+    install -m 0644 ${WORKDIR}/systemd/dropbearkey@.service ${D}${systemd_unitdir}/system
+    rm ${D}${systemd_unitdir}/system/dropbear@.service
+    install -m 0644 ${WORKDIR}/systemd/dropbear@.service ${D}${systemd_unitdir}/system
+    sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+        -e 's,@BINDIR@,${bindir},g' \
+        -e 's,@SBINDIR@,${sbindir},g' \
+        ${D}${systemd_unitdir}/system/dropbear.socket ${D}${systemd_unitdir}/system/*.service
 }
 
 # make dropbear key handling compatible with openssh
@@ -10,8 +18,13 @@ EXTRA_OEMAKE += " NOSYSHOSTKEYLOAD=1 WRITEOPENSSHKEYS=1 OPENSSHHOSTKEYLOAD=1"
 
 # Replacing the original dropbear with pts-dropbear URI
 SRC_URI_remove = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2"
-SRC_URI += "git://github.com/pts/pts-dropbear;rev=a9f901e76377ba3c6dcb7254e5467a813c1e28ef \
-           file://0010-disable-insecure-options.patch"
+SRC_URI += "git://github.com/pts/pts-dropbear;rev=7956b72e1b50088d27c70ea6e756c4b034d0cb31 \
+            file://0010-disable-insecure-options.patch \
+            file://systemd/dropbearkey@.service \
+            file://systemd/dropbear@.service \
+           "
+
+SYSTEMD_SERVICE_${PN} += " dropbearkey@.service"
 
 python do_unpack_append() {
     # pts-dropbear source can be found in 'pts-dropbear-2' directory instead of the canonical 'dropbear-2017.75'

@@ -7,6 +7,7 @@ import dappsconsole from '@/components/dappsconsole/dappsParent'
 import containerstats from '@/components/containerstats/containerParent'
 import threads from '@/components/threads/threadsParent'
 import menu from '@/components/mobilemenu/menuParent'
+import restart from '@/components/restart/restart'
 import settings from '@/components/settings/settingsParent'
 import landingpage from '@/components/common/landingPage'
 import dappshub from '@/components/dappshub/dappsHubParent'
@@ -50,6 +51,11 @@ export default new Router({
       path: '/menu',
       name: 'menu',
       component: menu
+    },
+    {
+      path: '/restart',
+      name: 'restart',
+      component: restart
     },
     {
       path: '/settings',

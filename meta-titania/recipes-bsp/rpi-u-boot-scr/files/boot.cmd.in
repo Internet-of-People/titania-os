@@ -44,7 +44,7 @@ echo "Active partition: /dev/mmcblk0p${rootpart}"
 
 # Loading FDT
 fdt addr ${fdt_addr} && fdt get value bootargs /chosen bootargs
-setenv bootargs ${bootargs} root=/dev/mmcblk0p${rootpart}
+setenv bootargs ${bootargs} root=/dev/mmcblk0p${rootpart} fbcon=scrollback:512k
 
 # Loading and starting the kernel
 fatload mmc 0:1 ${kernel_addr_r} @@KERNEL_IMAGETYPE@@_${active_root}

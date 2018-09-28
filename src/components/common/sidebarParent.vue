@@ -19,6 +19,9 @@
       <img v-if="currentTab('dappshub')" class="tab-label" src="../../assets/images/icon-hub-b.svg">
       <img v-else class="tab-label" src="../../assets/images/icon-hub-a.svg">
     </div>
+    <div @click="reboot()" title='Reboot OS' class='cursor-pointer settings-tab'>
+      <img class="tab-label" src="../../assets/images/icons-stopped-dapps-a.svg">
+    </div>
     <div @click="tabSwitch('settings')" title='Settings' class='cursor-pointer settings-tab'>
       <img v-if="currentTab('settings')" class="tab-label" src="../../assets/images/settings-white.svg">
       <img v-else class="tab-label" src="../../assets/images/settings.svg">
@@ -54,6 +57,9 @@ export default {
     },
     currentTab (tabname) {
       return this.currentPage === tabname
+    },
+    reboot () {
+        this.$store.dispatch('rebootSystem')
     }
   }
 }

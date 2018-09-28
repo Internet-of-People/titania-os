@@ -26,7 +26,7 @@ config/test.env.js
 
 vuedj/*.egg-info
 vuedj/*.pot
-vuedj/*.py[co]
+vuedj/**/*.py[co]
 vuedj/.tox/
 vuedj/configtitania/__pycache__/*
 vuedj/vuedj/__pycache__/*

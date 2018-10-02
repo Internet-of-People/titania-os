@@ -2,6 +2,10 @@
 PACKAGECONFIG_remove = "resolved"
 PACKAGECONFIG_remove = "networkd"
 
+# Disable sysusers because we don't need 'kvm' and 'render' groups
+# and creating those groups mess up /etc/group symlink
+PACKAGECONFIG_remove = "sysusers"
+
 
 # systemd install script hardcodes the link for /etc/resolv.conf
 # Make it point to networkmanager insted

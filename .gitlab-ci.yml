@@ -71,11 +71,11 @@ raspberry:
     # Force rebuild for Docker NOTE: this produces a warning message later on
     - MACHINE="raspberrypi3" bitbake -C install dapp
     # Update image, the full SD image is pulled as a dependency
-    - MACHINE="raspberrypi3" bitbake rpi-titania-update
+    - KERNEL_DEVICETREE="bcm2710-rpi-3-b-plus.dtb bcm2710-rpi-3-b.dtb" MACHINE="raspberrypi3" bitbake rpi-titania-update
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg.gz $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img.gz
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-update-raspberrypi3.swu $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).swu
     # Debug image
-    - MACHINE="raspberrypi3" bitbake rpi-titania-image-debug
+    - KERNEL_DEVICETREE="bcm2710-rpi-3-b-plus.dtb bcm2710-rpi-3-b.dtb" MACHINE="raspberrypi3" bitbake rpi-titania-image-debug
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-debug-raspberrypi3.rpi-sdimg.gz $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION)-dbg.img.gz
 
   cache:

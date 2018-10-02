@@ -30,6 +30,9 @@ echo 'DISTRO = "titania"' >> conf/local.conf
 # Select target machine
 echo 'MACHINE = "raspberrypi3"' >> conf/local.conf
 
+# Select supported rpi hardware
+echo 'KERNEL_DEVICETREE = "bcm2710-rpi-3-b-plus.dtb bcm2710-rpi-3-b.dtb"' >> conf/local.conf
+
 # Compile the thing
 bitbake rpi-titania-image
 ```

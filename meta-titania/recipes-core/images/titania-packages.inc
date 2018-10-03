@@ -1,7 +1,7 @@
 # Titania own software
 IMAGE_INSTALL += "ux-titania datafs-resizer http-splash"
 
-IMAGE_INSTALL += "sudo zram systemd-analyze strace"
+IMAGE_INSTALL += "sudo zram systemd-analyze strace tcpdump"
 
 # Network and discovery
 IMAGE_INSTALL += "networkmanager avahi-daemon llmnrd"
@@ -19,6 +19,12 @@ IMAGE_INSTALL += "network-info forward-port"
 
 # Add firmware, this is needed for WiFi on RaspberryPi
 IMAGE_INSTALL += "linux-firmware-bcm43430"
+
+# Apparently this adds RPi3B+ support
+# Commented ones are apparently bluetooth
+# Leaving them out for now
+IMAGE_INSTALL += "linux-firmware-bcm43455"
+# linux-firmware-bcm43430a1-hcd linux-firmware-bcm4345c0-hcd"
 
 # Merge UX version with main OS-release file
 append_ux_id () {

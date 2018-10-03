@@ -4,7 +4,7 @@ SUMMARY = "Service to collect basic geolocation and ip information"
 LICENSE = "GPL-3.0"
 
 # TODO: TYO-19, change to whatever ssl library we end up using
-RDEPENDS_${PN} += "natpmp dropbear openssl"
+RDEPENDS_${PN} += "natpmp dropbear openssl curl"
 
 SRC_URI = "file://gplv3.md \
            file://network-info.service \

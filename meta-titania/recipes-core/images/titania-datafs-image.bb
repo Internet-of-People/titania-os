@@ -10,6 +10,12 @@ IMAGE_FSTYPES = "ext4"
 
 IMAGE_PREPROCESS_COMMAND += " datafs_cleanup; "
 
+# Suppress prelink
+IMAGE_PREPROCESS_COMMAND_remove = "prelink_setup;"
+IMAGE_PREPROCESS_COMMAND_remove = "prelink_image;"
+# TODO: use USER_CLASSES to remove image-prelink class instead
+# This may affect normal images too
+
 # Rationale: We use online resize so that by the time
 # Docker will be preinstalling the images, the odds are 
 # that the filesystem will be already large.

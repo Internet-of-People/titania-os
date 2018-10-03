@@ -6,6 +6,10 @@
 
 NETWORK_INFO_FILE="/run/network_info.env"
 
+# Put the file on disk not to abort docker containers
+# TODO: better way to inform the containers
+touch $NETWORK_INFO_FILE
+
 # Retries before giving up
 RETRY_AMOUNT=10
 # Time in seconds to wait between each retry

@@ -8,12 +8,14 @@ Description=dApp Hub FUSE bridge
 # are there
 # Update: partly solved by -reload.service
 # Before=docker.service
+After=dapp-json-merge.service
+Wants=dapp-json-merge.service
 
 [Service]
 WorkingDirectory=/opt/titania/share
 # TODO: remainafterexit
 # TODO: issue daemon-reload
-ExecStart=/opt/titania/bin/dapp-systemd-bridge.py apps.json /run/systemd/system /datafs/dapp
+ExecStart=/opt/titania/bin/dapp_systemd_bridge.py /run/apps.json /run/systemd/system /datafs/dapp
 
 [Install]
 WantedBy=multi-user.target

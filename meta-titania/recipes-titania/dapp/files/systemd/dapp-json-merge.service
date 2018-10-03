@@ -1,0 +1,10 @@
+[Unit]
+Description=dApp json merge
+
+[Service]
+Type=notify
+WorkingDirectory=/opt/titania/share
+ExecStart=/opt/titania/bin/dapp_json_merge.py --file /opt/titania/share/apps.json --dir /datafs/apps.json.d --output /run/apps.json --inotify
+
+[Install]
+WantedBy=multi-user.target

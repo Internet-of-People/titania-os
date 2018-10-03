@@ -19,6 +19,22 @@ software =
                        {
                            filename = "uImage-raspberrypi3.bin";
                            path = "/boot/uImage_a";
+                       },
+                       {
+                           filename = "bcm2710-rpi-3-b.dtb";
+                           path = "/boot/bcm2710-rpi-3-b.dtb";
+                       },
+                       {
+                           filename = "bcm2710-rpi-3-b-plus.dtb";
+                           path = "/boot/bcm2710-rpi-3-b-plus.dtb";
+                       },
+                       {
+                           filename = "boot.scr";
+                           path = "/boot/boot.scr";
+                       },
+                       {
+                           filename = "u-boot.bin";
+                           path = "/boot/kernel7.img";
                        }
                 );
                 uboot: (
@@ -30,6 +46,10 @@ software =
                 scripts: (
                         {
                             filename = "postinst_loc_data_purge.sh";
+                            type = "postinstall";
+                        },
+                        {
+                            filename = "postinst_uboot_upgrade.sh";
                             type = "postinstall";
                         }
                 );
@@ -48,6 +68,22 @@ software =
                        {
                            filename = "uImage-raspberrypi3.bin";
                            path = "/boot/uImage_b";
+                       },
+                       {
+                           filename = "bcm2710-rpi-3-b.dtb";
+                           path = "/boot/bcm2710-rpi-3-b.dtb";
+                       },
+                       {
+                           filename = "bcm2710-rpi-3-b-plus.dtb";
+                           path = "/boot/bcm2710-rpi-3-b-plus.dtb";
+                       },
+                       {
+                           filename = "boot.scr";
+                           path = "/boot/boot.scr";
+                       },
+                       {
+                           filename = "u-boot.bin";
+                           path = "/boot/kernel7.img";
                        }
                 );
                 uboot: (
@@ -59,6 +95,10 @@ software =
                 scripts: (
                         {
                             filename = "postinst_loc_data_purge.sh";
+                            type = "postinstall";
+                        },
+                        {
+                            filename = "postinst_uboot_upgrade.sh";
                             type = "postinstall";
                         }
                 );

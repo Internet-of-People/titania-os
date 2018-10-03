@@ -1,0 +1,15 @@
+[Unit]
+Description=SSH Per-Connection Server
+Wants=dropbearkey@rsa.service
+Wants=dropbearkey@ed25519.service
+After=syslog.target
+After=dropbearkey@rsa.service
+After=dropbearkey@ed25519.service
+
+[Service]
+Environment="DROPBEAR_HOSTKEY_DIR=/etc/dropbear"
+EnvironmentFile=-/etc/default/dropbear
+ExecStart=-@SBINDIR@/dropbear -i -r ${DROPBEAR_HOSTKEY_DIR}/dropbear_rsa_host_key -r ${DROPBEAR_HOSTKEY_DIR}/dropbear_ed25519_host_key $DROPBEAR_EXTRA_ARGS
+ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
+StandardInput=socket
+KillMode=process

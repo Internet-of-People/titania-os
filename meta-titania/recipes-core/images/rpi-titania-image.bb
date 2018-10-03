@@ -1,11 +1,10 @@
 require titania-rootfs.inc
 
+# Raspberry PI base image with splash and ssh
+include recipes-core/images/rpi-basic-image.bb
 
 # Cause datafs image to be built
 do_image_rpi_sdimg[depends] += "titania-datafs-image:do_build"
-
-# Raspberry PI base image with splash and ssh
-include recipes-core/images/rpi-basic-image.bb
 
 require titania-packages.inc
 require user-setup.inc

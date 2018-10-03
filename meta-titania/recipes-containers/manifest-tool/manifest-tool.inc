@@ -10,4 +10,6 @@ LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=f5d1bd1d761a52ae70630173
 
 FILES_${PN} += "${GOBIN_FINAL}/*"
 
+RDEPENDS_${PN} += "bash"
+
 inherit go

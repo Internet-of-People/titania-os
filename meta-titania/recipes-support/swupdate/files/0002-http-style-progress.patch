@@ -1,10 +1,10 @@
 diff --git a/corelib/progress_thread.c b/corelib/progress_thread.c
-index 16a111a..5146766 100644
+index 535ed4c..25aec59 100644
 --- a/corelib/progress_thread.c
 +++ b/corelib/progress_thread.c
-@@ -42,13 +42,6 @@
- #include "network_interface.h"
- #include <progress.h>
+@@ -34,13 +34,6 @@
+ #include <systemd/sd-daemon.h>
+ #endif
  
 -struct progress_conn {
 -	SIMPLEQ_ENTRY(progress_conn) next;
@@ -16,7 +16,7 @@ index 16a111a..5146766 100644
  /*
   * Structure contains data regarding
   * current installation
-@@ -57,9 +50,9 @@ struct swupdate_progress {
+@@ -49,9 +42,9 @@ struct swupdate_progress {
  	struct progress_msg msg;
  	char *current_image;
  	const handler *curhnd;
@@ -27,7 +27,7 @@ index 16a111a..5146766 100644
  };
  static struct swupdate_progress progress;
  
-@@ -67,31 +60,45 @@ static struct swupdate_progress progress;
+@@ -59,31 +52,45 @@ static struct swupdate_progress progress;
   * This must be called after acquiring the mutex
   * for the progress structure
   */
@@ -97,7 +97,7 @@ index 16a111a..5146766 100644
  }
  
  void swupdate_progress_init(unsigned int nsteps) {
-@@ -104,7 +111,7 @@ void swupdate_progress_init(unsigned int nsteps) {
+@@ -96,7 +103,7 @@ void swupdate_progress_init(unsigned int nsteps) {
  	prbar->msg.cur_percent = 0;
  	prbar->msg.infolen = get_install_info(&prbar->msg.source, prbar->msg.info,
  						sizeof(prbar->msg.info));
@@ -106,7 +106,7 @@ index 16a111a..5146766 100644
  	/* Info is just an event, reset it after sending */
  	prbar->msg.infolen = 0;
  	pthread_mutex_unlock(&prbar->lock);
-@@ -116,7 +123,7 @@ void swupdate_progress_update(unsigned int perc)
+@@ -108,7 +115,7 @@ void swupdate_progress_update(unsigned int perc)
  	pthread_mutex_lock(&prbar->lock);
  	if (perc != prbar->msg.cur_percent && prbar->step_running) {
  		prbar->msg.cur_percent = perc;
@@ -115,7 +115,7 @@ index 16a111a..5146766 100644
  	}
  	pthread_mutex_unlock(&prbar->lock);
  }
-@@ -130,7 +137,7 @@ void swupdate_progress_inc_step(char *image)
+@@ -122,7 +129,7 @@ void swupdate_progress_inc_step(char *image)
  	strncpy(prbar->msg.cur_image, image, sizeof(prbar->msg.cur_image));
  	prbar->step_running = true;
  	prbar->msg.status = RUN;
@@ -124,7 +124,7 @@ index 16a111a..5146766 100644
  	pthread_mutex_unlock(&prbar->lock);
  }
  
-@@ -140,6 +147,7 @@ void swupdate_progress_step_completed(void)
+@@ -132,6 +139,7 @@ void swupdate_progress_step_completed(void)
  	pthread_mutex_lock(&prbar->lock);
  	prbar->step_running = false;
  	prbar->msg.status = IDLE;
@@ -132,7 +132,7 @@ index 16a111a..5146766 100644
  	pthread_mutex_unlock(&prbar->lock);
  }
  
-@@ -149,7 +157,7 @@ void swupdate_progress_end(RECOVERY_STATUS status)
+@@ -141,7 +149,7 @@ void swupdate_progress_end(RECOVERY_STATUS status)
  	pthread_mutex_lock(&prbar->lock);
  	prbar->step_running = false;
  	prbar->msg.status = status;
@@ -141,7 +141,7 @@ index 16a111a..5146766 100644
  	pthread_mutex_unlock(&prbar->lock);
  }
  
-@@ -161,7 +169,7 @@ void swupdate_progress_info(RECOVERY_STATUS status, int cause, const char *info)
+@@ -153,7 +161,7 @@ void swupdate_progress_info(RECOVERY_STATUS status, int cause, const char *info)
  			cause, info);
  	prbar->msg.infolen = strlen(prbar->msg.info);
  	prbar->msg.status = status;
@@ -150,7 +150,7 @@ index 16a111a..5146766 100644
  	/* Info is just an event, reset it after sending */
  	prbar->msg.infolen = 0;
  	pthread_mutex_unlock(&prbar->lock);
-@@ -177,7 +185,7 @@ void swupdate_progress_done(const char *info)
+@@ -169,7 +177,7 @@ void swupdate_progress_done(const char *info)
  	}
  	prbar->step_running = false;
  	prbar->msg.status = DONE;
@@ -159,21 +159,22 @@ index 16a111a..5146766 100644
  	prbar->msg.infolen = 0;
  	pthread_mutex_unlock(&prbar->lock);
  }
-@@ -188,10 +196,11 @@ void *progress_bar_thread (void __attribute__ ((__unused__)) *data)
+@@ -194,10 +202,12 @@ void *progress_bar_thread (void __attribute__ ((__unused__)) *data)
  	socklen_t clilen;
  	struct sockaddr_un cliaddr;
  	struct swupdate_progress *prbar = &progress;
 -	struct progress_conn *conn;
-+	void *buf;
-+	size_t count;
-+	ssize_t n;
++
++    void *buf;
++    size_t count;
++    ssize_t n;
  
  	pthread_mutex_init(&prbar->lock, NULL);
 -	SIMPLEQ_INIT(&prbar->conns);
  
  	/* Initialize and bind to UDS */
- 	listen = listener_create(SOCKET_PROGRESS_PATH, SOCK_STREAM);
-@@ -212,16 +221,23 @@ void *progress_bar_thread (void __attribute__ ((__unused__)) *data)
+ 	listen = listener_create((char*)CONFIG_SOCKET_PROGRESS_PATH, SOCK_STREAM);
+@@ -223,16 +233,23 @@ void *progress_bar_thread (void __attribute__ ((__unused__)) *data)
  		}
  
  		/*

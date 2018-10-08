@@ -134,7 +134,7 @@ Description={}
         # TODO: attack surface: paths containing spaces/quotes etc
         # TODO: check that path is absolute
         conf += '\n'
-        if 'volumes' in d and d['volumes']:
+        if 'volumes' in d and len(d['volumes']) > 0:
             conf += 'Environment="DAPP_DOCKER_VOLUMES=%s"' % ' '.join('-v {0}/{1}{2}:{2}'.format(self.dataroot, d['id'], v) for v in d['volumes'])
 
         # Environment setup, passing the file instead of fragile shell string
@@ -155,10 +155,14 @@ Description={}
         # TODO: remove this ASAP after dapps realize they can chown stuff on their own
         # TODO: exploitable with shell injection
         # Currently it's a terrible design
-        if 'volumechown' in d:
+
+        if 'volumes' in d and len(d['volumes']) > 0:
             conf += 'Environment="DAPP_CHOWN_PATHS=%s"' % ' '.join('{}/{}{}'.format(self.dataroot, d['id'], v) for v in d['volumes'])
             conf += '\n'
+
+        if 'volumechown' in d:
             conf += 'Environment=DAPP_CHOWN_UID=%s' % d['volumechown']
+            conf += '\n'
 
         return conf
 

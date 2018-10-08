@@ -24,8 +24,8 @@ ExecStartPre=/usr/bin/test -n ${DAPP_DOCKER_IMAGE}
 
 # TODO: ugly hack, remove asap
 # Both allowed to fail currently to play nicely with other dapps
-ExecStartPre=-/bin/mkdir -p $DAPP_CHOWN_PATHS
-ExecStartPre=-/bin/chown $DAPP_CHOWN_UID $DAPP_CHOWN_PATHS
+ExecStartPre=/bin/bash -c "test -z \"$DAPP_CHOWN_PATHS\" || mkdir -p $DAPP_CHOWN_PATHS"
+ExecStartPre=/bin/bash -c "test -z \"$DAPP_CHOWN_UID\" || test -z \"$DAPP_CHOWN_PATHS\" || chown $DAPP_CHOWN_UID $DAPP_CHOWN_PATHS"
 
 # Preparatory steps, seen in status
 ExecStartPre=/opt/titania/bin/dapp_load.sh ${DAPP_DOCKER_IMAGE}

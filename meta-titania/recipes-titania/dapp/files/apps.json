@@ -232,6 +232,7 @@
     }],
   "env": {},
   "volumes": ["/home/stakebox/.navcoin4"],
-  "image": "libertaria/navcoin:latest"
+  "image": "libertaria/navcoin:latest",
+  "staticpath": "/var/www/navcoin"
 }
 ]

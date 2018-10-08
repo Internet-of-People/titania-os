@@ -161,6 +161,10 @@ Description={}
         # conf += 'Environment=DAPP_DOCKER_IMAGE_FILE=/var/lib/docker/preinstall/%s.tar\n' % d['image'].replace('/','_').replace(':','_')         
         # conf += '\n'
 
+        # If we have static assets, provide an environment variable
+        if 'staticpath' in d:
+            conf += 'Environment="DAPP_STATIC_PATH=%s"' % d['staticpath']
+
         # TODO: remove this ASAP after dapps realize they can chown stuff on their own
         # TODO: exploitable with shell injection
         # Currently it's a terrible design
@@ -311,3 +315,4 @@ if __name__ == '__main__':
     FUSE(driver, sys.argv[2], nothreads=True, foreground=True)
 
     t.join()
+

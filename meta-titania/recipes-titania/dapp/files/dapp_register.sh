@@ -1,4 +1,5 @@
 #!/bin/bash
+# Utility to create per-dapp http(s) forwards
 # TODO: make configurable
 DAPP_CONF_PATH="/run/dapp.conf.d/"
 NGINX_SERVICE="dapp@world.libertaria.nginx"

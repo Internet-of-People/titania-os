@@ -40,7 +40,6 @@ ExecStartPre=/opt/titania/bin/dapp_prepare.sh %i \
 # Run the container and attach for journal
 ExecStart=/usr/bin/docker start -a -i %i
 ExecStop=/usr/bin/docker stop %i
-# Utility to create per-dapp http(s) forwards
 ExecStartPost=/opt/titania/bin/dapp_register.sh start %i
 ExecStopPost=/opt/titania/bin/dapp_register.sh stop %i
 

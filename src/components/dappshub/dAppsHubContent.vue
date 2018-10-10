@@ -31,7 +31,7 @@
                   class="dapp-component cursor-pointer">
               <div :id="'update_'+ dapp.name.split(' ').join('_')" class="downloading-label" v-if="dapp.is_active !== -1 && dapp.is_active !== 2  && updatedapps.indexOf(dapp.id) !== -1" @click="optionAction('Update', dapp)">Update</div>
               <div class="downloading-label" v-if="dapp.is_active == 2">Downloading</div>
-              <a v-if="item.category == 'community' && dapp.is_active == 1" href="/dapp/org.navcoin.wallet" target="_blank">
+              <a v-if="item.category == 'community' && dapp.is_active == 1" :href="'/dapp/'+ dapp.id" target="_blank">
                 <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>
               </a>
               <a v-else>

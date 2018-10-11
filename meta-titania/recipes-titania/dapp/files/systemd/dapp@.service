@@ -8,13 +8,7 @@ After=dapp-systemd-bridge.service
 Requires=docker.service
 After=docker.service
 
-# Give up if the unit has failed to start 5 times in the last 5 minutes
-StartLimitIntervalSec=300
-StartLimitBurst=5
-
 [Service]
-Restart=always
-RestartSec=30
 # Prevent timeouting on image preload
 # TODO: this logic has to be streamlined with dApp SDK
 TimeoutStartSec=20min

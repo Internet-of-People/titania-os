@@ -2,15 +2,23 @@
 
 import subprocess
 import argparse
+import hashlib
 import glob
 import json
 import sys
+import logging
+
+logging.basicConfig()
+logger = logging.getLogger('dapp-json-merge')
+logger.setLevel(logging.INFO)
 
 from pathlib import Path
+
 
 def merge_app_jsons(src_json_files):
     result = []
     ids = set()
+    config_hashes = {}
 
     for src in src_json_files:
         content = src.read_text()
@@ -29,8 +37,13 @@ def merge_app_jsons(src_json_files):
             ids.add(dapp['id'])
             result.append(dapp)
 
+            hasher = hashlib.sha512()
+            hasher.update(json.dumps(dapp, indent=4, sort_keys=True).encode())
+            config_hashes[dapp['id']] = hasher.digest()
+
     appjson = json.dumps(result, indent=4, sort_keys=True)
     Path(args.output).write_text(appjson)
+    return config_hashes
 
 def merge(args):
     src_json_files = []
@@ -49,7 +62,7 @@ def merge(args):
 
     print('Files:', src_json_files)
 
-    merge_app_jsons(src_json_files)
+    return merge_app_jsons(src_json_files)
 
 
 if __name__ == '__main__':
@@ -62,7 +75,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    merge(args)
+    dapp_config_hashes = merge(args)
 
     if args.inotify:
         # Notify systemd only if --inotify is not given and the program keeps running after merging the json files
@@ -70,7 +83,7 @@ if __name__ == '__main__':
 
         while True:
             subprocess.run(['inotifywait', '-r', '-e', 'modify,attrib,delete,create,move'] + args.dir + args.file)
-            print('change detected')
+            logger.info('change detected')
 
             while True:
                 # In case an editor is writing a temporary file and moving it to the final place
@@ -80,7 +93,32 @@ if __name__ == '__main__':
                 if result.returncode == 2:  # Timeout reached
                     break
 
-            print('merging dApp json files')
-            merge(args)
+            logger.info('merging dApp json files')
+            new_hashes = merge(args)
 
+            # Provide new config files for systemd services. This also invokes `systemctl daemon-reload`.
             subprocess.run(['systemctl', 'restart', 'dapp-systemd-bridge.service'])
+
+            app_ids = set(list(dapp_config_hashes.keys()) + list(new_hashes.keys()))
+            for app_id in app_ids:
+
+                is_active = (subprocess.Popen(['systemctl', 'is-active', 'dapp@'+app_id], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL).wait() == 0)
+                is_changed = (app_id not in dapp_config_hashes or app_id not in new_hashes or dapp_config_hashes[app_id] != new_hashes[app_id])
+                is_enabled = (subprocess.Popen(['systemctl', 'is-enabled', 'dapp@'+app_id], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).wait() == 0)
+                logger.info('%s: is_enabled: %s, is_active: %s, is_changed: %s' % (app_id, is_enabled, is_active, is_changed))
+
+                # Stop removed ones (which are already disabled)
+                if is_active and not is_enabled:
+                    logger.info('stopping ' + app_id)
+                    subprocess.run(['systemctl', 'stop', 'dapp@' + app_id])
+                # Start newly added ones, but do not start a failed service that was not changed. There's a button for that on the UI.
+                elif not is_active and is_enabled and is_changed:
+                    logger.info('starting ' + app_id)
+                    subprocess.run(['systemctl', 'start', 'dapp@' + app_id])
+                # restart all changed apps
+                elif is_active and is_enabled and is_changed:
+                    logger.info('restarting ' + app_id)
+                    subprocess.run(['systemctl', 'restart', 'dapp@' + app_id])
+
+            subprocess.run(['systemctl', 'reload', 'dapp@world.libertaria.nginx'])
+            dapp_config_hashes = new_hashes

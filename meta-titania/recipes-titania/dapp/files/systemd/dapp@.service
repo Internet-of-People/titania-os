@@ -1,10 +1,10 @@
 [Unit]
 Wants=network.target
 Wants=network-info.service
-
-# Abort if either docker or dapphub fails
-Requires=dapp-systemd-bridge.service
+Wants=dapp-systemd-bridge.service
 After=dapp-systemd-bridge.service
+
+# Abort if docker fails
 Requires=docker.service
 After=docker.service
 

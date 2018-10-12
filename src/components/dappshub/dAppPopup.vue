@@ -8,10 +8,11 @@
                 </div>
             </div>
            <div v-if="activeCategory!='helper'" class="dapps-popup-action-items">
-               <button v-if="dappDetails.is_active == '-1'" @click="dappAction('Download',dappDetails)" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Download</button>
-               <button v-if="dappDetails.is_active == '0'" @click="dappAction('Enable',dappDetails)" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Enable</button>
-               <button v-else-if="dappDetails.is_active == '1'" @click="dappAction('Disable',dappDetails)" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Disable</button>
-               <button v-if="dappDetails.is_active == '0' && activeCategory=='community'" @click="dappAction('Remove',dappDetails)" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Remove</button>
+               <button v-if="dappDetails.is_active == dappStates.not_downloaded" @click="dappAction('Download',dappDetails)" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Download</button>
+               <button v-if="dappDetails.is_active == dappStates.disabled" @click="dappAction('Enable',dappDetails)" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Enable</button>
+               <button v-if="dappDetails.is_active == dappStates.enabled_and_active || dappDetails.is_active == dappStates.enabled_and_not_active" @click="dappAction('Disable',dappDetails)" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Disable</button>
+               <button v-if="dappDetails.is_active == dappStates.enabled_and_not_active" @click="dappAction('Restart',dappDetails)" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Restart</button>
+               <button v-if="dappDetails.is_active == dappStates.disabled && activeCategory=='community'" @click="dappAction('Remove',dappDetails)" class="popup-browser-primary float-right cursor-pointer outline-none regular-fontsize">Remove</button>
            </div>
         </div>
         <div class="dapps-popup-desc">
@@ -24,7 +25,7 @@
 <script>
 export default {
   name: 'dAppPopup',
-  props: ['dappDetails','activeCategory','dappAction']
+  props: ['dappDetails','activeCategory','dappAction', 'dappStates']
 }
 </script>
 

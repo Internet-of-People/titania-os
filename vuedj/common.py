@@ -202,16 +202,19 @@ CMD_DOCKER_OVERVIEW_EXITED = "docker ps -a --filter status=exited --format '{{.I
 AGGREGATES = ['-1 week','-4 days','-1 day','-12 hour','-6 hours','-3 hours','-1 hour']
 
 """dAPP HUB"""
-IS_ACTIVE_SERVICE = "systemctl is-enabled dapp@{}.service"
+IS_ENABLED_SERVICE = "systemctl is-enabled dapp@{}.service"
+IS_ACTIVE_SERVICE = "systemctl is-active dapp@{}.service"
 DOWNLOADED_SERVICES = "docker images --format '{{.Repository}}:{{.Tag}}'"
 IS_SERVICE_DOWNLOADING = "systemctl status dapp@{} --no-pager"
-SERVICE_ENABLED = 1
+SERVICE_ENABLED_AND_ACTIVE = 1
 SERVICE_DISABLED = 0
 SERVICE_NOT_DOWNLOADED = -1
 SERVICE_DOWNLOADING = 2
+SERVICE_ENABLED_AND_NOT_ACTIVE = 3
 SERVICE_UPDATE_AVAILABLE_CHECK = "/opt/titania/bin/dapp_update.sh {} -n"
 SERVICE_DISABLE = "systemctl disable dapp@{0}.service; systemctl stop dapp@{0}.service"
 SERVICE_ENABLE = "systemctl enable dapp@{0}.service; systemctl start dapp@{0}.service"
+SERVICE_RESTART = "systemctl restart dapp@{0}.service"
 DOCKER_RM_DAPP = "docker rm {}; docker rmi {}"
 DAPP_DOWNLOAD = "systemctl start dapp@{}.service"
 SERVICE_UPDATE = "/opt/titania/bin/dapp_update.sh {0}; systemctl enable dapp@{0}.service; systemctl start dapp@{0}.service"

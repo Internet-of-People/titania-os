@@ -51,7 +51,7 @@
         </div>
       </div>
     </div>
-    <dAppPopup v-if="showdappdetail" :dapp-details="activedapp" :active-category="activecategory"  :dapp-action="optionAction"/>
+    <dAppPopup v-if="showdappdetail" :dapp-details="activedapp" :dapp-states="dappstates" :active-category="activecategory"  :dapp-action="optionAction"/>
     <div class="fadeout" v-if="showdappdetail" @click="getAppDetails()"></div>
   </div>
 </template>
@@ -121,7 +121,12 @@ export default {
       get: function () {
         return this.$store.state.updatedapps
       }
-    }
+    },
+    dappstates: {
+      get: function () {
+        return this.$store.state.dappstates
+      }
+    }    
   },
   methods: {
     changedAppFilter: function (newfilter) {
@@ -155,20 +160,20 @@ export default {
       if (category == 'helper') {
         return ['Details']
       } else {
-        if (dapp.is_active == -1) {
+        if (dapp.is_active == this.dappstates.not_downloaded) {
           return ['Download', 'Details']
-        } else if (category == 'community') {
-            if (dapp.is_active == '0') {
+        } else if (dapp.is_active == this.dappstates.disabled) {
+            if (category == 'community') {
               return ['Enable', 'Remove', 'Details']
             } else {
-              return ['Disable', 'Details']
-            }
-        } else{
-            if (dapp.is_active == '0') {
               return ['Enable', 'Details']
-            } else {
-              return ['Disable', 'Details']
             }
+        } else if (dapp.is_active == this.dappstates.enabled_and_active) {
+          return ['Disable', 'Details']
+        } else if (dapp.is_active == this.dappstates.enabled_and_not_active) {
+          return ['Restart', 'Disable', 'Details']
+        } else if (dapp.is_active == this.dappstates.downloading) {
+          return ['Details']
         }
       }
     },
@@ -181,6 +186,8 @@ export default {
         this.$store.dispatch('enableDapp', dapp.id) 
       } else if (option == 'Disable') {        
         this.$store.dispatch('disableDapp', dapp.id) 
+      } else if (option == 'Restart') {
+        this.$store.dispatch('restartDapp', dapp.id)
       } else if (option == 'Remove') {
         this.$store.dispatch('removeDapp', dapp) 
       } else if (option == 'Download') {

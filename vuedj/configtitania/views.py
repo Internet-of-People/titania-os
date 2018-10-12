@@ -185,19 +185,11 @@ def get_containerswithavailableupdate():
 
 def check_ifserviceenabled(dappid):
     is_enabled_service = common.IS_ENABLED_SERVICE.format(dappid)
-    is_enabled = subprocess.Popen(is_enabled_service,shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')[0]
-    if is_enabled == "enabled":
-        return True
-    else:
-        return False
+    return subprocess.Popen(is_enabled_service, shell=True, stdout=subprocess.DEVNULL).wait() == 0
 
 def check_ifserviceactive(dappid):
     is_active_service = common.IS_ACTIVE_SERVICE.format(dappid)
-    is_active = subprocess.Popen(is_active_service,shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')[0]
-    if is_active == "active":
-        return True
-    else:
-        return False
+    return subprocess.Popen(is_active_service, shell=True, stdout=subprocess.DEVNULL).wait() == 0
 
 def check_ifserviceupdateavailable(dappid):
     is_update_available = common.SERVICE_UPDATE_AVAILABLE_CHECK.format(dappid)

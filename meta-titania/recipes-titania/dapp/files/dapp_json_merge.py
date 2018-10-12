@@ -108,16 +108,15 @@ if __name__ == '__main__':
                 logger.info('%s: is_enabled: %s, is_active: %s, is_changed: %s' % (app_id, is_enabled, is_active, is_changed))
 
                 # Stop removed ones (which are already disabled)
-                if is_active and not is_enabled:
-                    logger.info('stopping ' + app_id)
-                    subprocess.run(['systemctl', 'stop', 'dapp@' + app_id])
-                # Start newly added ones, but do not start a failed service that was not changed. There's a button for that on the UI.
-                elif not is_active and is_enabled and is_changed:
-                    logger.info('starting ' + app_id)
-                    subprocess.run(['systemctl', 'start', 'dapp@' + app_id])
-                # restart all changed apps
-                elif is_active and is_enabled and is_changed:
-                    logger.info('restarting ' + app_id)
+                if not is_enabled:
+                    if is_active:
+                        logger.info('stopping ' + app_id)
+                        subprocess.run(['systemctl', 'stop', 'dapp@' + app_id])
+
+                # Make sure that everything that should run (is_enabled) and the developer is working on (is_changed)
+                # are started or restarted.
+                elif is_changed:
+                    logger.info('(re)starting ' + app_id)
                     subprocess.run(['systemctl', 'restart', 'dapp@' + app_id])
 
             subprocess.run(['systemctl', 'reload', 'dapp@world.libertaria.nginx'])

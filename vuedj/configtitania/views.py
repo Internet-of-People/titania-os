@@ -21,8 +21,7 @@ import os, common, sqlite3, subprocess, NetworkManager, crypt, pwd, getpass, spw
 
 # dashboard db
 dashboard_db = "/datafs/titania/dashboard.sqlite3"
-dapps_store_json = "/opt/titania/share/apps.json"
-dapps_store = json.load(open(dapps_store_json))
+dapps_store_json = "/run/apps.json"
 
 # get Session store from settings
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
@@ -147,6 +146,7 @@ def get_updatestatus(service_name):
 
 def get_dappsdetails():
     active_service_list = []
+    dapps_store = json.load(open(dapps_store_json))
     dapps_list = list(dapps_store)
     # downloaded images
     downld_service_list = subprocess.Popen(common.DOWNLOADED_SERVICES,shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')
@@ -183,6 +183,7 @@ def get_dappsdetails():
     return dapps_list
 
 def get_containerswithavailableupdate():
+    dapps_store = json.load(open(dapps_store_json))
     dapps_list = list(dapps_store)
     update_list = []
     for dapp in dapps_list:

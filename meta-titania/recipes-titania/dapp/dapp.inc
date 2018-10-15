@@ -14,8 +14,7 @@ SRC_URI += "file://apps.json \
             file://systemd/nginx-reload-support.conf \
             file://systemd/nginx-custom-paths.conf \
             file://systemd/dapp-systemd-bridge.service \
-            file://systemd/dapp-json-merge.service \
-            file://systemd/dapp-systemd-bridge-reload.service"
+            file://systemd/dapp-json-merge.service"
 
 inherit systemd
 
@@ -30,7 +29,6 @@ FILES_${PN} = "${systemd_unitdir}/system/dapp@.service /opt/titania/* ${sysconfd
 # TODO: make latter a .target, use ExecStartPost etc.
 SYSTEMD_SERVICE_${PN} = "dapp@world,libertaria,nginx.service \
                          dapp-systemd-bridge.service \
-                         dapp-systemd-bridge-reload.service \
                          dapp-json-merge.service"
 
 NGINX_SERVICE="dapp@world.libertaria.nginx"
@@ -43,7 +41,6 @@ do_install_append() {
     install -m 0644 ${WORKDIR}/systemd/dapp@.service ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/systemd/dapp-systemd-bridge.service ${D}${systemd_unitdir}/system
     install -m 0644 ${WORKDIR}/systemd/dapp-json-merge.service ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/systemd/dapp-systemd-bridge-reload.service ${D}${systemd_unitdir}/system
 
     install -d ${D}${sysconfdir}/systemd/system/${NGINX_SERVICE}.service.d
     install -m 0644 ${WORKDIR}/systemd/nginx-reload-support.conf ${D}${sysconfdir}/systemd/system/${NGINX_SERVICE}.service.d

@@ -1,20 +1,14 @@
 [Unit]
 Wants=network.target
 Wants=network-info.service
+Wants=dapp-systemd-bridge.service
+After=dapp-systemd-bridge.service
 
-# Abort if either docker or dapphub fails
-Requires=dapp-systemd-bridge-reload.service
-After=dapp-systemd-bridge-reload.service
+# Abort if docker fails
 Requires=docker.service
 After=docker.service
 
-# Give up if the unit has failed to start 5 times in the last 5 minutes
-StartLimitIntervalSec=300
-StartLimitBurst=5
-
 [Service]
-Restart=always
-RestartSec=30
 # Prevent timeouting on image preload
 # TODO: this logic has to be streamlined with dApp SDK
 TimeoutStartSec=20min
@@ -40,7 +34,6 @@ ExecStartPre=/opt/titania/bin/dapp_prepare.sh %i \
 # Run the container and attach for journal
 ExecStart=/usr/bin/docker start -a -i %i
 ExecStop=/usr/bin/docker stop %i
-# Utility to create per-dapp http(s) forwards
 ExecStartPost=/opt/titania/bin/dapp_register.sh start %i
 ExecStopPost=/opt/titania/bin/dapp_register.sh stop %i
 

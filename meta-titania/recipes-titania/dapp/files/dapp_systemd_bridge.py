@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
 try:
     from fuse import FUSE, FuseOSError, Operations
-# For testing on Ubunut
+# For testing on Ubuntu
 except ModuleNotFoundError:
     from fusepy import FUSE, FuseOSError, Operations
-import sys, errno, os, re, stat
+
+import errno
 import json
+import os
+import re
+import stat
+import subprocess
+import sys
+import time
+import threading
+
 
 class PydAppHubFuse(Operations):
     """
@@ -256,35 +265,49 @@ Description={}
     def fsync(self, *args, **kwargs):
         pass
 
-# TODO: re-work in order to make systemd friendly
 
 # Standalone operation
 if __name__ == '__main__':
     if len(sys.argv) < 4:
         print("Usage: ./dapp-sytemd-bridge.py /path/to/json /mount/point /datafs/path")
-    # TODO: study if we need nothreads here
-    else:
-        driver = PydAppHubFuse(sys.argv[1], sys.argv[2], sys.argv[3])
-        # Uncomment for debugging
-        indent = 0
-        for m in dir(driver):
-            fun = getattr(driver,m) 
-            if m[0]!='_' and type(fun) is type(driver.fsync):
-                def trace_method(fun, name):
-                    def f(*args, **kwargs):
-                        global indent
-                        print("{}[TRACE]: {}({},{}) ".format('\t'*indent, name, args, kwargs))
-                        indent += 1
-                        try:
-                            res = fun(*args, **kwargs)
-                        except:
-                            indent -= 1
-                            print("{}exception".format('\t'*indent))
-                            raise
-                        indent -= 1
-                        print("{}return {}".format('\t'*indent,res))
-                        return res
-                    return f
-                setattr(driver, m, trace_method(fun, m))
+        sys.exit(1)
 
-        FUSE(driver, sys.argv[2], nothreads=True, foreground=True)
+    driver = PydAppHubFuse(sys.argv[1], sys.argv[2], sys.argv[3])
+    # Uncomment for debugging
+    #indent = 0
+    #for m in dir(driver):
+    #    fun = getattr(driver,m) 
+    #    if m[0]!='_' and type(fun) is type(driver.fsync):
+    #        def trace_method(fun, name):
+    #            def f(*args, **kwargs):
+    #                global indent
+    #                print("{}[TRACE]: {}({},{}) ".format('\t'*indent, name, args, kwargs))
+    #                indent += 1
+    #                try:
+    #                    res = fun(*args, **kwargs)
+    #                except:
+    #                    indent -= 1
+    #                    print("{}exception".format('\t'*indent))
+    #                    raise
+    #                indent -= 1
+    #                print("{}return {}".format('\t'*indent,res))
+    #                return res
+    #            return f
+    #        setattr(driver, m, trace_method(fun, m))
+
+    def notify_systemd():
+        while True:
+            time.sleep(0.1)
+            returncode = subprocess.Popen(['mountpoint', sys.argv[2]]).wait()
+            if returncode == 0:
+                subprocess.run(['systemctl', 'daemon-reload'])
+                subprocess.run(['systemd-notify', 'READY=1'])
+                break
+        print('dapp systemd bridge is up')
+
+    t = threading.Thread(target=notify_systemd, daemon=True)
+    t.start()
+
+    FUSE(driver, sys.argv[2], nothreads=True, foreground=True)
+
+    t.join()

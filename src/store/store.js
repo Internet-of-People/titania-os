@@ -12,7 +12,7 @@ Vue.use(VueLocalStorage)
 
 const apiRoot = '/api' // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-// const apiRoot = 'http://192.168.0.103:8000' // dev pi
+// const apiRoot = 'http://192.168.1.194:8000' // dev pi
 
 const local_store = Vue.ls
 
@@ -292,6 +292,9 @@ const store = new Vuex.Store({
     },
     'SET_UPDATE_FLAGS': function (state, response) {
       state.updatedapps = response.body.update_list
+    },
+    'SET_REBOOT_SCREEN': function (state) {
+      router.push({name: 'landingpage', params: { reboot: true }})
     }
   },
   actions: {
@@ -478,7 +481,9 @@ const store = new Vuex.Store({
       }
       store.commit('SET_INITIAL_UPDATE_STATUS', {})
       return api.postWithSession(apiRoot + '/index.html', rebootSystem)
-        .catch((error) => store.commit('API_FAIL', error))
+      .then(function (response) {
+        store.commit('SET_REBOOT_SCREEN')
+      }).catch((error) => store.commit('API_FAIL', error))
     },
     retryUpdate (state) {
       store.commit('SET_INITIAL_UPDATE_STATUS', {})

@@ -13,6 +13,7 @@
             </div>
         </div>
         <div class="margin-20-center zoomOut">
+            <div v-if="this.$route.params.reboot" class="zoomIn2 large-fontsize">TitaniaOS has just been restarted</div>      
             <div class="zoomIn2 large-fontsize">Loading, please wait...</div>        
         </div>
       </div>

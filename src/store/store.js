@@ -81,8 +81,8 @@ const store = new Vuex.Store({
     },
     'GET_CREDS': function (state, response) {
       if (response.body.configState) {
-        if (router.currentRoute.name == 'configure' || router.currentRoute.name == 'landingpage') {
-          router.push('/login')
+        if (router.currentRoute.path == '/configure' || router.currentRoute.path == '/landingpage') {
+          router.push({name: 'login', params: { deletesession: true }})
           state.currentPage = 'login'
         }
       } else {

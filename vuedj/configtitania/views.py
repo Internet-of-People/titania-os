@@ -158,21 +158,13 @@ def get_dappsdetails():
         print(service_tag)
         if service_tag == "helper":
             # helper function, default is enabled
-            dapp["is_active"] = common.SERVICE_ENABLED
+            dapp["is_active"] = common.SERVICE_ENABLED_AND_ACTIVE
         elif check_ifserviceenabled(dapp["id"]):
-            # downloaded and enabled confirmed
-            # check for update status
-            # if check_ifserviceupdateavailable(dapp["id"]):
-            #     dapp["is_active"] = common.SERVICE_UPDATE_AVAILABLE_ENABLED
-            # else:
-            #     dapp["is_active"] = common.SERVICE_ENABLED
-            dapp["is_active"] = common.SERVICE_ENABLED
+            if check_ifserviceactive(dapp["id"]):
+                dapp["is_active"] = common.SERVICE_ENABLED_AND_ACTIVE
+            else:
+                dapp["is_active"] = common.SERVICE_ENABLED_AND_NOT_ACTIVE
         elif service_repo in downld_service_list: 
-            # downloaded but not enabled
-            # if check_ifserviceupdateavailable(dapp["id"]):
-            #     dapp["is_active"] = common.SERVICE_UPDATE_AVAILABLE_DISABLED
-            # else:
-            #     dapp["is_active"] = common.SERVICE_DISABLED
             dapp["is_active"] = common.SERVICE_DISABLED
         else:
             # not downloaded / downloading
@@ -192,12 +184,12 @@ def get_containerswithavailableupdate():
     return update_list
 
 def check_ifserviceenabled(dappid):
+    is_enabled_service = common.IS_ENABLED_SERVICE.format(dappid)
+    return subprocess.Popen(is_enabled_service, shell=True, stdout=subprocess.DEVNULL).wait() == 0
+
+def check_ifserviceactive(dappid):
     is_active_service = common.IS_ACTIVE_SERVICE.format(dappid)
-    is_enabled = subprocess.Popen(is_active_service,shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").split('\n')[0]
-    if is_enabled == "enabled":
-        return True
-    else:
-        return False
+    return subprocess.Popen(is_active_service, shell=True, stdout=subprocess.DEVNULL).wait() == 0
 
 def check_ifserviceupdateavailable(dappid):
     is_update_available = common.SERVICE_UPDATE_AVAILABLE_CHECK.format(dappid)
@@ -636,6 +628,12 @@ def handle_config(request):
                     print(action)
                     dappid = request.POST.get("id")
                     service = common.SERVICE_ENABLE.format(dappid)
+                    os.system(service)
+                    return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
+                elif action == 'restartDapp':
+                    print(action)
+                    dappid = request.POST.get("id")
+                    service = common.SERVICE_RESTART.format(dappid)
                     os.system(service)
                     return JsonResponse({'STATUS':'SUCCESS'}, safe=False)
                 elif action == 'removeDapp':

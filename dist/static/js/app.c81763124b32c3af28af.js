@@ -147,10 +147,11 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   name: 'dAppPopup',
-  props: ['dappDetails', 'activeCategory', 'dappAction']
+  props: ['dappDetails', 'activeCategory', 'dappAction', 'dappStates']
 });
 
 /***/ }),
@@ -877,17 +878,6 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"container"},nativeOn:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.submit($event)}}},[_vm._m(0),_vm._v(" "),_c('button',{staticClass:"outline-none large-fontsize button-primary",attrs:{"type":"button","id":"login_submit"},on:{"click":function($event){_vm.toggleConfig()}}},[_vm._v("CONFIGURE")]),_vm._v(" "),(_vm.configure)?_c('div',[_c('config-form',{ref:"configFormDiv"}),_vm._v(" "),_c('div',{staticClass:"fadeout",on:{"click":function($event){_vm.toggleConfig()}}})],1):_vm._e()])}
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('img',{staticClass:"logo-icon-config",attrs:{"src":__webpack_require__("/32Z")}}),_vm._v(" "),_c('div',{staticClass:"config-help"},[_vm._v("Welcome aboard")])])}]
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
-/***/ "A2H3":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"col-12 store-container hub-parent-block"},[_vm._l((_vm.dappsstateactions),function(action){return _c('div',{key:action,staticClass:"float-left display-inline-flex threads-filter cursor-pointer",on:{"click":function($event){_vm.changedAppFilter(action)}}},[(_vm.dappsFilter === action)?_c('div',{staticClass:"highlightedFilter"},[_vm._v("\n        "+_vm._s(action)+"\n      ")]):_c('div',[_vm._v(_vm._s(action))])])}),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('div',{staticClass:"dapps-block"},_vm._l((_vm.dappscategories),function(item){return (_vm.getIfContainsApp(_vm.dappsFilter, item.category))?_c('div',{key:item.category,staticClass:"dapps-category"},[_c('div',{staticClass:"dapp-label"},[_vm._v(_vm._s(item.name))]),_vm._v(" "),_c('div',{staticClass:"dapp-block display-inline-flex"},_vm._l((_vm.dappsjson),function(dapp,index){return (_vm.loadApps && item.category == dapp.tags && _vm.filterCheck(dapp.is_active))?_c('div',{key:index,staticClass:"dapp-component cursor-pointer"},[(dapp.is_active !== -1 && dapp.is_active !== 2  && _vm.updatedapps.indexOf(dapp.id) !== -1)?_c('div',{staticClass:"downloading-label",attrs:{"id":'update_'+ dapp.name.split(' ').join('_')},on:{"click":function($event){_vm.optionAction('Update', dapp)}}},[_vm._v("Update")]):_vm._e(),_vm._v(" "),(dapp.is_active == 2)?_c('div',{staticClass:"downloading-label"},[_vm._v("Downloading")]):_vm._e(),_vm._v(" "),(item.category == 'community' && dapp.is_active == 1)?_c('a',{attrs:{"href":'/dapp/'+ dapp.id,"target":"_blank"}},[_c('img',{staticClass:"dapps-logo",attrs:{"src":dapp.logo},on:{"click":function($event){_vm.getAppDetails(item.category,dapp)}}})]):_c('a',[_c('img',{staticClass:"dapps-logo",attrs:{"src":dapp.logo},on:{"click":function($event){_vm.getAppDetails(item.category,dapp)}}})]),_vm._v(" "),_c('img',{staticClass:"dapps-settings",attrs:{"src":__webpack_require__("/Bzs")},on:{"click":function($event){_vm.openOptionsMenu(dapp)}}}),_vm._v(" "),_c('div',{staticClass:"dapp-name"},[_vm._v("\n              "+_vm._s(dapp.name)+"\n            ")]),_vm._v(" "),_c('ul',{staticClass:"dropdown-config hide",attrs:{"id":dapp.name.replace(' ','_')}},_vm._l((_vm.getdAppOptions(item.category, dapp)),function(option){return _c('li',{key:option,staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.optionAction(option, dapp)}}},[_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(option))])])}))]):_vm._e()}))]):_vm._e()}))],2),_vm._v(" "),(_vm.showdappdetail)?_c('dAppPopup',{attrs:{"dapp-details":_vm.activedapp,"active-category":_vm.activecategory,"dapp-action":_vm.optionAction}}):_vm._e(),_vm._v(" "),(_vm.showdappdetail)?_c('div',{staticClass:"fadeout",on:{"click":function($event){_vm.getAppDetails()}}}):_vm._e()],1)}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"hide",attrs:{"id":"hub-loader"}},[_c('table',[_c('tbody',[_c('tr',[_c('td',[_c('div',{staticClass:"loader-mini"},[_c('div',{staticClass:"loader-page"},[_c('div')])])])])])])])}]
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
@@ -2626,6 +2616,17 @@ module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGlu
 
 /***/ }),
 
+/***/ "TCTy":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"col-12 store-container hub-parent-block"},[_vm._l((_vm.dappsstateactions),function(action){return _c('div',{key:action,staticClass:"float-left display-inline-flex threads-filter cursor-pointer",on:{"click":function($event){_vm.changedAppFilter(action)}}},[(_vm.dappsFilter === action)?_c('div',{staticClass:"highlightedFilter"},[_vm._v("\n        "+_vm._s(action)+"\n      ")]):_c('div',[_vm._v(_vm._s(action))])])}),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('div',{staticClass:"dapps-block"},_vm._l((_vm.dappscategories),function(item){return (_vm.getIfContainsApp(_vm.dappsFilter, item.category))?_c('div',{key:item.category,staticClass:"dapps-category"},[_c('div',{staticClass:"dapp-label"},[_vm._v(_vm._s(item.name))]),_vm._v(" "),_c('div',{staticClass:"dapp-block display-inline-flex"},_vm._l((_vm.dappsjson),function(dapp,index){return (_vm.loadApps && item.category == dapp.tags && _vm.filterCheck(dapp.is_active))?_c('div',{key:index,staticClass:"dapp-component cursor-pointer"},[(dapp.is_active !== -1 && dapp.is_active !== 2  && _vm.updatedapps.indexOf(dapp.id) !== -1)?_c('div',{staticClass:"downloading-label",attrs:{"id":'update_'+ dapp.name.split(' ').join('_')},on:{"click":function($event){_vm.optionAction('Update', dapp)}}},[_vm._v("Update")]):_vm._e(),_vm._v(" "),(dapp.is_active == 2)?_c('div',{staticClass:"downloading-label"},[_vm._v("Downloading")]):_vm._e(),_vm._v(" "),(item.category == 'community' && dapp.is_active == 1)?_c('a',{attrs:{"href":'/dapp/'+ dapp.id,"target":"_blank"}},[_c('img',{staticClass:"dapps-logo",attrs:{"src":dapp.logo},on:{"click":function($event){_vm.getAppDetails(item.category,dapp)}}})]):_c('a',[_c('img',{staticClass:"dapps-logo",attrs:{"src":dapp.logo},on:{"click":function($event){_vm.getAppDetails(item.category,dapp)}}})]),_vm._v(" "),_c('img',{staticClass:"dapps-settings",attrs:{"src":__webpack_require__("/Bzs")},on:{"click":function($event){_vm.openOptionsMenu(dapp)}}}),_vm._v(" "),_c('div',{staticClass:"dapp-name"},[_vm._v("\n              "+_vm._s(dapp.name)+"\n            ")]),_vm._v(" "),_c('ul',{staticClass:"dropdown-config hide",attrs:{"id":dapp.name.replace(' ','_')}},_vm._l((_vm.getdAppOptions(item.category, dapp)),function(option){return _c('li',{key:option,staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.optionAction(option, dapp)}}},[_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(option))])])}))]):_vm._e()}))]):_vm._e()}))],2),_vm._v(" "),(_vm.showdappdetail)?_c('dAppPopup',{attrs:{"dapp-details":_vm.activedapp,"dapp-states":_vm.dappstates,"active-category":_vm.activecategory,"dapp-action":_vm.optionAction}}):_vm._e(),_vm._v(" "),(_vm.showdappdetail)?_c('div',{staticClass:"fadeout",on:{"click":function($event){_vm.getAppDetails()}}}):_vm._e()],1)}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"hide",attrs:{"id":"hub-loader"}},[_c('table',[_c('tbody',[_c('tr',[_c('td',[_c('div',{staticClass:"loader-mini"},[_c('div',{staticClass:"loader-page"},[_c('div')])])])])])])])}]
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
 /***/ "Tq83":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2793,6 +2794,11 @@ module.exports = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5v
       get: function () {
         return this.$store.state.updatedapps;
       }
+    },
+    dappstates: {
+      get: function () {
+        return this.$store.state.dappstates;
+      }
     }
   },
   methods: {
@@ -2827,20 +2833,20 @@ module.exports = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5v
       if (category == 'helper') {
         return ['Details'];
       } else {
-        if (dapp.is_active == -1) {
+        if (dapp.is_active == this.dappstates.not_downloaded) {
           return ['Download', 'Details'];
-        } else if (category == 'community') {
-          if (dapp.is_active == '0') {
+        } else if (dapp.is_active == this.dappstates.disabled) {
+          if (category == 'community') {
             return ['Enable', 'Remove', 'Details'];
           } else {
-            return ['Disable', 'Details'];
-          }
-        } else {
-          if (dapp.is_active == '0') {
             return ['Enable', 'Details'];
-          } else {
-            return ['Disable', 'Details'];
           }
+        } else if (dapp.is_active == this.dappstates.enabled_and_active) {
+          return ['Disable', 'Details'];
+        } else if (dapp.is_active == this.dappstates.enabled_and_not_active) {
+          return ['Restart', 'Disable', 'Details'];
+        } else if (dapp.is_active == this.dappstates.downloading) {
+          return ['Details'];
         }
       }
     },
@@ -2853,6 +2859,8 @@ module.exports = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5v
         this.$store.dispatch('enableDapp', dapp.id);
       } else if (option == 'Disable') {
         this.$store.dispatch('disableDapp', dapp.id);
+      } else if (option == 'Restart') {
+        this.$store.dispatch('restartDapp', dapp.id);
       } else if (option == 'Remove') {
         this.$store.dispatch('removeDapp', dapp);
       } else if (option == 'Download') {
@@ -4014,7 +4022,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_1_vue
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dappsHubContent_vue__ = __webpack_require__("UQ0n");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_124a8bdd_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dappsHubContent_vue__ = __webpack_require__("A2H3");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3a7835f9_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dappsHubContent_vue__ = __webpack_require__("TCTy");
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
 
@@ -4031,7 +4039,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dappsHubContent_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_124a8bdd_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dappsHubContent_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3a7835f9_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dappsHubContent_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -4246,7 +4254,7 @@ var Component = normalizeComponent(
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dAppPopup_vue__ = __webpack_require__("05RM");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_764088e8_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dAppPopup_vue__ = __webpack_require__("td/Q");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_55f21229_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dAppPopup_vue__ = __webpack_require__("rECQ");
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
 
@@ -4263,7 +4271,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dAppPopup_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_764088e8_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dAppPopup_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_55f21229_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_dAppPopup_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -4418,6 +4426,17 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
+/***/ "rECQ":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"float-left popup-window outline-none"},[_c('div',{staticClass:"dapp-popup-header-block"},[_c('div',{staticClass:"display-inline-flex"},[_c('div',{staticClass:"dapp-info-block"},[_c('img',{staticClass:"dapp-popup-logo",attrs:{"src":_vm.dappDetails.logo}}),_vm._v(" "),_c('div',{staticClass:"dapp-popup-name"},[_vm._v(_vm._s(_vm.dappDetails.name))])])]),_vm._v(" "),(_vm.activeCategory!='helper')?_c('div',{staticClass:"dapps-popup-action-items"},[(_vm.dappDetails.is_active == _vm.dappStates.not_downloaded)?_c('button',{staticClass:"popup-browser-primary float-right cursor-pointer outline-none regular-fontsize",on:{"click":function($event){_vm.dappAction('Download',_vm.dappDetails)}}},[_vm._v("Download")]):_vm._e(),_vm._v(" "),(_vm.dappDetails.is_active == _vm.dappStates.disabled)?_c('button',{staticClass:"popup-browser-primary float-right cursor-pointer outline-none regular-fontsize",on:{"click":function($event){_vm.dappAction('Enable',_vm.dappDetails)}}},[_vm._v("Enable")]):_vm._e(),_vm._v(" "),(_vm.dappDetails.is_active == _vm.dappStates.enabled_and_active || _vm.dappDetails.is_active == _vm.dappStates.enabled_and_not_active)?_c('button',{staticClass:"popup-browser-primary float-right cursor-pointer outline-none regular-fontsize",on:{"click":function($event){_vm.dappAction('Disable',_vm.dappDetails)}}},[_vm._v("Disable")]):_vm._e(),_vm._v(" "),(_vm.dappDetails.is_active == _vm.dappStates.enabled_and_not_active)?_c('button',{staticClass:"popup-browser-primary float-right cursor-pointer outline-none regular-fontsize",on:{"click":function($event){_vm.dappAction('Restart',_vm.dappDetails)}}},[_vm._v("Restart")]):_vm._e(),_vm._v(" "),(_vm.dappDetails.is_active == _vm.dappStates.disabled && _vm.activeCategory=='community')?_c('button',{staticClass:"popup-browser-primary float-right cursor-pointer outline-none regular-fontsize",on:{"click":function($event){_vm.dappAction('Remove',_vm.dappDetails)}}},[_vm._v("Remove")]):_vm._e()]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"dapps-popup-desc"},[_c('div',{staticClass:"float-left sans-serif-bold display-block"},[_vm._v("DESCRIPTION")]),_vm._v(" "),_c('div',[_vm._v(_vm._s(_vm.dappDetails.description))])])])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
 /***/ "rdx4":
 /***/ (function(module, exports) {
 
@@ -4541,17 +4560,6 @@ var Component = normalizeComponent(
 
 /* harmony default export */ __webpack_exports__["a"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ "td/Q":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"float-left popup-window outline-none"},[_c('div',{staticClass:"dapp-popup-header-block"},[_c('div',{staticClass:"display-inline-flex"},[_c('div',{staticClass:"dapp-info-block"},[_c('img',{staticClass:"dapp-popup-logo",attrs:{"src":_vm.dappDetails.logo}}),_vm._v(" "),_c('div',{staticClass:"dapp-popup-name"},[_vm._v(_vm._s(_vm.dappDetails.name))])])]),_vm._v(" "),(_vm.activeCategory!='helper')?_c('div',{staticClass:"dapps-popup-action-items"},[(_vm.dappDetails.is_active == '-1')?_c('button',{staticClass:"popup-browser-primary float-right cursor-pointer outline-none regular-fontsize",on:{"click":function($event){_vm.dappAction('Download',_vm.dappDetails)}}},[_vm._v("Download")]):_vm._e(),_vm._v(" "),(_vm.dappDetails.is_active == '0')?_c('button',{staticClass:"popup-browser-primary float-right cursor-pointer outline-none regular-fontsize",on:{"click":function($event){_vm.dappAction('Enable',_vm.dappDetails)}}},[_vm._v("Enable")]):(_vm.dappDetails.is_active == '1')?_c('button',{staticClass:"popup-browser-primary float-right cursor-pointer outline-none regular-fontsize",on:{"click":function($event){_vm.dappAction('Disable',_vm.dappDetails)}}},[_vm._v("Disable")]):_vm._e(),_vm._v(" "),(_vm.dappDetails.is_active == '0' && _vm.activeCategory=='community')?_c('button',{staticClass:"popup-browser-primary float-right cursor-pointer outline-none regular-fontsize",on:{"click":function($event){_vm.dappAction('Remove',_vm.dappDetails)}}},[_vm._v("Remove")]):_vm._e()]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"dapps-popup-desc"},[_c('div',{staticClass:"float-left sans-serif-bold display-block"},[_vm._v("DESCRIPTION")]),_vm._v(" "),_c('div',[_vm._v(_vm._s(_vm.dappDetails.description))])])])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -4686,9 +4694,9 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_1_vue
 __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_2_vue_session___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_3_vue_ls___default.a);
 
-// const apiRoot = '/api' // deployment
+const apiRoot = '/api'; // deployment
 // const apiRoot = 'http://127.0.0.1:8000' // dev mac
-const apiRoot = 'http://192.168.1.194:8000'; // dev pi
+// const apiRoot = 'http://192.168.0.103:8000' // dev pi
 
 const local_store = __WEBPACK_IMPORTED_MODULE_0_vue__["default"].ls;
 
@@ -4744,7 +4752,14 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     activedapp: {},
     activecategory: 'helper',
     natpmp: 1,
-    updatedapps: []
+    updatedapps: [],
+    dappstates: {
+      enabled_and_active: 1,
+      disabled: 0,
+      not_downloaded: -1,
+      downloading: 2,
+      enabled_and_not_active: 3
+    }
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -5181,6 +5196,29 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
         store.dispatch('fetchAlldApps');
       }).catch(error => store.commit('API_FAIL', error));
     },
+    restartDapp(state, dappid) {
+      var restartDapp = {
+        _action: 'restartDapp'
+      };
+      restartDapp.id = dappid;
+      $('#hub-loader').removeClass('hide');
+      $('body').css('cursor', 'progress');
+      __WEBPACK_IMPORTED_MODULE_0_vue__["default"].toast('Restarting dapp and fetching updated list', {
+        id: 'my-toast',
+        className: ['toast-info'],
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+        duration: 40000,
+        mode: 'queue'
+      });
+      return __WEBPACK_IMPORTED_MODULE_4__api_js__["a" /* default */].postWithSession(apiRoot + '/index.html', restartDapp).then(function (response) {
+        $('#hub-loader').addClass('hide');
+        $('#my-toast').remove();
+        $('body').css('cursor', 'default');
+        store.commit('SET_DAPP_LIST_NULL');
+        store.dispatch('fetchAlldApps');
+      }).catch(error => store.commit('API_FAIL', error));
+    },
     removeDapp(state, dapp) {
       var removeDapp = {
         _action: 'removeDapp'
@@ -5400,4 +5438,4 @@ var Component = normalizeComponent(
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.f4992255b51f037918f1.js.map
+//# sourceMappingURL=app.c81763124b32c3af28af.js.map

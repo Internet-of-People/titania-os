@@ -58,7 +58,7 @@ const store = new Vuex.Store({
     sidebarAddons: [],
     services: false,
     encrypt_modes: ['WPA (default)', 'Open', 'WEP'],
-    dappsjson: [],
+    dappsjson: [],    
     hashPopupState: false,
     showupdatepopup: false,
     updateState: 'initial', /**States: initial, updating, success, failure */
@@ -68,7 +68,14 @@ const store = new Vuex.Store({
     activedapp: {},
     activecategory: 'helper',
     natpmp: 1,
-    updatedapps: []
+    updatedapps: [],
+    dappstates: {
+      enabled_and_active: 1,
+      disabled: 0,
+      not_downloaded: -1,
+      downloading: 2,
+      enabled_and_not_active: 3
+    }
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -545,6 +552,30 @@ const store = new Vuex.Store({
         mode: 'queue'
       })
       return api.postWithSession(apiRoot + '/index.html', enableDapp)
+      .then(function (response) {
+        $('#hub-loader').addClass('hide')
+        $('#my-toast').remove()
+        $('body').css('cursor', 'default')
+        store.commit('SET_DAPP_LIST_NULL')
+        store.dispatch('fetchAlldApps')
+      }).catch((error) => store.commit('API_FAIL', error))
+    },
+    restartDapp(state, dappid) {
+      var restartDapp = {
+        _action: 'restartDapp'
+      }
+      restartDapp.id = dappid
+      $('#hub-loader').removeClass('hide')
+      $('body').css('cursor', 'progress')
+      Vue.toast('Restarting dapp and fetching updated list', {
+        id: 'my-toast',
+        className: ['toast-info'],
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+        duration: 40000,
+        mode: 'queue'
+      })
+      return api.postWithSession(apiRoot + '/index.html', restartDapp)
       .then(function (response) {
         $('#hub-loader').addClass('hide')
         $('#my-toast').remove()

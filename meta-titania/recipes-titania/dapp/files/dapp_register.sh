@@ -31,20 +31,24 @@ case $1 in
     # TODO: currently only http, add https when we have it
     # TODO: no slash at the end removes automatic redirect feature (e.g. /user to /user/)
     # refer to nginx docu how to fix it if needed
-    # TODO: allowing try_files to probe directories results in 403 when a listing is
-    # to be generated. Current solution prevents implicit directory indexes (e.g. index.html)
-    # from being statically served, write a workaround if needed
+    # NOTE: implicit directory indexes are hardcoded to index.html and index.htm outside of
+    # usual nginx way to configure it to prevent try_files from matching directories and
+    # failing with 403 due to prohibited directory listing
+    # NOTE: X-Titania-Content-Source header is always added, even to error responces.
+    # Remove the `always` part to prevent that
     cat > $DAPP_CONF_PATH/$DAPP_ID.conf <<EOF
 location /dapp/$DAPP_ID {
     rewrite ^/dapp/$DAPP_ID/?(.*)\$ /\$1 break;
     root /dapp_assets/$DAPP_ID/;
-    try_files \$uri @$DAPP_ID;
+    try_files \$uri \$uri/index.htm \$uri/index.html @$DAPP_ID;
+    add_header X-Titania-Content-Source "static" always;
 }
 
 location @$DAPP_ID {
     proxy_pass http://$IP;
     proxy_set_header X-Forwarded-Proto \$scheme;
     proxy_set_header Host \$http_host;
+    add_header X-Titania-Content-Source "dapp" always;
 }
 EOF
 

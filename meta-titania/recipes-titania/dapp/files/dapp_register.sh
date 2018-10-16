@@ -29,11 +29,16 @@ case $1 in
     fi 
 
     # TODO: currently only http, add https when we have it
+    # TODO: no slash at the end removes automatic redirect feature (e.g. /user to /user/)
+    # refer to nginx docu how to fix it if needed
+    # TODO: allowing try_files to probe directories results in 403 when a listing is
+    # to be generated. Current solution prevents implicit directory indexes (e.g. index.html)
+    # from being statically served, write a workaround if needed
     cat > $DAPP_CONF_PATH/$DAPP_ID.conf <<EOF
-location /dapp/$DAPP_ID/ {
-    rewrite ^/dapp/$DAPP_ID(/?.*)\$ \$1 break;
+location /dapp/$DAPP_ID {
+    rewrite ^/dapp/$DAPP_ID/?(.*)\$ /\$1 break;
     root /dapp_assets/$DAPP_ID/;
-    try_files \$uri \$uri/ @$DAPP_ID; 
+    try_files \$uri @$DAPP_ID;
 }
 
 location @$DAPP_ID {

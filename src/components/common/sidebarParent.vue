@@ -23,6 +23,9 @@
       <img v-if="currentTab('settings')" class="tab-label" src="../../assets/images/settings-white.svg">
       <img v-else class="tab-label" src="../../assets/images/settings.svg">
     </div>
+    <div @click="reboot()" title='Reboot OS' class='cursor-pointer reboot-tab'>
+      <img class="tab-label" src="../../assets/images/icons-restart.svg">
+    </div>
   </div>
 </template>
 
@@ -54,6 +57,9 @@ export default {
     },
     currentTab (tabname) {
       return this.currentPage === tabname
+    },
+    reboot () {
+        this.$store.dispatch('rebootSystem')
     }
   }
 }

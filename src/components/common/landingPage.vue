@@ -13,7 +13,9 @@
             </div>
         </div>
         <div class="margin-20-center zoomOut">
-            <div class="zoomIn2 large-fontsize">Loading, please wait...</div>        
+            <div v-if="this.$route.params.reboot" class="zoomIn2 large-fontsize">TitaniaOS has just been restarted</div>      
+            <div v-if="this.$route.params.reboot" class="zoomIn2 large-fontsize">This interface will be back online in a few minutes</div>      
+            <div v-else class="zoomIn2 large-fontsize">Loading, please wait...</div>        
         </div>
       </div>
     </div>
@@ -21,6 +23,13 @@
 
 <script>
 export default {
-  name: 'landingpage'
+  name: 'landingpage',
+  created: function () {
+    if (this.$route.params.reboot) {
+        setTimeout(function () {
+            location.reload()
+        }, 8000)
+    }
+  }
 }
 </script>

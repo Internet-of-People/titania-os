@@ -1238,7 +1238,12 @@ div.highlightedFilter{
 
 .settings-tab{
   position: absolute;
-  bottom: 20px;
+  bottom: 60px;
+  width: 100%;
+}
+.reboot-tab{
+  position: absolute;
+  bottom: 10px;
   width: 100%;
 }
 .highlightedOption{

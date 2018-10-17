@@ -22,12 +22,20 @@ def merge_app_jsons(src_json_files):
 
     for src in src_json_files:
         content = src.read_text()
-        dapps = json.loads(content)
+        try:
+            dapps = json.loads(content)
+        except json.decoder.JSONDecodeError:
+            logger.warn('Invalid json file: %s' % str(src))
+            continue
 
         if isinstance(dapps, dict):
             dapps = [dapps]
 
         for dapp in dapps:
+            if 'id' not in dapp:
+                logger.warn('Invalid json file: %s: "id" must be defined for the dapp.' % str(src))
+                continue
+
             if dapp['id'] in ids:
                 print('Warning: {src_file}: duplicate dApp ID found, ignoring dapp: {dapp_id}'.format(
                                 dapp_id=dapp['id'], src_file=src.name), file=sys.stderr)

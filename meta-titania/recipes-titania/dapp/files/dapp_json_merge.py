@@ -24,9 +24,8 @@ def merge_app_jsons(src_json_files):
         content = src.read_text()
         dapps = json.loads(content)
 
-        if not isinstance(dapps, list):
-            print('{}: json file should contain a list of app entries. Ignoring file.'.format(src.name), file=sys.stderr)
-            continue
+        if isinstance(dapps, dict):
+            dapps = [dapps]
 
         for dapp in dapps:
             if dapp['id'] in ids:

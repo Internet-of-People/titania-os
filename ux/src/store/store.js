@@ -486,9 +486,20 @@ const store = new Vuex.Store({
       var rebootSystem = {
         _action: 'rebootSystem'
       }
+      $('body').css('cursor', 'progress')
+      Vue.toast('Restarting TitaniaOS', {
+        id: 'my-toast',
+        className: ['toast-info'],
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+        duration: 40000,
+        mode: 'queue'
+      })
       store.commit('SET_INITIAL_UPDATE_STATUS', {})
       return api.postWithSession(apiRoot + '/index.html', rebootSystem)
       .then(function (response) {
+        $('body').css('cursor', 'default')
+        $('#my-toast').remove()
         store.commit('SET_REBOOT_SCREEN')
       }).catch((error) => store.commit('API_FAIL', error))
     },

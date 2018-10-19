@@ -1,7 +1,5 @@
-Dapp Guidelines
-
-# Titania App Defintion File
-
+# Titania App Definition File
+Each dapp on titaniaOs has a defined json manifest. An example of such a manifest is given below.
 
 ## Example: 
 
@@ -51,21 +49,23 @@ Dapp Guidelines
   }
   ```
 
-## Sections
+Let us break down the above json in the following sections.
 
-### Id
+## Dapp Manifest Glossary
+
+### Id*
 
 The unique id for a the service. The name needs to be unique across the whole of titania.
 
 App names are written in all lower case to avoid conflict with the names of classes or interfaces.
 
-Companies use their reversed Internet domain name to begin their app names—for example, com.example.myapp for a app named myapp created by a programmer at example.com.
+Top-down naming system is used. As companies use their reversed Internet domain name to begin their app names—for example, com.example.myapp for a app named myapp created by a programmer at example.com.
 
 ```
 "id": "org.navcoin.wallet",
 ```
 
-## Image
+## Image*
 
 The images must be available on a publically accessible docker registry like [docker-hub](https://hub.docker.com).
 
@@ -108,12 +108,15 @@ Used to explain the function of the app.
   ]
 ```
 
-### Tags
+### Tags*
 
 Used to catogorize apps. 
 
-* Core -  Apps made by the titania team that are core to titania
+* Helper - Apps that are required by other dapps to run.
+* Core -  Apps made by the titania team that are core to titania, currently the IoP Stack.
 * Community - Apps developed by the community. 
+
+*Dapps you add should have the community tag*
 
 ```
   "tags": [
@@ -121,7 +124,7 @@ Used to catogorize apps.
   ]
 ```
 
-### Ports
+### Ports*
 
 Ports can be exposed out of the container by defining them in the ports sections. 
 
@@ -130,35 +133,38 @@ A port definition is made up out of 4 fields:
 * name - the name of the port 
 * port - the port to expose
 * protocol - currently we support tcp. But in future udp might be added.
-* type - local port is only by the titaniOS, public is exposed to the outside world
+* type
+    * internal
+    * local - this port is only by the titaniOS
+    * public - this port is exposed to the outside world.
 
 *Mapping ports container ports to different port on titania is not possible at present.*
 
 ```
 "ports": [{
-  "name": "http",
-  "port": 80,
-  "protocol": "tcp",
-  "type": "local"
-},
-{
-  "name": "https",
-  "port": 443,
-  "protocol": "tcp",
-  "type": "local"
-},
-{
-  "name": "navcoin",
-  "port": 44440,
-  "protocol": "tcp",
-  "type": "public"
-},
-{
-  "name": "rpc",
-  "port": 44444,
-  "protocol": "tcp",
-  "type": "local"
-}]
+    "name": "http",
+    "port": 80,
+    "protocol": "tcp",
+    "type": "internal"
+  },
+    {
+      "name": "https",
+      "port": 443,
+      "protocol": "tcp",
+      "type": "internal"
+    },
+    {
+      "name": "navcoin",
+      "port": 44440,
+      "protocol": "tcp",
+      "type": "public"
+    },
+    {
+      "name": "rpc",
+      "port": 44444,
+      "protocol": "tcp",
+      "type": "local"
+    }]
 ```
 ## Environment Variables
 
@@ -170,16 +176,33 @@ Titania has a couple injected into the container automatically for all container
 * LONGITUDE
 * EXTERNAL_IP
 
+Here is an example of an environment declaration.
 ```
 "env": {
-   "MY_ENV" : "VALUE"
+  "CLIENTPORT": {
+    "value": 16981,
+    "description": "TCP port to serve client (i.e. end user) queries. Optional,default value: 16981"
+  }
 }
 ```
 
-## Volumes
+## Volumes and Permissions
 
 If the dockerized app needs persitant storage on titania. The volumes that need to be persisted can be added. 
 
 ```
-  "volumes": ["/home/stakebox/.navcoin4"]
+  "volumes": ["/home/stakebox/.navcoin4"],
+  "volumechown": 1000
+```
+
+## Staticpath
+
+Titania is able to serve static content for your dapp.
+
+Here is the precedence on this url ``titania.local/dapp/dapp_id/alpha/beta`` 
+1. Helper dapp `nginx` goes to dapps static path directory and looks for /alpha/beta regular file. If found, it's what is ultimately served.
+2. If there is no such file nginx requests /alpha/beta from the dapp's http server.
+
+```
+  "staticpath": "/var/www/navcoin"
 ```

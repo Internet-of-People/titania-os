@@ -59,7 +59,7 @@ export default {
       var s = Math.floor(d % 3600 % 60)
 
       var dDisplay = day > 0 ? day + ':' + (h.toString().length >1 ? day : '0' + h) + ' day ' : ''
-      var hDisplay = h > 0 && d == 0 ? h + ':' + (m.toString().length > 1 ? m : '0' + m) + ' h ' : ''
+      var hDisplay = h > 0 && day == 0 ? h + ':' + (m.toString().length > 1 ? m : '0' + m) + ' h ' : ''
       var mDisplay = m > 0 && h === 0 ? m + ':' + (s.toString().length > 1 ? s : '0' + s) + ' m ' : ''
       var sDisplay = s > 0 && m === 0 ? s + ' s' : ''
       return dDisplay + hDisplay + mDisplay + sDisplay

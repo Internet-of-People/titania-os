@@ -24,7 +24,9 @@
       </div>
       <div class="dapps-block">
         <div v-for="item in dappscategories" v-if="getIfContainsApp(dappsFilter, item.category)" :key="item.category" class="dapps-category">
-          <div class="dapp-label">{{item.name}}</div>
+          <div class="dapp-label display-inline-flex">{{item.name}}
+              <div class="padding-left-16 link-text" v-if="item.category == 'community'"><a target="_blank" href="https://github.com/libertaria-project/titania-os/tree/develop/doc/dapp-guidelines.md">Dapp Guidelines</a></div>
+          </div>
           <div class="dapp-block display-inline-flex">
             <div v-if="loadApps && item.category == dapp.tags && filterCheck(dapp.is_active)" 
                   v-for="(dapp,index) in dappsjson" :key="index" 

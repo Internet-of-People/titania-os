@@ -1,0 +1,5 @@
+# python requirements for development environment
+
+Django<2
+djangorestframework
+pytz

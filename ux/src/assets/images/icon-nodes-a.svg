@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="73px" height="67px" viewBox="0 0 73 67" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>hub copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="L7" transform="translate(-973.000000, -135.000000)" stroke="#AB7EA6">
+            <g id="Group" transform="translate(124.000000, 90.000000)">
+                <g id="3" transform="translate(640.000000, 0.000000)">
+                    <g id="hub-copy" transform="translate(211.000000, 47.000000)">
+                        <path d="M36,19.2083333 L36,30" id="Line" stroke-width="3"></path>
+                        <path d="M29,43 L18,50" id="Line-Copy" stroke-width="3"></path>
+                        <path d="M54,43 L43,50" id="Line-Copy-2" stroke-width="3" transform="translate(48.500000, 46.500000) scale(-1, 1) translate(-48.500000, -46.500000) "></path>
+                        <polygon id="Polygon-4-Copy-8" stroke-width="3" transform="translate(36.000000, 9.500000) rotate(-270.000000) translate(-36.000000, -9.500000) " points="36 -0.5 45.0932667 4.5 45.0932667 14.5 36 19.5 26.9067333 14.5 26.9067333 4.5"></polygon>
+                        <polygon id="Polygon-4-Copy-10" stroke-width="3" transform="translate(61.500000, 53.500000) rotate(-270.000000) translate(-61.500000, -53.500000) " points="61.5 46 68 49.75 68 57.25 61.5 61 55 57.25 55 49.75"></polygon>
+                        <polygon id="Polygon-4-Copy-11" stroke-width="4" transform="translate(10.000000, 54.500000) rotate(-270.000000) translate(-10.000000, -54.500000) " points="10 45 18 49.75 18 59.25 10 64 2 59.25 2 49.75"></polygon>
+                        <polygon id="Polygon-4-Copy-12" stroke-width="3" fill="#AB7EA6" transform="translate(36.000000, 39.000000) rotate(-270.000000) translate(-36.000000, -39.000000) " points="36 31 42.9282032 35 42.9282032 43 36 47 29.0717968 43 29.0717968 35"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

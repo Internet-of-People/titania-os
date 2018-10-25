@@ -57,7 +57,7 @@ Each dapp on titaniaOs has a defined json manifest. An example of such a manifes
       "type": "local"
     }
   ],
-  "env": {},
+  "env": [],
   "volumes": ["/home/stakebox/.navcoin4"],
   "image": "libertaria/navcoin:latest"
 }
@@ -184,7 +184,7 @@ A port definition is made up out of 4 fields:
 
 ### Environment Variables
 
-Enviroment Variables can be injected into the container to set cetain values in the container.
+Enviroment Variables can be injected into the container to set certain values in the container.
 
 Titania has a couple injected into the container automatically for all containers.
 
@@ -195,17 +195,18 @@ Titania has a couple injected into the container automatically for all container
 Here is an example of an environment declaration.
 
 ```json
-"env": {
-  "CLIENTPORT": {
+"env": [
+  {
+    "name": "CLIENTPORT",
     "value": 16981,
     "description": "TCP port to serve client (i.e. end user) queries. Optional,default value: 16981"
   }
-}
+]
 ```
 
 ### Volumes and Permissions
 
-If the dockerized app needs persitant storage on titania. The volumes that need to be persisted can be added.
+If the dockerized app needs persistent storage on titania. The volumes that need to be persisted can be added.
 
 ```json
   "volumes": ["/home/stakebox/.navcoin4"],

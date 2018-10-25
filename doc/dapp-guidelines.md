@@ -71,7 +71,7 @@ Refer to the [dapp guidelines](dapp-glossary.md) to add a dapp. A sample of mani
       "type": "local"
     }
   ],
-  "env": {},
+  "env": [],
   "volumes": ["/home/stakebox/.navcoin4"],
   "image": "libertaria/navcoin:latest"
 }

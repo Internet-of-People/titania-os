@@ -147,9 +147,9 @@ A port definition is made up out of 4 fields:
 * port - the port to expose
 * protocol - currently we support tcp. But in future udp might be added.
 * type
-  * internal
-  * local - this port is only used by the titaniaOS
-  * public - this port is exposed to the outside world.
+  * internal - this is an open port on the container, so only the host can connect to it
+  * local - this port is open just for the local network that TitaniaOS is plugged into
+  * public - this port is open to the Internet
 
 *Mapping ports container ports to different port on titania is not possible at present.*
 

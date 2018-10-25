@@ -102,7 +102,7 @@ class PydAppHubFuse(Operations):
 '''
         
         # TODO: escape quotes if necessary (probably not)
-        env += '\n'.join("{}={}".format(k, v['value']) for k, v in d['env'].items() if v['value'])
+        env += '\n'.join("{}={}".format(v['name'],v['value']) for v in d['env'] if v['value'])
         env += '\n'
 
         return env

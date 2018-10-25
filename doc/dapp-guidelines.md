@@ -17,7 +17,7 @@ Dapps can be added to titania's dapps hub by defining the dapp in the form of a 
 
 ## Architectural specifications for docker build
 
-Since titaniaOs runs on embedded devices, the dapps must be build on armv7.
+Since titaniaOs runs on embedded devices at the moment, the dapps must be build on armv7.
 This will require you to [enable qemu](https://hub.docker.com/r/multiarch/qemu-user-static/
 ) on your development setup.
 
@@ -45,13 +45,13 @@ Refer to the [dapp guidelines](dapp-glossary.md) to add a dapp. A sample of mani
   "tags": [
     "community"
   ],
-  
-  "ports": [{
+  "ports": [
+    {
     "name": "http",
     "port": 80,
     "protocol": "tcp",
     "type": "local"
-  },
+    },
     {
       "name": "https",
       "port": 443,
@@ -69,22 +69,22 @@ Refer to the [dapp guidelines](dapp-glossary.md) to add a dapp. A sample of mani
       "port": 44444,
       "protocol": "tcp",
       "type": "local"
-    }],
+    }
+  ],
   "env": {},
   "volumes": ["/home/stakebox/.navcoin4"],
-  "image": "libertaria/navcoin:latest",
-  "staticpath": "/var/www/navcoin"
-  }
-  ```
+  "image": "libertaria/navcoin:latest"
+}
+```
 
 ### Add manifest to titania
 
-The dapp manifest should be added at ``/datafs/app.json.d/`` as a json file. Multiple dapps can be added here comma-seperated. The dapp file should have the extension `json`.
+The dapp manifest should be added at ``/datafs/app.json.d/`` as a json file.
+Multiple dapps can be added here comma-seperated. The dapp file should have the extension `json`.
 
 ```bash
-root@titania:~# cd /datafs/apps.json.d/
-root@titania:/datafs/apps.json.d:~# ls
-my_dapp.json
+cd /datafs/apps.json.d/
+sudo vi my_dapp.json
 ```
 
 ### Restart the dapp service
@@ -95,10 +95,10 @@ sudo systemctl restart dapp-systemd-bridge.service
 
 ### Interact with the dapp from titaniaOS interface
 
-You should be able to see the dapp(s) you added on the dapps hub page on the titaniaOS interface `http://titania.local/#/dappshub` or at its IP on your network `http://IP-of-titania/#/dappshub`.
+You should be able to see the dapp(s) you added on the dapps hub page on the titaniaOS interface [http://titania.local/#/dappshub](http://titania.local/#/dappshub) or at its IP on your network [http://IP-of-titania/#/dappshub](http://IP-of-titania/#/dappshub).
 
 You can download the dapp from its side menu. Post download, the dapp will be available on
-`http://titania.local/dapp/your_dapp_id`.
+[http://titania.local/dapp/your_dapp_id](http://titania.local/dapp/your_dapp_id).
 
 ## Troubleshooting
 

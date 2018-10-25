@@ -14,7 +14,6 @@ Each dapp on titaniaOs has a defined json manifest. An example of such a manifes
     6. [Ports*](#ports)
     7. [Environment Variables](#environment-variables)
     8. [Volumes and Permissions](#volumes-and-permissions)
-    9. [Static Path](#static-path)
 
 ## Example
 
@@ -32,13 +31,13 @@ Each dapp on titaniaOs has a defined json manifest. An example of such a manifes
   "tags": [
     "community"
   ],
-  
-  "ports": [{
+  "ports": [
+    {
     "name": "http",
     "port": 80,
     "protocol": "tcp",
     "type": "local"
-  },
+    },
     {
       "name": "https",
       "port": 443,
@@ -56,13 +55,13 @@ Each dapp on titaniaOs has a defined json manifest. An example of such a manifes
       "port": 44444,
       "protocol": "tcp",
       "type": "local"
-    }],
+    }
+  ],
   "env": {},
   "volumes": ["/home/stakebox/.navcoin4"],
-  "image": "libertaria/navcoin:latest",
-  "staticpath": "/var/www/navcoin"
-  }
-  ```
+  "image": "libertaria/navcoin:latest"
+}
+```
 
 Let us break down the above json in the following sections.
 
@@ -70,14 +69,14 @@ Let us break down the above json in the following sections.
 
 ### Id*
 
-The unique id for a the service. The name needs to be unique across the whole of titania.
+There are 3 rules for identifying your dapp.
 
-App names are written in all lower case to avoid conflict with the names of classes or interfaces.
-
-Top-down naming system is used. As companies use their reversed Internet domain name to begin their app names—for example, com.example.myapp for a app named myapp created by a programmer at example.com.
+1. A unique id is required for the service.
+2. App names are written in all lower case to avoid conflict with the names of classes or interfaces.
+3. As companies use their reversed Internet domain name(top-down) to begin their app names—for example, com.example.myapp for a app named myapp created by a programmer at example.com.
 
 ```json
-"id": "org.navcoin.wallet",
+"id": "org.navcoin.wallet"
 ```
 
 ### Image*
@@ -96,7 +95,7 @@ If you want to test iterations of changes to the repo, you can use a specific ha
 
 ### Meta Data
 
-These details are used as meta data in the titania app store to display the app correctly.
+These details are used as meta data for the dapp store.
 
 * name - name of the app
 * description - a short description explaining what the user is installing. And why he should install your app.
@@ -109,7 +108,7 @@ These details are used as meta data in the titania app store to display the app 
 "description": "NavCoin is a decentralized cryptocurrency that uses peer-to-peer technology to operate with no central authority or banks; managing transactions and the issuing of NavCoin is carried out collectively by the network. NavCoin is open-source; its design is public, nobody owns or controls NavCoin and everyone can take part.",
 "website": "https://navcoin.org/",
 "repository": "https://gitlab.libertaria.community/titania/dApp",
-"logo": "https://navcoin.org/wp-content/uploads/2017/03/logo-mark.png",
+"logo": "https://navcoin.org/wp-content/uploads/2017/03/logo-mark.png"
   ```
 
 ### Labels
@@ -144,41 +143,43 @@ Ports can be exposed out of the container by defining them in the ports sections
 
 A port definition is made up out of 4 fields:
 
-* name - the name of the port 
+* name - the name of the port
 * port - the port to expose
 * protocol - currently we support tcp. But in future udp might be added.
 * type
   * internal
-  * local - this port is only by the titaniOS
+  * local - this port is only used by the titaniaOS
   * public - this port is exposed to the outside world.
 
 *Mapping ports container ports to different port on titania is not possible at present.*
 
 ```json
-"ports": [{
+"ports": [
+  {
     "name": "http",
     "port": 80,
     "protocol": "tcp",
     "type": "internal"
   },
-    {
-      "name": "https",
-      "port": 443,
-      "protocol": "tcp",
-      "type": "internal"
-    },
-    {
-      "name": "navcoin",
-      "port": 44440,
-      "protocol": "tcp",
-      "type": "public"
-    },
-    {
-      "name": "rpc",
-      "port": 44444,
-      "protocol": "tcp",
-      "type": "local"
-    }]
+  {
+    "name": "https",
+    "port": 443,
+    "protocol": "tcp",
+    "type": "internal"
+  },
+  {
+    "name": "navcoin",
+    "port": 44440,
+    "protocol": "tcp",
+    "type": "public"
+  },
+  {
+    "name": "rpc",
+    "port": 44444,
+    "protocol": "tcp",
+    "type": "local"
+  }
+]
 ```
 
 ### Environment Variables
@@ -209,17 +210,4 @@ If the dockerized app needs persitant storage on titania. The volumes that need 
 ```json
   "volumes": ["/home/stakebox/.navcoin4"],
   "volumechown": 1000
-```
-
-### Static Path
-
-Titania is able to serve static content for your dapp.
-
-Here is the precedence on this url ``titania.local/dapp/dapp_id/alpha/beta``
-
-1. Helper dapp `nginx` goes to dapps static path directory and looks for /alpha/beta regular file. If found, it's what is ultimately served.
-2. If there is no such file nginx requests /alpha/beta from the dapp's http server.
-
-```json
-  "staticpath": "/var/www/navcoin"
 ```

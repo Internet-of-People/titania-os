@@ -7,13 +7,13 @@ SRC_URI = "file://ux.tar;subdir=ux-titania-1.0 \
            file://monit-dashboard.service \
            file://start_ux-titania.sh"
 
-DEPENDS_${PN} = "python3-django \
-                 python3-pytz \
-                 python3-misc \
-                 python3-sqlite3 \
-                 python3-djangorestframework \
-                 python3-python-networkmanager \
-                 sqlite3"
+RDEPENDS_${PN} = "python3-django \
+                  python3-pytz \
+                  python3-misc \
+                  python3-sqlite3 \
+                  python3-djangorestframework \
+                  python3-python-networkmanager \
+                  sqlite3"
 
 FILES_${PN} += "/srv/ux-titania/ ${sysconfdir}/*"
 

@@ -216,7 +216,7 @@ SERVICE_DISABLE = "systemctl disable dapp@{0}.service; systemctl stop dapp@{0}.s
 SERVICE_ENABLE = "systemctl enable dapp@{0}.service; systemctl start dapp@{0}.service"
 SERVICE_RESTART = "systemctl restart dapp@{0}.service"
 DOCKER_RM_DAPP = "docker rm {}; docker rmi {}"
-DAPP_DOWNLOAD = "systemctl start dapp@{}.service"
+DAPP_DOWNLOAD = "systemctl start dapp@{0}.service;systemctl enable dapp@{0}.service; systemctl start dapp@{0}.service"
 SERVICE_UPDATE = "/opt/titania/bin/dapp_update.sh {0}; systemctl enable dapp@{0}.service; systemctl start dapp@{0}.service"
 
 """Os Update Params"""

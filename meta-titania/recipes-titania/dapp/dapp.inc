@@ -43,9 +43,8 @@ do_install_append() {
     install -m 0644 ${WORKDIR}/systemd/dapp-json-merge.service ${D}${systemd_unitdir}/system
 
     install -d ${D}${sysconfdir}/systemd/system/${NGINX_SERVICE}.service.d
-    install -m 0644 ${WORKDIR}/systemd/nginx-reload-support.conf ${D}${sysconfdir}/systemd/system/${NGINX_SERVICE}.service.d
-    install -m 0644 ${WORKDIR}/systemd/nginx-custom-paths.conf ${D}${sysconfdir}/systemd/system/${NGINX_SERVICE}.service.d
-
+    install -m 0644 ${WORKDIR}/systemd/nginx-*.conf ${D}${sysconfdir}/systemd/system/${NGINX_SERVICE}.service.d
+    
     install -d ${D}/opt/titania/bin
     install -d ${D}/opt/titania/share
 

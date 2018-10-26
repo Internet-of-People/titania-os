@@ -102,7 +102,7 @@ class PydAppHubFuse(Operations):
 '''
         
         # TODO: escape quotes if necessary (probably not)
-        env += '\n'.join("{}={}".format(k, v['value']) for k, v in d['env'].items() if v['value'])
+        env += '\n'.join("{}={}".format(v['name'],v['value']) for v in d['env'] if v['value'])
         env += '\n'
 
         return env
@@ -160,6 +160,10 @@ Description={}
         # Being explicit here so that we don't have to wrap in a shell script
         # conf += 'Environment=DAPP_DOCKER_IMAGE_FILE=/var/lib/docker/preinstall/%s.tar\n' % d['image'].replace('/','_').replace(':','_')         
         # conf += '\n'
+
+        # If we have static assets, provide an environment variable
+        if 'staticpath' in d:
+            conf += 'Environment="DAPP_STATIC_PATH=%s"' % d['staticpath']
 
         # TODO: remove this ASAP after dapps realize they can chown stuff on their own
         # TODO: exploitable with shell injection
@@ -311,3 +315,4 @@ if __name__ == '__main__':
     FUSE(driver, sys.argv[2], nothreads=True, foreground=True)
 
     t.join()
+

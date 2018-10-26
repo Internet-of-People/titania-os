@@ -43,12 +43,13 @@
     "/data/ipfs"
   ],
   "volumechown": 1000,
-  "env": {
-    "IOPCAN_PATH": {
+  "env": [
+    {
+      "name": "IOPCAN_PATH",
       "value": "/data/ipfs",
       "description": "Where to store IPFS data"
     }
-  },
+  ],
   "image": "libertaria/iop-can:latest"
 },
   {
@@ -78,7 +79,7 @@
         "type": "public"
       }
     ],
-    "env": {},
+    "env": [],
     "volumes": [],
     "image": "libertaria/iop-ps:latest"
   },
@@ -115,48 +116,58 @@
         "type": "local"
       }
     ],
-    "env": {
-      "CLIENTPORT": {
+    "env": [
+      {
+        "name": "CLIENTPORT",
         "value": 16981,
         "description": "TCP port to serve client (i.e. end user) queries. Optional,default value: 16981"
       },
-      "LOCALPORT": {
+      {
+        "name": "LOCALPORT",
         "value": 16982,
         "description": "TCP port to serve other IoP services running on this node. Optional, default value: 16982"
       },
-      "NODEPORT": {
+      {
+        "name": "NODEPORT",
         "value": 16980,
         "description": "TCP port to serve node to node communication. Optional, default value: 16980"
       },
-      "IOPLOC_PATH": {
+      {
+        "name": "IOPLOC_PATH",
         "value": "/data/locnet/",
         "description": "TCP port to serve node to node communication. Optional, default value: 16980"
       },
-      "CONFIGFILE": {
+      {
+        "name": "CONFIGFILE",
         "value": "/data/locnet/iop-locnet.cfg",
         "description": "Path to config file to load options from. Optional, default value: ~/.iop-locnet/iop-locnet.cfg"
       },
-      "DBPATH": {
+      {
+        "name": "DBPATH",
         "value": "/data/locnet/iop-locnet.sqlite",
         "description": "Path to db file. Optional, default value: ~/.iop-locnet/locnet.sqlite"
       },
-      "LOGPATH": {
+      {
+        "name": "LOGPATH",
         "value": "/data/locnet/debug.log",
         "description": "Path to log file. Optional, default value: ~/.iop-locnet/debug.log"
       },
-      "NODEID": {
+      {
+        "name": "NODEID",
         "value": "",
         "description": "Host name of seed node to be used instead of default seeds. You can repeat this option to define multiple custom seed nodes"
       },
-      "LATITUDE": {
+      {
+        "name": "LATITUDE",
         "value": "",
         "description": "GPS latitude of this server as real number from range ((-90,90)"
       },
-      "LONGITUDE": {
+      {
+        "name": "LONGITUDE",
         "value": "",
         "description": "GPS longitude of this server as real number from range (-180,180)"
       }
-    },
+    ],
     "volumes": [
       "/data/locnet"
     ],
@@ -189,7 +200,7 @@
         "type": "local"
       }
     ],
-    "env": {},
+    "env": [],
     "volumes": ["/usr/html"],
     "image": "libertaria/nginx:armv7"
   },
@@ -230,8 +241,9 @@
       "protocol": "tcp",
       "type": "local"
     }],
-  "env": {},
+  "env": [],
   "volumes": ["/home/stakebox/.navcoin4"],
-  "image": "libertaria/navcoin:latest"
+  "image": "libertaria/navcoin:latest",
+  "staticpath": "/var/www/navcoin"
 }
 ]

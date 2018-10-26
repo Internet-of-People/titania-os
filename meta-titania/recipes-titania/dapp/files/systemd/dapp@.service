@@ -34,8 +34,10 @@ ExecStartPre=/opt/titania/bin/dapp_prepare.sh %i \
 # Run the container and attach for journal
 ExecStart=/usr/bin/docker start -a -i %i
 ExecStop=/usr/bin/docker stop %i
-ExecStartPost=/opt/titania/bin/dapp_register.sh start %i
-ExecStopPost=/opt/titania/bin/dapp_register.sh stop %i
+# Utility to create per-dapp http(s) forwards
+ExecStartPost=/opt/titania/bin/dapp_register.sh start %i $DAPP_STATIC_PATH
+# TODO: Should probably be ExecStopPre? Does this exist?
+ExecStopPost=/opt/titania/bin/dapp_register.sh stop %i $DAPP_STATIC_PATH
 
 [Install]
 WantedBy=multi-user.target

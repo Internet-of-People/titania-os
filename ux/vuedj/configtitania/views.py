@@ -47,8 +47,8 @@ def get_builddetails():
         # $PRETTY_NAME is at the 5th position
         version = osfilecontent[4].split('=')[1].strip('\"')
         build_id = osfilecontent[5].split('=')[1].strip('\"')
-        ux_id = osfilecontent[6].split('=')[1].strip('\"')
-        return version, build_id, ux_id
+        # ux_id = osfilecontent[6].split('=')[1].strip('\"')
+        return version, build_id
 
 def get_allconfiguredwifi():
     """
@@ -349,8 +349,8 @@ def handle_config(request):
             docker_ids = subprocess.check_output(common.CMD_VALID_DOCKER_ID, shell=True, timeout=10).decode("utf-8").split('\n')
 
             if action == 'getSchema':
-                version, build_id, ux_id = get_builddetails()
-                return JsonResponse({"version":version, "build_id":build_id, "ux_id":ux_id}, safe=False)
+                version, build_id = get_builddetails()
+                return JsonResponse({"version":version, "build_id":build_id}, safe=False)
             elif action == 'getIfConfigured':
                 configured = get_ifconfigured()
                 # queryset = BoxDetails.objects.all()

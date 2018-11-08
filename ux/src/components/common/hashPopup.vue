@@ -5,18 +5,18 @@
         <div class="header-fontsize sans-serif-bold padding-top-bottom-16">HASH INFORMATION</div>
         <div class="padding-top-bottom-16">
             <div class="col-12">
-                <div class="padding-left-16 sans-serif-normal text-align large-fontsize">Yocto Hash</div>
-                <div @click="copyToClipboard('yocto')" class="hash-id-div" type="text">{{this.$store.state.build_id}}</div>
+                <div class="padding-left-16 sans-serif-normal link-text text-align large-fontsize"><a href="https://github.com/libertaria-project/titania-os" target="_blank">OS Repo</a></div>
+                <div @click="copyToClipboard()" class="hash-id-div" type="text">{{this.$store.state.build_id}}</div>
             </div>
-            <div class="col-12">
+            <!-- <div class="col-12">
                 <div class="padding-left-16 sans-serif-normal text-align large-fontsize">UX Hash</div>
                 <div @click="copyToClipboard('ux')" class="hash-id-div" type="text">{{this.$store.state.ux_id}}</div>
-            </div>
+            </div> -->
         </div>
       </div>
       <div class="display-inline-flex popup-browser-primary-copy cursor-pointer outline-none regular-fontsize">
         <img src="../../assets/images/ic-copy.svg">
-        <div @click="copyToClipboard('all')" class="padding-top-bottom-12">Copy Hash</div>
+        <div @click="copyToClipboard()" class="padding-top-bottom-12">Copy Hash</div>
     </div>   
     </div>
   </div>
@@ -37,10 +37,8 @@ export default {
     }
   },
   methods: {
-    copyToClipboard: function (txtformat) {
-        var copytext = txtformat === "yocto"|| txtformat === "all"? "Yocto Hash: "+this.$store.state.build_id:""
-        copytext += txtformat === "all"? ", ":"" 
-        copytext += txtformat === "ux"||txtformat === "all"? "UX Hash: "+ this.$store.state.ux_id:""
+    copyToClipboard: function () {
+        var copytext = "Hash: "+this.$store.state.build_id
         var aux = document.createElement("input")
         aux.setAttribute("value", copytext)
         document.body.appendChild(aux)

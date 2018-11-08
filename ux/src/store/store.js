@@ -101,8 +101,8 @@ const store = new Vuex.Store({
       // response.body = []
       state.configuration.wifi_aps = response.body
       state.configuration.wifi_aps_current = response.body[0][0]
-      router.push('/configure')
-      state.currentPage = 'configure'
+      // router.push('/configure')
+      // state.currentPage = 'configure'
     },
     'SAVE_CONFIGURATION': function (state, response) {
       // removing loaders

@@ -1,2 +1,6 @@
 # Exclude the default build directory
 build/
+
+# this config file drives my find shell functions (and aliases) to exclude the build dir,
+# which takes ages to walk through. See https://github.com/lez/dotfiles/commit/433d0ded
+.ffexcludes

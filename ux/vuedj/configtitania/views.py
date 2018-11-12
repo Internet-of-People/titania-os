@@ -307,7 +307,9 @@ def delete_WifiConn(wifiap):
     """
     nmcli connection delete id <connection name>
     """
-    ps = subprocess.Popen(['nmcli', 'connection','delete','id',wifiap], stdout=subprocess.PIPE)
+    cmd = 'nmcli connection delete id \'{}\''.format(wifiap)
+    ps = subprocess.Popen(['nmcli', 'connection','delete','id',wifiap], stdout=subprocess.PIPE).communicate()[0]
+    print(ps)
 
 def edit_WifiConn(wifiname, wifipass):
     delete_WifiConn(wifiname)
@@ -587,15 +589,14 @@ def handle_config(request):
                     print(action)
                     # connect to wifi ap user selected
                     wifi_name = request.POST.get("wifi_ap")
-                    if validate_input(wifi_name):
-                        delete_WifiConn(wifi_name)
-                        fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
-                        # sample ps 
-                        # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
-                        userlist = fetchusers.split(':')[3].split(',')
-                        configuredwifi = get_allconfiguredwifi()
-                        wifi_aps = get_allAPs()
-                        return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'deletewifi', 'endpoint': wifi_name}], safe=False)
+                    delete_WifiConn(wifi_name)
+                    fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
+                    # sample ps 
+                    # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+                    userlist = fetchusers.split(':')[3].split(',')
+                    configuredwifi = get_allconfiguredwifi()
+                    wifi_aps = get_allAPs()
+                    return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'deletewifi', 'endpoint': wifi_name}], safe=False)
                 elif action == 'editWifi':
                     print(action)
                     # connect to wifi ap user selected

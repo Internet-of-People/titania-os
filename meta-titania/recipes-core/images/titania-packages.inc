@@ -26,9 +26,10 @@ IMAGE_INSTALL += "linux-firmware-bcm43430"
 IMAGE_INSTALL += "linux-firmware-bcm43455"
 # linux-firmware-bcm43430a1-hcd linux-firmware-bcm4345c0-hcd"
 
-# Merge UX version with main OS-release file
-append_ux_id () {
-    cat ${IMAGE_ROOTFS}${sysconfdir}/titania-ux-version >> ${IMAGE_ROOTFS}${sysconfdir}/os-release
-    rm ${IMAGE_ROOTFS}${sysconfdir}/titania-ux-version
-}
-ROOTFS_POSTPROCESS_COMMAND += "append_ux_id ; "
+# From v1.1.0, the titania-ux repo has been merged into titania-os repo
+# # Merge UX version with main OS-release file
+# append_ux_id () {
+#     cat ${IMAGE_ROOTFS}${sysconfdir}/titania-ux-version >> ${IMAGE_ROOTFS}${sysconfdir}/os-release
+#     rm ${IMAGE_ROOTFS}${sysconfdir}/titania-ux-version
+# }
+# ROOTFS_POSTPROCESS_COMMAND += "append_ux_id ; "

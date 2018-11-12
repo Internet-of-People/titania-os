@@ -6,20 +6,7 @@ LICENSE = "GPL-3.0"
 LIC_FILES_CHKSUM = "file://../LICENCE.md;md5=8c40fdc41c95755623d451deddccda48"
 
 SRC_URI = "\
-           file://vuedj/monit_dashboard.py \
-           file://vuedj/manage.py \
-           file://vuedj/vuedj/__init__.py \
-           file://vuedj/vuedj/wsgi.py \
-           file://vuedj/vuedj/urls.py \
-           file://vuedj/vuedj/settings.py \
-           file://vuedj/common.py \
-           file://vuedj/configtitania/tests.py \
-           file://vuedj/configtitania/__init__.py \
-           file://vuedj/configtitania/admin.py \
-           file://vuedj/configtitania/models.py \
-           file://vuedj/configtitania/apps.py \
-           file://vuedj/configtitania/views.py \
-           file://vuedj/configtitania/serializers.py \
+           file://vuedj/* \
            file://dist/* \
            file://LICENCE.md \
            file://ux-titania.service \

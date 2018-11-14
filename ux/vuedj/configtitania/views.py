@@ -47,8 +47,8 @@ def get_builddetails():
         # $PRETTY_NAME is at the 5th position
         version = osfilecontent[4].split('=')[1].strip('\"')
         build_id = osfilecontent[5].split('=')[1].strip('\"')
-        ux_id = osfilecontent[6].split('=')[1].strip('\"')
-        return version, build_id, ux_id
+        # ux_id = osfilecontent[6].split('=')[1].strip('\"')
+        return version, build_id
 
 def get_allconfiguredwifi():
     """
@@ -307,7 +307,9 @@ def delete_WifiConn(wifiap):
     """
     nmcli connection delete id <connection name>
     """
-    ps = subprocess.Popen(['nmcli', 'connection','delete','id',wifiap], stdout=subprocess.PIPE)
+    cmd = 'nmcli connection delete id \'{}\''.format(wifiap)
+    ps = subprocess.Popen(['nmcli', 'connection','delete','id',wifiap], stdout=subprocess.PIPE).communicate()[0]
+    print(ps)
 
 def edit_WifiConn(wifiname, wifipass):
     delete_WifiConn(wifiname)
@@ -349,8 +351,8 @@ def handle_config(request):
             docker_ids = subprocess.check_output(common.CMD_VALID_DOCKER_ID, shell=True, timeout=10).decode("utf-8").split('\n')
 
             if action == 'getSchema':
-                version, build_id, ux_id = get_builddetails()
-                return JsonResponse({"version":version, "build_id":build_id, "ux_id":ux_id}, safe=False)
+                version, build_id = get_builddetails()
+                return JsonResponse({"version":version, "build_id":build_id}, safe=False)
             elif action == 'getIfConfigured':
                 configured = get_ifconfigured()
                 # queryset = BoxDetails.objects.all()
@@ -587,15 +589,14 @@ def handle_config(request):
                     print(action)
                     # connect to wifi ap user selected
                     wifi_name = request.POST.get("wifi_ap")
-                    if validate_input(wifi_name):
-                        delete_WifiConn(wifi_name)
-                        fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
-                        # sample ps 
-                        # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
-                        userlist = fetchusers.split(':')[3].split(',')
-                        configuredwifi = get_allconfiguredwifi()
-                        wifi_aps = get_allAPs()
-                        return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'deletewifi', 'endpoint': wifi_name}], safe=False)
+                    delete_WifiConn(wifi_name)
+                    fetchusers = subprocess.Popen(['grep', '/etc/group','-e','docker'], stdout=subprocess.PIPE).communicate()[0].decode('utf-8').split('\n')[0]
+                    # sample ps 
+                    # docker:x:992:pooja,asdasd,aaa,cow,dsds,priya,asdas,cowwwwww,ramm,asdasdasdasd,asdasdas,adam,run
+                    userlist = fetchusers.split(':')[3].split(',')
+                    configuredwifi = get_allconfiguredwifi()
+                    wifi_aps = get_allAPs()
+                    return JsonResponse([{'users':userlist,'wifi':configuredwifi,'allwifiaps':wifi_aps, 'reqtype': 'deletewifi', 'endpoint': wifi_name}], safe=False)
                 elif action == 'editWifi':
                     print(action)
                     # connect to wifi ap user selected

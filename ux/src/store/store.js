@@ -20,7 +20,7 @@ const store = new Vuex.Store({
   state: {
     schema: '',
     build_id: '',
-    ux_id: '',
+    // ux_id: '',
     credentials: {
       username: '',
       password: ''
@@ -84,7 +84,7 @@ const store = new Vuex.Store({
     'SET_SCHEMA': function (state, response) {
       state.schema = response.body.version
       state.build_id = response.body.build_id
-      state.ux_id = response.body.ux_id
+      // state.ux_id = response.body.ux_id
     },
     'GET_CREDS': function (state, response) {
       if (response.body.configState) {
@@ -101,8 +101,8 @@ const store = new Vuex.Store({
       // response.body = []
       state.configuration.wifi_aps = response.body
       state.configuration.wifi_aps_current = response.body[0][0]
-      router.push('/configure')
-      state.currentPage = 'configure'
+      // router.push('/configure')
+      // state.currentPage = 'configure'
     },
     'SAVE_CONFIGURATION': function (state, response) {
       // removing loaders

@@ -91,17 +91,6 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "/dnM":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"footer-wrapper col-12",class:{ marginLeft40: !_vm.getFooterClass()}},[_c('div',{staticClass:"float-left cursor-default desktop-footer-essentials"},[_c('span',{staticClass:"titania_version"},[_c('a',{on:{"click":function($event){_vm.getHashDetails()}}},[_vm._v(_vm._s(this.$store.state.schema))])]),_vm._v(" "),_c('span',{staticClass:"copyright"},[_vm._v("©  "+_vm._s(new Date().getFullYear())+" Libertaria")]),_vm._v(" "),_c('span',{staticClass:"registeredto hide",class:{show : !_vm.getFooterClass()},attrs:{"id":"registeredto"}},[_vm._v("Logged in as: "),_c('span',[_vm._v(_vm._s(_vm.username))])]),_vm._v(" "),_c('span',{staticClass:"registeredto hide warn-text",class:{show : !_vm.getFooterClass()},attrs:{"id":"registeredto"}},[(this.$store.state.natpmp === '0')?_c('a',{attrs:{"href":"https://portforward.com/router.htm","target":"_blank"}},[_vm._v("NATPMP: OFF")]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"float-right footer-links padding-right-20"},[_vm._m(0),_vm._v(" "),(_vm.getFooterClass())?_c('span',{staticClass:"padding-right-20 feedback-footer"},[_c('a',{attrs:{"id":"titania_feedback","href":_vm.getmailhref()}},[_vm._v("Feedback")])]):_c('span',[(_vm.updateState == 'initial')?_c('span',{staticClass:"padding-right-20 update-version-elem"},[_c('a',{attrs:{"id":"update_version"},on:{"click":function($event){_vm.toggleUpdatePopup()}}},[_vm._v("Update Version")])]):(_vm.updateState == 'success')?_c('span',{staticClass:"reboot-screen padding-right-20 update-version-elem"},[_c('a',{attrs:{"id":"update_version"},on:{"click":function($event){_vm.rebootSystem()}}},[_vm._v("Reboot to apply")])]):(_vm.updateState == 'failure')?_c('span',{staticClass:"reboot-screen padding-right-20 update-version-elem",attrs:{"id":"myBar"}},[_c('a',{attrs:{"id":"update_version"},on:{"click":function($event){_vm.setupUpdateAgain()}}},[_vm._v("Try again")])]):_c('span',{staticClass:"padding-right-20 update-version-elem",attrs:{"id":"myBar"}},[_c('a',{attrs:{"id":"update_version"}},[_vm._v("Updating "+_vm._s(_vm.getPercofUpdate()))])])])])]),_vm._v(" "),_c('div'),_vm._v(" "),(_vm.hashPopupState)?_c('hashPopup'):_vm._e(),_vm._v(" "),(_vm.hashPopupState)?_c('div',{staticClass:"fadeout",on:{"click":function($event){_vm.getHashDetails()}}}):_vm._e(),_vm._v(" "),(_vm.showupdatepopup)?_c('updateWindow',{attrs:{"update-status":_vm.updateState}}):_vm._e(),_vm._v(" "),(_vm.showupdatepopup)?_c('div',{staticClass:"fadeout",on:{"click":function($event){_vm.toggleUpdatePopup()}}}):_vm._e()],1)}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"padding-right-20 white-paper-footer"},[_c('a',{attrs:{"href":"https://drive.google.com/file/d/11xDyBFACJYxrDQY4YNdiBqF8UFhgvpT9/view","target":"_blank"}},[_vm._v("White Paper")])])}]
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
 /***/ "/oC4":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -889,7 +878,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_hashPopup_vue__ = __webpack_require__("dl9Y");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_fefe2d80_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_hashPopup_vue__ = __webpack_require__("EPa+");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_56471870_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_hashPopup_vue__ = __webpack_require__("XH/s");
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
 
@@ -906,7 +895,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_hashPopup_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_fefe2d80_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_hashPopup_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_56471870_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_hashPopup_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -1118,17 +1107,6 @@ var Component = normalizeComponent(
     }
   }
 });
-
-/***/ }),
-
-/***/ "EPa+":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"float-left popup-window-hash outline-none"},[_c('div',{staticClass:"popup-content-hash"},[_c('div',{staticClass:"cursor-default"},[_c('div',{staticClass:"header-fontsize sans-serif-bold padding-top-bottom-16"},[_vm._v("HASH INFORMATION")]),_vm._v(" "),_c('div',{staticClass:"padding-top-bottom-16"},[_c('div',{staticClass:"col-12"},[_c('div',{staticClass:"padding-left-16 sans-serif-normal text-align large-fontsize"},[_vm._v("Yocto Hash")]),_vm._v(" "),_c('div',{staticClass:"hash-id-div",attrs:{"type":"text"},on:{"click":function($event){_vm.copyToClipboard('yocto')}}},[_vm._v(_vm._s(this.$store.state.build_id))])]),_vm._v(" "),_c('div',{staticClass:"col-12"},[_c('div',{staticClass:"padding-left-16 sans-serif-normal text-align large-fontsize"},[_vm._v("UX Hash")]),_vm._v(" "),_c('div',{staticClass:"hash-id-div",attrs:{"type":"text"},on:{"click":function($event){_vm.copyToClipboard('ux')}}},[_vm._v(_vm._s(this.$store.state.ux_id))])])])]),_vm._v(" "),_c('div',{staticClass:"display-inline-flex popup-browser-primary-copy cursor-pointer outline-none regular-fontsize"},[_c('img',{attrs:{"src":__webpack_require__("UCLJ")}}),_vm._v(" "),_c('div',{staticClass:"padding-top-bottom-12",on:{"click":function($event){_vm.copyToClipboard('all')}}},[_vm._v("Copy Hash")])])])])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -2579,10 +2557,24 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
     }
   },
   mounted: function () {
-    this.$store.dispatch('getAllAPs');
+    // omitted extra fetch aps call in case of user addition
+    if (this.testProp !== 'user') {
+      this.$store.dispatch('getAllAPs');
+    }
   }
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("7t+N")))
+
+/***/ }),
+
+/***/ "RDD0":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"float-left center-aligned-slider outline-none"},[(_vm.getOnSettingPage())?_c('div',{staticClass:"padding-20"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.boxname),expression:"configdetails.boxname"}],staticClass:"sans-serif-normal box-name-field outline-none header-fontsize",attrs:{"id":"boxname","name":"boxname","placeholder":"MyTitaniumBox","type":"text","maxLength":"64"},domProps:{"value":(_vm.configdetails.boxname)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "boxname", $event.target.value)}}})]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"center-aligned-slider-body"},[_c('div',{staticClass:"config-slab "},[_c('div',{staticClass:"display-inline-block"},[(_vm.showThisTab('user'))?_c('span',{staticClass:"config-headers",class:{selectedConfigTab: _vm.currenttab === 'config'},attrs:{"id":"config"},on:{"click":function($event){_vm.setTab('config')}}},[_vm._v("USER")]):_vm._e(),_vm._v(" "),(_vm.showThisTab('wifi'))?_c('span',{staticClass:"config-headers",class:{selectedConfigTab: _vm.currenttab === 'wifi'},attrs:{"id":"wireless"},on:{"click":function($event){_vm.setTab('wifi')}}},[_vm._v("WIFI")]):_vm._e()]),_vm._v(" "),(_vm.currenttab === 'config' && _vm.showThisTab('user'))?_c('div',{staticClass:"margin-top-20"},[_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Username")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.username),expression:"configdetails.username"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"username","type":"text"},domProps:{"value":(_vm.configdetails.username)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "username", $event.target.value)}}})]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Password")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.password),expression:"configdetails.password"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"password","type":"password"},domProps:{"value":(_vm.configdetails.password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "password", $event.target.value)}}})]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Confirm Password")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.confirmPassword),expression:"configdetails.confirmPassword"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"confirmPassword","type":"password"},domProps:{"value":(_vm.configdetails.confirmPassword)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "confirmPassword", $event.target.value)}}})])]):(_vm.showThisTab('wifi'))?_c('div',{staticClass:"margin-top-20"},[_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("WIFI Network")]),_vm._v(" "),_c('div',{staticClass:"text-align cursor-pointer selected-wifi",on:{"click":function($event){_vm.getWiFiList()}}},[_vm._v(_vm._s(_vm.currentwifiap)+" "),(this.editProp === false)?_c('div',{staticClass:"float-right"},[_vm._v("▾")]):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"dropdown-config hide"},_vm._l((_vm.wifiAps),function(item,index){return (item[0].length > 0)?_c('li',{key:index,staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.setWifiAP(item[0])}}},[(item[0] == _vm.currentwifiap && item[0].length > 0)?_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(item[0]))]):_c('span',{staticClass:"float-left cursor-pointer sans-serif-normal overflow-hidden",staticStyle:{"width":"70%"}},[_vm._v(_vm._s(item[0]))])]):_vm._e()}))]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Security Protocol")]),_vm._v(" "),_c('div',{staticClass:"text-align cursor-pointer selected-wifi",on:{"click":function($event){_vm.getSecurityModeList()}}},[_vm._v(_vm._s(_vm.currentprotocol)+" "),(this.editProp === false)?_c('div',{staticClass:"float-right"},[_vm._v("▾")]):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"dropdown-encyption hide"},_vm._l((_vm.encryptModes),function(item,index){return (item[0].length > 0)?_c('li',{key:index,staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.setSecurityOptions(item)}}},[(item == _vm.currentprotocol)?_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(item))]):_c('span',{staticClass:"float-left cursor-pointer sans-serif-normal overflow-hidden",staticStyle:{"width":"70%"}},[_vm._v(_vm._s(item))])]):_vm._e()}))]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Password")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.wifi_password),expression:"configdetails.wifi_password"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"wifipassword","type":"password"},domProps:{"value":(_vm.configdetails.wifi_password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "wifi_password", $event.target.value)}}})])]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-12"},[_c('button',{staticClass:"save-config button-primary float-right cursor-pointer outline-none large-fontsize",attrs:{"id":"saveForm"},on:{"click":function($event){_vm.saveConfig()}}},[_vm._v("SAVE")])])])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -3194,21 +3186,21 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_1_vue
 
 /***/ }),
 
+/***/ "XH/s":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"float-left popup-window-hash outline-none"},[_c('div',{staticClass:"popup-content-hash"},[_c('div',{staticClass:"cursor-default"},[_c('div',{staticClass:"header-fontsize sans-serif-bold padding-top-bottom-16"},[_vm._v("HASH INFORMATION")]),_vm._v(" "),_c('div',{staticClass:"padding-top-bottom-16"},[_c('div',{staticClass:"col-12"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"hash-id-div",attrs:{"type":"text"},on:{"click":function($event){_vm.copyToClipboard()}}},[_vm._v(_vm._s(this.$store.state.build_id))])])])]),_vm._v(" "),_c('div',{staticClass:"display-inline-flex popup-browser-primary-copy cursor-pointer outline-none regular-fontsize"},[_c('img',{attrs:{"src":__webpack_require__("UCLJ")}}),_vm._v(" "),_c('div',{staticClass:"padding-top-bottom-12",on:{"click":function($event){_vm.copyToClipboard()}}},[_vm._v("Copy Hash")])])])])}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"padding-left-16 sans-serif-normal link-text text-align large-fontsize"},[_c('a',{attrs:{"href":"https://github.com/libertaria-project/titania-os","target":"_blank"}},[_vm._v("OS Repo")])])}]
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
 /***/ "Y3Dm":
 /***/ (function(module, exports) {
 
 module.exports = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDEiIGhlaWdodD0iMTAxIiB2aWV3Qm94PSIwIDAgMTAxIDEwMSI+CiAgICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEgMSkiPgogICAgICAgIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQwIiBmaWxsPSIjOEI2Nzg3Ii8+CiAgICAgICAgPGNpcmNsZSBjeD0iNDkuNSIgY3k9IjQ5LjUiIHI9IjQ5LjUiIHN0cm9rZT0iIzUwRTNDMiIgb3BhY2l0eT0iLjMwMyIvPgogICAgICAgIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ1IiBzdHJva2U9IiM1NTQxNTEiLz4KICAgICAgICA8cGF0aCBmaWxsPSIjRkZGIiBkPSJNNzQuMDgzIDM5LjYzN2EzLjExIDMuMTEgMCAwIDAgMC00LjQxbC01LjM2LTUuMzE3YTMuMTcyIDMuMTcyIDAgMCAwLTQuNDQ4IDBMNDUuMDYgNDguOTY3YTMuMTcyIDMuMTcyIDAgMCAxLTQuNDQ3IDBsLTQuODg4LTQuODQ3YTMuMTczIDMuMTczIDAgMCAwLTQuNDQ4IDBsLTUuMzYgNS4zMTZhMy4xMSAzLjExIDAgMCAwIDAgNC40MTJsMTQuNjg2IDE0LjU2NWMxLjIyMyAxLjIxMyAzLjI0NCAxLjIxMyA0LjQ2NyAwbDI5LjAxMy0yOC43NzZ6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo="
-
-/***/ }),
-
-/***/ "Y87O":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"float-left center-aligned-slider outline-none"},[(_vm.getOnSettingPage())?_c('div',{staticClass:"padding-20"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.boxname),expression:"configdetails.boxname"}],staticClass:"sans-serif-normal box-name-field outline-none header-fontsize",attrs:{"id":"boxname","name":"boxname","placeholder":"MyTitaniumBox","type":"text","maxLength":"64"},domProps:{"value":(_vm.configdetails.boxname)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "boxname", $event.target.value)}}})]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"center-aligned-slider-body"},[_c('div',{staticClass:"config-slab "},[_c('div',{staticClass:"display-inline-block"},[(_vm.showThisTab('user'))?_c('span',{staticClass:"config-headers",class:{selectedConfigTab: _vm.currenttab === 'config'},attrs:{"id":"config"},on:{"click":function($event){_vm.setTab('config')}}},[_vm._v("USER")]):_vm._e(),_vm._v(" "),(_vm.showThisTab('wifi'))?_c('span',{staticClass:"config-headers",class:{selectedConfigTab: _vm.currenttab === 'wifi'},attrs:{"id":"wireless"},on:{"click":function($event){_vm.setTab('wifi')}}},[_vm._v("WIFI")]):_vm._e()]),_vm._v(" "),(_vm.currenttab === 'config' && _vm.showThisTab('user'))?_c('div',{staticClass:"margin-top-20"},[_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Username")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.username),expression:"configdetails.username"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"username","type":"text"},domProps:{"value":(_vm.configdetails.username)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "username", $event.target.value)}}})]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Password")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.password),expression:"configdetails.password"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"password","type":"password"},domProps:{"value":(_vm.configdetails.password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "password", $event.target.value)}}})]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Confirm Password")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.confirmPassword),expression:"configdetails.confirmPassword"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"confirmPassword","type":"password"},domProps:{"value":(_vm.configdetails.confirmPassword)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "confirmPassword", $event.target.value)}}})])]):(_vm.showThisTab('wifi'))?_c('div',{staticClass:"margin-top-20"},[_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("WIFI Network")]),_vm._v(" "),_c('div',{staticClass:"text-align cursor-pointer selected-wifi",on:{"click":function($event){_vm.getWiFiList()}}},[_vm._v(_vm._s(_vm.currentwifiap)+" "),(this.editProp === false)?_c('div',{staticClass:"float-right"},[_vm._v("▾")]):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"dropdown-config hide"},_vm._l((_vm.wifiAps),function(item){return (item[0].length > 0)?_c('li',{key:item[0],staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.setWifiAP(item[0])}}},[(item[0] == _vm.currentwifiap && item[0].length > 0)?_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(item[0]))]):_c('span',{staticClass:"float-left cursor-pointer sans-serif-normal overflow-hidden",staticStyle:{"width":"70%"}},[_vm._v(_vm._s(item[0]))])]):_vm._e()}))]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Security Protocol")]),_vm._v(" "),_c('div',{staticClass:"text-align cursor-pointer selected-wifi",on:{"click":function($event){_vm.getSecurityModeList()}}},[_vm._v(_vm._s(_vm.currentprotocol)+" "),(this.editProp === false)?_c('div',{staticClass:"float-right"},[_vm._v("▾")]):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"dropdown-encyption hide"},_vm._l((_vm.encryptModes),function(item){return (item[0].length > 0)?_c('li',{key:item[0],staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.setSecurityOptions(item)}}},[(item == _vm.currentprotocol)?_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(item))]):_c('span',{staticClass:"float-left cursor-pointer sans-serif-normal overflow-hidden",staticStyle:{"width":"70%"}},[_vm._v(_vm._s(item))])]):_vm._e()}))]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Password")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.wifi_password),expression:"configdetails.wifi_password"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"wifipassword","type":"password"},domProps:{"value":(_vm.configdetails.wifi_password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "wifi_password", $event.target.value)}}})])]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-12"},[_c('button',{staticClass:"save-config button-primary float-right cursor-pointer outline-none large-fontsize",attrs:{"id":"saveForm"},on:{"click":function($event){_vm.saveConfig()}}},[_vm._v("SAVE")])])])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -3377,7 +3369,7 @@ var Component = normalizeComponent(
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_footerParent_vue__ = __webpack_require__("Wxhl");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5662e738_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_footerParent_vue__ = __webpack_require__("/dnM");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_36bcb30b_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_footerParent_vue__ = __webpack_require__("gXl/");
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
 
@@ -3394,7 +3386,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_footerParent_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5662e738_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_footerParent_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_36bcb30b_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_footerParent_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -3493,10 +3485,8 @@ module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGlu
     }
   },
   methods: {
-    copyToClipboard: function (txtformat) {
-      var copytext = txtformat === "yocto" || txtformat === "all" ? "Yocto Hash: " + this.$store.state.build_id : "";
-      copytext += txtformat === "all" ? ", " : "";
-      copytext += txtformat === "ux" || txtformat === "all" ? "UX Hash: " + this.$store.state.ux_id : "";
+    copyToClipboard: function () {
+      var copytext = "Hash: " + this.$store.state.build_id;
       var aux = document.createElement("input");
       aux.setAttribute("value", copytext);
       document.body.appendChild(aux);
@@ -3845,6 +3835,17 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
+/***/ "gXl/":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"footer-wrapper col-12",class:{ marginLeft40: !_vm.getFooterClass()}},[_c('div',{staticClass:"float-left cursor-default desktop-footer-essentials"},[_c('span',{staticClass:"titania_version"},[_c('a',{on:{"click":function($event){_vm.getHashDetails()}}},[_vm._v(_vm._s(this.$store.state.schema))])]),_vm._v(" "),_c('span',{staticClass:"copyright"},[_vm._v("©  "+_vm._s(new Date().getFullYear())+" Libertaria")]),_vm._v(" "),_c('span',{staticClass:"registeredto hide",class:{show : !_vm.getFooterClass()},attrs:{"id":"registeredto"}},[_vm._v("Logged in as: "),_c('span',[_vm._v(_vm._s(_vm.username))])]),_vm._v(" "),_c('span',{staticClass:"registeredto hide warn-text",class:{show : !_vm.getFooterClass()},attrs:{"id":"registeredto"}},[(this.$store.state.natpmp === '0')?_c('a',{attrs:{"href":"https://www.noip.com/support/knowledgebase/general-port-forwarding-guide/","target":"_blank"}},[_vm._v("NATPMP: OFF")]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"float-right footer-links padding-right-20"},[_vm._m(0),_vm._v(" "),(_vm.getFooterClass())?_c('span',{staticClass:"padding-right-20 feedback-footer"},[_c('a',{attrs:{"id":"titania_feedback","href":_vm.getmailhref()}},[_vm._v("Feedback")])]):_c('span',[(_vm.updateState == 'initial')?_c('span',{staticClass:"padding-right-20 update-version-elem"},[_c('a',{attrs:{"id":"update_version"},on:{"click":function($event){_vm.toggleUpdatePopup()}}},[_vm._v("Update Version")])]):(_vm.updateState == 'success')?_c('span',{staticClass:"reboot-screen padding-right-20 update-version-elem"},[_c('a',{attrs:{"id":"update_version"},on:{"click":function($event){_vm.rebootSystem()}}},[_vm._v("Reboot to apply")])]):(_vm.updateState == 'failure')?_c('span',{staticClass:"reboot-screen padding-right-20 update-version-elem",attrs:{"id":"myBar"}},[_c('a',{attrs:{"id":"update_version"},on:{"click":function($event){_vm.setupUpdateAgain()}}},[_vm._v("Try again")])]):_c('span',{staticClass:"padding-right-20 update-version-elem",attrs:{"id":"myBar"}},[_c('a',{attrs:{"id":"update_version"}},[_vm._v("Updating "+_vm._s(_vm.getPercofUpdate()))])])])])]),_vm._v(" "),_c('div'),_vm._v(" "),(_vm.hashPopupState)?_c('hashPopup'):_vm._e(),_vm._v(" "),(_vm.hashPopupState)?_c('div',{staticClass:"fadeout",on:{"click":function($event){_vm.getHashDetails()}}}):_vm._e(),_vm._v(" "),(_vm.showupdatepopup)?_c('updateWindow',{attrs:{"update-status":_vm.updateState}}):_vm._e(),_vm._v(" "),(_vm.showupdatepopup)?_c('div',{staticClass:"fadeout",on:{"click":function($event){_vm.toggleUpdatePopup()}}}):_vm._e()],1)}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"padding-right-20 white-paper-footer"},[_c('a',{attrs:{"href":"https://drive.google.com/file/d/11xDyBFACJYxrDQY4YNdiBqF8UFhgvpT9/view","target":"_blank"}},[_vm._v("White Paper")])])}]
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
 /***/ "gdPU":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4081,7 +4082,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_configForm_vue__ = __webpack_require__("R4mV");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_69cfd4ca_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_configForm_vue__ = __webpack_require__("Y87O");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_067d3580_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_configForm_vue__ = __webpack_require__("RDD0");
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
 
@@ -4098,7 +4099,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_configForm_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_69cfd4ca_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_configForm_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_067d3580_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_configForm_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -4728,7 +4729,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   state: {
     schema: '',
     build_id: '',
-    ux_id: '',
+    // ux_id: '',
     credentials: {
       username: '',
       password: ''
@@ -4792,7 +4793,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     'SET_SCHEMA': function (state, response) {
       state.schema = response.body.version;
       state.build_id = response.body.build_id;
-      state.ux_id = response.body.ux_id;
+      // state.ux_id = response.body.ux_id
     },
     'GET_CREDS': function (state, response) {
       if (response.body.configState) {
@@ -4809,8 +4810,8 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
       // response.body = []
       state.configuration.wifi_aps = response.body;
       state.configuration.wifi_aps_current = response.body[0][0];
-      __WEBPACK_IMPORTED_MODULE_5__router__["a" /* default */].push('/configure');
-      state.currentPage = 'configure';
+      // router.push('/configure')
+      // state.currentPage = 'configure'
     },
     'SAVE_CONFIGURATION': function (state, response) {
       // removing loaders
@@ -5478,4 +5479,4 @@ var Component = normalizeComponent(
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.9ffdd57f4d945d131a0a.js.map
+//# sourceMappingURL=app.09229d4d02c1b906eba4.js.map

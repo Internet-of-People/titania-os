@@ -29,7 +29,8 @@ shift || usage 1 >&2
 mkdir -p "$dir"
 
 # select architecture
-targetArch=${ARCH:-$(go env GOARCH)}
+#targetArch=${ARCH:-$(go env GOARCH)}
+targetArch=amd64
 
 # hacky workarounds for Bash 3 support (no associative arrays)
 images=()
@@ -40,12 +41,12 @@ doNotGenerateManifestJson=
 
 # bash v4 on Windows CI requires CRLF separator
 newlineIFS=$'\n'
-if [ "$(go env GOHOSTOS)" = 'windows' ]; then
-	major=$(echo ${BASH_VERSION%%[^0.9]} | cut -d. -f1)
-	if [ "$major" -ge 4 ]; then
-		newlineIFS=$'\r\n'
-	fi
-fi
+########if [ "$(go env GOHOSTOS)" = 'windows' ]; then
+########	major=$(echo ${BASH_VERSION%%[^0.9]} | cut -d. -f1)
+########	if [ "$major" -ge 4 ]; then
+########		newlineIFS=$'\r\n'
+########	fi
+########fi
 
 registryBase='https://registry-1.docker.io'
 authBase='https://auth.docker.io'

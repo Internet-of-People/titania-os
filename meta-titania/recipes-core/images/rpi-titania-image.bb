@@ -1,3 +1,7 @@
+LICENSE = "GPL-3.0"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=f149fa3bc39a974fe62c04649f34883a"
+
+
 require titania-rootfs.inc
 
 # Raspberry PI base image with splash and ssh

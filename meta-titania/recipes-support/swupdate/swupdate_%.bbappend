@@ -13,7 +13,7 @@ SRC_URI += "file://0001-unlink-UDS-after-use.patch \
 # see swupdate.inc for template
 
 # We need u-boot-fw-utils on Titania, not just during the build
-RDEPENDS_${PN} += "u-boot-fw-utils"
+# RDEPENDS_${PN} += "u-boot-fw-utils"
 
 # TODO: should we be sh friendly?
 RDEPENDS_${PN} += "bash"

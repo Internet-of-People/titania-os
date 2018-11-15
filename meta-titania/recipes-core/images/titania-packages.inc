@@ -7,7 +7,7 @@ IMAGE_INSTALL += "sudo zram systemd-analyze strace tcpdump"
 IMAGE_INSTALL += "networkmanager avahi-daemon llmnrd"
 
 # SWupdate
-IMAGE_INSTALL += "swupdate"
+# IMAGE_INSTALL += "swupdate"
 
 # Docker
 # TODO: remove manifest tool when upgrading to
@@ -23,7 +23,7 @@ IMAGE_INSTALL += "linux-firmware-bcm43430"
 # Apparently this adds RPi3B+ support
 # Commented ones are apparently bluetooth
 # Leaving them out for now
-IMAGE_INSTALL += "linux-firmware-bcm43455"
+# IMAGE_INSTALL += "linux-firmware-bcm43455"
 # linux-firmware-bcm43430a1-hcd linux-firmware-bcm4345c0-hcd"
 
 # From v1.1.0, the titania-ux repo has been merged into titania-os repo

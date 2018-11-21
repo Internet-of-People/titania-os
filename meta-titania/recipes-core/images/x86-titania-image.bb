@@ -20,7 +20,7 @@ IMAGE_INSTALL += " \
 "
 
 ##### Cause datafs image to be built
-####do_image_rpi_sdimg[depends] += "titania-datafs-image:do_build"
+do_image_wic[depends] += "titania-datafs-image:do_build"
 
 require titania-packages.inc
 require user-setup.inc

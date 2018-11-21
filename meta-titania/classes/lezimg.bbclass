@@ -22,9 +22,12 @@ inherit image_types
 # |                        |            |                        |
 # 0                      4MiB     4MiB + 40MiB       4MiB + 40Mib + SDIMG_ROOTFS
 
+WKS_FILE = "lezimg.wks"
 
 # This image depends on the rootfs image
 IMAGE_TYPEDEP_lezimg = "${SDIMG_ROOTFS_TYPE}"
+
+IMAGE_TYPES = "wic"
 
 ##### Set kernel and boot loader
 ##### IMAGE_BOOTLOADER ?= "bcm2835-bootfiles"
@@ -94,44 +97,47 @@ def split_overlays(d, out, ver=None):
     return overlays
 
 
-IMAGE_CMD_lezimg () {
-    echo 'hello, IMAGE_CMD_lezimg() called'
+# IMAGE_CMD_lezimg () {
+#     echo 'hello, IMAGE_CMD_lezimg() called'
+# 
+# 	# Align partitions
+# 	BOOT_SPACE_ALIGNED=$(expr ${BOOT_SPACE} + ${IMAGE_ROOTFS_ALIGNMENT} - 1)
+# 	BOOT_SPACE_ALIGNED=$(expr ${BOOT_SPACE_ALIGNED} - ${BOOT_SPACE_ALIGNED} % ${IMAGE_ROOTFS_ALIGNMENT})
+# 	SDIMG_SIZE=$(expr ${IMAGE_ROOTFS_ALIGNMENT} + ${BOOT_SPACE_ALIGNED} + $ROOTFS_SIZE)
+# 
+# 	echo "Creating filesystem with Boot partition ${BOOT_SPACE_ALIGNED} KiB and RootFS $ROOTFS_SIZE KiB"
+# 
+# 	# Check if we are building with device tree support
+# 	DTS="${KERNEL_DEVICETREE}"
+# 
+# 	# Initialize sdcard image file
+# 	dd if=/dev/zero of=${SDIMG} bs=1024 count=0 seek=${SDIMG_SIZE}
+# 
+# 	# Create partition table
+# 	parted -s ${SDIMG} mklabel msdos
+# 	# Create boot partition and mark it as bootable
+# 	parted -s ${SDIMG} unit KiB mkpart primary fat32 ${IMAGE_ROOTFS_ALIGNMENT} $(expr ${BOOT_SPACE_ALIGNED} \+ ${IMAGE_ROOTFS_ALIGNMENT})
+# 	parted -s ${SDIMG} set 1 boot on
+# 	# Create rootfs partition to the end of disk
+# 	parted -s ${SDIMG} -- unit KiB mkpart primary ext2 $(expr ${BOOT_SPACE_ALIGNED} \+ ${IMAGE_ROOTFS_ALIGNMENT}) -1s
+# 	parted ${SDIMG} print
+# 
+# 	# Create a vfat image with boot files
+# 	BOOT_BLOCKS=$(LC_ALL=C parted -s ${SDIMG} unit b print | awk '/ 1 / { print substr($4, 1, length($4 -1)) / 512 /2 }')
+# 	rm -f ${WORKDIR}/boot.img
+# 	mkfs.vfat -n "boot" -S 512 -C ${WORKDIR}/boot.img $BOOT_BLOCKS
+# 
+#     # u-boot
+# 	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/u-boot.bin ::${SDIMG_KERNELIMAGE}
+# #	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}${KERNEL_INITRAMFS}-${MACHINE}.bin ::${KERNEL_IMAGETYPE}
+# 	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/boot.scr ::boot.scr
+# 
+#     # Itt bele fog allni a foldbe mint a gerely
+# 	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/bcm2835-bootfiles/* ::/
+# }
 
-	# Align partitions
-	BOOT_SPACE_ALIGNED=$(expr ${BOOT_SPACE} + ${IMAGE_ROOTFS_ALIGNMENT} - 1)
-	BOOT_SPACE_ALIGNED=$(expr ${BOOT_SPACE_ALIGNED} - ${BOOT_SPACE_ALIGNED} % ${IMAGE_ROOTFS_ALIGNMENT})
-	SDIMG_SIZE=$(expr ${IMAGE_ROOTFS_ALIGNMENT} + ${BOOT_SPACE_ALIGNED} + $ROOTFS_SIZE)
 
-	echo "Creating filesystem with Boot partition ${BOOT_SPACE_ALIGNED} KiB and RootFS $ROOTFS_SIZE KiB"
 
-	# Check if we are building with device tree support
-	DTS="${KERNEL_DEVICETREE}"
-
-	# Initialize sdcard image file
-	dd if=/dev/zero of=${SDIMG} bs=1024 count=0 seek=${SDIMG_SIZE}
-
-	# Create partition table
-	parted -s ${SDIMG} mklabel msdos
-	# Create boot partition and mark it as bootable
-	parted -s ${SDIMG} unit KiB mkpart primary fat32 ${IMAGE_ROOTFS_ALIGNMENT} $(expr ${BOOT_SPACE_ALIGNED} \+ ${IMAGE_ROOTFS_ALIGNMENT})
-	parted -s ${SDIMG} set 1 boot on
-	# Create rootfs partition to the end of disk
-	parted -s ${SDIMG} -- unit KiB mkpart primary ext2 $(expr ${BOOT_SPACE_ALIGNED} \+ ${IMAGE_ROOTFS_ALIGNMENT}) -1s
-	parted ${SDIMG} print
-
-	# Create a vfat image with boot files
-	BOOT_BLOCKS=$(LC_ALL=C parted -s ${SDIMG} unit b print | awk '/ 1 / { print substr($4, 1, length($4 -1)) / 512 /2 }')
-	rm -f ${WORKDIR}/boot.img
-	mkfs.vfat -n "boot" -S 512 -C ${WORKDIR}/boot.img $BOOT_BLOCKS
-
-    # u-boot
-	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/u-boot.bin ::${SDIMG_KERNELIMAGE}
-#	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}${KERNEL_INITRAMFS}-${MACHINE}.bin ::${KERNEL_IMAGETYPE}
-	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/boot.scr ::boot.scr
-
-    # Itt bele fog allni a foldbe mint a gerely
-	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/bcm2835-bootfiles/* ::/
-}
 ####	if test -n "${DTS}"; then
 ####		# Device Tree Overlays are assumed to be suffixed by '-overlay.dtb' (4.1.x) or by '.dtbo' (4.4.9+) string and will be put in a dedicated folder
 ####		DT_OVERLAYS="${@split_overlays(d, 0)}"

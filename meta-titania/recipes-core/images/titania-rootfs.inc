@@ -1,10 +1,11 @@
 # Add compressed root for SWupdate
 
 # Re-initializing the types of the images
-IMAGE_FSTYPES = "ext4 lezimg"
+IMAGE_FSTYPES = "ext4 wic"
 
 # Compressed version of the image
-IMAGE_FSTYPES += "ext4.gz lezimg.gz"
+IMAGE_FSTYPES += "ext4.gz wic.gz"
+
 
 # Informing RPi SDImg class what we've got
 SDIMG_ROOTFS_TYPE = "ext4"

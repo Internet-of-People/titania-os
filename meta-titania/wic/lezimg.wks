@@ -1,0 +1,17 @@
+# Titania partition layout.
+# Currently it is x86 only, as rpi has some custom steps when bootloader related files, overlays and dtds get on the firmware.
+
+# Boot partition
+part /boot --source bootimg-pcbios --ondisk sda --fstype=vfat --label boot --active --align 4096 --fixed-size 40M --extra-space 0
+
+# Root "A" partition
+part / --source rootfs --ondisk sda --fstype=ext4 --label root_a --align 4096 --fixed-size 512M
+
+# Root "B" partition (not mounted)
+part   --source rootfs --ondisk sda --fstype=ext4 --label root_b --align 4096 --fixed-size 512M
+
+# User data partition
+part /datafs --source rawcopy --sourceparams="file=titania-datafs-image-qemux86-64.ext4" --ondisk sda --align 4096 --fixed-size 1024M
+
+
+bootloader --timeout=0  --append="vga=0 rw mem=256M oprofile.timer=1 rootfstype=ext4 root=/dev/hda2"

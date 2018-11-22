@@ -1,4 +1,10 @@
-RDEPENDS_${PN} = "python3-fusepy inotify-tools bash"
+RDEPENDS_${PN} = " \
+    bash \
+    inotify-tools \
+    python3-fusepy \
+    python3-modules \
+    python3-misc \
+"
 
 # TODO: move dapp_prepare.sh logic inside systemd
 SRC_URI += "file://apps.json \

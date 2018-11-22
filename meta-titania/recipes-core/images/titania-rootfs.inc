@@ -10,12 +10,14 @@ IMAGE_FSTYPES += "ext4.gz wic.gz"
 # Informing RPi SDImg class what we've got
 SDIMG_ROOTFS_TYPE = "ext4"
 
+# wks file has the sizes
+
 # Force 500 MiB partition
-ROOTFS_SIZE_LIMIT = "512000"
+#ROOTFS_SIZE_LIMIT = "512000"
 
 # TODO: this is naïve calculation based on image.bbclass, might not be portable
-IMAGE_ROOTFS_MAXSIZE = "516096"
-IMAGE_ROOTFS_SIZE = "${ROOTFS_SIZE_LIMIT}"
+#IMAGE_ROOTFS_MAXSIZE = "516096"
+#IMAGE_ROOTFS_SIZE = "${ROOTFS_SIZE_LIMIT}"
 
 # NOTE: this gets auto-corrected slightly because of alignment calculation
 # in image.bbclass, but still results in a predictable partition size

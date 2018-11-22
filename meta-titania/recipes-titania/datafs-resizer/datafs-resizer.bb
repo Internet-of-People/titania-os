@@ -1,6 +1,6 @@
 # TODO: versioninig?
 # TODO: RPi specific, maybe a MACHINE dependent switch?
-SUMMARY = "systemd script to enlarge the filesystem on the SD card"
+SUMMARY = "systemd script to enlarge the filesystem on the storage"
 LICENSE = "GPL-3.0"
 
 RDEPENDS_${PN} += "parted e2fsprogs-resize2fs systemd"

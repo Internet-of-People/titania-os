@@ -24,6 +24,9 @@ inherit image_types
 
 WKS_FILE = "lezimg.wks"
 
+# Ez nem tudom mennyire hatasos. Ez lehetne az extlinux -> uboot kapocs.
+WKS_FILE_DEPENDS_BOOTLOADERS_x86-64 = "syslinux"
+
 # This image depends on the rootfs image
 IMAGE_TYPEDEP_lezimg = "${SDIMG_ROOTFS_TYPE}"
 
@@ -31,6 +34,9 @@ IMAGE_TYPES = "wic"
 
 ##### Set kernel and boot loader
 ##### IMAGE_BOOTLOADER ?= "bcm2835-bootfiles"
+
+# mintha nem csinalna itt semmit
+# IMAGE_BOOTLOADER = "grub"
 
 # Set initramfs extension
 KERNEL_INITRAMFS ?= ""

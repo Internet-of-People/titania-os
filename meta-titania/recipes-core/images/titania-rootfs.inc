@@ -1,23 +1,9 @@
-# Add compressed root for SWupdate
-
-# Re-initializing the types of the images
+# Re-initializing the types of the images, rpi-sdimg is not needed anymore
 IMAGE_FSTYPES = "ext4 wic"
 
-# Compressed version of the image
-IMAGE_FSTYPES += "ext4.gz wic.gz"
-
+# Compressed version of the image (for SWupdate)
+IMAGE_FSTYPES += " ext4.gz wic.gz"
 
 # Informing RPi SDImg class what we've got
-SDIMG_ROOTFS_TYPE = "ext4"
+SDIMG_ROOTFS_TYPE = " ext4"
 
-# wks file has the sizes
-
-# Force 500 MiB partition
-#ROOTFS_SIZE_LIMIT = "512000"
-
-# TODO: this is naïve calculation based on image.bbclass, might not be portable
-#IMAGE_ROOTFS_MAXSIZE = "516096"
-#IMAGE_ROOTFS_SIZE = "${ROOTFS_SIZE_LIMIT}"
-
-# NOTE: this gets auto-corrected slightly because of alignment calculation
-# in image.bbclass, but still results in a predictable partition size

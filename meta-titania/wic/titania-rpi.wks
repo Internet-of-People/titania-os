@@ -1,0 +1,14 @@
+# Titania partition layout.
+
+# Boot partition
+part /boot --source bootimg-pcbios --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4096 --fixed-size 40M --extra-space 0
+
+# Root "A" partition
+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root_a --align 4096 --fixed-size 512M
+
+# Root "B" partition (not mounted)
+part   --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root_b --align 4096 --fixed-size 512M
+
+# User data partition
+part /datafs --source rawcopy --sourceparams="file=titania-datafs-image-raspberrypi3.ext4" --ondisk mmcblk0 --label data --align 4096 --fixed-size 512M
+

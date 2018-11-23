@@ -12,9 +12,8 @@ After=dapp-json-merge.service
 Wants=dapp-json-merge.service
 
 [Service]
+Type=notify
 WorkingDirectory=/opt/titania/share
-# TODO: remainafterexit
-# TODO: issue daemon-reload
 ExecStart=/opt/titania/bin/dapp_systemd_bridge.py /run/apps.json /run/systemd/system /datafs/dapp
 
 [Install]

@@ -1,0 +1,11 @@
+[Unit]
+Description=Grow Titania data partition to maximum size
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/opt/titania/bin/titania-grow-datafs.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=datafs.mount

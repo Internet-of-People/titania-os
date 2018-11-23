@@ -30,7 +30,7 @@ mkdir -p "$dir"
 
 # select architecture
 #targetArch=${ARCH:-$(go env GOARCH)}
-targetArch=amd64
+targetArch=${ARCH}
 
 # hacky workarounds for Bash 3 support (no associative arrays)
 images=()
@@ -217,6 +217,8 @@ while [ $# -gt 0 ]; do
 		echo >&2 "  $manifestJson"
 		exit 1
 	fi
+
+    echo "MANIFEST JSON: $manifestJson"
 
 	imageIdentifier="$image:$tag@$digest"
 

@@ -3,16 +3,16 @@
 # Also, x86 root doesn't fit into 512M, so it's increased to 1024M.
 
 # Boot partition
-part /boot --source bootimg-pcbios --ondisk sda --fstype=vfat --label boot --active --align 4096 --fixed-size 40M --extra-space 0
+part /boot --source bootimg-pcbios --ondisk hda --fstype=vfat --label boot --active --align 4096 --fixed-size 40M --extra-space 0
 
 # Root "A" partition
-part / --source rootfs --ondisk sda --fstype=ext4 --label root_a --align 4096 --fixed-size 1024M
+part / --source rootfs --ondisk hda --fstype=ext4 --label root_a --align 4096 --fixed-size 1024M
 
 # Root "B" partition (not mounted)
-part   --source rootfs --ondisk sda --fstype=ext4 --label root_b --align 4096 --fixed-size 1024M
+part   --source rootfs --ondisk hda --fstype=ext4 --label root_b --align 4096 --fixed-size 1024M
 
 # User data partition
-part /datafs --source rawcopy --sourceparams="file=titania-datafs-image-qemux86-64.ext4" --ondisk sda --label data --align 4096 --fixed-size 1024M
+part /datafs --source rawcopy --sourceparams="file=titania-datafs-image-qemux86-64.ext4" --ondisk hda --fstype=ext4 --align 4096 --fixed-size 1024M
 
 
 bootloader --timeout=0  --append="rw rootfstype=ext4 root=/dev/hda2"

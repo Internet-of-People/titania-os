@@ -14,7 +14,7 @@ DAPP_LOCAL_DIR ?= "/dapp"
 FILES_${PN}-preinstall = "${DOCKER_PREINSTALL_DIR}/* ${DAPP_LOCAL_DIR}/*"
 
 # We need those on the host for the download-frozen-image.sh script
-DEPENDS += "curl-native jq-native ca-certificates-native"
+DEPENDS += "curl-native jq-native ca-certificates-native go-native"
 
 # Note that although the download is not part of do_fetch routine the script is smart
 # enough not to download the files which are already there and have a valid checksum

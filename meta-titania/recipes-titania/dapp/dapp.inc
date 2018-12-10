@@ -39,7 +39,6 @@ SYSTEMD_SERVICE_${PN} = "dapp@world,libertaria,nginx.service \
 
 NGINX_SERVICE="dapp@world.libertaria.nginx"
 
-# TODO: this is dapp_test tag, merge everything and streamline!
 DOCKER_IMAGE_PREINSTALL += "libertaria/nginx:latest@sha256:93295c18e9876c412deb3ef09bdffdf7c7d8367e9c069e05c7d90a8d0f44907f"
 
 do_install_append() {

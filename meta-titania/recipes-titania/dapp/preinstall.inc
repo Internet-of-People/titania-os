@@ -34,7 +34,15 @@ do_install_append() {
 
         # TODO: when we've patched upstream use this location:  ${S}/contrib/
         # and remove the copy from our repo
-        ARCH=${HOST_ARCH} ${WORKDIR}/download-frozen-image-v2.sh $IMAGE_DIR $image
+
+        if [ ${HOST_ARCH} = "x86_64" ]; then
+            DOCKER_ARCH="amd64"
+        else
+            DOCKER_ARCH="arm"
+        fi
+
+        echo USING ARCH $DOCKER_ARCH
+        ARCH=$DOCKER_ARCH ${WORKDIR}/download-frozen-image-v2.sh $IMAGE_DIR $image
         install -d ${D}${DOCKER_PREINSTALL_DIR}
 
         # Pinpoint locations, make sure we don't pull old stuff from the directories in

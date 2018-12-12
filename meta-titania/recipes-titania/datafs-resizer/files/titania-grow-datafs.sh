@@ -31,4 +31,4 @@ else
 fi
 
 # Grow filesystem to the end of the block device.
-resize2fs $DATA_PARTITION
+resize2fs $DATA_PARTITION || true

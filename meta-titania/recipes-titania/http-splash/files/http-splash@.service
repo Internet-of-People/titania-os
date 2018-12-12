@@ -1,4 +1,5 @@
 [Unit]
+ConditionArchitecture=arm
 Description=Pre-nginx HTTP splash screen
 Requires=http-splash.socket
 After=avahi.service llmnrd.service network.target

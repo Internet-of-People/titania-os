@@ -1,4 +1,5 @@
 [Unit]
+ConditionArchitecture=arm
 Description=Boot time HTTP socket
 Before=nginx.service
 

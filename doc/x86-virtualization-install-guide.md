@@ -12,6 +12,8 @@
     4. [Miscellaneous](#miscellaneous)
         1. [Stop the vagrant container](#stop-the-vagrant-container)
         2. [List all vagrant containers](#list-all-vagrant-containers)
+3. [VMWare](#vmware)
+    1. [Setup TitaniaOS on vmware](#setup-titaniaos-on-vmware)
 
 ## VirtualBox
 
@@ -115,3 +117,16 @@ vagrant halt
 ```bash
 vagrant box list
 ```
+
+## VMWare
+
+VMWare is one of the commonly used solution. You can install it from [here](https://www.vmware.com/go/getfusion).
+
+### Setup TitaniaOS on vmware
+
+1. Select `Create a custom virtual machine`.
+2. Under `Choose OS`, select `Linux -> Other Linux 4.x or later kernel 64-bit`. Hit Continue.
+3. Set `Firmware Type` as `BIOS`
+4. Under `Choose a Virtual Disk`, select `Use an existing virtual disk`.
+5. Select the titaniaOS vmdk file, with `Make a separate copy of the virtual disk` option.
+6. Add a name to your VM and Finish.

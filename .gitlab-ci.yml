@@ -12,6 +12,15 @@ stages:
   - setup
   - build
 
+cache:
+  key: "all-platforms"
+  paths:
+    - build/downloads
+
+#
+# Jobs below
+#
+
 bitbake:
   stage: setup
   script:
@@ -69,9 +78,10 @@ raspberry:
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-debug-raspberrypi3.wic.gz $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION)-dbg.img.gz
 
   cache:
+    key: "rpi-$CI_COMMIT_REF_SLUG"
     paths:
       - build/sstate-cache
-      - build/downloads
+
   artifacts:
     paths:
       - titania-arm-rpi-*.img.gz
@@ -93,9 +103,10 @@ x86:
     - cp -H $IMAGE_DIR/qemux86-64/x86-titania-image-qemux86-64.wic.gz $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).img.gz
 
   cache:
+    key: "x86-$CI_COMMIT_REF_SLUG"
     paths:
       - build/sstate-cache
-      - build/downloads
+
   artifacts:
     paths:
       - titania-x86-*.img.gz

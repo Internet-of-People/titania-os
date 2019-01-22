@@ -1,4 +1,4 @@
-PACKAGES += "${PN}-preinstall"
+PACKAGES += " dapp-preinstall"
 
 # Backport of the contrib file from modern Docker (Moby) codebase
 # TODO: send a patch upstream
@@ -7,7 +7,6 @@ SRC_URI += "file://download-frozen-image-v2.sh"
 
 # Preinstalled images for datafs
 # The runners are in docker-dapp package because this one isn't pulled in by the main image
-DOCKER_IMAGE_PREINSTALL ?= ""
 
 DOCKER_PREINSTALL_DIR ?= "/titania/docker/preinstall"
 DAPP_LOCAL_DIR ?= "/dapp"

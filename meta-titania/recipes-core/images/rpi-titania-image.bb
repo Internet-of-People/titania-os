@@ -7,10 +7,8 @@ require titania-rootfs.inc
 # Base image with splash
 include recipes-core/images/core-image-base.bb
 
-# Cause datafs image to be built
-do_image_rpi_sdimg[depends] += "titania-datafs-image:do_build"
-
 require titania-packages.inc
+require titania-datafs.inc
 require user-setup.inc
 require clean-logs.inc
 require sync-clock.inc
@@ -19,18 +17,8 @@ require systemd-coma-dot.inc
 
 WKS_FILE = "titania-rpi.wks"
 
-# TODO: maybe separate in a dedicated include for more board support
-# - issues: currently based directly on meta-raspberrypi
 
-# Inject additional partitions:
-# - Second root of size ROOTFS_SIZE
-# - Data partition of DATAFS_SIZE (extended to the end of the drive on the first run)
-# TODO: maybe split DATA partition to a separate state partition
-# but this requires either GPT (bad for bootloader on RPi) or
-# an extended partition
-# TODO: label datafs?
-# TOOD: can we query that somehow?
-#DATAFS_FILENAME ?= "titania-datafs-image-${MACHINE}.ext4"
+# TODO check if wks is fully compatible with the old manual way of image creation!
 
 #IMAGE_CMD_rpi-sdimg_append() {
 #    # Modifying the name of the kernel on VFAT

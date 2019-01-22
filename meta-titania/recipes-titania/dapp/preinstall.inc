@@ -40,7 +40,6 @@ do_install_append() {
             DOCKER_ARCH="arm"
         fi
 
-        echo USING ARCH $DOCKER_ARCH
         ARCH=$DOCKER_ARCH ${WORKDIR}/download-frozen-image-v2.sh $IMAGE_DIR $image
         install -d ${D}${DOCKER_PREINSTALL_DIR}
 

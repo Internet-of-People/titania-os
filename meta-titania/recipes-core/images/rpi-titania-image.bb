@@ -1,6 +1,3 @@
-LICENSE = "GPL-3.0"
-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=f149fa3bc39a974fe62c04649f34883a"
-
 # Common rootfs related settings
 require titania-rootfs.inc
 

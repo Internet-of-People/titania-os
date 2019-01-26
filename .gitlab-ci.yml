@@ -52,12 +52,37 @@ bitbake:
       - build
     expire_in: 14 days
 
+x86:
+  stage: build
+  script:
+    # Adding the SSH key
+    - eval $(ssh-agent)
+    - echo $SSH_KEY_B64 | base64 -d | ssh-add -
+    # Ensure we have the host key
+    - mkdir -p ~/.ssh
+    - echo $SSH_HOST_KEY_B64 | base64 -d >> ~/.ssh/known_hosts
+    - source openembedded-core/oe-init-build-env
+    - MACHINE="qemux86-64" bitbake -C install dapp
+    - MACHINE="qemux86-64" bitbake x86-titania-image
+    - cp -H $IMAGE_DIR/qemux86-64/x86-titania-image-qemux86-64.wic.gz $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).img.gz
+
+  cache:
+    key: "x86-$CI_COMMIT_REF_SLUG"
+    paths:
+      - build/sstate-cache
+
+  cache:
+    key: "downloaded-files"
+    paths:
+      - build/downloads
+
+  artifacts:
+    paths:
+      - titania-x86-*.img.gz
+    expire_in: 3 days
+
 raspberry:
   stage: build
-
-  # build x86 image first
-  dependencies:
-    - x86
 
   script:
     # Adding the SSH key
@@ -91,35 +116,6 @@ raspberry:
     paths:
       - titania-arm-rpi-*.img.gz
       - titania-arm-rpi-*.swu
-    expire_in: 3 days
-
-x86:
-  stage: build
-  script:
-    # Adding the SSH key
-    - eval $(ssh-agent)
-    - echo $SSH_KEY_B64 | base64 -d | ssh-add -
-    # Ensure we have the host key
-    - mkdir -p ~/.ssh
-    - echo $SSH_HOST_KEY_B64 | base64 -d >> ~/.ssh/known_hosts
-    - source openembedded-core/oe-init-build-env
-    - MACHINE="qemux86-64" bitbake -C install dapp
-    - MACHINE="qemux86-64" bitbake x86-titania-image
-    - cp -H $IMAGE_DIR/qemux86-64/x86-titania-image-qemux86-64.wic.gz $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).img.gz
-
-  cache:
-    key: "x86-$CI_COMMIT_REF_SLUG"
-    paths:
-      - build/sstate-cache
-
-  cache:
-    key: "downloaded-files"
-    paths:
-      - build/downloads
-
-  artifacts:
-    paths:
-      - titania-x86-*.img.gz
     expire_in: 3 days
 
 # TODO: add GPG signature

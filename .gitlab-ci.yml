@@ -54,6 +54,11 @@ bitbake:
 
 raspberry:
   stage: build
+
+  # build x86 image first
+  dependencies:
+    - x86
+
   script:
     # Adding the SSH key
     - eval $(ssh-agent)

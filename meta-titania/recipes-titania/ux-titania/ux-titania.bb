@@ -6,8 +6,30 @@ LICENSE = "GPL-3.0"
 LIC_FILES_CHKSUM = "file://../LICENCE.md;md5=8c40fdc41c95755623d451deddccda48"
 
 SRC_URI = "\
-           file://vuedj/* \
-           file://dist/* \
+           file://vuedj/monit_dashboard.py \
+           file://vuedj/manage.py \
+           file://vuedj/vuedj/__init__.py \
+           file://vuedj/vuedj/wsgi.py \
+           file://vuedj/vuedj/urls.py \
+           file://vuedj/vuedj/settings.py \
+           file://vuedj/common.py \
+           file://vuedj/configtitania/tests.py \
+           file://vuedj/configtitania/__init__.py \
+           file://vuedj/configtitania/admin.py \
+           file://vuedj/configtitania/models.py \
+           file://vuedj/configtitania/apps.py \
+           file://vuedj/configtitania/views.py \
+           file://vuedj/configtitania/serializers.py \
+           file://dist/index.html \
+           file://dist/static/css/app.88d768853b40ec8b2183ffde5fd756d0.css \
+           file://dist/static/img/landing-winter.ee35bd8.svg \
+           file://dist/static/img/titania-Logo-port.8ed00d5.svg \
+           file://dist/static/js/app.29f04c8a9180a9642acf.js \
+           file://dist/static/js/manifest.2ae2e69a05c33dfc65f8.js.map \
+           file://dist/static/js/app.29f04c8a9180a9642acf.js.map \
+           file://dist/static/js/vendor.00347b8c0f276345b776.js \
+           file://dist/static/js/vendor.00347b8c0f276345b776.js.map \
+           file://dist/static/js/manifest.2ae2e69a05c33dfc65f8.js \
            file://LICENCE.md \
            file://ux-titania.service \
            file://monit-dashboard.service \

@@ -38,6 +38,7 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+# fetch details of build version; called only once
 def get_builddetails():
     """
     PRETTY_NAME of your Titania os (in lowercase).
@@ -48,7 +49,11 @@ def get_builddetails():
         version = osfilecontent[4].split('=')[1].strip('\"')
         build_id = osfilecontent[5].split('=')[1].strip('\"')
         # ux_id = osfilecontent[6].split('=')[1].strip('\"')
-        return version, build_id
+    platform = subprocess.check_output("uname -m", shell=True, timeout=10).decode("utf-8").split('\n')[0]
+    return version, build_id, platform
+
+# fetch system details
+version, build_id, platform = get_builddetails()
 
 def get_allconfiguredwifi():
     """
@@ -351,8 +356,7 @@ def handle_config(request):
             docker_ids = subprocess.check_output(common.CMD_VALID_DOCKER_ID, shell=True, timeout=10).decode("utf-8").split('\n')
 
             if action == 'getSchema':
-                version, build_id = get_builddetails()
-                return JsonResponse({"version":version, "build_id":build_id}, safe=False)
+                return JsonResponse({"version":version, "build_id":build_id, "platform":platform}, safe=False)
             elif action == 'getIfConfigured':
                 configured = get_ifconfigured()
                 # queryset = BoxDetails.objects.all()

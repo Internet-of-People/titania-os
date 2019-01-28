@@ -7,7 +7,7 @@ SYSTEMD_SERVICE_${PN} += "dapp@global,iop,ps.service     \
 # TODO: somehow keep in sync with JSON?
 # TODO: discuss desired behaviour here
 DOCKER_IMAGE_PREINSTALL += "    \
-    libertaria/iop-can:latest@sha256:97857277e0a9ec535560af8c31a5d1347c28d424fea94f5685abc7fc461dd086   \
-    libertaria/iop-loc:latest@sha256:7ea0b4f7e650a578cbc50e3a7032d131db76784fba878fdb2d29e324b3f3f2c6   \
-    libertaria/iop-ps:latest@sha256:8e098a552981a31f81dd175d7c2ee594ea41c8c54b5510e4ed695dfe894deec9    \
+    libertaria/iop-can:latest@sha256:9bf718e2835cbd4f2c459eee08b7b4587bd4b573668cf3c2bee92026e34738c1   \
+    libertaria/iop-loc:latest@sha256:d8b14424b4cb045fb5cf69c1dcdaf9650c3346caa437bf3f094bcf193b16ec0a   \
+    libertaria/iop-ps:latest@sha256:6b89a3cc3471c18a065862bb389a667e6a4a673e35691378287a8df31e8fbec0    \
     "

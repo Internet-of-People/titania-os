@@ -14,6 +14,7 @@ Each dapp on titaniaOs has a defined json manifest. An example of such a manifes
     6. [Ports*](#ports)
     7. [Environment Variables](#environment-variables)
     8. [Volumes and Permissions](#volumes-and-permissions)
+    9. [Platforms supported](#platforms-supported)
 
 ## Example
 
@@ -211,4 +212,12 @@ If the dockerized app needs persistent storage on titania. The volumes that need
 ```json
   "volumes": ["/home/stakebox/.navcoin4"],
   "volumechown": 1000
+```
+
+### Platforms supported
+
+This param defines the platforms supported by the dapp.
+
+```json
+  "platform": ["amd64", "armv7"]
 ```

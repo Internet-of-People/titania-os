@@ -50,7 +50,8 @@
       "description": "Where to store IPFS data"
     }
   ],
-  "image": "libertaria/iop-can:latest"
+  "image": "libertaria/iop-can:latest",
+  "platform": ["amd64", "armv7"]
 },
   {
     "id": "global.iop.ps",
@@ -81,7 +82,8 @@
     ],
     "env": [],
     "volumes": [],
-    "image": "libertaria/iop-ps:latest"
+    "image": "libertaria/iop-ps:latest",
+    "platform": ["amd64", "armv7"]
   },
   {
     "id": "global.iop.loc",
@@ -172,7 +174,8 @@
       "/data/locnet"
     ],
     "volumechown": 1000,
-    "image": "libertaria/iop-loc:latest"
+    "image": "libertaria/iop-loc:latest",
+    "platform": ["amd64", "armv7"]
   },
   {
     "id": "world.libertaria.nginx",
@@ -202,7 +205,8 @@
     ],
     "env": [],
     "volumes": ["/usr/html"],
-    "image": "libertaria/nginx:armv7"
+    "image": "libertaria/nginx:armv7",
+    "platform": ["amd64", "armv7"]
   },
   {
   "id": "org.navcoin.wallet",
@@ -244,6 +248,7 @@
   "env": [],
   "volumes": ["/home/stakebox/.navcoin4"],
   "image": "libertaria/navcoin:latest",
-  "staticpath": "/var/www/navcoin"
+  "staticpath": "/var/www/navcoin",
+  "platform": ["armv7"]
 }
 ]

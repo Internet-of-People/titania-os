@@ -5,10 +5,7 @@ devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
 tmpfs                /run                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
 tmpfs                /var/volatile        tmpfs      defaults              0  0
 
-# == Titania starts here ==
-
-# Runtime dapp nginx drop-ins
-tmpfs                /run/dapp.conf.d                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
+# == Titania specific below ==
 
 # Bind mounts
 /datafs/titania/docker              /var/lib/docker    auto       bind      0  0

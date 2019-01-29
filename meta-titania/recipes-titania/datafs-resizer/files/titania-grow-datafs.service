@@ -1,6 +1,7 @@
 [Unit]
 Description=Grow Titania data partition to maximum size
 DefaultDependencies=no
+Before=datafs.mount
 
 [Service]
 Type=oneshot

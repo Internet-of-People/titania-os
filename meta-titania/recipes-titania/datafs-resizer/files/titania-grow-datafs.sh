@@ -15,7 +15,10 @@ else
     exit 1
 fi
 
-alias datafs_free="parted -m $DATA_PARTITION print | tail -n 1 | cut -d: -f4"
+function datafs_free()
+{
+    parted -m $DATA_PARTITION print | tail -n 1 | cut -d: -f4
+}
 
 # Check if there is a free space at the end of SD card
 if parted -m $DEV print free | tail -n 1 | grep -q ':free'; then
@@ -26,9 +29,10 @@ if parted -m $DEV print free | tail -n 1 | grep -q ':free'; then
     parted $DEV resizepart 4 100%
 
     echo "New size: $(datafs_free)"
+
+    # Grow filesystem to the end of the block device.
+    e2fsck -f -p $DATA_PARTITION
+    resize2fs $DATA_PARTITION
 else
     echo "Data partition already at maximum capacity, skipping"
 fi
-
-# Grow filesystem to the end of the block device.
-resize2fs $DATA_PARTITION || true

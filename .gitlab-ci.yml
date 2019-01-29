@@ -94,12 +94,12 @@ raspberry:
     - source openembedded-core/oe-init-build-env
     # Force rebuild for Docker
     - MACHINE="raspberrypi3" bitbake -C install dapp
-    - KERNEL_DEVICETREE="bcm2710-rpi-3-b-plus.dtb bcm2710-rpi-3-b.dtb" MACHINE="raspberrypi3" bitbake rpi-titania-image
-    - KERNEL_DEVICETREE="bcm2710-rpi-3-b-plus.dtb bcm2710-rpi-3-b.dtb" MACHINE="raspberrypi3" bitbake rpi-titania-update
+    - MACHINE="raspberrypi3" bitbake rpi-titania-image
+    - MACHINE="raspberrypi3" bitbake rpi-titania-update
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.wic.gz $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img.gz
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-update-raspberrypi3.swu $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).swu
     # Debug image
-    - KERNEL_DEVICETREE="bcm2710-rpi-3-b-plus.dtb bcm2710-rpi-3-b.dtb" MACHINE="raspberrypi3" bitbake rpi-titania-image-debug
+    - MACHINE="raspberrypi3" bitbake rpi-titania-image-debug
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-debug-raspberrypi3.wic.gz $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION)-dbg.img.gz
 
   cache:

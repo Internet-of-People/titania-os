@@ -12,8 +12,9 @@
     4. [Miscellaneous](#miscellaneous)
         1. [Stop the vagrant container](#stop-the-vagrant-container)
         2. [List all vagrant containers](#list-all-vagrant-containers)
-3. [VMWare](#vmware)
-    1. [Setup TitaniaOS on vmware](#setup-titaniaos-on-vmware)
+
+<!-- 3. [VMWare](#vmware)
+    1. [Setup TitaniaOS on vmware](#setup-titaniaos-on-vmware) -->
 
 ## VirtualBox
 
@@ -118,6 +119,7 @@ vagrant halt
 vagrant box list
 ```
 
+<!-- 
 ## VMWare
 
 VMWare is one of the commonly used solution. You can install it from [here](https://www.vmware.com/go/getfusion).
@@ -129,4 +131,4 @@ VMWare is one of the commonly used solution. You can install it from [here](http
 3. Set `Firmware Type` as `BIOS`
 4. Under `Choose a Virtual Disk`, select `Use an existing virtual disk`.
 5. Select the titaniaOS vmdk file, with `Make a separate copy of the virtual disk` option.
-6. Add a name to your VM and Finish.
+6. Add a name to your VM and Finish. -->

@@ -65,6 +65,7 @@ x86:
     - MACHINE="qemux86-64" bitbake -C install dapp
     - MACHINE="qemux86-64" bitbake x86-titania-image
     - cp -H $IMAGE_DIR/qemux86-64/x86-titania-image-qemux86-64.wic.gz $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).img.gz
+    - qemu-img convert -f raw $IMAGE_DIR/qemux86-64/x86-titania-image-qemux86-64.wic -O vmdk $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).vmdk 
 
   cache:
     key: "x86-$CI_COMMIT_REF_SLUG"
@@ -79,6 +80,7 @@ x86:
   artifacts:
     paths:
       - titania-x86-*.img.gz
+      - titania-x86-*.vmdk
     expire_in: 3 days
 
 raspberry:

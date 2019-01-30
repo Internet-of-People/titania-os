@@ -6,9 +6,6 @@ IMAGE_INSTALL += "sudo zram systemd-analyze strace tcpdump"
 # Network and discovery
 IMAGE_INSTALL += "networkmanager avahi-daemon llmnrd"
 
-# SWupdate
-# IMAGE_INSTALL += "swupdate"
-
 # Docker
 # TODO: remove manifest tool when upgrading to
 # docker that the supports manifest command

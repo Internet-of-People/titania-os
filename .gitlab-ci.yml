@@ -89,6 +89,7 @@ create_vmdk:
     # with addition of qemu-utils packages
     image: libertaria/yocto-build                                                                                                                                                                 
     script:
+        - gunzip $IMAGE_DIR/qemux86-64/x86-titania-image-qemux86-64.wic.gz
         - qemu-img convert -O vmdk $IMAGE_DIR/qemux86-64/x86-titania-image-qemux86-64.wic $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).vmdk
     
     # prerequisite for vmdk conversion

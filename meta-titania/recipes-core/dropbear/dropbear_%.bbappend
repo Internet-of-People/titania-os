@@ -1,8 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/dropbear:"
 
 do_install_append() {
-    # Set the welcome banner to /etc/issue.net
-    echo "DROPBEAR_EXTRA_ARGS=\"-b ${sysconfdir}/issue.net\"" > ${D}${sysconfdir}/default/dropbear
     rm ${D}${systemd_unitdir}/system/dropbearkey.service
     install -m 0644 ${WORKDIR}/systemd/dropbearkey@.service ${D}${systemd_unitdir}/system
     rm ${D}${systemd_unitdir}/system/dropbear@.service

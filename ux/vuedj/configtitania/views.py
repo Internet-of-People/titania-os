@@ -371,13 +371,14 @@ def handle_config(request):
                 username = request.POST.get("username")
                 password = request.POST.get("password")
                 if validate_input(boxname) and validate_input(username) and not get_ifconfigured():
-                    add_user(username,password)
+                    subprocess.Popen(['usermod', '--lock', 'root']).wait()
                     set_boxname(boxname)
                     wifi_pass = request.POST.get("wifi_password")
                     wifi_name = request.POST.get("wifi_ap")
                     wifi_encrpt = request.POST.get("wifi_encrpt")
                     if len(wifi_name) > 0:
                         add_newWifiConn(wifi_name, wifi_encrpt,wifi_pass)
+                    add_user(username,password)
                     return JsonResponse({"STATUS":"SUCCESS"}, safe=False)
             elif action == 'login':
                 print(action)

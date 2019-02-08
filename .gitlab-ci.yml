@@ -70,14 +70,10 @@ x86:
     - cp -H $IMAGE_DIR/qemux86-64/x86-titania-image-qemux86-64.wic.gz $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).wic.gz
 
   cache:
-    key: "x86-$CI_COMMIT_REF_SLUG"
-    paths:
-      - build/sstate-cache
-
-  cache:
-    key: "downloaded-files"
+    key: "x86"
     paths:
       - build/downloads
+      - build/sstate-cache
 
   artifacts:
     paths:
@@ -123,13 +119,9 @@ raspberry:
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-update-raspberrypi3.swu $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).swu
 
   cache:
-    key: "rpi-$CI_COMMIT_REF_SLUG"
+    key: "rpi"
     paths:
       - build/sstate-cache
-
-  cache:
-    key: "downloaded-files"
-    paths:
       - build/downloads
 
   artifacts:

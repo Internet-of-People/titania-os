@@ -10,8 +10,9 @@ variables:
 
 stages:
   - setup
-  - build  
-  - convert
+  - build_rpi
+  - build_x86
+  - convert_x86
 
 #
 # Jobs below
@@ -54,7 +55,7 @@ bitbake:
     expire_in: 14 days
 
 x86:
-  stage: build
+  stage: build_x86
   script:
     # Adding the SSH key
     - eval $(ssh-agent)
@@ -86,7 +87,7 @@ x86:
 
 # Create a vmdk file as artifact for x86-virt image
 create_vmdk:
-    stage: convert
+    stage: convert_x86
     # libertaria/yocto-build is all gmacario/build-yocto
     # with addition of qemu-utils packages
     image: libertaria/yocto-build                                                                                                                                                                 
@@ -104,7 +105,7 @@ create_vmdk:
       expire_in: 3 days
 
 raspberry:
-  stage: build
+  stage: build_rpi
 
   script:
     # Adding the SSH key

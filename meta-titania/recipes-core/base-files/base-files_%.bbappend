@@ -25,12 +25,10 @@ do_install_append() {
     install -d ${D}/titania/config
 
     # Mountpoint blanks
-    # TODO: verify if it's safe to remove
     install -d ${D}/datafs
     install -d ${D}/home
 
     # TODO: this doesn't belong to this package! Please move
-    # TODO: hardcoded systemd path
     install -d ${D}${bindir}
     install -d ${D}/lib/systemd/system
     install -m 0644 ${WORKDIR}/mirror@.service ${D}/lib/systemd/system

@@ -121,9 +121,6 @@ raspberry:
     - MACHINE="raspberrypi3" bitbake rpi-titania-update
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.wic.gz $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img.gz
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-update-raspberrypi3.swu $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).swu
-    # Debug image
-    - MACHINE="raspberrypi3" bitbake rpi-titania-image-debug
-    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-debug-raspberrypi3.wic.gz $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION)-dbg.img.gz
 
   cache:
     key: "rpi-$CI_COMMIT_REF_SLUG"

@@ -31,9 +31,9 @@
             <div v-if="loadApps && item.category == dapp.tags && filterCheck(dapp.is_active)" 
                   v-for="(dapp,index) in dappsjson" :key="index" 
                   class="dapp-component cursor-pointer">
-              <div :id="'update_'+ dapp.name.split(' ').join('_')" class="downloading-label" v-if="dapp.is_active !== -1 && dapp.is_active !== 2  && updatedapps.indexOf(dapp.id) !== -1" @click="optionAction('Update', dapp)">Update</div>
-              <div class="downloading-label" v-if="dapp.is_active == 2">Downloading</div>
-              <a v-if="item.category == 'community' && dapp.is_active == 1" :href="'/dapp/'+ dapp.id" target="_blank">
+              <div :id="'update_'+ dapp.name.split(' ').join('_')" class="downloading-label" v-if="dapp.is_active !== dappstates.not_downloaded && dapp.is_active !== dappstates.downloading && updatedapps.indexOf(dapp.id) !== -1" @click="optionAction('Update', dapp)">Update</div>
+              <div class="downloading-label" v-if="dapp.is_active == dappstates.downloading">Downloading</div>
+              <a v-if="item.category == 'community' && dapp.is_active == dappstates.enabled_and_active" :href="'/dapp/'+ dapp.id" target="_blank">
                 <img class="dapps-logo" :src="dapp.logo" @click="getAppDetails(item.category,dapp)"/>
               </a>
               <a v-else>
@@ -201,24 +201,26 @@ export default {
       }
     },
     getIfContainsApp: function(filter, category) {
-      var enabled = 0, disabled = 0
-      if (filter == 'AVAILABLE') {
-        return true
-      } else if (filter == 'INSTALLED') {
-        for (var i = 0; i < this.dappsjson.length; i++) {
-          if (this.dappsjson[i].is_active == 1 && this.dappsjson[i].tags[0]==category){
-            enabled++
+      var appcount = 0
+      
+      // determine passing app platforms
+      var app_platform = "armv7"
+      if (this.$store.state.platform == this.$store.state.x86_64) {
+        app_platform = "amd64"
+      }
+      // filtering dapps
+      for (var i = 0; i < this.dappsjson.length; i++) {
+        if (this.dappsjson[i].platform.indexOf(app_platform) !== -1 && category === this.dappsjson[i].tags[0]){
+          if (filter == 'AVAILABLE') {
+            appcount++
+          } else if (filter == 'DISABLED' && this.dappsjson[i].is_active == this.dappstates.disabled) {
+            appcount++
+          } else if (filter == 'INSTALLED' && (this.dappsjson[i].is_active == this.dappstates.enabled_and_active || this.dappsjson[i].is_active == this.dappstates.enabled_and_not_active)) {
+            appcount++
           } 
         }
-        return enabled > 0
-      } else {
-        for (var i = 0; i < this.dappsjson.length; i++) {
-          if (this.dappsjson[i].is_active == 0 && this.dappsjson[i].tags[0]==category){
-              disabled++
-          }
-        }
-        return disabled > 0
       }
+      return appcount > 0
     }
   }
 }

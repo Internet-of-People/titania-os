@@ -20,6 +20,7 @@ const store = new Vuex.Store({
   state: {
     schema: '',
     build_id: '',
+    platform: '',
     // ux_id: '',
     credentials: {
       username: '',
@@ -75,7 +76,8 @@ const store = new Vuex.Store({
       not_downloaded: -1,
       downloading: 2,
       enabled_and_not_active: 3
-    }
+    },
+    x86_64: "x86_64"
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -84,6 +86,7 @@ const store = new Vuex.Store({
     'SET_SCHEMA': function (state, response) {
       state.schema = response.body.version
       state.build_id = response.body.build_id
+      state.platform = response.body.platform
       // state.ux_id = response.body.ux_id
     },
     'GET_CREDS': function (state, response) {
@@ -313,7 +316,9 @@ const store = new Vuex.Store({
         .then(function (response) {
           store.commit('SET_SCHEMA', response)
           store.dispatch('getCreds')
-          store.dispatch('getUpdateStatus')
+          if(response.body.platform != store.state.x86_64){
+            store.dispatch('getUpdateStatus')
+          }
           store.dispatch('getNatpmpStatus')
         }).catch((error) => store.commit('API_FAIL', error))
     },
@@ -333,8 +338,10 @@ const store = new Vuex.Store({
       }
       return api.post(apiRoot + '/index.html', login)
         .then(function (response) {
-          store.commit('LOGIN', response)
-          store.dispatch('getUpdateStatus')
+          store.commit('LOGIN', response)          
+          if(store.state.platform != store.state.x86_64){
+            store.dispatch('getUpdateStatus')
+          }
           store.dispatch('getNatpmpStatus')
         }).catch((error) => store.commit('API_FAIL', error))
     },

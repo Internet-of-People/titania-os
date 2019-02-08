@@ -29,7 +29,7 @@ docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
 ### Form a json manifest for your dapp
 
-Refer to the [dapp guidelines](dapp-glossary.md) to add a dapp. A sample of manifest is given below.
+Refer to the [dapp glossary](dapp-glossary.md) to add a dapp. A sample of manifest is given below.
 
 ```json
 {
@@ -73,7 +73,8 @@ Refer to the [dapp guidelines](dapp-glossary.md) to add a dapp. A sample of mani
   ],
   "env": [],
   "volumes": ["/home/stakebox/.navcoin4"],
-  "image": "libertaria/navcoin:latest"
+  "image": "libertaria/navcoin:latest",
+  "platform": ["amd64", "armv7"]
 }
 ```
 

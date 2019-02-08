@@ -11,7 +11,7 @@
       <div class='float-right footer-links padding-right-20'>
         <span class="padding-right-20 white-paper-footer"><a href="https://drive.google.com/file/d/11xDyBFACJYxrDQY4YNdiBqF8UFhgvpT9/view" target="_blank">White Paper</a></span>
         <span v-if="getFooterClass()" class="padding-right-20 feedback-footer"><a id="titania_feedback" :href="getmailhref()">Feedback</a></span>
-        <span v-else>
+        <span v-else-if="this.$store.state.platform !== this.$store.state.x86_64">
           <span v-if="updateState == 'initial'" class="padding-right-20 update-version-elem">
             <a id="update_version" @click="toggleUpdatePopup()">Update Version</a>
           </span>
@@ -87,6 +87,9 @@ export default {
   methods: {
     getFooterClass () {
       var fullheader = this.$router.currentRoute.path == '/login' || this.$router.currentRoute.path == '/configure' || this.$router.currentRoute.path == '/landingpage'
+      // console.log(fullheader)
+      // // adding platform check
+      // fullheader = fullheader || this.$store.state.platform === this.$store.state.x86_64
       return fullheader
     },
     getmailhref () {

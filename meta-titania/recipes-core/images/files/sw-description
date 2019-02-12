@@ -51,6 +51,10 @@ software =
                         {
                             filename = "postinst_uboot_upgrade.sh";
                             type = "postinstall";
+                        },
+                        {
+                            filename = "postinst_update_fstab.sh";
+                            type = "postinstall";
                         }
                 );
             };
@@ -99,6 +103,10 @@ software =
                         },
                         {
                             filename = "postinst_uboot_upgrade.sh";
+                            type = "postinstall";
+                        },
+                        {
+                            filename = "postinst_update_fstab.sh";
                             type = "postinstall";
                         }
                 );

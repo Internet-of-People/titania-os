@@ -1,6 +1,5 @@
 image: gmacario/build-yocto
 
-# TODO: remove the SSL variable afterwards
 variables:
   GIT_SUBMODULE_STRATEGY: 'recursive'
   GIT_SSL_NO_VERIFY: 'true'
@@ -9,16 +8,15 @@ variables:
   VERSION: 'git describe --long'
   SHA_HASH: 'git rev-parse HEAD'
 
-# TODO:
-# add stages:
-# - build 2 versions in parallel (ARM and x86-64)
-# - run a VM and security scan
-# - deploy the image somewhere
 stages:
   - setup
-  - build
-  # - sign
-  # - publish 
+  - build_rpi
+  - build_x86
+  - convert_x86
+
+#
+# Jobs below
+#
 
 bitbake:
   stage: setup
@@ -56,44 +54,80 @@ bitbake:
       - build
     expire_in: 14 days
 
-# TODO: use Titania image classes here
-# TODO: make new branches start out with fresh cache
-raspberry:
-  stage: build
+x86:
+  stage: build_x86
   script:
-    # Adding the SSH key TODO remove after we go public
+    # Adding the SSH key
+    - eval $(ssh-agent)
+    - echo $SSH_KEY_B64 | base64 -d | ssh-add -
+    # Ensure we have the host key
+    - mkdir -p ~/.ssh
+    - echo $SSH_HOST_KEY_B64 | base64 -d >> ~/.ssh/known_hosts
+    - source openembedded-core/oe-init-build-env
+    - MACHINE="qemux86-64" bitbake -C install dapp
+    - MACHINE="qemux86-64" bitbake x86-titania-image
+    - cp -H $IMAGE_DIR/qemux86-64/x86-titania-image-qemux86-64.wic.gz $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).img.gz
+    - cp -H $IMAGE_DIR/qemux86-64/x86-titania-image-qemux86-64.wic.gz $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).wic.gz
+
+  cache:
+    key: "x86"
+    paths:
+      - build/downloads
+      - build/sstate-cache
+
+  artifacts:
+    paths:
+      - titania-x86-*.img.gz
+      - titania-x86-*.wic.gz
+    expire_in: 3 days
+
+# Create a vmdk file as artifact for x86-virt image
+create_vmdk:
+    stage: convert_x86
+    # libertaria/yocto-build is all gmacario/build-yocto
+    # with addition of qemu-utils packages
+    image: libertaria/yocto-build                                                                                                                                                                 
+    script:
+        - gunzip $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).wic.gz
+        - qemu-img convert -O vmdk $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).wic $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).vmdk
+    
+    # prerequisite for vmdk conversion
+    dependencies:
+      - x86
+
+    artifacts:
+      paths:
+        - titania-x86-*.vmdk
+      expire_in: 3 days
+
+raspberry:
+  stage: build_rpi
+
+  script:
+    # Adding the SSH key
     - eval $(ssh-agent)
     - echo $SSH_KEY_B64 | base64 -d | ssh-add -
     # Ensure we have the host key
     - mkdir ~/.ssh || true
     - echo $SSH_HOST_KEY_B64 | base64 -d >> ~/.ssh/known_hosts
     - source openembedded-core/oe-init-build-env
-    # Force rebuild for Docker NOTE: this produces a warning message later on
+    # Force rebuild for Docker
     - MACHINE="raspberrypi3" bitbake -C install dapp
-    # Update image, the full SD image is pulled as a dependency
-    - KERNEL_DEVICETREE="bcm2710-rpi-3-b-plus.dtb bcm2710-rpi-3-b.dtb" MACHINE="raspberrypi3" bitbake rpi-titania-update
-    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.rpi-sdimg.gz $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img.gz
+    - MACHINE="raspberrypi3" bitbake rpi-titania-image
+    - MACHINE="raspberrypi3" bitbake rpi-titania-update
+    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.wic.gz $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).img.gz
     - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-update-raspberrypi3.swu $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION).swu
-    # Debug image
-    - KERNEL_DEVICETREE="bcm2710-rpi-3-b-plus.dtb bcm2710-rpi-3-b.dtb" MACHINE="raspberrypi3" bitbake rpi-titania-image-debug
-    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-debug-raspberrypi3.rpi-sdimg.gz $CI_PROJECT_DIR/titania-arm-rpi-$(eval $VERSION)-dbg.img.gz
 
   cache:
+    key: "rpi"
     paths:
       - build/sstate-cache
       - build/downloads
+
   artifacts:
     paths:
       - titania-arm-rpi-*.img.gz
       - titania-arm-rpi-*.swu
     expire_in: 3 days
 
-# TODO: add GPG signature step
-#images:
-#  stage: sign
-#  script:
-#    - for image in titania*.img.*; do md5sum $image > $image.md5sum ; done
-#  artifacts:
-#    paths:
-#      - titania*.img.*.md5sum
-#    expire_in: 3 days
+# TODO: add GPG signature

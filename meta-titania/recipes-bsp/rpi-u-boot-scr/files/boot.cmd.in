@@ -1,13 +1,9 @@
-# TODO: do we need `saveenv` in the beginning?
-# TODO: preprocess to remove whitespace/comments
-# TODO: label the partitions and select by label?
-
 # Defaulting active root to "a"
 if test "${active_root}" != "a" -a "${active_root}" != "b"; then
     setenv active_root "a"
 fi
 
-# TODO: what if both trial run and after_update are set???
+# TODO: what if both trial run and after_update are set?
 
 # Indicate we need to swap the root 
 if env exists after_update; then

@@ -217,6 +217,8 @@ while [ $# -gt 0 ]; do
 		exit 1
 	fi
 
+    echo "MANIFEST JSON: $manifestJson"
+
 	imageIdentifier="$image:$tag@$digest"
 
 	schemaVersion="$(echo "$manifestJson" | jq --raw-output '.schemaVersion')"

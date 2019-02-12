@@ -61,5 +61,5 @@ do_install() {
 
     # Track version
     install -d ${D}${sysconfdir}
-    echo 'UX_ID="'${SRCREV}'"' > ${D}${sysconfdir}/titania-ux-version
+    echo 'MACHINE=${MACHINE}' >> ${D}${sysconfdir}/titania.conf
 }

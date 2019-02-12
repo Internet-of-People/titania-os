@@ -14,10 +14,9 @@ PACKAGES_prepend = "${PN}-datafs "
 FILES_${PN}-datafs = "/titania/home /titania/config"
 
 do_install_append() {
-    # Add the Titania logo to /etc/issue
-    cat ${WORKDIR}/titania.ascii ${D}${sysconfdir}/issue > ${WORKDIR}/issue.titania
-    install -m 0644 ${WORKDIR}/issue.titania ${D}${sysconfdir}/issue
-    install -m 0644 ${WORKDIR}/titania.ascii ${D}${sysconfdir}/issue.net
+    mv ${D}${sysconfdir}/issue ${D}${sysconfdir}/issue.titania
+    # Add the Titania logo to /etc/titania.ascii
+    install -m 0644 ${WORKDIR}/titania.ascii ${D}${sysconfdir}/
 
     # DataFS
     install -d ${D}/titania
@@ -25,12 +24,10 @@ do_install_append() {
     install -d ${D}/titania/config
 
     # Mountpoint blanks
-    # TODO: verify if it's safe to remove
     install -d ${D}/datafs
     install -d ${D}/home
 
     # TODO: this doesn't belong to this package! Please move
-    # TODO: hardcoded systemd path
     install -d ${D}${bindir}
     install -d ${D}/lib/systemd/system
     install -m 0644 ${WORKDIR}/mirror@.service ${D}/lib/systemd/system

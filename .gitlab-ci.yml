@@ -13,6 +13,7 @@ stages:
   - build_rpi
   - build_x86
   - convert_x86
+  - release_build_x86
 
 #
 # Jobs below
@@ -124,4 +125,22 @@ raspberry:
       - titania-arm-rpi-*.swu
     expire_in: 3 days
 
+job_release_build_x86:
+  stage: release_build_x86
+  
+  extends: x86
+  
+  only:
+    refs:
+      - /^release-.*$/
+
+  cache:
+    paths: []
+    key: "no_cache_for_release"
+
+  artifacts:
+    paths:
+      - titania-x86-*.img.gz
+    expire_in: 90 days
+    
 # TODO: add GPG signature

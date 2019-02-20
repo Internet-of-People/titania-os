@@ -6,6 +6,8 @@ variables:
   BITBAKEDIR: '$CI_PROJECT_DIR/bitbake'
   IMAGE_DIR: '$CI_PROJECT_DIR/build/tmp-glibc/deploy/images'
   VERSION: 'git describe --long'
+  RELEASE_VERSION: 'echo $CI_COMMIT_REF_NAME | cut -d- -f2'
+  PARSE_X86_RELEASE_VERSION: 'python3 ../meta-titania/bin/parse_release_version.py $IMAGE_DIR/qemux86-64/x86-titania-image-qemux86-64.testdata.json'
   SHA_HASH: 'git rev-parse HEAD'
 
 stages:
@@ -14,6 +16,7 @@ stages:
   - build_x86
   - convert_x86
   - release_build_x86
+  - release_convert_x86
 
 #
 # Jobs below
@@ -80,20 +83,28 @@ x86:
       - titania-x86-*.img.gz
     expire_in: 3 days
 
+  except:
+    refs:
+      - /^release-.*$/
+
 # Create a vmdk file as artifact for x86-virt image
 create_vmdk:
-    stage: convert_x86
-    # libertaria/yocto-build is all gmacario/build-yocto
-    # with addition of qemu-utils packages
-    image: libertaria/yocto-build                                                                                                                                                                 
-    script:
-        - gunzip $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).img.gz
-        - qemu-img convert -O vmdk $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).img $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).vmdk
+  stage: convert_x86
+  # libertaria/yocto-build is all gmacario/build-yocto
+  # with addition of qemu-utils packages
+  image: libertaria/yocto-build
+  script:
+      - gunzip $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).img.gz
+      - qemu-img convert -O vmdk $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).img $CI_PROJECT_DIR/titania-x86-$(eval $VERSION).vmdk
 
-    artifacts:
-      paths:
-        - titania-x86-*.vmdk
-      expire_in: 3 days
+  artifacts:
+    paths:
+      - titania-x86-*.vmdk
+    expire_in: 3 days
+
+  except:
+    refs:
+      - /^release-.*$/
 
 raspberry:
   stage: build_rpi
@@ -125,10 +136,32 @@ raspberry:
       - titania-arm-rpi-*.swu
     expire_in: 3 days
 
+  except:
+    refs:
+      - /^release-.*$/
+
+# ============
+# Release jobs
+# ============
+
 job_release_build_x86:
   stage: release_build_x86
   
-  extends: x86
+  # `extends: x86` doesn't work because if the x86 job is not added (because of release branch),
+  # neither this job will be added to the pipeline.
+  script:
+    # Adding the SSH key
+    - eval $(ssh-agent)
+    - echo $SSH_KEY_B64 | base64 -d | ssh-add -
+    # Ensure we have the host key
+    - mkdir -p ~/.ssh
+    - echo $SSH_HOST_KEY_B64 | base64 -d >> ~/.ssh/known_hosts
+    - source openembedded-core/oe-init-build-env
+    - MACHINE="qemux86-64" bitbake -C install dapp
+    - MACHINE="qemux86-64" bitbake x86-titania-image
+    # Ensure the branch name matches with the distro version defined in titania.conf
+    - test "$(eval $PARSE_X86_RELEASE_VERSION)" = "$(eval $RELEASE_VERSION)"
+    - cp -H $IMAGE_DIR/qemux86-64/x86-titania-image-qemux86-64.wic.gz $CI_PROJECT_DIR/titania-x86-$(eval $RELEASE_VERSION).img.gz
   
   only:
     refs:
@@ -136,11 +169,31 @@ job_release_build_x86:
 
   cache:
     paths: []
-    key: "no_cache_for_release"
 
   artifacts:
     paths:
       - titania-x86-*.img.gz
     expire_in: 90 days
-    
+
+job_release_convert_x86:
+  stage: release_convert_x86
+  image: libertaria/yocto-build                                                                                                                                                                 
+  
+  script:
+      - gunzip $CI_PROJECT_DIR/titania-x86-$(eval $RELEASE_VERSION).img.gz
+      - qemu-img convert -O vmdk $CI_PROJECT_DIR/titania-x86-$(eval $RELEASE_VERSION).img $CI_PROJECT_DIR/titania-x86-$(eval $RELEASE_VERSION).vmdk
+  
+  only:
+    refs:
+      - /^release-.*$/
+
+  cache:
+    paths: []
+
+  artifacts:
+    paths:
+      - titania-x86-*.vmdk
+    expire_in: 90 days
+
+
 # TODO: add GPG signature

@@ -221,3 +221,7 @@ SERVICE_UPDATE = "/opt/titania/bin/dapp_update.sh {0}; systemctl enable dapp@{0}
 
 """Os Update Params"""
 SWU_FILE_FORMAT = "titania-arm-rpi-*.swu"
+
+"""Check System Specs"""
+GET_PLATFORM = "uname -a"
+GET_WIRELESS_DEVICES = "rfkill list"

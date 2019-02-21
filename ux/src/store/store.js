@@ -77,7 +77,8 @@ const store = new Vuex.Store({
       downloading: 2,
       enabled_and_not_active: 3
     },
-    x86_64: "x86_64"
+    x86_64: "x86_64",
+    wifi_support: true
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -87,6 +88,7 @@ const store = new Vuex.Store({
       state.schema = response.body.version
       state.build_id = response.body.build_id
       state.platform = response.body.platform
+      state.wifi_support = response.body.wifi_support
       // state.ux_id = response.body.ux_id
     },
     'GET_CREDS': function (state, response) {

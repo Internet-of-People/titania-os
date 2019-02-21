@@ -7,7 +7,7 @@
         <div class='config-slab '>
           <div class='display-inline-block'>
             <span id="config" @click="setTab('config')" v-if="showThisTab('user')" v-bind:class="{selectedConfigTab: currenttab === 'config'}" class="config-headers">USER</span>
-            <span id="wireless" @click="setTab('wifi')" v-if="showThisTab('wifi')" v-bind:class="{selectedConfigTab: currenttab === 'wifi'}" class="config-headers">WIFI</span>
+            <span id="wireless" @click="setTab('wifi')" v-if="this.$store.state.wifi_support && showThisTab('wifi')" v-bind:class="{selectedConfigTab: currenttab === 'wifi'}" class="config-headers">WIFI</span>
           </div>
           <div v-if="currenttab === 'config' && showThisTab('user')" class='margin-top-20'>
             <div class="form-field-block col-12">
@@ -23,7 +23,7 @@
               <input id="confirmPassword" v-model="configdetails.confirmPassword" class="config-input-field regular-fontsize" type="password" />
             </div>
           </div>
-          <div v-else-if="showThisTab('wifi')" class='margin-top-20'>
+          <div v-else-if="this.$store.state.wifi_support && showThisTab('wifi')" class='margin-top-20'>
             <div class="form-field-block col-12">
               <div class="sans-serif-normal text-align large-fontsize">WIFI Network</div>
               <div class="text-align cursor-pointer selected-wifi" @click="getWiFiList()">{{currentwifiap}} <div v-if="this.editProp === false" class='float-right'>&#9662;</div></div>       
@@ -263,7 +263,7 @@ export default {
   },
   mounted: function () {
     // omitted extra fetch aps call in case of user addition
-    if (this.testProp !== 'user') {
+    if (this.testProp !== 'user' && this.$store.state.wifi_support) {
       this.$store.dispatch('getAllAPs')
     }
   }

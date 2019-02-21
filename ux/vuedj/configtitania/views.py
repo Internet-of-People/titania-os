@@ -49,36 +49,45 @@ def get_builddetails():
         version = osfilecontent[4].split('=')[1].strip('\"')
         build_id = osfilecontent[5].split('=')[1].strip('\"')
         # ux_id = osfilecontent[6].split('=')[1].strip('\"')
-    platform = subprocess.check_output("uname -m", shell=True, timeout=10).decode("utf-8").split('\n')[0]
-    return version, build_id, platform
+    platform = subprocess.check_output(common.GET_PLATFORM, shell=True, timeout=10).decode("utf-8").split('\n')[0]
+
+    # wifi support according to hardware
+    wifi_support = True
+    available_devices = subprocess.check_output(common.GET_WIRELESS_DEVICES, shell=True, timeout=10).decode("utf-8")
+    if len(available_devices) == 0:
+        wifi_support = False
+
+    return version, build_id, platform, wifi_support
 
 # fetch system details
-version, build_id, platform = get_builddetails()
+version, build_id, platform, wifi_support = get_builddetails()
 
 def get_allconfiguredwifi():
     """
     nmcli con | grep 802-11-wireless
     """
-    ps = subprocess.Popen('nmcli -t -f NAME,TYPE conn | grep 802-11-wireless', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
-    wifirows = ps.split('\n')
     wifi = []
-    for row in wifirows:
-        name = row.split(':')
-        print(name)
-        wifi.append(name[0])
+    if wifi_support:
+        ps = subprocess.Popen('nmcli -t -f NAME,TYPE conn | grep 802-11-wireless', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
+        wifirows = ps.split('\n')
+        for row in wifirows:
+            name = row.split(':')
+            print(name)
+            wifi.append(name[0])
     return wifi
 
 def get_allAPs():
     """
     nmcli con | grep 802-11-wireless
     """
-    ps = subprocess.Popen('nmcli -t -f SSID,BARS device wifi list', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
-    wifirows = ps.split('\n')
     wifi = []
-    for row in wifirows:
-        entry = row.split(':')
-        print(entry)
-        wifi.append(entry)
+    if wifi_support:
+        ps = subprocess.Popen('nmcli -t -f SSID,BARS device wifi list', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
+        wifirows = ps.split('\n')
+        for row in wifirows:
+            entry = row.split(':')
+            print(entry)
+            wifi.append(entry)
     return wifi
     # wifi_aps = []   
     # for dev in wlans:
@@ -356,7 +365,7 @@ def handle_config(request):
             docker_ids = subprocess.check_output(common.CMD_VALID_DOCKER_ID, shell=True, timeout=10).decode("utf-8").split('\n')
 
             if action == 'getSchema':
-                return JsonResponse({"version":version, "build_id":build_id, "platform":platform}, safe=False)
+                return JsonResponse({"version":version, "build_id":build_id, "platform":platform, "wifi_support": wifi_support}, safe=False)
             elif action == 'getIfConfigured':
                 configured = get_ifconfigured()
                 # queryset = BoxDetails.objects.all()
@@ -371,14 +380,18 @@ def handle_config(request):
                 username = request.POST.get("username")
                 password = request.POST.get("password")
                 if validate_input(boxname) and validate_input(username) and not get_ifconfigured():
+                    # locking the default root:titania 
                     subprocess.Popen(['usermod', '--lock', 'root']).wait()
+                    # set boxname and user
                     set_boxname(boxname)
-                    wifi_pass = request.POST.get("wifi_password")
-                    wifi_name = request.POST.get("wifi_ap")
-                    wifi_encrpt = request.POST.get("wifi_encrpt")
-                    if len(wifi_name) > 0:
-                        add_newWifiConn(wifi_name, wifi_encrpt,wifi_pass)
                     add_user(username,password)
+                    # add wifi conn
+                    if wifi_support:
+                        wifi_pass = request.POST.get("wifi_password")
+                        wifi_name = request.POST.get("wifi_ap")
+                        wifi_encrpt = request.POST.get("wifi_encrpt")
+                        if len(wifi_name) > 0:
+                            add_newWifiConn(wifi_name, wifi_encrpt,wifi_pass)
                     return JsonResponse({"STATUS":"SUCCESS"}, safe=False)
             elif action == 'login':
                 print(action)

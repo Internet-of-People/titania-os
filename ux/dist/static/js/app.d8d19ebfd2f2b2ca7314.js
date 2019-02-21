@@ -2558,23 +2558,12 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
   },
   mounted: function () {
     // omitted extra fetch aps call in case of user addition
-    if (this.testProp !== 'user') {
+    if (this.testProp !== 'user' && this.$store.state.wifi_support) {
       this.$store.dispatch('getAllAPs');
     }
   }
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("7t+N")))
-
-/***/ }),
-
-/***/ "RDD0":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"float-left center-aligned-slider outline-none"},[(_vm.getOnSettingPage())?_c('div',{staticClass:"padding-20"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.boxname),expression:"configdetails.boxname"}],staticClass:"sans-serif-normal box-name-field outline-none header-fontsize",attrs:{"id":"boxname","name":"boxname","placeholder":"MyTitaniumBox","type":"text","maxLength":"64"},domProps:{"value":(_vm.configdetails.boxname)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "boxname", $event.target.value)}}})]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"center-aligned-slider-body"},[_c('div',{staticClass:"config-slab "},[_c('div',{staticClass:"display-inline-block"},[(_vm.showThisTab('user'))?_c('span',{staticClass:"config-headers",class:{selectedConfigTab: _vm.currenttab === 'config'},attrs:{"id":"config"},on:{"click":function($event){_vm.setTab('config')}}},[_vm._v("USER")]):_vm._e(),_vm._v(" "),(_vm.showThisTab('wifi'))?_c('span',{staticClass:"config-headers",class:{selectedConfigTab: _vm.currenttab === 'wifi'},attrs:{"id":"wireless"},on:{"click":function($event){_vm.setTab('wifi')}}},[_vm._v("WIFI")]):_vm._e()]),_vm._v(" "),(_vm.currenttab === 'config' && _vm.showThisTab('user'))?_c('div',{staticClass:"margin-top-20"},[_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Username")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.username),expression:"configdetails.username"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"username","type":"text"},domProps:{"value":(_vm.configdetails.username)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "username", $event.target.value)}}})]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Password")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.password),expression:"configdetails.password"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"password","type":"password"},domProps:{"value":(_vm.configdetails.password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "password", $event.target.value)}}})]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Confirm Password")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.confirmPassword),expression:"configdetails.confirmPassword"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"confirmPassword","type":"password"},domProps:{"value":(_vm.configdetails.confirmPassword)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "confirmPassword", $event.target.value)}}})])]):(_vm.showThisTab('wifi'))?_c('div',{staticClass:"margin-top-20"},[_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("WIFI Network")]),_vm._v(" "),_c('div',{staticClass:"text-align cursor-pointer selected-wifi",on:{"click":function($event){_vm.getWiFiList()}}},[_vm._v(_vm._s(_vm.currentwifiap)+" "),(this.editProp === false)?_c('div',{staticClass:"float-right"},[_vm._v("▾")]):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"dropdown-config hide"},_vm._l((_vm.wifiAps),function(item,index){return (item[0].length > 0)?_c('li',{key:index,staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.setWifiAP(item[0])}}},[(item[0] == _vm.currentwifiap && item[0].length > 0)?_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(item[0]))]):_c('span',{staticClass:"float-left cursor-pointer sans-serif-normal overflow-hidden",staticStyle:{"width":"70%"}},[_vm._v(_vm._s(item[0]))])]):_vm._e()}))]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Security Protocol")]),_vm._v(" "),_c('div',{staticClass:"text-align cursor-pointer selected-wifi",on:{"click":function($event){_vm.getSecurityModeList()}}},[_vm._v(_vm._s(_vm.currentprotocol)+" "),(this.editProp === false)?_c('div',{staticClass:"float-right"},[_vm._v("▾")]):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"dropdown-encyption hide"},_vm._l((_vm.encryptModes),function(item,index){return (item[0].length > 0)?_c('li',{key:index,staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.setSecurityOptions(item)}}},[(item == _vm.currentprotocol)?_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(item))]):_c('span',{staticClass:"float-left cursor-pointer sans-serif-normal overflow-hidden",staticStyle:{"width":"70%"}},[_vm._v(_vm._s(item))])]):_vm._e()}))]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Password")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.wifi_password),expression:"configdetails.wifi_password"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"wifipassword","type":"password"},domProps:{"value":(_vm.configdetails.wifi_password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "wifi_password", $event.target.value)}}})])]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-12"},[_c('button',{staticClass:"save-config button-primary float-right cursor-pointer outline-none large-fontsize",attrs:{"id":"saveForm"},on:{"click":function($event){_vm.saveConfig()}}},[_vm._v("SAVE")])])])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -2929,17 +2918,6 @@ var Component = normalizeComponent(
 
 /* harmony default export */ __webpack_exports__["a"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ "Uv42":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{},[_c('div',{staticClass:"float-left display-inline-flex col-12 settings-options"},[_c('div',{class:{highlightedOption: _vm.getSelected('users')},on:{"click":function($event){_vm.setSettingsOption('users')}}},[_vm._v("USERS")]),_vm._v(" "),_c('div',{class:{highlightedOption: _vm.getSelected('wifi')},on:{"click":function($event){_vm.setSettingsOption('wifi')}}},[_vm._v("WIFI")])]),_vm._v(" "),(_vm.getSelected('users'))?_c('userlist'):_vm._e(),_vm._v(" "),(_vm.getSelected('wifi'))?_c('wifilist'):_vm._e()],1)}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -3440,6 +3418,17 @@ module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGlu
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"col-12 store-container hub-parent-block"},[_vm._l((_vm.dappsstateactions),function(action){return _c('div',{key:action,staticClass:"float-left display-inline-flex threads-filter cursor-pointer",on:{"click":function($event){_vm.changedAppFilter(action)}}},[(_vm.dappsFilter === action)?_c('div',{staticClass:"highlightedFilter"},[_vm._v("\n        "+_vm._s(action)+"\n      ")]):_c('div',[_vm._v(_vm._s(action))])])}),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('div',{staticClass:"dapps-block"},_vm._l((_vm.dappscategories),function(item){return (_vm.getIfContainsApp(_vm.dappsFilter, item.category))?_c('div',{key:item.category,staticClass:"dapps-category"},[_c('div',{staticClass:"dapp-label display-inline-flex"},[_vm._v(_vm._s(item.name)+"\n            "),(item.category == 'community')?_c('div',{staticClass:"padding-left-16 link-text"},[_c('a',{attrs:{"target":"_blank","href":"https://github.com/libertaria-project/titania-os/tree/develop/doc/dapp-guidelines.md"}},[_vm._v("Dapp Guidelines")])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"dapp-block display-inline-flex"},_vm._l((_vm.dappsjson),function(dapp,index){return (_vm.loadApps && item.category == dapp.tags && _vm.filterCheck(dapp.is_active))?_c('div',{key:index,staticClass:"dapp-component cursor-pointer"},[(dapp.is_active !== _vm.dappstates.not_downloaded && dapp.is_active !== _vm.dappstates.downloading && _vm.updatedapps.indexOf(dapp.id) !== -1)?_c('div',{staticClass:"downloading-label",attrs:{"id":'update_'+ dapp.name.split(' ').join('_')},on:{"click":function($event){_vm.optionAction('Update', dapp)}}},[_vm._v("Update")]):_vm._e(),_vm._v(" "),(dapp.is_active == _vm.dappstates.downloading)?_c('div',{staticClass:"downloading-label"},[_vm._v("Downloading")]):_vm._e(),_vm._v(" "),(item.category == 'community' && dapp.is_active == _vm.dappstates.enabled_and_active)?_c('a',{attrs:{"href":'/dapp/'+ dapp.id,"target":"_blank"}},[_c('img',{staticClass:"dapps-logo",attrs:{"src":dapp.logo},on:{"click":function($event){_vm.getAppDetails(item.category,dapp)}}})]):_c('a',[_c('img',{staticClass:"dapps-logo",attrs:{"src":dapp.logo},on:{"click":function($event){_vm.getAppDetails(item.category,dapp)}}})]),_vm._v(" "),_c('img',{staticClass:"dapps-settings",attrs:{"src":__webpack_require__("/Bzs")},on:{"click":function($event){_vm.openOptionsMenu(dapp)}}}),_vm._v(" "),_c('div',{staticClass:"dapp-name"},[_vm._v("\n              "+_vm._s(dapp.name)+"\n            ")]),_vm._v(" "),_c('ul',{staticClass:"dropdown-config hide",attrs:{"id":dapp.name.replace(' ','_')}},_vm._l((_vm.getdAppOptions(item.category, dapp)),function(option){return _c('li',{key:option,staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.optionAction(option, dapp)}}},[_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(option))])])}))]):_vm._e()}))]):_vm._e()}))],2),_vm._v(" "),(_vm.showdappdetail)?_c('dAppPopup',{attrs:{"dapp-details":_vm.activedapp,"dapp-states":_vm.dappstates,"active-category":_vm.activecategory,"dapp-action":_vm.optionAction}}):_vm._e(),_vm._v(" "),(_vm.showdappdetail)?_c('div',{staticClass:"fadeout",on:{"click":function($event){_vm.getAppDetails()}}}):_vm._e()],1)}
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"hide",attrs:{"id":"hub-loader"}},[_c('table',[_c('tbody',[_c('tr',[_c('td',[_c('div',{staticClass:"loader-mini"},[_c('div',{staticClass:"loader-page"},[_c('div')])])])])])])])}]
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
+/***/ "cGjG":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"float-left center-aligned-slider outline-none"},[(_vm.getOnSettingPage())?_c('div',{staticClass:"padding-20"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.boxname),expression:"configdetails.boxname"}],staticClass:"sans-serif-normal box-name-field outline-none header-fontsize",attrs:{"id":"boxname","name":"boxname","placeholder":"MyTitaniumBox","type":"text","maxLength":"64"},domProps:{"value":(_vm.configdetails.boxname)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "boxname", $event.target.value)}}})]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"center-aligned-slider-body"},[_c('div',{staticClass:"config-slab "},[_c('div',{staticClass:"display-inline-block"},[(_vm.showThisTab('user'))?_c('span',{staticClass:"config-headers",class:{selectedConfigTab: _vm.currenttab === 'config'},attrs:{"id":"config"},on:{"click":function($event){_vm.setTab('config')}}},[_vm._v("USER")]):_vm._e(),_vm._v(" "),(this.$store.state.wifi_support && _vm.showThisTab('wifi'))?_c('span',{staticClass:"config-headers",class:{selectedConfigTab: _vm.currenttab === 'wifi'},attrs:{"id":"wireless"},on:{"click":function($event){_vm.setTab('wifi')}}},[_vm._v("WIFI")]):_vm._e()]),_vm._v(" "),(_vm.currenttab === 'config' && _vm.showThisTab('user'))?_c('div',{staticClass:"margin-top-20"},[_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Username")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.username),expression:"configdetails.username"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"username","type":"text"},domProps:{"value":(_vm.configdetails.username)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "username", $event.target.value)}}})]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Password")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.password),expression:"configdetails.password"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"password","type":"password"},domProps:{"value":(_vm.configdetails.password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "password", $event.target.value)}}})]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Confirm Password")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.confirmPassword),expression:"configdetails.confirmPassword"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"confirmPassword","type":"password"},domProps:{"value":(_vm.configdetails.confirmPassword)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "confirmPassword", $event.target.value)}}})])]):(this.$store.state.wifi_support && _vm.showThisTab('wifi'))?_c('div',{staticClass:"margin-top-20"},[_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("WIFI Network")]),_vm._v(" "),_c('div',{staticClass:"text-align cursor-pointer selected-wifi",on:{"click":function($event){_vm.getWiFiList()}}},[_vm._v(_vm._s(_vm.currentwifiap)+" "),(this.editProp === false)?_c('div',{staticClass:"float-right"},[_vm._v("▾")]):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"dropdown-config hide"},_vm._l((_vm.wifiAps),function(item,index){return (item[0].length > 0)?_c('li',{key:index,staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.setWifiAP(item[0])}}},[(item[0] == _vm.currentwifiap && item[0].length > 0)?_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(item[0]))]):_c('span',{staticClass:"float-left cursor-pointer sans-serif-normal overflow-hidden",staticStyle:{"width":"70%"}},[_vm._v(_vm._s(item[0]))])]):_vm._e()}))]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Security Protocol")]),_vm._v(" "),_c('div',{staticClass:"text-align cursor-pointer selected-wifi",on:{"click":function($event){_vm.getSecurityModeList()}}},[_vm._v(_vm._s(_vm.currentprotocol)+" "),(this.editProp === false)?_c('div',{staticClass:"float-right"},[_vm._v("▾")]):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"dropdown-encyption hide"},_vm._l((_vm.encryptModes),function(item,index){return (item[0].length > 0)?_c('li',{key:index,staticClass:"float-left  cursor-pointer col-11 selected",on:{"click":function($event){_vm.setSecurityOptions(item)}}},[(item == _vm.currentprotocol)?_c('span',{staticClass:"float-left cursor-pointer sans-serif-bold overflow-hidden",staticStyle:{"width":"100%"}},[_vm._v(_vm._s(item))]):_c('span',{staticClass:"float-left cursor-pointer sans-serif-normal overflow-hidden",staticStyle:{"width":"70%"}},[_vm._v(_vm._s(item))])]):_vm._e()}))]),_vm._v(" "),_c('div',{staticClass:"form-field-block col-12"},[_c('div',{staticClass:"sans-serif-normal text-align large-fontsize"},[_vm._v("Password")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.configdetails.wifi_password),expression:"configdetails.wifi_password"}],staticClass:"config-input-field regular-fontsize",attrs:{"id":"wifipassword","type":"password"},domProps:{"value":(_vm.configdetails.wifi_password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(_vm.configdetails, "wifi_password", $event.target.value)}}})])]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-12"},[_c('button',{staticClass:"save-config button-primary float-right cursor-pointer outline-none large-fontsize",attrs:{"id":"saveForm"},on:{"click":function($event){_vm.saveConfig()}}},[_vm._v("SAVE")])])])}
+var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
@@ -4086,7 +4075,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_configForm_vue__ = __webpack_require__("R4mV");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_067d3580_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_configForm_vue__ = __webpack_require__("RDD0");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_73521669_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_configForm_vue__ = __webpack_require__("cGjG");
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
 
@@ -4103,7 +4092,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_configForm_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_067d3580_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_configForm_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_73521669_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_configForm_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -4202,7 +4191,7 @@ module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGlu
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_settingsWrapper_vue__ = __webpack_require__("lCkr");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1491f373_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingsWrapper_vue__ = __webpack_require__("Uv42");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_03ce2684_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingsWrapper_vue__ = __webpack_require__("pRfx");
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
 
@@ -4219,7 +4208,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_settingsWrapper_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1491f373_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingsWrapper_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_03ce2684_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingsWrapper_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -4371,6 +4360,11 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
     setSettingsOption: function (option) {
       this.settingOption = option;
     }
+  },
+  updated() {
+    if (!this.$store.state.wifi_support) {
+      this.settingOption = 'users';
+    }
   }
 });
 
@@ -4380,6 +4374,17 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ (function(module, exports) {
 
 module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjQgMjAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDQ2LjIgKDQ0NDk2KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5NZW51SWNvbjwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxkZWZzPjwvZGVmcz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJNb2JpbGUtTDQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yNzAuMDAwMDAwLCAtMTUuMDAwMDAwKSIgZmlsbD0iIzRENEU0QyI+CiAgICAgICAgICAgIDxnIGlkPSJIZWFkZXIiPgogICAgICAgICAgICAgICAgPHBhdGggZD0iTTI3MiwxNSBMMjkyLDE1IEMyOTMuMTA0NTY5LDE1IDI5NCwxNS44OTU0MzA1IDI5NCwxNyBMMjk0LDE3IEMyOTQsMTguMTA0NTY5NSAyOTMuMTA0NTY5LDE5IDI5MiwxOSBMMjcyLDE5IEMyNzAuODk1NDMxLDE5IDI3MCwxOC4xMDQ1Njk1IDI3MCwxNyBMMjcwLDE3IEwyNzAsMTcgQzI3MCwxNS44OTU0MzA1IDI3MC44OTU0MzEsMTUgMjcyLDE1IEwyNzIsMTUgWiBNMjcyLDIzIEwyOTIsMjMgQzI5My4xMDQ1NjksMjMgMjk0LDIzLjg5NTQzMDUgMjk0LDI1IEMyOTQsMjYuMTA0NTY5NSAyOTMuMTA0NTY5LDI3IDI5MiwyNyBMMjcyLDI3IEMyNzAuODk1NDMxLDI3IDI3MCwyNi4xMDQ1Njk1IDI3MCwyNSBDMjcwLDIzLjg5NTQzMDUgMjcwLjg5NTQzMSwyMyAyNzIsMjMgTDI3MiwyMyBaIE0yNzIsMzEgTDI5MiwzMSBDMjkzLjEwNDU2OSwzMSAyOTQsMzEuODk1NDMwNSAyOTQsMzMgQzI5NCwzNC4xMDQ1Njk1IDI5My4xMDQ1NjksMzUgMjkyLDM1IEwyNzIsMzUgQzI3MC44OTU0MzEsMzUgMjcwLDM0LjEwNDU2OTUgMjcwLDMzIEMyNzAsMzEuODk1NDMwNSAyNzAuODk1NDMxLDMxIDI3MiwzMSBMMjcyLDMxIFoiIGlkPSJNZW51SWNvbiI+PC9wYXRoPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4="
+
+/***/ }),
+
+/***/ "pRfx":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{},[_c('div',{staticClass:"float-left display-inline-flex col-12 settings-options"},[_c('div',{class:{highlightedOption: _vm.getSelected('users')},on:{"click":function($event){_vm.setSettingsOption('users')}}},[_vm._v("USERS")]),_vm._v(" "),(this.$store.state.wifi_support)?_c('div',{class:{highlightedOption: _vm.getSelected('wifi')},on:{"click":function($event){_vm.setSettingsOption('wifi')}}},[_vm._v("WIFI")]):_vm._e()]),_vm._v(" "),(_vm.getSelected('users'))?_c('userlist'):_vm._e(),_vm._v(" "),(this.$store.state.wifi_support && _vm.getSelected('wifi'))?_c('wifilist'):_vm._e()],1)}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -4790,7 +4795,8 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
       downloading: 2,
       enabled_and_not_active: 3
     },
-    x86_64: "x86_64"
+    x86_64: "x86_64",
+    wifi_support: true
   },
   mutations: {
     // Keep in mind that response is an HTTP response
@@ -4800,6 +4806,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
       state.schema = response.body.version;
       state.build_id = response.body.build_id;
       state.platform = response.body.platform;
+      state.wifi_support = response.body.wifi_support;
       // state.ux_id = response.body.ux_id
     },
     'GET_CREDS': function (state, response) {
@@ -5490,4 +5497,4 @@ var Component = normalizeComponent(
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.29f04c8a9180a9642acf.js.map
+//# sourceMappingURL=app.d8d19ebfd2f2b2ca7314.js.map

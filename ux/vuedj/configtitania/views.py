@@ -49,11 +49,18 @@ def get_builddetails():
         version = osfilecontent[4].split('=')[1].strip('\"')
         build_id = osfilecontent[5].split('=')[1].strip('\"')
         # ux_id = osfilecontent[6].split('=')[1].strip('\"')
-    platform = subprocess.check_output("uname -m", shell=True, timeout=10).decode("utf-8").split('\n')[0]
-    return version, build_id, platform
+    platform = subprocess.check_output(common.GET_PLATFORM, shell=True, timeout=10).decode("utf-8").split('\n')[0]
+
+    # wifi support according to hardware
+    wifi_support = True
+    available_devices = subprocess.check_output(common.GET_WIRELESS_DEVICES, shell=True, timeout=10).decode("utf-8")
+    if len(available_devices) == 0:
+        wifi_support = False
+
+    return version, build_id, platform, wifi_support
 
 # fetch system details
-version, build_id, platform = get_builddetails()
+version, build_id, platform, wifi_support = get_builddetails()
 
 def get_allconfiguredwifi():
     """
@@ -356,7 +363,7 @@ def handle_config(request):
             docker_ids = subprocess.check_output(common.CMD_VALID_DOCKER_ID, shell=True, timeout=10).decode("utf-8").split('\n')
 
             if action == 'getSchema':
-                return JsonResponse({"version":version, "build_id":build_id, "platform":platform}, safe=False)
+                return JsonResponse({"version":version, "build_id":build_id, "platform":platform, "wifi_support": wifi_support}, safe=False)
             elif action == 'getIfConfigured':
                 configured = get_ifconfigured()
                 # queryset = BoxDetails.objects.all()

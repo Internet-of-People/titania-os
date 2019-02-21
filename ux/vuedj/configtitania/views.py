@@ -66,26 +66,28 @@ def get_allconfiguredwifi():
     """
     nmcli con | grep 802-11-wireless
     """
-    ps = subprocess.Popen('nmcli -t -f NAME,TYPE conn | grep 802-11-wireless', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
-    wifirows = ps.split('\n')
     wifi = []
-    for row in wifirows:
-        name = row.split(':')
-        print(name)
-        wifi.append(name[0])
+    if wifi_support:
+        ps = subprocess.Popen('nmcli -t -f NAME,TYPE conn | grep 802-11-wireless', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
+        wifirows = ps.split('\n')
+        for row in wifirows:
+            name = row.split(':')
+            print(name)
+            wifi.append(name[0])
     return wifi
 
 def get_allAPs():
     """
     nmcli con | grep 802-11-wireless
     """
-    ps = subprocess.Popen('nmcli -t -f SSID,BARS device wifi list', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
-    wifirows = ps.split('\n')
     wifi = []
-    for row in wifirows:
-        entry = row.split(':')
-        print(entry)
-        wifi.append(entry)
+    if wifi_support:
+        ps = subprocess.Popen('nmcli -t -f SSID,BARS device wifi list', shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
+        wifirows = ps.split('\n')
+        for row in wifirows:
+            entry = row.split(':')
+            print(entry)
+            wifi.append(entry)
     return wifi
     # wifi_aps = []   
     # for dev in wlans:
@@ -378,14 +380,18 @@ def handle_config(request):
                 username = request.POST.get("username")
                 password = request.POST.get("password")
                 if validate_input(boxname) and validate_input(username) and not get_ifconfigured():
+                    # locking the default root:titania 
                     subprocess.Popen(['usermod', '--lock', 'root']).wait()
+                    # set boxname and user
                     set_boxname(boxname)
-                    wifi_pass = request.POST.get("wifi_password")
-                    wifi_name = request.POST.get("wifi_ap")
-                    wifi_encrpt = request.POST.get("wifi_encrpt")
-                    if len(wifi_name) > 0:
-                        add_newWifiConn(wifi_name, wifi_encrpt,wifi_pass)
                     add_user(username,password)
+                    # add wifi conn
+                    if wifi_support:
+                        wifi_pass = request.POST.get("wifi_password")
+                        wifi_name = request.POST.get("wifi_ap")
+                        wifi_encrpt = request.POST.get("wifi_encrpt")
+                        if len(wifi_name) > 0:
+                            add_newWifiConn(wifi_name, wifi_encrpt,wifi_pass)
                     return JsonResponse({"STATUS":"SUCCESS"}, safe=False)
             elif action == 'login':
                 print(action)

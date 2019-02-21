@@ -312,7 +312,7 @@ if __name__ == '__main__':
     t = threading.Thread(target=notify_systemd, daemon=True)
     t.start()
 
-    FUSE(driver, sys.argv[2], nothreads=True, foreground=True)
+    FUSE(driver, sys.argv[2], nothreads=True, foreground=True, allow_other=True)
 
     t.join()
 

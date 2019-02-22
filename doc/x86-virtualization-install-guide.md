@@ -12,9 +12,9 @@
     4. [Miscellaneous](#miscellaneous)
         1. [Stop the vagrant container](#stop-the-vagrant-container)
         2. [List all vagrant containers](#list-all-vagrant-containers)
-
-<!-- 3. [VMWare](#vmware)
-    1. [Setup TitaniaOS on vmware](#setup-titaniaos-on-vmware) -->
+3. [VMware](#vmware)
+    1. [Setup TitaniaOS on OSX](#setup-titaniaos-on-osx)
+    2. [Setup TitaniaOS on Linux](#setup-titaniaos-on-linux)
 
 ## VirtualBox
 
@@ -119,16 +119,32 @@ vagrant halt
 vagrant box list
 ```
 
-<!-- 
-## VMWare
+## VMware
 
-VMWare is one of the commonly used solution. You can install it from [here](https://www.vmware.com/go/getfusion).
+You can run Titania on VMware, a very common virtualization solution.
+We provide installation directions to the OSX and Linux versions here.
+Other platforms may function similarly.
 
-### Setup TitaniaOS on vmware
+### Setup TitaniaOS on OSX
+
+You can install VMware Fusion from [here](https://www.vmware.com/go/getfusion).
 
 1. Select `Create a custom virtual machine`.
 2. Under `Choose OS`, select `Linux -> Other Linux 4.x or later kernel 64-bit`. Hit Continue.
 3. Set `Firmware Type` as `BIOS`
 4. Under `Choose a Virtual Disk`, select `Use an existing virtual disk`.
-5. Select the titaniaOS vmdk file, with `Make a separate copy of the virtual disk` option.
-6. Add a name to your VM and Finish. -->
+5. Select the TitaniaOS vmdk file, with `Make a separate copy of the virtual disk` option.
+6. Add a name to your VM and Finish.
+
+### Setup TitaniaOS on Linux
+
+This scenario is tested on WMware Workstation, and it is similar in other VMware software, too.
+
+1. Select `New Virtual Machine`. A wizard will appear.
+2. Select `Custom (advanced)` Virtual Machine Configuration.
+3. Select `I will install the operation system later.`
+4. Use default values up until Disk Configuration.
+5. Select `IDE` as Virtual Disk Type.
+6. Select `Use an existing virtual disk`. Select the Titania `.vmdk` image.
+7. Finish the wizard.
+

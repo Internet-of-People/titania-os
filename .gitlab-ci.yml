@@ -15,6 +15,7 @@ stages:
   - build_rpi
   - build_x86
   - convert_x86
+  - release_build_rpi
   - release_build_x86
   - release_convert_x86
 
@@ -143,6 +144,37 @@ raspberry:
 # ============
 # Release jobs
 # ============
+
+release_raspberry:
+  stage: release_build_rpi
+
+  script:
+    # Adding the SSH key
+    - eval $(ssh-agent)
+    - echo $SSH_KEY_B64 | base64 -d | ssh-add -
+    # Ensure we have the host key
+    - mkdir ~/.ssh || true
+    - echo $SSH_HOST_KEY_B64 | base64 -d >> ~/.ssh/known_hosts
+    - source openembedded-core/oe-init-build-env
+    # Force rebuild for Docker
+    - MACHINE="raspberrypi3" bitbake -C install dapp
+    - MACHINE="raspberrypi3" bitbake rpi-titania-image
+    - MACHINE="raspberrypi3" bitbake rpi-titania-update
+    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-image-raspberrypi3.wic.gz $CI_PROJECT_DIR/titania-arm-rpi-$(eval $RELEASE_VERSION).img.gz
+    - cp -H $IMAGE_DIR/raspberrypi3/rpi-titania-update-raspberrypi3.swu $CI_PROJECT_DIR/titania-arm-rpi-$(eval $RELEASE_VERSION).swu
+
+  cache:
+    paths: []
+
+  artifacts:
+    paths:
+      - titania-arm-rpi-*.img.gz
+      - titania-arm-rpi-*.swu
+    expire_in: 90 days
+
+  only:
+    refs:
+      - /^release-.*$/
 
 job_release_build_x86:
   stage: release_build_x86

@@ -29,7 +29,7 @@
               <a @click="getHashDetails()">{{this.$store.state.schema}}</a>
             </span>
             <br/>
-            <span class='copyright'>Copyright {{new Date().getFullYear()}} Libertaria</span>  
+            <span class='copyright'>Copyright {{new Date().getFullYear()}} Internet of People</span>  
         </div>
         <div @click="tabSwitch('settings')" class='settings-menu'>
             <img src='../../assets/images/settings-gray.svg'/>

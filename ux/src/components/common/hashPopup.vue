@@ -5,7 +5,7 @@
         <div class="header-fontsize sans-serif-bold padding-top-bottom-16">HASH INFORMATION</div>
         <div class="padding-top-bottom-16">
             <div class="col-12">
-                <div class="padding-left-16 sans-serif-normal link-text text-align large-fontsize"><a href="https://github.com/libertaria-project/titania-os" target="_blank">OS Repo</a></div>
+                <div class="padding-left-16 sans-serif-normal link-text text-align large-fontsize"><a href="https://github.com/Internet-of-People/titania-os" target="_blank">OS Repo</a></div>
                 <div @click="copyToClipboard()" class="hash-id-div" type="text">{{this.$store.state.build_id}}</div>
             </div>
             <!-- <div class="col-12">

@@ -188,8 +188,10 @@ CMD_UPTIME = "cat /proc/uptime"
 CMD_THREADS = "ps | wc -l"
 #DOCKER MASTER
 CMD_DOCKER_MASTER = "docker ps -a --format '{{.ID}}\t{{.Names}}\t{{.Image}}'"
-# VALID DOCKER CONTAINERS 
-CMD_VALID_DOCKER_ID = "docker ps -a --format '{{.ID}}'"
+# VALID DOCKER CONTAINERS - prints all container states that exist
+CMD_ALL_VALID_DOCKER_ID = "docker ps -a --format '{{.ID}}'"
+# RUNNING DOCKER CONTAINERS - prints containers in running states
+CMD_RUNNING_DOCKER_ID = "docker ps --filter status=running --format '{{.ID}}'"
 #DOCKER METRICS
 CMD_DOCKER_STATS = "docker stats --no-stream --format '{{.Container}}\t{{.CPUPerc}}\t{{.MemPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}'"
 #DOCKER INFO

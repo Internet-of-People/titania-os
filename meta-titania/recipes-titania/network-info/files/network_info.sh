@@ -41,6 +41,15 @@ echo "PUBLIC_IP=$EXTERNAL_IP" >> $NETWORK_INFO_FILE
 echo "LATITUDE=$LATITUDE" >> $NETWORK_INFO_FILE
 echo "LONGITUDE=$LONGITUDE" >> $NETWORK_INFO_FILE
 
+# Check if we need to reload LOC with the new coordinates
+if ! docker inspect global.iop.loc --format='{{ Config.Env }}' | grep -q "LATITUDE=."
+then
+    # recreate container with the new location
+    systemctl stop dapp@global.iop.loc.service
+    docker rm -f global.iop.loc
+    systemctl start dapp@global.iop.loc.service
+fi
+
 if /sbin/ifconfig | grep -vq "addr:${EXTERNAL_IP}" ; then
     echo "We seem to be behind the router, trying NAT-PMP"
 

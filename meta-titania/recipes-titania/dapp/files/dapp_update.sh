@@ -46,7 +46,7 @@ dry_run() {
 
 LATEST_VERSION=$(dapp_version.sh latest $1)
 IMAGE_VERSION=$(dapp_version.sh digest $1)
-BASE_IMAGE=$(dapp_version.sh image $1)
+BASE_IMAGE=$(dapp_version.sh image $1 | grep -o '^[^@:]*')
 
 if [[ -z $IMAGE_VERSION ]]
 then

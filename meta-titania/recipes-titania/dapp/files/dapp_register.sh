@@ -36,6 +36,7 @@ case $1 in
     # failing with 403 due to prohibited directory listing
     # NOTE: X-Titania-Content-Source header is always added, even to error responces.
     # Remove the `always` part to prevent that
+    mkdir -p $DAPP_CONF_PATH
     cat > $DAPP_CONF_PATH/$DAPP_ID.conf <<EOF
 location /dapp/$DAPP_ID {
     rewrite ^/dapp/$DAPP_ID/?(.*)\$ /\$1 break;

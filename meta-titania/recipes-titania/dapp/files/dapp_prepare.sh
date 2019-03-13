@@ -9,7 +9,7 @@ if ! docker inspect "$1" >/dev/null 2>&1; then
 
     if [[ -n $IMAGE_DIGEST ]]
     then
-        IMAGE_SPEC="${IMAGE_NAME}@${IMAGE_HASH}"
+        IMAGE_SPEC="${IMAGE_NAME}@${IMAGE_DIGEST}"
     else
         IMAGE_SPEC="${IMAGE_NAME}"
     fi

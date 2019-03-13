@@ -120,15 +120,9 @@ class PydAppHubFuse(Operations):
 #
 [Unit]
 Description={}
+
+[Service]
 '''.format(d['name'])
-        
-        # Port forwarding setup
-        ports = ('Wants=forward-port@{port}-{protocol}.service'.format(**port) for port in d['ports'] if port['type']=='public')
-        conf += '\n'.join(ports)
-
-        conf += '\n\n'
-
-        conf += '[Service]\n'
 
         # Function to build a -p option
         def gen_port_spec(pobject):

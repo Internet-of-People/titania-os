@@ -4,12 +4,14 @@ RDEPENDS_${PN} = " \
     python3-fusepy \
     python3-modules \
     python3-misc \
+    jq \
 "
 
 # TODO: move dapp_prepare.sh logic inside systemd
 SRC_URI += "file://apps.json \
             file://dapp_prepare.sh \
             file://dapp_register.sh \
+            file://dapp_forward_ports.sh \
             file://dapp_pull.sh \
             file://dapp_load.sh \
             file://dapp_version.sh \
@@ -24,15 +26,12 @@ SRC_URI += "file://apps.json \
 
 inherit systemd
 
-# TODO: how exactly do we ship nginx?
 # Drop-in directory for JSON maybe
 FILES_${PN} = "${systemd_unitdir}/system/dapp@.service /opt/titania/* ${sysconfdir}/systemd/* /opt/titania/"
 
 # Systemd recipe doesn't know how to parse things with multiple dots
 # openembedded-core `master` branch has the correct code. 
 # They get replaced in a ROOTFS_POSTPROCESS command (see rpi-titania-image)
-# TODO: Either backport or upgrade branch (painful!), remove this hack
-# TODO: make latter a .target, use ExecStartPost etc.
 SYSTEMD_SERVICE_${PN} = "dapp@world,libertaria,nginx.service \
                          dapp-systemd-bridge.service \
                          dapp-json-merge.service"

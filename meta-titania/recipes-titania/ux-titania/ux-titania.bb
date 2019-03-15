@@ -25,8 +25,8 @@ SRC_URI = "\
            file://dist/static/css/app.88d768853b40ec8b2183ffde5fd756d0.css \
            file://dist/static/img/landing-winter.ee35bd8.svg \
            file://dist/static/img/titania-Logo-port.8ed00d5.svg \
-           file://dist/static/js/app.d8d19ebfd2f2b2ca7314.js \
-           file://dist/static/js/app.d8d19ebfd2f2b2ca7314.js.map \
+           file://dist/static/js/app.720de067053e913ba1df.js \
+           file://dist/static/js/app.720de067053e913ba1df.js.map \
            file://dist/static/js/manifest.2ae2e69a05c33dfc65f8.js \
            file://dist/static/js/manifest.2ae2e69a05c33dfc65f8.js.map \
            file://dist/static/js/vendor.00347b8c0f276345b776.js \

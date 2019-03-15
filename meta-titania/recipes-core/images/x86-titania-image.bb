@@ -4,10 +4,9 @@ inherit x86img
 
 include recipes-core/images/core-image-minimal.bb
 
-IMAGE_CLASSES += " x86img"
+IMAGE_CLASSES += "x86img"
 
-IMAGE_FEATURES += " ssh-server-dropbear "
-# TODO +splash
+IMAGE_FEATURES += "ssh-server-dropbear"
 
 IMAGE_INSTALL += " \
     kernel-modules \

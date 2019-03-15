@@ -3,7 +3,7 @@
     <div v-bind:class="{ marginLeft40: !getFooterClass()}" class="footer-wrapper col-12">
       <div class='float-left cursor-default desktop-footer-essentials'>
         <span class='titania_version'><a @click="getHashDetails()">{{this.$store.state.schema}}</a></span>
-        <span class='copyright'>&copy;&nbsp; {{new Date().getFullYear()}} Libertaria</span>
+        <span class='copyright'>&copy;&nbsp; {{new Date().getFullYear()}} Internet of People</span>
         <span id='registeredto' class='registeredto hide' v-bind:class="{show : !getFooterClass()}">Logged in as: <span>{{username}}</span></span>
         <span id='registeredto' class='registeredto hide warn-text' v-bind:class="{show : !getFooterClass()}">
           <a v-if="this.$store.state.natpmp === '0'" href="https://www.noip.com/support/knowledgebase/general-port-forwarding-guide/" target="_blank">NATPMP: OFF</a></span>

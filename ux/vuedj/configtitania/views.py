@@ -361,8 +361,9 @@ def handle_config(request):
     if request.method == 'POST':
         action = request.POST.get("_action")
         if validate_input(action):        
-            # valid containers         
-            docker_ids = subprocess.check_output(common.CMD_VALID_DOCKER_ID, shell=True, timeout=10).decode("utf-8").split('\n')
+            # valid containers, and running containers     
+            all_docker_ids = subprocess.check_output(common.CMD_ALL_VALID_DOCKER_ID, shell=True, timeout=10).decode("utf-8").strip().split('\n')
+            running_docker_ids = subprocess.check_output(common.CMD_RUNNING_DOCKER_ID, shell=True, timeout=10).decode("utf-8").strip().split('\n')
 
             if action == 'getSchema':
                 return JsonResponse({"version":version, "build_id":build_id, "platform":platform, "wifi_support": wifi_support}, safe=False)
@@ -474,7 +475,7 @@ def handle_config(request):
                     # print(rows)
                     finalset = []
                     for row in rows:
-                        if row[1] in docker_ids:
+                        if row[1] in all_docker_ids:
                             data = {'state': row[0], 'container_id': row[1], 'name': row[2],
                                     'image': row[3], 'running_for': row[4],
                                     'command': row[5], 'ports': row[6],
@@ -534,15 +535,11 @@ def handle_config(request):
                     return JsonResponse(rows, safe=False)
                 elif action == 'getContainerTop':
                     print(action)
-                    con = sqlite3.connect(dashboard_db)
-                    cursor = con.cursor()
-                    cursor.execute(common.Q_GET_CONTAINER_ID)
-                    rows = cursor.fetchall()
                     resultset = []
-                    for i in rows:
+                    for i in running_docker_ids:
                         data = {}
                         datasets = []
-                        ps = subprocess.Popen(['docker', 'top',i[0]], stdout=subprocess.PIPE).communicate()[0]
+                        ps = subprocess.Popen(['docker', 'top',i], stdout=subprocess.PIPE).communicate()[0]
                         processes = ps.decode().split('\n')
                         # this specifies the number of splits, so the splitted lines
                         # will have (nfields+1) elements

@@ -1,6 +1,3 @@
-# TODO: monitor router restarts
-# TODO: periodically refresh 
-
 # Unit tempate argument is in the form 
 # PORT/proto, e.g. 80/tcp, 53/udp
 # Systemd escaping rules however make it
@@ -10,7 +7,6 @@
 
 [Unit]
 Description=Port forwarding for %I
-# TODO: if we support more protocols, make it a Want rather than Require
 Requires=natpmp-support.service
 After=natpmp-support.service
 
